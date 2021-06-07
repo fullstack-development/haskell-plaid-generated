@@ -1929,7 +1929,7 @@ creditCardLiabilityLastStatementBalanceL f CreditCardLiability{..} = (\creditCar
 {-# INLINE creditCardLiabilityLastStatementBalanceL #-}
 
 -- | 'creditCardLiabilityLastStatementIssueDate' Lens
-creditCardLiabilityLastStatementIssueDateL :: Lens_' CreditCardLiability (Text)
+creditCardLiabilityLastStatementIssueDateL :: Lens_' CreditCardLiability (Maybe Text)
 creditCardLiabilityLastStatementIssueDateL f CreditCardLiability{..} = (\creditCardLiabilityLastStatementIssueDate -> CreditCardLiability { creditCardLiabilityLastStatementIssueDate, ..} ) <$> f creditCardLiabilityLastStatementIssueDate
 {-# INLINE creditCardLiabilityLastStatementIssueDateL #-}
 
