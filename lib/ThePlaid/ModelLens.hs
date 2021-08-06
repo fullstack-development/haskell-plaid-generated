@@ -2528,7 +2528,7 @@ healthIncidentIncidentUpdatesL f HealthIncident{..} = (\healthIncidentIncidentUp
 -- * HistoricalBalance
 
 -- | 'historicalBalanceDate' Lens
-historicalBalanceDateL :: Lens_' HistoricalBalance (Text)
+historicalBalanceDateL :: Lens_' HistoricalBalance (Date)
 historicalBalanceDateL f HistoricalBalance{..} = (\historicalBalanceDate -> HistoricalBalance { historicalBalanceDate, ..} ) <$> f historicalBalanceDate
 {-# INLINE historicalBalanceDateL #-}
 
