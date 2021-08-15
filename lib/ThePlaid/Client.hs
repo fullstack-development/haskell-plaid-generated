@@ -27,6 +27,7 @@ module ThePlaid.Client where
 import ThePlaid.Core
 import ThePlaid.Logging
 import ThePlaid.MimeTypes
+import ThePlaid.Model (Error (..))
 
 import qualified Control.Exception.Safe as E
 import qualified Control.Monad.IO.Class as P
@@ -73,12 +74,12 @@ data MimeResult res =
              }
   deriving (Show, Functor, Foldable, Traversable)
 
--- | pair of unrender/parser error and http response
 data MimeError =
-  MimeError {
-    mimeError :: String -- ^ unrender/parser error
-  , mimeErrorResponse :: NH.Response BCL.ByteString -- ^ http response 
-  } deriving (Eq, Show)
+  APIError { apiErrorError :: !(Maybe Error)
+           , apiErrorStatus :: !Int
+           }
+  | BadResponseError !T.Text
+  deriving (Eq, Show)
 
 -- | send a request returning the 'MimeResult'
 dispatchMime
@@ -92,15 +93,17 @@ dispatchMime manager config request = do
   let statusCode = NH.statusCode . NH.responseStatus $ httpResponse
   parsedResult <-
     runConfigLogWithExceptions "Client" config $
-    do if (statusCode >= 400 && statusCode < 600)
-         then do
-           let s = "error statusCode: " ++ show statusCode
-           _log "Client" levelError (T.pack s)
-           pure (Left (MimeError s httpResponse))
+    do if statusCode >= 400 && statusCode < 600
+         then case mimeUnrender (P.Proxy :: P.Proxy MimeJSON) (NH.responseBody httpResponse) of
+           Left s -> do
+             _log "Client" levelError (T.pack s)
+             pure (Left (APIError Nothing statusCode))
+           Right err ->
+             pure (Left (APIError (Just err) statusCode))
          else case mimeUnrender (P.Proxy :: P.Proxy accept) (NH.responseBody httpResponse) of
            Left s -> do
              _log "Client" levelError (T.pack s)
-             pure (Left (MimeError s httpResponse))
+             pure (Left (BadResponseError (T.pack s)))
            Right r -> pure (Right r)
   return (MimeResult parsedResult httpResponse)
 
