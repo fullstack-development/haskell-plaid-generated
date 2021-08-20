@@ -5901,7 +5901,7 @@ pendingExpirationWebhookItemIdL f PendingExpirationWebhook{..} = (\pendingExpira
 {-# INLINE pendingExpirationWebhookItemIdL #-}
 
 -- | 'pendingExpirationWebhookConsentExpirationTime' Lens
-pendingExpirationWebhookConsentExpirationTimeL :: Lens_' PendingExpirationWebhook (Text)
+pendingExpirationWebhookConsentExpirationTimeL :: Lens_' PendingExpirationWebhook (TI.UTCTime)
 pendingExpirationWebhookConsentExpirationTimeL f PendingExpirationWebhook{..} = (\pendingExpirationWebhookConsentExpirationTime -> PendingExpirationWebhook { pendingExpirationWebhookConsentExpirationTime, ..} ) <$> f pendingExpirationWebhookConsentExpirationTime
 {-# INLINE pendingExpirationWebhookConsentExpirationTimeL #-}
 
