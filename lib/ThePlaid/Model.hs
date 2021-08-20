@@ -10472,7 +10472,7 @@ data PendingExpirationWebhook = PendingExpirationWebhook
   { pendingExpirationWebhookWebhookType :: !(Text) -- ^ /Required/ "webhook_type" - &#x60;ITEM&#x60;
   , pendingExpirationWebhookWebhookCode :: !(Text) -- ^ /Required/ "webhook_code" - &#x60;PENDING_EXPIRATION&#x60;
   , pendingExpirationWebhookItemId :: !(Text) -- ^ /Required/ "item_id" - The &#x60;item_id&#x60; of the Item associated with this webhook, warning, or error
-  , pendingExpirationWebhookConsentExpirationTime :: !(TI.UTCTime) -- ^ /Required/ "consent_expiration_time" - The date and time at which the Item&#39;s access consent will expire, in ISO 8601 format
+  , pendingExpirationWebhookConsentExpirationTime :: !(Maybe TI.UTCTime) -- ^ /Required/ "consent_expiration_time" - The date and time at which the Item&#39;s access consent will expire, in ISO 8601 format
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON PendingExpirationWebhook
@@ -10482,7 +10482,7 @@ instance A.FromJSON PendingExpirationWebhook where
       <$> (o .:  "webhook_type")
       <*> (o .:  "webhook_code")
       <*> (o .:  "item_id")
-      <*> (unDateTime <$> (o .:  "consent_expiration_time"))
+      <*> (fmap unDateTime <$> (o .:?  "consent_expiration_time"))
 
 -- | ToJSON PendingExpirationWebhook
 instance A.ToJSON PendingExpirationWebhook where
@@ -10491,7 +10491,7 @@ instance A.ToJSON PendingExpirationWebhook where
       [ "webhook_type" .= pendingExpirationWebhookWebhookType
       , "webhook_code" .= pendingExpirationWebhookWebhookCode
       , "item_id" .= pendingExpirationWebhookItemId
-      , "consent_expiration_time" .= DateTime pendingExpirationWebhookConsentExpirationTime
+      , "consent_expiration_time" .= (DateTime <$> pendingExpirationWebhookConsentExpirationTime)
       ]
 
 
@@ -10500,7 +10500,7 @@ mkPendingExpirationWebhook
   :: Text -- ^ 'pendingExpirationWebhookWebhookType': `ITEM`
   -> Text -- ^ 'pendingExpirationWebhookWebhookCode': `PENDING_EXPIRATION`
   -> Text -- ^ 'pendingExpirationWebhookItemId': The `item_id` of the Item associated with this webhook, warning, or error
-  -> TI.UTCTime -- ^ 'pendingExpirationWebhookConsentExpirationTime': The date and time at which the Item's access consent will expire, in ISO 8601 format
+  -> (Maybe TI.UTCTime) -- ^ 'pendingExpirationWebhookConsentExpirationTime': The date and time at which the Item's access consent will expire, in ISO 8601 format
   -> PendingExpirationWebhook
 mkPendingExpirationWebhook pendingExpirationWebhookWebhookType pendingExpirationWebhookWebhookCode pendingExpirationWebhookItemId pendingExpirationWebhookConsentExpirationTime =
   PendingExpirationWebhook
