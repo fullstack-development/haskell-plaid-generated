@@ -50,6 +50,12 @@ import Data.Monoid ((<>))
 import Data.Text (Text)
 import GHC.Exts (IsString(..))
 
+data RawRequestData = RawRequestData
+  {
+    request :: NH.Request,
+    response :: NH.Response BL.ByteString
+  }
+
 -- * Dispatch
 
 -- ** Lbs
@@ -60,10 +66,10 @@ dispatchLbs
   => NH.Manager -- ^ http-client Connection manager
   -> ThePlaidConfig -- ^ config
   -> ThePlaidRequest req contentType res accept -- ^ request
-  -> IO (NH.Response BCL.ByteString) -- ^ response
+  -> IO (NH.Request, NH.Response BCL.ByteString) -- ^ response
 dispatchLbs manager config request  = do
-  initReq <- _toInitRequest config request
-  dispatchInitUnsafe manager config initReq
+  initReq@(InitRequest rawRequest) <- _toInitRequest config request
+  ((,) rawRequest) <$> dispatchInitUnsafe manager config initReq
 
 -- ** Mime
 
@@ -88,8 +94,16 @@ dispatchMime
   -> ThePlaidConfig -- ^ config
   -> ThePlaidRequest req contentType res accept -- ^ request
   -> IO (MimeResult res) -- ^ response
-dispatchMime manager config request = do
-  httpResponse <- dispatchLbs manager config request
+dispatchMime manager config request= snd <$> dispatchMimeReturningReqData manager config request
+
+dispatchMimeReturningReqData
+  :: forall req contentType res accept. (Produces req accept, MimeUnrender accept res, MimeType contentType)
+  => NH.Manager -- ^ http-client Connection manager
+  -> ThePlaidConfig -- ^ config
+  -> ThePlaidRequest req contentType res accept -- ^ request
+  -> IO (NH.Request, MimeResult res) -- ^ response
+dispatchMimeReturningReqData manager config request = do
+  (rawRequest, httpResponse) <- dispatchLbs manager config request
   let statusCode = NH.statusCode . NH.responseStatus $ httpResponse
   parsedResult <-
     runConfigLogWithExceptions "Client" config $
@@ -105,7 +119,7 @@ dispatchMime manager config request = do
              _log "Client" levelError (T.pack s)
              pure (Left (BadResponseError (T.pack s)))
            Right r -> pure (Right r)
-  return (MimeResult parsedResult httpResponse)
+  return (rawRequest, MimeResult parsedResult httpResponse)
 
 -- | like 'dispatchMime', but only returns the decoded http body
 dispatchMime'
@@ -117,6 +131,16 @@ dispatchMime'
 dispatchMime' manager config request  = do
     MimeResult parsedResult _ <- dispatchMime manager config request
     return parsedResult
+
+dispatchMimeReturningReqData'
+  :: (Produces req accept, MimeUnrender accept res, MimeType contentType)
+  => NH.Manager -- ^ http-client Connection manager
+  -> ThePlaidConfig -- ^ config
+  -> ThePlaidRequest req contentType res accept -- ^ request
+  -> IO (RawRequestData, Either MimeError res) -- ^ response
+dispatchMimeReturningReqData' manager config request  = do
+    (rawRequest, MimeResult parsedResult rawResponse) <- dispatchMimeReturningReqData manager config request
+    return (RawRequestData rawRequest rawResponse, parsedResult)
 
 -- ** Unsafe
 
