@@ -6516,7 +6516,7 @@ data Item = Item
   , itemError :: !(Maybe Error) -- ^ "error"
   , itemAvailableProducts :: !([Products]) -- ^ /Required/ "available_products" - A list of products available for the Item that have not yet been accessed.
   , itemBilledProducts :: !([Products]) -- ^ /Required/ "billed_products" - A list of products that have been billed for the Item. Note - &#x60;billed_products&#x60; is populated in all environments but only requests in Production are billed.
-  , itemConsentExpirationTime :: !(Maybe Text) -- ^ "consent_expiration_time" - The RFC 3339 timestamp after which the consent provided by the end user will expire. Upon consent expiration, the item will enter the &#x60;ITEM_LOGIN_REQUIRED&#x60; error state. To circumvent the &#x60;ITEM_LOGIN_REQUIRED&#x60; error and maintain continuous consent, the end user can reauthenticate via Link’s update mode in advance of the consent expiration time.  Note - This is only relevant for European institutions subject to PSD2 regulations mandating a 90-day consent window. For all other institutions, this field will be null.
+  , itemConsentExpirationTime :: !(Maybe TI.UTCTime) -- ^ "consent_expiration_time" - The RFC 3339 timestamp after which the consent provided by the end user will expire. Upon consent expiration, the item will enter the &#x60;ITEM_LOGIN_REQUIRED&#x60; error state. To circumvent the &#x60;ITEM_LOGIN_REQUIRED&#x60; error and maintain continuous consent, the end user can reauthenticate via Link’s update mode in advance of the consent expiration time.  Note - This is only relevant for European institutions subject to PSD2 regulations mandating a 90-day consent window. For all other institutions, this field will be null.
   , itemUpdateType :: !(E'UpdateType) -- ^ /Required/ "update_type" - Indicates whether an Item requires user interaction to be updated, which can be the case for Items with some forms of two-factor authentication.  &#x60;background&#x60; - Item can be updated in the background  &#x60;requires_user_authentication&#x60; - Item requires user interaction to be updated
   } deriving (P.Show, P.Eq, P.Typeable)
 
@@ -6530,7 +6530,7 @@ instance A.FromJSON Item where
       <*> (o .:? "error")
       <*> (o .:  "available_products")
       <*> (o .:  "billed_products")
-      <*> (o .:? "consent_expiration_time")
+      <*> (fmap unDateTime <$> (o .:? "consent_expiration_time"))
       <*> (o .:  "update_type")
 
 -- | ToJSON Item
