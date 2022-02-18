@@ -160,7 +160,7 @@ accountBalanceAvailableL f AccountBalance{..} = (\accountBalanceAvailable -> Acc
 {-# INLINE accountBalanceAvailableL #-}
 
 -- | 'accountBalanceCurrent' Lens
-accountBalanceCurrentL :: Lens_' AccountBalance (Double)
+accountBalanceCurrentL :: Lens_' AccountBalance (Maybe Double)
 accountBalanceCurrentL f AccountBalance{..} = (\accountBalanceCurrent -> AccountBalance { accountBalanceCurrent, ..} ) <$> f accountBalanceCurrent
 {-# INLINE accountBalanceCurrentL #-}
 

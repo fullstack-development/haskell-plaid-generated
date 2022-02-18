@@ -261,7 +261,7 @@ mkAccountAssetsAllOf accountAssetsAllOfOwners =
 -- A set of fields describing the balance for an account. Balance information may be cached unless the balance object was returned by `/accounts/balance/get`.
 data AccountBalance = AccountBalance
   { accountBalanceAvailable :: !(Maybe Double) -- ^ "available" - The amount of funds available to be withdrawn from the account, as determined by the financial institution.  For &#x60;credit&#x60;-type accounts, the &#x60;available&#x60; balance typically equals the &#x60;limit&#x60; less the &#x60;current&#x60; balance, less any pending outflows plus any pending inflows.  For &#x60;depository&#x60;-type accounts, the &#x60;available&#x60; balance typically equals the &#x60;current&#x60; balance less any pending outflows plus any pending inflows. For &#x60;depository&#x60;-type accounts, the &#x60;available&#x60; balance does not include the overdraft limit.  For &#x60;investment&#x60;-type accounts, the &#x60;available&#x60; balance is the total cash available to withdraw as presented by the institution.  Note that not all institutions calculate the &#x60;available&#x60;  balance. In the event that &#x60;available&#x60; balance is unavailable, Plaid will return an &#x60;available&#x60; balance value of &#x60;null&#x60;.  Available balance may be cached and is not guaranteed to be up-to-date in realtime unless the value was returned by &#x60;/accounts/balance/get&#x60;.
-  , accountBalanceCurrent :: !(Double) -- ^ /Required/ "current" - The total amount of funds in or owed by the account.  For &#x60;credit&#x60;-type accounts, a positive balance indicates the amount owed; a negative amount indicates the lender owing the account holder.  For &#x60;loan&#x60;-type accounts, the current balance is the principal remaining on the loan, except in the case of student loan accounts at Sallie Mae (&#x60;ins_116944&#x60;). For Sallie Mae student loans, the account&#39;s balance includes both principal and any outstanding interest.  For &#x60;investment&#x60;-type accounts, the current balance is the total value of assets as presented by the institution.  Note that balance information may be cached unless the value was returned by &#x60;/accounts/balance/get&#x60;, and current balance information is typically not updated intra-day. If you require realtime balance information, use the &#x60;available&#x60; balance as provided by &#x60;/accounts/balance/get&#x60;.
+  , accountBalanceCurrent :: !(Maybe Double) -- ^ "current" - The total amount of funds in or owed by the account.  For &#x60;credit&#x60;-type accounts, a positive balance indicates the amount owed; a negative amount indicates the lender owing the account holder.  For &#x60;loan&#x60;-type accounts, the current balance is the principal remaining on the loan, except in the case of student loan accounts at Sallie Mae (&#x60;ins_116944&#x60;). For Sallie Mae student loans, the account&#39;s balance includes both principal and any outstanding interest.  For &#x60;investment&#x60;-type accounts, the current balance is the total value of assets as presented by the institution.  Note that balance information may be cached unless the value was returned by &#x60;/accounts/balance/get&#x60;, and current balance information is typically not updated intra-day. If you require realtime balance information, use the &#x60;available&#x60; balance as provided by &#x60;/accounts/balance/get&#x60;.
   , accountBalanceLimit :: !(Maybe Double) -- ^ "limit" - For &#x60;credit&#x60;-type accounts, this represents the credit limit.  For &#x60;depository&#x60;-type accounts, this represents the pre-arranged overdraft limit, which is common for current (checking) accounts in Europe.  In North America, this field is typically only available for &#x60;credit&#x60;-type accounts.
   , accountBalanceIsoCurrencyCode :: !(Maybe Text) -- ^ "iso_currency_code" - The ISO-4217 currency code of the balance. Always null if &#x60;unofficial_currency_code&#x60; is non-null.
   , accountBalanceUnofficialCurrencyCode :: !(Maybe Text) -- ^ "unofficial_currency_code" - The unofficial currency code associated with the balance. Always null if &#x60;iso_currency_code&#x60; is non-null. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries.  See the [currency code schema](/docs/api/accounts#currency-code-schema) for a full listing of supported &#x60;unofficial_currency_code&#x60;s.
@@ -272,7 +272,7 @@ instance A.FromJSON AccountBalance where
   parseJSON = A.withObject "AccountBalance" $ \o ->
     AccountBalance
       <$> (o .:? "available")
-      <*> (o .:  "current")
+      <*> (o .:?  "current")
       <*> (o .:? "limit")
       <*> (o .:? "iso_currency_code")
       <*> (o .:? "unofficial_currency_code")
@@ -291,12 +291,11 @@ instance A.ToJSON AccountBalance where
 
 -- | Construct a value of type 'AccountBalance' (by applying it's required fields, if any)
 mkAccountBalance
-  :: Double -- ^ 'accountBalanceCurrent': The total amount of funds in or owed by the account.  For `credit`-type accounts, a positive balance indicates the amount owed; a negative amount indicates the lender owing the account holder.  For `loan`-type accounts, the current balance is the principal remaining on the loan, except in the case of student loan accounts at Sallie Mae (`ins_116944`). For Sallie Mae student loans, the account's balance includes both principal and any outstanding interest.  For `investment`-type accounts, the current balance is the total value of assets as presented by the institution.  Note that balance information may be cached unless the value was returned by `/accounts/balance/get`, and current balance information is typically not updated intra-day. If you require realtime balance information, use the `available` balance as provided by `/accounts/balance/get`.
-  -> AccountBalance
-mkAccountBalance accountBalanceCurrent =
+  ::  AccountBalance
+mkAccountBalance =
   AccountBalance
   { accountBalanceAvailable = Nothing
-  , accountBalanceCurrent
+  , accountBalanceCurrent = Nothing
   , accountBalanceLimit = Nothing
   , accountBalanceIsoCurrencyCode = Nothing
   , accountBalanceUnofficialCurrencyCode = Nothing
