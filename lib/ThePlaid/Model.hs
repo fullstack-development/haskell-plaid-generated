@@ -47,6 +47,7 @@ import qualified Data.Set as Set
 import qualified Data.Text as T
 import qualified Data.Text.Encoding as T
 import qualified Data.Time as TI
+import qualified Data.Vector as V
 import qualified Lens.Micro as L
 import qualified Web.FormUrlEncoded as WH
 import qualified Web.HttpApiData as WH
@@ -12923,7 +12924,7 @@ mkTransactionsGetRequestOptions =
 -- TransactionsGetResponse defines the response schema for `/transactions/get`
 data TransactionsGetResponse = TransactionsGetResponse
   { transactionsGetResponseAccounts :: !([AccountBase]) -- ^ /Required/ "accounts" - An array containing the &#x60;accounts&#x60; associated with the Item for which transactions are being returned. Each transaction can be mapped to its corresponding account via the &#x60;account_id&#x60; field.
-  , transactionsGetResponseTransactions :: !([Transaction]) -- ^ /Required/ "transactions" - An array containing transactions from the account. Transactions are returned in reverse chronological order, with the most recent at the beginning of the array. The maximum number of transactions returned is determined by the &#x60;count&#x60; parameter.
+  , transactionsGetResponseTransactions :: !(V.Vector Transaction) -- ^ /Required/ "transactions" - An array containing transactions from the account. Transactions are returned in reverse chronological order, with the most recent at the beginning of the array. The maximum number of transactions returned is determined by the &#x60;count&#x60; parameter.
   , transactionsGetResponseTotalTransactions :: !(Int) -- ^ /Required/ "total_transactions" - The total number of transactions available within the date range specified. If &#x60;total_transactions&#x60; is larger than the size of the &#x60;transactions&#x60; array, more transactions are available and can be fetched via manipulating the &#x60;offset&#x60; parameter.
   , transactionsGetResponseItem :: !(Item) -- ^ /Required/ "item"
   , transactionsGetResponseRequestId :: !(Text) -- ^ /Required/ "request_id" - A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive.
@@ -12954,7 +12955,7 @@ instance A.ToJSON TransactionsGetResponse where
 -- | Construct a value of type 'TransactionsGetResponse' (by applying it's required fields, if any)
 mkTransactionsGetResponse
   :: [AccountBase] -- ^ 'transactionsGetResponseAccounts': An array containing the `accounts` associated with the Item for which transactions are being returned. Each transaction can be mapped to its corresponding account via the `account_id` field.
-  -> [Transaction] -- ^ 'transactionsGetResponseTransactions': An array containing transactions from the account. Transactions are returned in reverse chronological order, with the most recent at the beginning of the array. The maximum number of transactions returned is determined by the `count` parameter.
+  -> V.Vector Transaction -- ^ 'transactionsGetResponseTransactions': An array containing transactions from the account. Transactions are returned in reverse chronological order, with the most recent at the beginning of the array. The maximum number of transactions returned is determined by the `count` parameter.
   -> Int -- ^ 'transactionsGetResponseTotalTransactions': The total number of transactions available within the date range specified. If `total_transactions` is larger than the size of the `transactions` array, more transactions are available and can be fetched via manipulating the `offset` parameter.
   -> Item -- ^ 'transactionsGetResponseItem'
   -> Text -- ^ 'transactionsGetResponseRequestId': A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive.

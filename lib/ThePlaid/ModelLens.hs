@@ -26,6 +26,7 @@ import qualified Data.Data as P (Data, Typeable)
 import qualified Data.Map as Map
 import qualified Data.Set as Set
 import qualified Data.Time as TI
+import qualified Data.Vector as V
 
 import Data.Text (Text)
 
@@ -7374,7 +7375,7 @@ transactionsGetResponseAccountsL f TransactionsGetResponse{..} = (\transactionsG
 {-# INLINE transactionsGetResponseAccountsL #-}
 
 -- | 'transactionsGetResponseTransactions' Lens
-transactionsGetResponseTransactionsL :: Lens_' TransactionsGetResponse ([Transaction])
+transactionsGetResponseTransactionsL :: Lens_' TransactionsGetResponse (V.Vector Transaction)
 transactionsGetResponseTransactionsL f TransactionsGetResponse{..} = (\transactionsGetResponseTransactions -> TransactionsGetResponse { transactionsGetResponseTransactions, ..} ) <$> f transactionsGetResponseTransactions
 {-# INLINE transactionsGetResponseTransactionsL #-}
 
