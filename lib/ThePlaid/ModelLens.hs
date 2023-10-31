@@ -3658,7 +3658,7 @@ itemBilledProductsL f Item{..} = (\itemBilledProducts -> Item { itemBilledProduc
 {-# INLINE itemBilledProductsL #-}
 
 -- | 'itemConsentedProducts' Lens
-itemConsentedProductsL :: Lens_' Item ([Products])
+itemConsentedProductsL :: Lens_' Item (Maybe [Products])
 itemConsentedProductsL f Item{..} = (\itemConsentedProducts -> Item { itemConsentedProducts, ..} ) <$> f itemConsentedProducts
 {-# INLINE itemConsentedProductsL #-}
 
