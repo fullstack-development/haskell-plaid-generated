@@ -14487,6 +14487,7 @@ data E'ErrorType
   | E'ErrorType'PAYMENT_ERROR -- ^ @"PAYMENT_ERROR"@
   | E'ErrorType'BANK_TRANSFER_ERROR -- ^ @"BANK_TRANSFER_ERROR"@
   | E'ErrorType'INVALID_RESULT
+  | E'ErrorType'TRANSACTIONS_ERROR
   deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
 
 instance A.ToJSON E'ErrorType where toJSON = A.toJSON . fromE'ErrorType
@@ -14510,6 +14511,7 @@ fromE'ErrorType = \case
   E'ErrorType'PAYMENT_ERROR -> "PAYMENT_ERROR"
   E'ErrorType'BANK_TRANSFER_ERROR -> "BANK_TRANSFER_ERROR"
   E'ErrorType'INVALID_RESULT -> "INVALID_RESULT"
+  E'ErrorType'TRANSACTIONS_ERROR -> "TRANSACTIONS_ERROR"
 -- | parse 'E'ErrorType' enum
 toE'ErrorType :: Text -> P.Either String E'ErrorType
 toE'ErrorType = \case
@@ -14525,6 +14527,7 @@ toE'ErrorType = \case
   "PAYMENT_ERROR" -> P.Right E'ErrorType'PAYMENT_ERROR
   "BANK_TRANSFER_ERROR" -> P.Right E'ErrorType'BANK_TRANSFER_ERROR
   "INVALID_RESULT" -> P.Right E'ErrorType'INVALID_RESULT
+  "TRANSACTIONS_ERROR" -> P.Right E'ErrorType'TRANSACTIONS_ERROR
   s -> P.Left $ "toE'ErrorType: enum parse failure: " P.++ P.show s
 
 
