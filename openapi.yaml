@@ -4161,7 +4161,7 @@ components:
         international:
           description: An array of IBAN numbers identifying accounts.
           items:
-            $ref: '#/components/schemas/NumbersInternational'
+            $ref: '#/components/schemas/NumbersInternationals'
           type: array
         bacs:
           description: An array of BACS numbers identifying accounts.
@@ -9505,7 +9505,7 @@ components:
       - additionalProperties: true
         type: object
       nullable: true
-    NumbersInternational:
+    NumbersInternationals:
       additionalProperties: true
       description: Identifying information for transferring money to or from an international
         bank account via wire transfer.
@@ -9527,11 +9527,11 @@ components:
       - account_id
       - bic
       - iban
-      title: NumbersInternational
+      title: NumbersInternationals
       type: object
     NullableNumbersInternational:
       allOf:
-      - $ref: '#/components/schemas/NumbersInternational'
+      - $ref: '#/components/schemas/NumbersInternationals'
       - additionalProperties: true
         type: object
       nullable: true

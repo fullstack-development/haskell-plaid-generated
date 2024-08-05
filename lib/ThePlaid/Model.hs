@@ -15118,7 +15118,7 @@ fromE'Type4 = \case
   E'Type4'Pay_as_you_earn -> "pay as you earn"
   E'Type4'Revised_pay_as_you_earn -> "revised pay as you earn"
   E'Type4'Standard -> "standard"
-  E'Type4'Standard -> "saving on a valuable education"
+  E'Type4'SavingOnAValuableEducation -> "saving on a valuable education"
 
 -- | parse 'E'Type4' enum
 toE'Type4 :: Text -> P.Either String E'Type4
@@ -15133,7 +15133,7 @@ toE'Type4 = \case
   "pay as you earn" -> P.Right E'Type4'Pay_as_you_earn
   "revised pay as you earn" -> P.Right E'Type4'Revised_pay_as_you_earn
   "standard" -> P.Right E'Type4'Standard
-  "saving on a valuable education" -> P.Right E'Type4'Standard
+  "saving on a valuable education" -> P.Right E'Type4'SavingOnAValuableEducation
   s -> P.Left $ "toE'Type4: enum parse failure: " P.++ P.show s
 
 
@@ -15363,6 +15363,42 @@ data Products
   | Products'RecurringTransactions -- ^ @"recurring_transactions"@
   | Products'UNKNOWN Text -- ^ asimuskov: Plaid could dynamically add new products. Exclude fails for such cases.
   deriving (P.Show, P.Eq, P.Typeable, P.Ord)
+
+instance P.Bounded Products where
+  minBound = P.toEnum 0
+  maxBound = P.toEnum 12
+
+instance P.Enum Products where
+  fromEnum = \case
+    Products'Assets -> 0
+    Products'Auth -> 1
+    Products'Balance -> 2
+    Products'Identity -> 3
+    Products'Investments -> 4
+    Products'Liabilities -> 5
+    Products'Payment_initiation -> 6
+    Products'Transactions -> 7
+    Products'Credit_details -> 8
+    Products'Income -> 9
+    Products'Deposit_switch -> 10
+    Products'RecurringTransactions -> 11
+    Products'UNKNOWN _ -> 12
+
+  toEnum = \case
+    0 -> Products'Assets
+    1 -> Products'Auth
+    2 -> Products'Balance
+    3 -> Products'Identity
+    4 -> Products'Investments 
+    5 -> Products'Liabilities
+    6 -> Products'Payment_initiation
+    7 -> Products'Transactions
+    8 -> Products'Credit_details
+    9 -> Products'Income
+    10 -> Products'Deposit_switch
+    11 -> Products'RecurringTransactions 
+    _ -> Products'UNKNOWN ""
+
 
 instance A.ToJSON Products where toJSON = A.toJSON . fromProducts
 instance A.FromJSON Products where parseJSON o = P.either P.fail (pure . P.id) . toProducts =<< A.parseJSON o

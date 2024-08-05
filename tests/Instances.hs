@@ -52,25 +52,25 @@ instance Arbitrary Date where
     shrink (Date xs) = Date <$> shrink xs
 
 -- | A naive Arbitrary instance for A.Value:
-instance Arbitrary A.Value where
-  arbitrary = frequency [(3, simpleTypes), (1, arrayTypes), (1, objectTypes)]
-    where
-      simpleTypes :: Gen A.Value
-      simpleTypes =
-        frequency
-          [ (1, return A.Null)
-          , (2, liftM A.Bool (arbitrary :: Gen Bool))
-          , (2, liftM (A.Number . fromIntegral) (arbitrary :: Gen Int))
-          , (2, liftM (A.String . T.pack) (arbitrary :: Gen String))
-          ]
-      mapF (k, v) = (T.pack k, v)
-      simpleAndArrays = frequency [(1, sized sizedArray), (4, simpleTypes)]
-      arrayTypes = sized sizedArray
-      objectTypes = sized sizedObject
-      sizedArray n = liftM (A.Array . V.fromList) $ replicateM n simpleTypes
-      sizedObject n =
-        liftM (A.object . map mapF) $
-        replicateM n $ (,) <$> (arbitrary :: Gen String) <*> simpleAndArrays
+-- instance Arbitrary A.Value where
+--   arbitrary = frequency [(3, simpleTypes), (1, arrayTypes), (1, objectTypes)]
+--     where
+--       simpleTypes :: Gen A.Value
+--       simpleTypes =
+--         frequency
+--           [ (1, return A.Null)
+--           , (2, liftM A.Bool (arbitrary :: Gen Bool))
+--           , (2, liftM (A.Number . fromIntegral) (arbitrary :: Gen Int))
+--           , (2, liftM (A.String . T.pack) (arbitrary :: Gen String))
+--           ]
+--       mapF (k, v) = (T.pack k, v)
+--       simpleAndArrays = frequency [(1, sized sizedArray), (4, simpleTypes)]
+--       arrayTypes = sized sizedArray
+--       objectTypes = sized sizedObject
+--       sizedArray n = liftM (A.Array . V.fromList) $ replicateM n simpleTypes
+--       sizedObject n =
+--         liftM (A.object . map mapF) $
+--         replicateM n $ (,) <$> (arbitrary :: Gen String) <*> simpleAndArrays
     
 -- | Checks if a given list has no duplicates in _O(n log n)_.
 hasNoDups
@@ -207,13 +207,16 @@ genAccountIdentityAllOf n =
   AccountIdentityAllOf
     <$> arbitraryReduced n -- accountIdentityAllOfOwners :: [Owner]
   
+instance Arbitrary AccessToken where
+  arbitrary = AccessToken <$> arbitrary
+  
 instance Arbitrary AccountsBalanceGetRequest where
   arbitrary = sized genAccountsBalanceGetRequest
 
 genAccountsBalanceGetRequest :: Int -> Gen AccountsBalanceGetRequest
 genAccountsBalanceGetRequest n =
   AccountsBalanceGetRequest
-    <$> arbitrary -- accountsBalanceGetRequestAccessToken :: Text
+    <$> arbitrary -- accountsBalanceGetRequestAccessToken :: AccessToken
     <*> arbitraryReducedMaybe n -- accountsBalanceGetRequestSecret :: Maybe Text
     <*> arbitraryReducedMaybe n -- accountsBalanceGetRequestClientId :: Maybe Text
     <*> arbitraryReducedMaybe n -- accountsBalanceGetRequestOptions :: Maybe AccountsBalanceGetRequestOptions
@@ -225,6 +228,7 @@ genAccountsBalanceGetRequestOptions :: Int -> Gen AccountsBalanceGetRequestOptio
 genAccountsBalanceGetRequestOptions n =
   AccountsBalanceGetRequestOptions
     <$> arbitraryReducedMaybe n -- accountsBalanceGetRequestOptionsAccountIds :: Maybe [Text]
+    <*> arbitraryReducedMaybe n -- accountsBalanceGetRequestOptionsMinLastUpdatedDatetime :: Maybe UTCTime
   
 instance Arbitrary AccountsGetRequest where
   arbitrary = sized genAccountsGetRequest
@@ -576,7 +580,7 @@ genAuthGetNumbers n =
   AuthGetNumbers
     <$> arbitraryReducedMaybe n -- authGetNumbersAch :: Maybe [NumbersACH]
     <*> arbitraryReducedMaybe n -- authGetNumbersEft :: Maybe [NumbersEFT]
-    <*> arbitraryReducedMaybe n -- authGetNumbersInternational :: Maybe [NumbersInternational]
+    <*> arbitraryReducedMaybe n -- authGetNumbersInternational :: Maybe [NumbersInternationals]
     <*> arbitraryReducedMaybe n -- authGetNumbersBacs :: Maybe [NumbersBACS]
   
 instance Arbitrary AuthGetRequest where
@@ -1695,18 +1699,22 @@ genInvestmentsTransactionsGetResponse n =
     <*> arbitrary -- investmentsTransactionsGetResponseTotalInvestmentTransactions :: Int
     <*> arbitrary -- investmentsTransactionsGetResponseRequestId :: Text
   
+instance Arbitrary ItemId where
+  arbitrary = ItemId <$> arbitrary
+  
 instance Arbitrary Item where
   arbitrary = sized genItem
 
 genItem :: Int -> Gen Item
 genItem n =
   Item
-    <$> arbitrary -- itemItemId :: Text
+    <$> arbitrary -- itemItemId :: ItemId
     <*> arbitraryReducedMaybe n -- itemInstitutionId :: Maybe Text
     <*> arbitraryReducedMaybe n -- itemWebhook :: Maybe Text
     <*> arbitraryReducedMaybe n -- itemError :: Maybe Error
     <*> arbitraryReduced n -- itemAvailableProducts :: [Products]
     <*> arbitraryReduced n -- itemBilledProducts :: [Products]
+    <*> arbitraryReducedMaybe n -- itemConsentedProducts :: Maybe [Products]
     <*> arbitraryReducedMaybe n -- itemConsentExpirationTime :: Maybe Text
     <*> arbitrary -- itemUpdateType :: E'UpdateType
   
@@ -2005,6 +2013,23 @@ genLinkTokenAccountFilters n =
     <*> arbitraryReducedMaybe n -- linkTokenAccountFiltersLoan :: Maybe LoanFilter
     <*> arbitraryReducedMaybe n -- linkTokenAccountFiltersInvestment :: Maybe InvestmentFilter
   
+instance Arbitrary LinkTokenCreateRequestUpdateDict where
+  arbitrary = LinkTokenCreateRequestUpdateDict <$> arbitrary
+  
+instance Arbitrary LinkTokenCreateRequestAuthOptions where
+  arbitrary = sized genLinkTokenCreateRequestAuthOptions
+
+genLinkTokenCreateRequestAuthOptions :: Int -> Gen LinkTokenCreateRequestAuthOptions
+genLinkTokenCreateRequestAuthOptions n =
+  LinkTokenCreateRequestAuthOptions
+    <$> arbitraryReducedMaybe n -- authTypeSelectEnabled :: Maybe Bool
+    <*> arbitraryReducedMaybe n -- automatedMicrodepositsEnabled :: Maybe Bool
+    <*> arbitraryReducedMaybe n -- instantMatchEnabled :: Maybe Bool
+    <*> arbitraryReducedMaybe n -- sameDayMicrodepositsEnabled :: Maybe Bool
+
+instance Arbitrary LinkTokenCreateRequestTransactionsOptions where
+  arbitrary = LinkTokenCreateRequestTransactionsOptions <$> arbitrary
+  
 instance Arbitrary LinkTokenCreateRequest where
   arbitrary = sized genLinkTokenCreateRequest
 
@@ -2023,10 +2048,14 @@ genLinkTokenCreateRequest n =
     <*> arbitraryReducedMaybe n -- linkTokenCreateRequestLinkCustomizationName :: Maybe Text
     <*> arbitraryReducedMaybe n -- linkTokenCreateRequestRedirectUri :: Maybe Text
     <*> arbitraryReducedMaybe n -- linkTokenCreateRequestAndroidPackageName :: Maybe Text
+    <*> arbitraryReducedMaybe n -- linkTokenCreateRequestAndroidPackageName :: Maybe Text
     <*> arbitraryReducedMaybe n -- linkTokenCreateRequestAccountFilters :: Maybe LinkTokenAccountFilters
     <*> arbitraryReducedMaybe n -- linkTokenCreateRequestInstitutionId :: Maybe Text
     <*> arbitraryReducedMaybe n -- linkTokenCreateRequestPaymentInitiation :: Maybe LinkTokenCreateRequestPaymentInitiation
     <*> arbitraryReducedMaybe n -- linkTokenCreateRequestDepositSwitch :: Maybe LinkTokenCreateRequestDepositSwitch
+    <*> arbitraryReducedMaybe n -- linkTokenCreateRequestUpdate :: Maybe LinkTokenCreateRequestUpdateDict
+    <*> arbitraryReducedMaybe n -- linkTokenCreateRequestAuth :: Maybe LinkTokenCreateRequestAuthOptions
+    <*> arbitraryReducedMaybe n -- linkTokenCreateRequestTransactions :: Maybe LinkTokenCreateRequestTransactionsOptions
   
 instance Arbitrary LinkTokenCreateRequestAccountSubtypes where
   arbitrary = sized genLinkTokenCreateRequestAccountSubtypes
@@ -2355,12 +2384,12 @@ genNumbersEFT n =
     <*> arbitrary -- numbersEFTInstitution :: Text
     <*> arbitrary -- numbersEFTBranch :: Text
   
-instance Arbitrary NumbersInternational where
+instance Arbitrary NumbersInternationals where
   arbitrary = sized genNumbersInternational
 
-genNumbersInternational :: Int -> Gen NumbersInternational
+genNumbersInternational :: Int -> Gen NumbersInternationals
 genNumbersInternational n =
-  NumbersInternational
+  NumbersInternationals
     <$> arbitrary -- numbersInternationalAccountId :: Text
     <*> arbitrary -- numbersInternationalIban :: Text
     <*> arbitrary -- numbersInternationalBic :: Text
@@ -3217,6 +3246,16 @@ genStudentRepaymentPlan n =
   StudentRepaymentPlan
     <$> arbitraryReducedMaybe n -- studentRepaymentPlanDescription :: Maybe Text
     <*> arbitraryReducedMaybe n -- studentRepaymentPlanType :: Maybe E'Type4
+
+
+instance Arbitrary PersonalFinanceCategory where
+  arbitrary = genPersonalFinanceCategory
+
+genPersonalFinanceCategory :: Gen PersonalFinanceCategory
+genPersonalFinanceCategory =
+  PersonalFinanceCategory
+    <$> arbitrary -- personalFinanceCategoryPrimary :: Text
+    <*> arbitrary -- personalFinanceCategoryDetailed :: Text
   
 instance Arbitrary Transaction where
   arbitrary = sized genTransaction
@@ -3239,6 +3278,7 @@ genTransaction n =
     <*> arbitrary -- transactionDate :: Text
     <*> arbitraryReducedMaybe n -- transactionDatetime :: Maybe Text
     <*> arbitraryReducedMaybe n -- transactionCategoryId :: Maybe Text
+    <*> arbitraryReducedMaybe n -- transactionPersonalFinanceCategory :: Maybe PersonalFinanceCategory
     <*> arbitraryReducedMaybe n -- transactionCategory :: Maybe [Text]
     <*> arbitraryReducedMaybe n -- transactionUnofficialCurrencyCode :: Maybe Text
     <*> arbitraryReducedMaybe n -- transactionIsoCurrencyCode :: Maybe Text
@@ -3292,6 +3332,8 @@ genTransactionsGetRequestOptions n =
     <$> arbitraryReducedMaybe n -- transactionsGetRequestOptionsAccountIds :: Maybe [Text]
     <*> arbitraryReducedMaybe n -- transactionsGetRequestOptionsCount :: Maybe Int
     <*> arbitraryReducedMaybe n -- transactionsGetRequestOptionsOffset :: Maybe Int
+    <*> arbitrary -- transactionsGetRequestOptionsIncludePersonalFinanceCategory :: Bool
+    <*> arbitraryReducedMaybe n -- transactionsGetRequestOptionsDaysRequested :: Maybe Int
   
 instance Arbitrary TransactionsGetResponse where
   arbitrary = sized genTransactionsGetResponse
@@ -3334,6 +3376,9 @@ genTransactionsRemovedWebhook n =
     <*> arbitraryReducedMaybe n -- transactionsRemovedWebhookError :: Maybe Error
     <*> arbitrary -- transactionsRemovedWebhookRemovedTransactions :: [Text]
     <*> arbitrary -- transactionsRemovedWebhookItemId :: Text
+
+instance Arbitrary Cursor where
+  arbitrary = Cursor <$> arbitrary
   
 instance Arbitrary TransactionsSyncRequest where
   arbitrary = sized genTransactionsSyncRequest
@@ -3344,7 +3389,7 @@ genTransactionsSyncRequest n =
     <$> arbitraryReducedMaybe n -- transactionsSyncRequestClientId :: Maybe Text
     <*> arbitrary -- transactionsSyncRequestAccessToken :: Text
     <*> arbitraryReducedMaybe n -- transactionsSyncRequestSecret :: Maybe Text
-    <*> arbitraryReducedMaybe n -- transactionsSyncRequestCursor :: Maybe Text
+    <*> arbitraryReducedMaybe n -- transactionsSyncRequestCursor :: Maybe Cursor
     <*> arbitraryReducedMaybe n -- transactionsSyncRequestCount :: Maybe Int
     <*> arbitraryReducedMaybe n -- transactionsSyncRequestOptions :: Maybe TransactionsSyncRequestOptions
   
@@ -3356,6 +3401,7 @@ genTransactionsSyncRequestOptions n =
   TransactionsSyncRequestOptions
     <$> arbitraryReducedMaybe n -- transactionsSyncRequestOptionsIncludeOriginalDescription :: Maybe Bool
     <*> arbitraryReducedMaybe n -- transactionsSyncRequestOptionsIncludePersonalFinanceCategory :: Maybe Bool
+    <*> arbitraryReducedMaybe n -- transactionsSyncRequestOptionsDaysRequested :: Maybe Int
   
 instance Arbitrary TransactionsSyncResponse where
   arbitrary = sized genTransactionsSyncResponse

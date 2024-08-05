@@ -229,7 +229,7 @@ main =
       propMimeEq MimeJSON (Proxy :: Proxy NumbersACH)
       propMimeEq MimeJSON (Proxy :: Proxy NumbersBACS)
       propMimeEq MimeJSON (Proxy :: Proxy NumbersEFT)
-      propMimeEq MimeJSON (Proxy :: Proxy NumbersInternational)
+      propMimeEq MimeJSON (Proxy :: Proxy NumbersInternationals)
       propMimeEq MimeJSON (Proxy :: Proxy OverrideAccounts)
       propMimeEq MimeJSON (Proxy :: Proxy Owner)
       propMimeEq MimeJSON (Proxy :: Proxy OwnerOverride)
