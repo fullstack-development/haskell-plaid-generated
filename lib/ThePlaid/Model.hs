@@ -15096,6 +15096,7 @@ data E'Type4
   | E'Type4'Pay_as_you_earn -- ^ @"pay as you earn"@
   | E'Type4'Revised_pay_as_you_earn -- ^ @"revised pay as you earn"@
   | E'Type4'Standard -- ^ @"standard"@
+  | E'Type4'SavingOnAValuableEducation -- ^ @"saving on a valuable education"@
   deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
 
 instance A.ToJSON E'Type4 where toJSON = A.toJSON . fromE'Type4
@@ -15117,6 +15118,7 @@ fromE'Type4 = \case
   E'Type4'Pay_as_you_earn -> "pay as you earn"
   E'Type4'Revised_pay_as_you_earn -> "revised pay as you earn"
   E'Type4'Standard -> "standard"
+  E'Type4'Standard -> "saving on a valuable education"
 
 -- | parse 'E'Type4' enum
 toE'Type4 :: Text -> P.Either String E'Type4
@@ -15131,6 +15133,7 @@ toE'Type4 = \case
   "pay as you earn" -> P.Right E'Type4'Pay_as_you_earn
   "revised pay as you earn" -> P.Right E'Type4'Revised_pay_as_you_earn
   "standard" -> P.Right E'Type4'Standard
+  "saving on a valuable education" -> P.Right E'Type4'Standard
   s -> P.Left $ "toE'Type4: enum parse failure: " P.++ P.show s
 
 
