@@ -122,6 +122,7 @@ genAccountAssets :: Int -> Gen AccountAssets
 genAccountAssets n =
   AccountAssets
     <$> arbitrary -- accountAssetsAccountId :: Text
+    <*> arbitraryReducedMaybe n -- accountAssetsPersistentAccountId :: Maybe Text
     <*> arbitraryReduced n -- accountAssetsBalances :: AccountBalance
     <*> arbitraryReducedMaybe n -- accountAssetsMask :: Maybe Text
     <*> arbitrary -- accountAssetsName :: Text
@@ -164,6 +165,7 @@ genAccountBase :: Int -> Gen AccountBase
 genAccountBase n =
   AccountBase
     <$> arbitrary -- accountBaseAccountId :: Text
+    <*> arbitraryReducedMaybe n -- accountBasePersistentAccountId :: Maybe Text
     <*> arbitraryReduced n -- accountBaseBalances :: AccountBalance
     <*> arbitraryReducedMaybe n -- accountBaseMask :: Maybe Text
     <*> arbitrary -- accountBaseName :: Text

@@ -149,6 +149,7 @@ mkAPR aPRAprPercentage aPRAprType =
 -- 
 data AccountAssets = AccountAssets
   { accountAssetsAccountId :: !(Text) -- ^ /Required/ "account_id" - Plaid’s unique identifier for the account. This value will not change unless Plaid can&#39;t reconcile the account with the data returned by the financial institution. This may occur, for example, when the name of the account changes. If this happens a new &#x60;account_id&#x60; will be assigned to the account.  The &#x60;account_id&#x60; can also change if the &#x60;access_token&#x60; is deleted and the same credentials that were used to generate that &#x60;access_token&#x60; are used to generate a new &#x60;access_token&#x60; on a later date. In that case, the new &#x60;account_id&#x60; will be different from the old &#x60;account_id&#x60;.  Like all Plaid identifiers, the &#x60;account_id&#x60; is case sensitive.
+  , accountAssetsPersistentAccountId :: !(Maybe Text) -- "persistent_account_id" - A unique and persistent identifier for accounts that can be used to trace multiple instances of the same account across different Items for depository accounts. This is currently only supported for Chase Items. Because Chase accounts have a different account number each time they are linked, this field may be used instead of the account number to uniquely identify a Chase account across multiple Items for payments use cases, helping to reduce duplicate Items or attempted fraud. In Sandbox, this field may be populated for any account; in Production, it will only be populated for Chase accounts.
   , accountAssetsBalances :: !(AccountBalance) -- ^ /Required/ "balances"
   , accountAssetsMask :: !(Maybe Text) -- ^ "mask" - The last 2-4 alphanumeric characters of an account&#39;s official account number. Note that the mask may be non-unique between an Item&#39;s accounts, and it may also not match the mask that the bank displays to the user.
   , accountAssetsName :: !(Text) -- ^ /Required/ "name" - The name of the account, either assigned by the user or by the financial institution itself
@@ -167,6 +168,7 @@ instance A.FromJSON AccountAssets where
   parseJSON = A.withObject "AccountAssets" $ \o ->
     AccountAssets
       <$> (o .:  "account_id")
+      <*> (o .:  "persistent_account_id")
       <*> (o .:  "balances")
       <*> (o .:? "mask")
       <*> (o .:  "name")
@@ -184,6 +186,7 @@ instance A.ToJSON AccountAssets where
   toJSON AccountAssets {..} =
    _omitNulls
       [ "account_id" .= accountAssetsAccountId
+      , "persistent_account_id" .= accountAssetsPersistentAccountId
       , "balances" .= accountAssetsBalances
       , "mask" .= accountAssetsMask
       , "name" .= accountAssetsName
@@ -210,6 +213,7 @@ mkAccountAssets
 mkAccountAssets accountAssetsAccountId accountAssetsBalances accountAssetsName accountAssetsType accountAssetsSubtype accountAssetsOwners =
   AccountAssets
   { accountAssetsAccountId
+  , accountAssetsPersistentAccountId = Nothing
   , accountAssetsBalances
   , accountAssetsMask = Nothing
   , accountAssetsName
@@ -319,6 +323,7 @@ mkAccountBalance accountBalanceCurrent =
 -- A single account at a financial institution.
 data AccountBase = AccountBase
   { accountBaseAccountId :: !(Text) -- ^ /Required/ "account_id" - Plaid’s unique identifier for the account. This value will not change unless Plaid can&#39;t reconcile the account with the data returned by the financial institution. This may occur, for example, when the name of the account changes. If this happens a new &#x60;account_id&#x60; will be assigned to the account.  The &#x60;account_id&#x60; can also change if the &#x60;access_token&#x60; is deleted and the same credentials that were used to generate that &#x60;access_token&#x60; are used to generate a new &#x60;access_token&#x60; on a later date. In that case, the new &#x60;account_id&#x60; will be different from the old &#x60;account_id&#x60;.  Like all Plaid identifiers, the &#x60;account_id&#x60; is case sensitive.
+  , accountBasePersistentAccountId :: !(Maybe Text) -- "persistent_account_id" - A unique and persistent identifier for accounts that can be used to trace multiple instances of the same account across different Items for depository accounts. This is currently only supported for Chase Items. Because Chase accounts have a different account number each time they are linked, this field may be used instead of the account number to uniquely identify a Chase account across multiple Items for payments use cases, helping to reduce duplicate Items or attempted fraud. In Sandbox, this field may be populated for any account; in Production, it will only be populated for Chase accounts.
   , accountBaseBalances :: !(AccountBalance) -- ^ /Required/ "balances"
   , accountBaseMask :: !(Maybe Text) -- ^ "mask" - The last 2-4 alphanumeric characters of an account&#39;s official account number. Note that the mask may be non-unique between an Item&#39;s accounts, and it may also not match the mask that the bank displays to the user.
   , accountBaseName :: !(Text) -- ^ /Required/ "name" - The name of the account, either assigned by the user or by the financial institution itself
@@ -333,6 +338,7 @@ instance A.FromJSON AccountBase where
   parseJSON = A.withObject "AccountBase" $ \o ->
     AccountBase
       <$> (o .:  "account_id")
+      <*> (o .:  "persistent_account_id")
       <*> (o .:  "balances")
       <*> (o .:? "mask")
       <*> (o .:  "name")
@@ -346,6 +352,7 @@ instance A.ToJSON AccountBase where
   toJSON AccountBase {..} =
    _omitNulls
       [ "account_id" .= accountBaseAccountId
+      , "persistent_account_id" .= accountBasePersistentAccountId
       , "balances" .= accountBaseBalances
       , "mask" .= accountBaseMask
       , "name" .= accountBaseName
@@ -367,6 +374,7 @@ mkAccountBase
 mkAccountBase accountBaseAccountId accountBaseBalances accountBaseName accountBaseType accountBaseSubtype =
   AccountBase
   { accountBaseAccountId
+  , accountBasePersistentAccountId = Nothing
   , accountBaseBalances
   , accountBaseMask = Nothing
   , accountBaseName
