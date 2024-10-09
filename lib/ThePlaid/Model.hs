@@ -7792,7 +7792,8 @@ data LinkTokenCreateRequest = LinkTokenCreateRequest
   , linkTokenCreateRequestCountryCodes :: !([CountryCode]) -- ^ /Required/ "country_codes" - Specify an array of Plaid-supported country codes using the ISO-3166-1 alpha-2 country code standard. Institutions from all listed countries will be shown.  Supported country codes are: &#x60;US&#x60;, &#x60;CA&#x60;, &#x60;ES&#x60;, &#x60;FR&#x60;, &#x60;GB&#x60;, &#x60;IE&#x60;, &#x60;NL&#x60;. Example value: &#x60;[&#39;US&#39;, &#39;CA&#39;]&#x60;.  If Link is launched with multiple country codes, only products that you are enabled for in all countries will be used by Link. Note that while all countries are enabled by default in Sandbox and Development, in Production only US and Canada are enabled by default. To gain access to European institutions in the Production environment, [file a product access Support ticket](https://dashboard.plaid.com/support/new/product-and-development/product-troubleshooting/request-product-access) via the Plaid dashboard. If you initialize with a European country code, your users will see the European consent panel during the Link flow.  If using a Link customization, make sure the country codes in the customization match those specified in &#x60;country_codes&#x60;. If both &#x60;country_codes&#x60; and a Link customization are used, the value in &#x60;country_codes&#x60; may override the value in the customization.  If using the Auth features Instant Match, Same-day Micro-deposits, or Automated Micro-deposits, &#x60;country_codes&#x60; must be set to &#x60;[&#39;US&#39;]&#x60;.
   , linkTokenCreateRequestUser :: !(LinkTokenCreateRequestUser) -- ^ /Required/ "user"
   , linkTokenCreateRequestProducts :: !(Maybe [Products]) -- ^ "products" - List of Plaid product(s) you wish to use. If launching Link in update mode, should be omitted; required otherwise. Valid products are:  &#x60;transactions&#x60;, &#x60;auth&#x60;, &#x60;identity&#x60;, &#x60;assets&#x60;, &#x60;investments&#x60;, &#x60;liabilities&#x60;, &#x60;payment_initiation&#x60;, &#x60;deposit_switch&#x60;  Example: &#x60;[&#39;auth&#39;, &#39;transactions&#39;]&#x60;  &#x60;balance&#x60; is *not* a valid value, the Balance product does not require explicit initalization and will automatically be initialized when any other product is initialized.  Only institutions that support *all* requested products will be shown in Link; to maximize the number of institutions listed, it is recommended to initialize Link with the minimal product set required for your use case. Additional products can be added after Link initialization by calling the relevant endpoints. For details and exceptions, see [Choosing when to initialize products](/docs/link/best-practices/#choosing-when-to-initialize-products).  In Production, you will be billed for each product that you specify when initializing Link. Note that a product cannot be removed from an Item once the Item has been initialized with that product. To stop billing on an Item for subscription-based products, such as Liabilities, Investments, and Transactions, remove the Item via &#x60;/item/remove&#x60;.
- , linkTokenCreateRequiredIfSupportedProducts :: !(Maybe [Products]) -- ^ "required_if_supported_products" - List of Plaid product(s) you wish to use only if the institution and account(s) selected by the user support the product. Institutions that do not support these products will still be shown in Link. The products will only be extracted and billed if the user selects an institution and account type that supports them. There should be no overlap between products and required_if_supported_products. The products array must have at least one product. For more details on using this feature, see Required if Supported Products. https://plaid.com/docs/link/initializing-products/#required-if-supported-products  Possible values: auth, identity, investments, liabilities, transactions, statements
+  , linkTokenCreateRequestRequiredIfSupportedProducts :: !(Maybe [RequiredIfSupportedProducts]) -- ^ "required_if_supported_products" - List of Plaid product(s) you wish to use only if the institution and account(s) selected by the user support the product. Institutions that do not support these products will still be shown in Link. The products will only be extracted and billed if the user selects an institution and account type that supports them. There should be no overlap between products and required_if_supported_products. The products array must have at least one product. For more details on using this feature, see Required if Supported Products. https://plaid.com/docs/link/initializing-products/#required-if-supported-products  Possible values: auth, identity, investments, liabilities, transactions, statements
+  , linkTokenCreateRequestAdditionalConsentedProducts :: !(Maybe [AdditionalConsentedProducts]) -- ^ "additional_consented_products" - List of additional Plaid product(s) you wish to collect consent for to support your use case. These products will not be billed until you start using them by calling the relevant endpoints.
   , linkTokenCreateRequestWebhook :: !(Maybe Text) -- ^ "webhook" - The destination URL to which any webhooks should be sent.
   , linkTokenCreateRequestAccessToken :: !(Maybe AccessToken) -- ^ "access_token" - The &#x60;access_token&#x60; associated with the Item to update, used when updating or modifying an existing &#x60;access_token&#x60;. Used when launching Link in update mode, when completing the Same-day (manual) Micro-deposit flow, or (optionally) when initializing Link as part of the Payment Initiation (UK and Europe) flow.
   , linkTokenCreateRequestLinkCustomizationName :: !(Maybe Text) -- ^ "link_customization_name" - The name of the Link customization from the Plaid Dashboard to be applied to Link. If not specified, the &#x60;default&#x60; customization will be used. When using a Link customization, the language in the customization must match the language selected via the &#x60;language&#x60; parameter, and the countries in the customization should match the country codes selected via &#x60;country_codes&#x60;.
@@ -7819,6 +7820,7 @@ instance A.FromJSON LinkTokenCreateRequest where
       <*> (o .:  "user")
       <*> (o .:? "products")
       <*> (o .:? "required_if_supported_products")
+      <*> (o .:? "additional_consented_products")
       <*> (o .:? "webhook")
       <*> (o .:? "access_token")
       <*> (o .:? "link_customization_name")
@@ -7843,7 +7845,8 @@ instance A.ToJSON LinkTokenCreateRequest where
       , "country_codes" .= linkTokenCreateRequestCountryCodes
       , "user" .= linkTokenCreateRequestUser
       , "products" .= linkTokenCreateRequestProducts
-      , "required_if_supported_products" .= linkTokenCreateRequiredIfSupportedProducts
+      , "required_if_supported_products" .= linkTokenCreateRequestRequiredIfSupportedProducts
+      , "additional_consented_products" .= linkTokenCreateRequestAdditionalConsentedProducts
       , "webhook" .= linkTokenCreateRequestWebhook
       , "access_token" .= linkTokenCreateRequestAccessToken
       , "link_customization_name" .= linkTokenCreateRequestLinkCustomizationName
@@ -7875,7 +7878,8 @@ mkLinkTokenCreateRequest linkTokenCreateRequestClientName linkTokenCreateRequest
   , linkTokenCreateRequestCountryCodes
   , linkTokenCreateRequestUser
   , linkTokenCreateRequestProducts = Nothing
-  , linkTokenCreateRequiredIfSupportedProducts = Nothing
+  , linkTokenCreateRequestRequiredIfSupportedProducts = Nothing
+  , linkTokenCreateRequestAdditionalConsentedProducts = Nothing
   , linkTokenCreateRequestWebhook = Nothing
   , linkTokenCreateRequestAccessToken = Nothing
   , linkTokenCreateRequestLinkCustomizationName = Nothing
@@ -7975,9 +7979,10 @@ mkLinkTokenCreateRequestAccountSubtypes =
 
 -- ** LinkTokenCreateRequestUpdateDict
 -- | LinkTokenCreateRequestUpdateDict
-newtype LinkTokenCreateRequestUpdateDict =
+data LinkTokenCreateRequestUpdateDict =
   LinkTokenCreateRequestUpdateDict
-    { linkTokenCreateRequestUpdateDictAccountSelectionEnabled :: Bool
+    { linkTokenCreateRequestUpdateDictAccountSelectionEnabled :: Bool,
+      linkTokenCreateRequestUpdateDictReauthorizationEnabled :: Bool
   } deriving (P.Show, P.Eq, P.Typeable)
 
 
@@ -7986,12 +7991,14 @@ instance A.FromJSON LinkTokenCreateRequestUpdateDict where
   parseJSON = A.withObject "LinkTokenCreateRequestUpdateDict" $ \o ->
     LinkTokenCreateRequestUpdateDict
       <$> (o .: "account_selection_enabled")
+      <*> (o .: "reauthorization_enabled")
 
 -- | ToJSON LinkTokenCreateRequestUpdateDict
 instance A.ToJSON LinkTokenCreateRequestUpdateDict where
   toJSON LinkTokenCreateRequestUpdateDict {..} =
    _omitNulls
-      [ "account_selection_enabled" .= linkTokenCreateRequestUpdateDictAccountSelectionEnabled
+      [ "account_selection_enabled" .= linkTokenCreateRequestUpdateDictAccountSelectionEnabled,
+        "reauthorization_enabled" .= linkTokenCreateRequestUpdateDictReauthorizationEnabled
       ]
 
 -- | Construct a value of type 'LinkTokenCreateRequestAccountSubtypes' (by applying it's required fields, if any)
@@ -7999,7 +8006,8 @@ mkLinkTokenCreateRequestUpdateDict
   :: LinkTokenCreateRequestUpdateDict
 mkLinkTokenCreateRequestUpdateDict =
   LinkTokenCreateRequestUpdateDict
-  { linkTokenCreateRequestUpdateDictAccountSelectionEnabled = True
+  { linkTokenCreateRequestUpdateDictAccountSelectionEnabled = True,
+    linkTokenCreateRequestUpdateDictReauthorizationEnabled = False
   }
 
 -- ** LinkTokenCreateRequestDepositSwitch
@@ -15359,7 +15367,7 @@ toE'WebhookCode = \case
 data Products
   = Products'Assets -- ^ @"assets"@
   | Products'Auth -- ^ @"auth"@
-  | Products'Balance -- ^ @"balance"@
+  | Products'Balance_plus -- ^ @"balance_plus"@
   | Products'Identity -- ^ @"identity"@
   | Products'Investments -- ^ @"investments"@
   | Products'Liabilities -- ^ @"liabilities"@
@@ -15380,7 +15388,7 @@ instance P.Enum Products where
   fromEnum = \case
     Products'Assets -> 0
     Products'Auth -> 1
-    Products'Balance -> 2
+    Products'Balance_plus -> 2
     Products'Identity -> 3
     Products'Investments -> 4
     Products'Liabilities -> 5
@@ -15395,7 +15403,7 @@ instance P.Enum Products where
   toEnum = \case
     0 -> Products'Assets
     1 -> Products'Auth
-    2 -> Products'Balance
+    2 -> Products'Balance_plus
     3 -> Products'Identity
     4 -> Products'Investments 
     5 -> Products'Liabilities
@@ -15419,7 +15427,7 @@ fromProducts :: Products -> Text
 fromProducts = \case
   Products'Assets -> "assets"
   Products'Auth -> "auth"
-  Products'Balance -> "balance"
+  Products'Balance_plus -> "balance_plus"
   Products'Identity -> "identity"
   Products'Investments -> "investments"
   Products'Liabilities -> "liabilities"
@@ -15436,7 +15444,7 @@ toProducts :: Text -> P.Either String Products
 toProducts = \case
   "assets" -> P.Right Products'Assets
   "auth" -> P.Right Products'Auth
-  "balance" -> P.Right Products'Balance
+  "balance_plus" -> P.Right Products'Balance_plus
   "identity" -> P.Right Products'Identity
   "investments" -> P.Right Products'Investments
   "liabilities" -> P.Right Products'Liabilities
@@ -15448,6 +15456,144 @@ toProducts = \case
   "recurring_transactions" -> P.Right Products'RecurringTransactions
   unknownProduct -> P.Right (Products'UNKNOWN unknownProduct)
   s -> P.Left $ "toProducts: enum parse failure: " P.++ P.show s
+  
+
+
+-- ** RequiredIfSupportedProducts
+
+data RequiredIfSupportedProducts
+  = RequiredIfSupportedProducts'Auth -- ^ @"auth"@
+  | RequiredIfSupportedProducts'Identity -- ^ @"identity"@
+  | RequiredIfSupportedProducts'Investments -- ^ @"investments"@
+  | RequiredIfSupportedProducts'Liabilities -- ^ @"liabilities"@
+  | RequiredIfSupportedProducts'Transactions -- ^ @"transactions"@
+  | RequiredIfSupportedProducts'Statements -- ^ @"statements"@
+  | RequiredIfSupportedProducts'UNKNOWN Text -- Plaid could dynamically add new RequiredIfSupportedProducts. Exclude fails for such cases.
+  deriving (P.Show, P.Eq, P.Typeable, P.Ord)
+
+instance P.Bounded RequiredIfSupportedProducts where
+  minBound = P.toEnum 0
+  maxBound = P.toEnum 12
+
+instance P.Enum RequiredIfSupportedProducts where
+  fromEnum = \case
+    RequiredIfSupportedProducts'Auth -> 0
+    RequiredIfSupportedProducts'Identity -> 1
+    RequiredIfSupportedProducts'Investments -> 2
+    RequiredIfSupportedProducts'Liabilities -> 3
+    RequiredIfSupportedProducts'Transactions -> 4
+    RequiredIfSupportedProducts'Statements -> 5
+    RequiredIfSupportedProducts'UNKNOWN _ -> 6
+
+  toEnum = \case
+    0 -> RequiredIfSupportedProducts'Auth 
+    1 -> RequiredIfSupportedProducts'Identity 
+    2 -> RequiredIfSupportedProducts'Investments 
+    3 -> RequiredIfSupportedProducts'Liabilities 
+    4 -> RequiredIfSupportedProducts'Transactions
+    5 -> RequiredIfSupportedProducts'Statements
+    _ -> RequiredIfSupportedProducts'UNKNOWN ""
+
+
+instance A.ToJSON RequiredIfSupportedProducts where toJSON = A.toJSON . fromRequiredIfSupportedProducts
+instance A.FromJSON RequiredIfSupportedProducts where parseJSON o = P.either P.fail (pure . P.id) . toRequiredIfSupportedProducts =<< A.parseJSON o
+instance WH.ToHttpApiData RequiredIfSupportedProducts where toQueryParam = WH.toQueryParam . fromRequiredIfSupportedProducts
+instance WH.FromHttpApiData RequiredIfSupportedProducts where parseQueryParam o = WH.parseQueryParam o >>= P.left T.pack . toRequiredIfSupportedProducts
+instance MimeRender MimeMultipartFormData RequiredIfSupportedProducts where mimeRender _ = mimeRenderDefaultMultipartFormData
+
+-- | unwrap 'RequiredIfSupportedProducts' enum
+fromRequiredIfSupportedProducts :: RequiredIfSupportedProducts -> Text
+fromRequiredIfSupportedProducts = \case
+  RequiredIfSupportedProducts'Auth -> "auth"
+  RequiredIfSupportedProducts'Identity -> "identity"
+  RequiredIfSupportedProducts'Investments -> "investments"
+  RequiredIfSupportedProducts'Liabilities -> "liabilities"
+  RequiredIfSupportedProducts'Transactions -> "transactions"
+  RequiredIfSupportedProducts'Statements -> "statements"
+  RequiredIfSupportedProducts'UNKNOWN unknownProduct -> unknownProduct
+
+-- | parse 'RequiredIfSupportedProducts' enum
+toRequiredIfSupportedProducts :: Text -> P.Either String RequiredIfSupportedProducts
+toRequiredIfSupportedProducts = \case
+  "auth" -> P.Right RequiredIfSupportedProducts'Auth
+  "identity" -> P.Right RequiredIfSupportedProducts'Identity
+  "investments" -> P.Right RequiredIfSupportedProducts'Investments
+  "liabilities" -> P.Right RequiredIfSupportedProducts'Liabilities
+  "transactions" -> P.Right RequiredIfSupportedProducts'Transactions
+  "statements" -> P.Right RequiredIfSupportedProducts'Statements
+  unknownProduct -> P.Right (RequiredIfSupportedProducts'UNKNOWN unknownProduct)
+  s -> P.Left $ "toRequiredIfSupportedProducts: enum parse failure: " P.++ P.show s
+
+
+-- ** AdditionalConsentedProducts
+
+data AdditionalConsentedProducts
+  = AdditionalConsentedProducts'Auth -- ^ @"auth"@
+  | AdditionalConsentedProducts'Balance_plus -- ^ @"balance_plus"@
+  | AdditionalConsentedProducts'Identity -- ^ @"identity"@
+  | AdditionalConsentedProducts'Investments -- ^ @"investments"@
+  | AdditionalConsentedProducts'Liabilities -- ^ @"liabilities"@
+  | AdditionalConsentedProducts'Transactions -- ^ @"transactions"@
+  | AdditionalConsentedProducts'Signal -- ^ @"signal"@
+  | AdditionalConsentedProducts'UNKNOWN Text -- Plaid could dynamically add new AdditionalConsentedProducts. Exclude fails for such cases.
+  deriving (P.Show, P.Eq, P.Typeable, P.Ord)
+
+instance P.Bounded AdditionalConsentedProducts where
+  minBound = P.toEnum 0
+  maxBound = P.toEnum 12
+
+instance P.Enum AdditionalConsentedProducts where
+  fromEnum = \case
+    AdditionalConsentedProducts'Auth -> 0
+    AdditionalConsentedProducts'Balance_plus -> 1
+    AdditionalConsentedProducts'Identity -> 2
+    AdditionalConsentedProducts'Investments -> 3
+    AdditionalConsentedProducts'Liabilities -> 4
+    AdditionalConsentedProducts'Transactions -> 5
+    AdditionalConsentedProducts'Signal -> 6
+    AdditionalConsentedProducts'UNKNOWN _ -> 7
+
+  toEnum = \case
+    0 -> AdditionalConsentedProducts'Auth 
+    1 -> AdditionalConsentedProducts'Balance_plus 
+    2 -> AdditionalConsentedProducts'Identity 
+    3 -> AdditionalConsentedProducts'Investments 
+    4 -> AdditionalConsentedProducts'Liabilities 
+    5 -> AdditionalConsentedProducts'Transactions
+    6 -> AdditionalConsentedProducts'Signal
+    _ -> AdditionalConsentedProducts'UNKNOWN ""
+
+
+instance A.ToJSON AdditionalConsentedProducts where toJSON = A.toJSON . fromAdditionalConsentedProducts
+instance A.FromJSON AdditionalConsentedProducts where parseJSON o = P.either P.fail (pure . P.id) . toAdditionalConsentedProducts =<< A.parseJSON o
+instance WH.ToHttpApiData AdditionalConsentedProducts where toQueryParam = WH.toQueryParam . fromAdditionalConsentedProducts
+instance WH.FromHttpApiData AdditionalConsentedProducts where parseQueryParam o = WH.parseQueryParam o >>= P.left T.pack . toAdditionalConsentedProducts
+instance MimeRender MimeMultipartFormData AdditionalConsentedProducts where mimeRender _ = mimeRenderDefaultMultipartFormData
+
+-- | unwrap 'AdditionalConsentedProducts' enum
+fromAdditionalConsentedProducts :: AdditionalConsentedProducts -> Text
+fromAdditionalConsentedProducts = \case
+  AdditionalConsentedProducts'Auth -> "auth"
+  AdditionalConsentedProducts'Balance_plus -> "balance_plus"
+  AdditionalConsentedProducts'Identity -> "identity"
+  AdditionalConsentedProducts'Investments -> "investments"
+  AdditionalConsentedProducts'Liabilities -> "liabilities"
+  AdditionalConsentedProducts'Transactions -> "transactions"
+  AdditionalConsentedProducts'Signal -> "signal"
+  AdditionalConsentedProducts'UNKNOWN unknownProduct -> unknownProduct
+
+-- | parse 'AdditionalConsentedProducts' enum
+toAdditionalConsentedProducts :: Text -> P.Either String AdditionalConsentedProducts
+toAdditionalConsentedProducts = \case
+  "auth" -> P.Right AdditionalConsentedProducts'Auth
+  "balance_plus" -> P.Right AdditionalConsentedProducts'Balance_plus
+  "identity" -> P.Right AdditionalConsentedProducts'Identity
+  "investments" -> P.Right AdditionalConsentedProducts'Investments
+  "liabilities" -> P.Right AdditionalConsentedProducts'Liabilities
+  "transactions" -> P.Right AdditionalConsentedProducts'Transactions
+  "signal" -> P.Right AdditionalConsentedProducts'Signal
+  unknownProduct -> P.Right (AdditionalConsentedProducts'UNKNOWN unknownProduct)
+  s -> P.Left $ "toAdditionalConsentedProducts: enum parse failure: " P.++ P.show s
 
 
 -- ** TransactionCode

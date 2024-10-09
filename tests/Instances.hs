@@ -2016,7 +2016,7 @@ genLinkTokenAccountFilters n =
     <*> arbitraryReducedMaybe n -- linkTokenAccountFiltersInvestment :: Maybe InvestmentFilter
   
 instance Arbitrary LinkTokenCreateRequestUpdateDict where
-  arbitrary = LinkTokenCreateRequestUpdateDict <$> arbitrary
+  arbitrary = LinkTokenCreateRequestUpdateDict <$> arbitrary <*> arbitrary
   
 instance Arbitrary LinkTokenCreateRequestAuthOptions where
   arbitrary = sized genLinkTokenCreateRequestAuthOptions
@@ -2045,11 +2045,12 @@ genLinkTokenCreateRequest n =
     <*> arbitraryReduced n -- linkTokenCreateRequestCountryCodes :: [CountryCode]
     <*> arbitraryReduced n -- linkTokenCreateRequestUser :: LinkTokenCreateRequestUser
     <*> arbitraryReducedMaybe n -- linkTokenCreateRequestProducts :: Maybe [Products]
+    <*> arbitraryReducedMaybe n -- linkTokenCreateRequestRequiredIfSupportedProducts :: Maybe [RequiredIfSupportedProducts]
+    <*> arbitraryReducedMaybe n -- linkTokenCreateRequestAdditionalConsentedProducts :: Maybe [AdditionalConsentedProducts]
     <*> arbitraryReducedMaybe n -- linkTokenCreateRequestWebhook :: Maybe Text
     <*> arbitraryReducedMaybe n -- linkTokenCreateRequestAccessToken :: Maybe Text
     <*> arbitraryReducedMaybe n -- linkTokenCreateRequestLinkCustomizationName :: Maybe Text
     <*> arbitraryReducedMaybe n -- linkTokenCreateRequestRedirectUri :: Maybe Text
-    <*> arbitraryReducedMaybe n -- linkTokenCreateRequestAndroidPackageName :: Maybe Text
     <*> arbitraryReducedMaybe n -- linkTokenCreateRequestAndroidPackageName :: Maybe Text
     <*> arbitraryReducedMaybe n -- linkTokenCreateRequestAccountFilters :: Maybe LinkTokenAccountFilters
     <*> arbitraryReducedMaybe n -- linkTokenCreateRequestInstitutionId :: Maybe Text
@@ -3615,6 +3616,12 @@ instance Arbitrary E'WebhookCode where
   arbitrary = arbitraryBoundedEnum
 
 instance Arbitrary Products where
+  arbitrary = arbitraryBoundedEnum
+  
+instance Arbitrary RequiredIfSupportedProducts where
+  arbitrary = arbitraryBoundedEnum
+
+instance Arbitrary AdditionalConsentedProducts where
   arbitrary = arbitraryBoundedEnum
 
 instance Arbitrary TransactionCode where
