@@ -17,7 +17,7 @@ homepage:       https://openapi-generator.tech
 author:         Author Name Here
 maintainer:     author.name@email.com
 copyright:      YEAR - AUTHOR
-license:        UnspecifiedLicense
+license:        OtherLicense
 build-type:     Simple
 cabal-version:  >= 1.10
 
@@ -43,7 +43,7 @@ library
     , containers >=0.5.0.0 && <0.8
     , deepseq >= 1.4 && <1.6
     , exceptions >= 0.4
-    , http-api-data >= 0.3.4 && <0.5
+    , http-api-data >= 0.3.4 && <=0.6.1
     , http-client >= 0.7 && < 0.8
     , http-client-tls
     , http-media >= 0.4 && < 0.9
@@ -54,11 +54,11 @@ library
     , network >=2.6.2 && <3.9
     , random >=1.1
     , safe-exceptions <0.2
-    , text >=0.11 && <1.3
+    , text >=0.11 && <=2.1.2
     , time >=1.5
     , transformers >=0.4.0.0
     , unordered-containers
-    , vector >=0.10.9 && <0.13
+    , vector >=0.10.9 && <=0.13.2.0
   other-modules:
       Paths_the_plaid
   exposed-modules:

@@ -12802,6 +12802,15 @@ instance A.FromJSON PersonalFinanceCategory where
       <$> (o .: "primary")
       <*> (o .: "detailed")
 
+-- | ToJSON PersonalFinanceCategory
+instance A.ToJSON PersonalFinanceCategory where
+  toJSON PersonalFinanceCategory {..} =
+   _omitNulls
+      [ "primary" .= personalFinanceCategoryPrimary
+      , "detailed" .= personalFinanceCategoryDetailed
+      ]
+
+
 -- | FromJSON Transaction
 instance A.FromJSON Transaction where
   parseJSON = A.withObject "Transaction" $ \o ->
@@ -12854,6 +12863,7 @@ instance A.ToJSON Transaction where
       , "amount" .= transactionAmount
       , "account_id" .= transactionAccountId
       , "transaction_code" .= transactionTransactionCode
+      , "personal_finance_category" .= transactionPersonalFinanceCategory
       ]
 
 
