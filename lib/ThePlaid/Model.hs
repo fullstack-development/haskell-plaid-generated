@@ -5568,6 +5568,7 @@ data Institution = Institution
   , institutionRoutingNumbers :: !(Maybe [Text]) -- ^ "routing_numbers" - A partial list of routing numbers associated with the institution. This list is provided for the purpose of looking up institutions by routing number. It is not comprehensive and should never be used as a complete list of routing numbers for an institution.
   , institutionOauth :: !(Bool) -- ^ /Required/ "oauth" - Indicates that the institution has an OAuth login flow. This is primarily relevant to institutions with European country codes.
   , institutionStatus :: !(Maybe InstitutionStatus) -- ^ "status"
+  , institutionAuthMetadata :: !(Maybe InstitutionAuthMetadata) -- ^ "auth_metadata"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON Institution
@@ -5584,6 +5585,7 @@ instance A.FromJSON Institution where
       <*> (o .:? "routing_numbers")
       <*> (o .:  "oauth")
       <*> (o .:? "status")
+      <*> (o .:? "auth_metadata")
 
 -- | ToJSON Institution
 instance A.ToJSON Institution where
@@ -5599,6 +5601,7 @@ instance A.ToJSON Institution where
       , "routing_numbers" .= institutionRoutingNumbers
       , "oauth" .= institutionOauth
       , "status" .= institutionStatus
+      , "auth_metadata" .= institutionAuthMetadata
       ]
 
 
@@ -5622,6 +5625,7 @@ mkInstitution institutionInstitutionId institutionName institutionProducts insti
   , institutionRoutingNumbers = Nothing
   , institutionOauth
   , institutionStatus = Nothing
+  , institutionAuthMetadata = Nothing
   }
 
 -- ** InstitutionStatus
@@ -5683,6 +5687,78 @@ mkInstitutionStatus institutionStatusItemLogins institutionStatusTransactionsUpd
   , institutionStatusIdentity
   , institutionStatusInvestmentsUpdates
   , institutionStatusHealthIncidents = Nothing
+  }
+
+-- ** InstitutionAuthMetadata
+-- | InstitutionAuthMetadata
+-- Metadata that captures information about the Auth features of an institution.
+data InstitutionAuthMetadata = InstitutionAuthMetadata
+  { institutionAuthMetadataSupportedMethods :: !(Maybe InstitutionSupportedMethods) -- ^ "supported_methods"
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON InstitutionAuthMetadata
+instance A.FromJSON InstitutionAuthMetadata where
+  parseJSON = A.withObject "InstitutionAuthMetadata" $ \o ->
+    InstitutionAuthMetadata
+      <$> (o .:? "supported_methods")
+
+-- | ToJSON InstitutionAuthMetadata
+instance A.ToJSON InstitutionAuthMetadata where
+  toJSON InstitutionAuthMetadata {..} =
+   _omitNulls
+      [ "supported_methods" .= institutionAuthMetadataSupportedMethods
+      ]
+
+-- | Construct a value of type 'InstitutionAuthMetadata' (by applying it's required fields, if any)
+mkInstitutionAuthMetadata
+  :: InstitutionAuthMetadata
+mkInstitutionAuthMetadata =
+  InstitutionAuthMetadata
+  { institutionAuthMetadataSupportedMethods = Nothing
+  }
+
+-- ** InstitutionSupportedMethods
+-- | InstitutionSupportedMethods
+-- Indicates which auth methods are supported by the institution.
+data InstitutionSupportedMethods = InstitutionSupportedMethods
+  { institutionSupportedMethodsAutomatedMicroDeposits :: !(Bool) -- ^ /Required/ "automated_micro_deposits" - Indicates if automated micro-deposits are supported.
+  , institutionSupportedMethodsInstantAuth :: !(Bool) -- ^ /Required/ "instant_auth" - Indicates if instant auth is supported.
+  , institutionSupportedMethodsInstantMatch :: !(Bool) -- ^ /Required/ "instant_match" - Indicates if instant match is supported.
+  , institutionSupportedMethodsInstantMicroDeposits :: !(Bool) -- ^ /Required/ "instant_micro_deposits" - Indicates if instant micro-deposits are supported.
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON InstitutionSupportedMethods
+instance A.FromJSON InstitutionSupportedMethods where
+  parseJSON = A.withObject "InstitutionSupportedMethods" $ \o ->
+    InstitutionSupportedMethods
+      <$> (o .:  "automated_micro_deposits")
+      <*> (o .:  "instant_auth")
+      <*> (o .:  "instant_match")
+      <*> (o .:  "instant_micro_deposits")
+
+-- | ToJSON InstitutionSupportedMethods
+instance A.ToJSON InstitutionSupportedMethods where
+  toJSON InstitutionSupportedMethods {..} =
+   _omitNulls
+      [ "automated_micro_deposits" .= institutionSupportedMethodsAutomatedMicroDeposits
+      , "instant_auth" .= institutionSupportedMethodsInstantAuth
+      , "instant_match" .= institutionSupportedMethodsInstantMatch
+      , "instant_micro_deposits" .= institutionSupportedMethodsInstantMicroDeposits
+      ]
+
+-- | Construct a value of type 'InstitutionSupportedMethods' (by applying it's required fields, if any)
+mkInstitutionSupportedMethods
+  :: Bool -- ^ 'institutionSupportedMethodsAutomatedMicroDeposits': Indicates if automated micro-deposits are supported.
+  -> Bool -- ^ 'institutionSupportedMethodsInstantAuth': Indicates if instant auth is supported.
+  -> Bool -- ^ 'institutionSupportedMethodsInstantMatch': Indicates if instant match is supported.
+  -> Bool -- ^ 'institutionSupportedMethodsInstantMicroDeposits': Indicates if instant micro-deposits are supported.
+  -> InstitutionSupportedMethods
+mkInstitutionSupportedMethods institutionSupportedMethodsAutomatedMicroDeposits institutionSupportedMethodsInstantAuth institutionSupportedMethodsInstantMatch institutionSupportedMethodsInstantMicroDeposits =
+  InstitutionSupportedMethods
+  { institutionSupportedMethodsAutomatedMicroDeposits
+  , institutionSupportedMethodsInstantAuth
+  , institutionSupportedMethodsInstantMatch
+  , institutionSupportedMethodsInstantMicroDeposits
   }
 
 -- ** InstitutionsGetByIdRequest

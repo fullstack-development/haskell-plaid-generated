@@ -1470,7 +1470,27 @@ genInstitution n =
     <*> arbitraryReducedMaybe n -- institutionRoutingNumbers :: Maybe [Text]
     <*> arbitrary -- institutionOauth :: Bool
     <*> arbitraryReducedMaybe n -- institutionStatus :: Maybe InstitutionStatus
+    <*> arbitraryReducedMaybe n -- institutionAuthMetadata :: Maybe InstitutionAuthMetadata
   
+instance Arbitrary InstitutionAuthMetadata where
+  arbitrary = sized genInstitutionAuthMetadata
+
+genInstitutionAuthMetadata :: Int -> Gen InstitutionAuthMetadata
+genInstitutionAuthMetadata n =
+  InstitutionAuthMetadata
+    <$> arbitraryReducedMaybe n -- institutionAuthMetadataSupportedMethods :: Maybe InstitutionSupportedMethods
+
+instance Arbitrary InstitutionSupportedMethods where
+  arbitrary = sized genInstitutionSupportedMethods
+
+genInstitutionSupportedMethods :: Int -> Gen InstitutionSupportedMethods
+genInstitutionSupportedMethods n =
+  InstitutionSupportedMethods
+    <$> arbitrary -- institutionSupportedMethodsAutomatedMicroDeposits :: Bool
+    <*> arbitrary -- institutionSupportedMethodsInstantAuth :: Bool
+    <*> arbitrary -- institutionSupportedMethodsInstantMatch :: Bool
+    <*> arbitrary -- institutionSupportedMethodsInstantMicroDeposits :: Bool
+
 instance Arbitrary InstitutionStatus where
   arbitrary = sized genInstitutionStatus
 
