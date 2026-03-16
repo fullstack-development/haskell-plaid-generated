@@ -1505,6 +1505,7 @@ genInstitutionsGetByIdRequestOptions n =
   InstitutionsGetByIdRequestOptions
     <$> arbitraryReducedMaybe n -- institutionsGetByIdRequestOptionsIncludeOptionalMetadata :: Maybe Bool
     <*> arbitraryReducedMaybe n -- institutionsGetByIdRequestOptionsIncludeStatus :: Maybe Bool
+    <*> arbitraryReducedMaybe n -- institutionsGetByIdRequestOptionsIncludeAuthMetadata :: Maybe Bool
   
 instance Arbitrary InstitutionsGetByIdResponse where
   arbitrary = sized genInstitutionsGetByIdResponse
