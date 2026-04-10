@@ -8648,7 +8648,7 @@ mkMortgageInterestRate =
 -- Contains details about a mortgage account.
 data MortgageLiability = MortgageLiability
   { mortgageLiabilityAccountId :: !(Maybe Text) -- ^ "account_id" - The ID of the account that this liability belongs to.
-  , mortgageLiabilityAccountNumber :: !(Text) -- ^ /Required/ "account_number" - The account number of the loan.
+  , mortgageLiabilityAccountNumber :: !(Maybe Text) -- ^ "account_number" - The account number of the loan.
   , mortgageLiabilityCurrentLateFee :: !(Maybe Double) -- ^ "current_late_fee" - The current outstanding amount charged for late payment.
   , mortgageLiabilityEscrowBalance :: !(Maybe Double) -- ^ "escrow_balance" - Total amount held in escrow to pay taxes and insurance on behalf of the borrower.
   , mortgageLiabilityHasPmi :: !(Maybe Bool) -- ^ "has_pmi" - Indicates whether the borrower has private mortgage insurance in effect.
@@ -8674,7 +8674,7 @@ instance A.FromJSON MortgageLiability where
   parseJSON = A.withObject "MortgageLiability" $ \o ->
     MortgageLiability
       <$> (o .:? "account_id")
-      <*> (o .:  "account_number")
+      <*> (o .:? "account_number")
       <*> (o .:? "current_late_fee")
       <*> (o .:? "escrow_balance")
       <*> (o .:? "has_pmi")
@@ -8723,12 +8723,11 @@ instance A.ToJSON MortgageLiability where
 
 -- | Construct a value of type 'MortgageLiability' (by applying it's required fields, if any)
 mkMortgageLiability
-  :: Text -- ^ 'mortgageLiabilityAccountNumber': The account number of the loan.
-  -> MortgageLiability
-mkMortgageLiability mortgageLiabilityAccountNumber =
+  :: MortgageLiability
+mkMortgageLiability =
   MortgageLiability
   { mortgageLiabilityAccountId = Nothing
-  , mortgageLiabilityAccountNumber
+  , mortgageLiabilityAccountNumber = Nothing
   , mortgageLiabilityCurrentLateFee = Nothing
   , mortgageLiabilityEscrowBalance = Nothing
   , mortgageLiabilityHasPmi = Nothing
