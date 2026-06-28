@@ -15688,7 +15688,7 @@ toAdditionalConsentedProducts = \case
 -- ** TransactionCode
 
 -- | Enum of 'Text' .
--- An identifier classifying the transaction type.  This field is only populated for European institutions. For institutions in the US and Canada, this field is set to `null`.  `adjustment:` Bank adjustment  `atm:` Cash deposit or withdrawal via an automated teller machine  `bank charge:` Charge or fee levied by the institution  `bill payment`: Payment of a bill  `cash:` Cash deposit or withdrawal  `cashback:` Cash withdrawal while making a debit card purchase  `cheque:` Document ordering the payment of money to another person or organization  `direct debit:` Automatic withdrawal of funds initiated by a third party at a regular interval  `interest:` Interest earned or incurred  `purchase:` Purchase made with a debit or credit card  `standing order:` Payment instructed by the account holder to a third party at a regular interval  `transfer:` Transfer of money between accounts
+-- An identifier classifying the transaction type.  This field is populated for European institutions, as well as certain institutions in the United States. For institutions where this classification is not available, this field is set to `null`.  `adjustment:` Bank adjustment  `atm:` Cash deposit or withdrawal via an automated teller machine  `bank charge:` Charge or fee levied by the institution  `bill payment`: Payment of a bill  `cash:` Cash deposit or withdrawal  `cashback:` Cash withdrawal while making a debit card purchase  `cheque:` Document ordering the payment of money to another person or organization  `direct debit:` Automatic withdrawal of funds initiated by a third party at a regular interval  `interest:` Interest earned or incurred  `payment:` One-off outbound payment not classified as a bill payment, direct debit, or standing order  `purchase:` Purchase made with a debit or credit card  `refund:` Merchant credit or return, such as a refund of a prior purchase  `standing order:` Payment instructed by the account holder to a third party at a regular interval  `transfer:` Transfer of money between accounts
 data TransactionCode
   = TransactionCode'Adjustment -- ^ @"adjustment"@
   | TransactionCode'Atm -- ^ @"atm"@
@@ -15699,7 +15699,9 @@ data TransactionCode
   | TransactionCode'Cheque -- ^ @"cheque"@
   | TransactionCode'Direct_debit -- ^ @"direct debit"@
   | TransactionCode'Interest -- ^ @"interest"@
+  | TransactionCode'Payment -- ^ @"payment"@
   | TransactionCode'Purchase -- ^ @"purchase"@
+  | TransactionCode'Refund -- ^ @"refund"@
   | TransactionCode'Standing_order -- ^ @"standing order"@
   | TransactionCode'Transfer -- ^ @"transfer"@
   | TransactionCode'Null -- ^ @"null"@
@@ -15723,7 +15725,9 @@ fromTransactionCode = \case
   TransactionCode'Cheque -> "cheque"
   TransactionCode'Direct_debit -> "direct debit"
   TransactionCode'Interest -> "interest"
+  TransactionCode'Payment -> "payment"
   TransactionCode'Purchase -> "purchase"
+  TransactionCode'Refund -> "refund"
   TransactionCode'Standing_order -> "standing order"
   TransactionCode'Transfer -> "transfer"
   TransactionCode'Null -> "null"
@@ -15740,7 +15744,9 @@ toTransactionCode = \case
   "cheque" -> P.Right TransactionCode'Cheque
   "direct debit" -> P.Right TransactionCode'Direct_debit
   "interest" -> P.Right TransactionCode'Interest
+  "payment" -> P.Right TransactionCode'Payment
   "purchase" -> P.Right TransactionCode'Purchase
+  "refund" -> P.Right TransactionCode'Refund
   "standing order" -> P.Right TransactionCode'Standing_order
   "transfer" -> P.Right TransactionCode'Transfer
   "null" -> P.Right TransactionCode'Null

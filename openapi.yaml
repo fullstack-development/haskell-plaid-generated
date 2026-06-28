@@ -10189,7 +10189,7 @@ components:
       description: |-
         An identifier classifying the transaction type.
 
-        This field is only populated for European institutions. For institutions in the US and Canada, this field is set to `null`.
+        This field is populated for European institutions, as well as certain institutions in the United States. For institutions where this classification is not available, this field is set to null.
 
         `adjustment:` Bank adjustment
 
@@ -10209,7 +10209,11 @@ components:
 
         `interest:` Interest earned or incurred
 
+        `payment:` One-off outbound payment not classified as a bill payment, direct debit, or standing order
+
         `purchase:` Purchase made with a debit or credit card
+
+        `refund:` Merchant credit or return, such as a refund of a prior purchase
 
         `standing order:` Payment instructed by the account holder to a third party at a regular interval
 
@@ -10224,7 +10228,9 @@ components:
       - cheque
       - direct debit
       - interest
+      - payment
       - purchase
+      - refund
       - standing order
       - transfer
       - null
