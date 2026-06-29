@@ -13898,7 +13898,49 @@ data ACHClass
   | ACHClass'Rck -- ^ @"rck"@
   | ACHClass'Tel -- ^ @"tel"@
   | ACHClass'Web -- ^ @"web"@
-  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
+  | ACHClass'UNKNOWN Text -- ^ Catch-all for values not recognized by this client; keeps the enum open.
+  deriving (P.Show, P.Eq, P.Typeable, P.Ord)
+
+instance P.Bounded ACHClass where
+  minBound = P.toEnum 0
+  maxBound = P.toEnum 15
+
+instance P.Enum ACHClass where
+  fromEnum = \case
+    ACHClass'Arc -> 0
+    ACHClass'Cbr -> 1
+    ACHClass'Ccd -> 2
+    ACHClass'Cie -> 3
+    ACHClass'Cor -> 4
+    ACHClass'Ctx -> 5
+    ACHClass'Iat -> 6
+    ACHClass'Mte -> 7
+    ACHClass'Pbr -> 8
+    ACHClass'Pop -> 9
+    ACHClass'Pos -> 10
+    ACHClass'Ppd -> 11
+    ACHClass'Rck -> 12
+    ACHClass'Tel -> 13
+    ACHClass'Web -> 14
+    ACHClass'UNKNOWN _ -> 15
+
+  toEnum = \case
+    0 -> ACHClass'Arc
+    1 -> ACHClass'Cbr
+    2 -> ACHClass'Ccd
+    3 -> ACHClass'Cie
+    4 -> ACHClass'Cor
+    5 -> ACHClass'Ctx
+    6 -> ACHClass'Iat
+    7 -> ACHClass'Mte
+    8 -> ACHClass'Pbr
+    9 -> ACHClass'Pop
+    10 -> ACHClass'Pos
+    11 -> ACHClass'Ppd
+    12 -> ACHClass'Rck
+    13 -> ACHClass'Tel
+    14 -> ACHClass'Web
+    _ -> ACHClass'UNKNOWN ""
 
 instance A.ToJSON ACHClass where toJSON = A.toJSON . fromACHClass
 instance A.FromJSON ACHClass where parseJSON o = P.either P.fail (pure . P.id) . toACHClass =<< A.parseJSON o
@@ -13924,6 +13966,7 @@ fromACHClass = \case
   ACHClass'Rck -> "rck"
   ACHClass'Tel -> "tel"
   ACHClass'Web -> "web"
+  ACHClass'UNKNOWN x -> x
 
 -- | parse 'ACHClass' enum
 toACHClass :: Text -> P.Either String ACHClass
@@ -13943,7 +13986,7 @@ toACHClass = \case
   "rck" -> P.Right ACHClass'Rck
   "tel" -> P.Right ACHClass'Tel
   "web" -> P.Right ACHClass'Web
-  s -> P.Left $ "toACHClass: enum parse failure: " P.++ P.show s
+  s -> P.Right (ACHClass'UNKNOWN s)
 
 
 -- ** AccountSubtype
@@ -14017,7 +14060,151 @@ data AccountSubtype
   | AccountSubtype'Safe_deposit -- ^ @"safe deposit"@
   | AccountSubtype'Sarsep -- ^ @"sarsep"@
   | AccountSubtype'Null -- ^ @"null"@
-  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum, Generic)
+  | AccountSubtype'UNKNOWN Text -- ^ Catch-all for values not recognized by this client; keeps the enum open.
+  deriving (P.Show, P.Eq, P.Typeable, P.Ord, Generic)
+
+instance P.Bounded AccountSubtype where
+  minBound = P.toEnum 0
+  maxBound = P.toEnum 66
+
+instance P.Enum AccountSubtype where
+  fromEnum = \case
+    AccountSubtype'401a -> 0
+    AccountSubtype'401k -> 1
+    AccountSubtype'403B -> 2
+    AccountSubtype'457b -> 3
+    AccountSubtype'529 -> 4
+    AccountSubtype'Brokerage -> 5
+    AccountSubtype'Cash_isa -> 6
+    AccountSubtype'Education_savings_account -> 7
+    AccountSubtype'Gic -> 8
+    AccountSubtype'Health_reimbursement_arrangement -> 9
+    AccountSubtype'Hsa -> 10
+    AccountSubtype'Isa -> 11
+    AccountSubtype'Ira -> 12
+    AccountSubtype'Lif -> 13
+    AccountSubtype'Lira -> 14
+    AccountSubtype'Lrif -> 15
+    AccountSubtype'Lrsp -> 16
+    AccountSubtype'Non_taxable_brokerage_account -> 17
+    AccountSubtype'Other -> 18
+    AccountSubtype'Prif -> 19
+    AccountSubtype'Rdsp -> 20
+    AccountSubtype'Resp -> 21
+    AccountSubtype'Rlif -> 22
+    AccountSubtype'Rrif -> 23
+    AccountSubtype'Pension -> 24
+    AccountSubtype'Profit_sharing_plan -> 25
+    AccountSubtype'Retirement -> 26
+    AccountSubtype'Roth -> 27
+    AccountSubtype'Roth_401k -> 28
+    AccountSubtype'Rrsp -> 29
+    AccountSubtype'Sep_ira -> 30
+    AccountSubtype'Simple_ira -> 31
+    AccountSubtype'Sipp -> 32
+    AccountSubtype'Stock_plan -> 33
+    AccountSubtype'Thrift_savings_plan -> 34
+    AccountSubtype'Tfsa -> 35
+    AccountSubtype'Trust -> 36
+    AccountSubtype'Ugma -> 37
+    AccountSubtype'Utma -> 38
+    AccountSubtype'Variable_annuity -> 39
+    AccountSubtype'Credit_card -> 40
+    AccountSubtype'Paypal -> 41
+    AccountSubtype'Cd -> 42
+    AccountSubtype'Checking -> 43
+    AccountSubtype'Savings -> 44
+    AccountSubtype'Money_market -> 45
+    AccountSubtype'Prepaid -> 46
+    AccountSubtype'Auto -> 47
+    AccountSubtype'Commercial -> 48
+    AccountSubtype'Construction -> 49
+    AccountSubtype'Consumer -> 50
+    AccountSubtype'Home -> 51
+    AccountSubtype'Home_equity -> 52
+    AccountSubtype'Loan -> 53
+    AccountSubtype'Mortgage -> 54
+    AccountSubtype'Overdraft -> 55
+    AccountSubtype'Line_of_credit -> 56
+    AccountSubtype'Student -> 57
+    AccountSubtype'Cash_management -> 58
+    AccountSubtype'Keogh -> 59
+    AccountSubtype'Mutual_fund -> 60
+    AccountSubtype'Recurring -> 61
+    AccountSubtype'Rewards -> 62
+    AccountSubtype'Safe_deposit -> 63
+    AccountSubtype'Sarsep -> 64
+    AccountSubtype'Null -> 65
+    AccountSubtype'UNKNOWN _ -> 66
+
+  toEnum = \case
+    0 -> AccountSubtype'401a
+    1 -> AccountSubtype'401k
+    2 -> AccountSubtype'403B
+    3 -> AccountSubtype'457b
+    4 -> AccountSubtype'529
+    5 -> AccountSubtype'Brokerage
+    6 -> AccountSubtype'Cash_isa
+    7 -> AccountSubtype'Education_savings_account
+    8 -> AccountSubtype'Gic
+    9 -> AccountSubtype'Health_reimbursement_arrangement
+    10 -> AccountSubtype'Hsa
+    11 -> AccountSubtype'Isa
+    12 -> AccountSubtype'Ira
+    13 -> AccountSubtype'Lif
+    14 -> AccountSubtype'Lira
+    15 -> AccountSubtype'Lrif
+    16 -> AccountSubtype'Lrsp
+    17 -> AccountSubtype'Non_taxable_brokerage_account
+    18 -> AccountSubtype'Other
+    19 -> AccountSubtype'Prif
+    20 -> AccountSubtype'Rdsp
+    21 -> AccountSubtype'Resp
+    22 -> AccountSubtype'Rlif
+    23 -> AccountSubtype'Rrif
+    24 -> AccountSubtype'Pension
+    25 -> AccountSubtype'Profit_sharing_plan
+    26 -> AccountSubtype'Retirement
+    27 -> AccountSubtype'Roth
+    28 -> AccountSubtype'Roth_401k
+    29 -> AccountSubtype'Rrsp
+    30 -> AccountSubtype'Sep_ira
+    31 -> AccountSubtype'Simple_ira
+    32 -> AccountSubtype'Sipp
+    33 -> AccountSubtype'Stock_plan
+    34 -> AccountSubtype'Thrift_savings_plan
+    35 -> AccountSubtype'Tfsa
+    36 -> AccountSubtype'Trust
+    37 -> AccountSubtype'Ugma
+    38 -> AccountSubtype'Utma
+    39 -> AccountSubtype'Variable_annuity
+    40 -> AccountSubtype'Credit_card
+    41 -> AccountSubtype'Paypal
+    42 -> AccountSubtype'Cd
+    43 -> AccountSubtype'Checking
+    44 -> AccountSubtype'Savings
+    45 -> AccountSubtype'Money_market
+    46 -> AccountSubtype'Prepaid
+    47 -> AccountSubtype'Auto
+    48 -> AccountSubtype'Commercial
+    49 -> AccountSubtype'Construction
+    50 -> AccountSubtype'Consumer
+    51 -> AccountSubtype'Home
+    52 -> AccountSubtype'Home_equity
+    53 -> AccountSubtype'Loan
+    54 -> AccountSubtype'Mortgage
+    55 -> AccountSubtype'Overdraft
+    56 -> AccountSubtype'Line_of_credit
+    57 -> AccountSubtype'Student
+    58 -> AccountSubtype'Cash_management
+    59 -> AccountSubtype'Keogh
+    60 -> AccountSubtype'Mutual_fund
+    61 -> AccountSubtype'Recurring
+    62 -> AccountSubtype'Rewards
+    63 -> AccountSubtype'Safe_deposit
+    64 -> AccountSubtype'Sarsep
+    65 -> AccountSubtype'Null
+    _ -> AccountSubtype'UNKNOWN ""
 
 instance A.ToJSON AccountSubtype where toJSON = A.toJSON . fromAccountSubtype
 instance A.FromJSON AccountSubtype where parseJSON o = P.either P.fail (pure . P.id) . toAccountSubtype =<< A.parseJSON o
@@ -14094,6 +14281,7 @@ fromAccountSubtype = \case
   AccountSubtype'Safe_deposit -> "safe deposit"
   AccountSubtype'Sarsep -> "sarsep"
   AccountSubtype'Null -> "null"
+  AccountSubtype'UNKNOWN x -> x
 
 -- | parse 'AccountSubtype' enum
 toAccountSubtype :: Text -> P.Either String AccountSubtype
@@ -14164,7 +14352,7 @@ toAccountSubtype = \case
   "safe deposit" -> P.Right AccountSubtype'Safe_deposit
   "sarsep" -> P.Right AccountSubtype'Sarsep
   "null" -> P.Right AccountSubtype'Null
-  s -> P.Left $ "toAccountSubtype: enum parse failure: " P.++ P.show s
+  s -> P.Right (AccountSubtype'UNKNOWN s)
 
 
 -- ** AccountType
@@ -14178,7 +14366,31 @@ data AccountType
   | AccountType'Loan -- ^ @"loan"@
   | AccountType'Brokerage -- ^ @"brokerage"@
   | AccountType'Other -- ^ @"other"@
-  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
+  | AccountType'UNKNOWN Text -- ^ Catch-all for values not recognized by this client; keeps the enum open.
+  deriving (P.Show, P.Eq, P.Typeable, P.Ord)
+
+instance P.Bounded AccountType where
+  minBound = P.toEnum 0
+  maxBound = P.toEnum 6
+
+instance P.Enum AccountType where
+  fromEnum = \case
+    AccountType'Investment -> 0
+    AccountType'Credit -> 1
+    AccountType'Depository -> 2
+    AccountType'Loan -> 3
+    AccountType'Brokerage -> 4
+    AccountType'Other -> 5
+    AccountType'UNKNOWN _ -> 6
+
+  toEnum = \case
+    0 -> AccountType'Investment
+    1 -> AccountType'Credit
+    2 -> AccountType'Depository
+    3 -> AccountType'Loan
+    4 -> AccountType'Brokerage
+    5 -> AccountType'Other
+    _ -> AccountType'UNKNOWN ""
 
 instance A.ToJSON AccountType where toJSON = A.toJSON . fromAccountType
 instance A.FromJSON AccountType where parseJSON o = P.either P.fail (pure . P.id) . toAccountType =<< A.parseJSON o
@@ -14195,6 +14407,7 @@ fromAccountType = \case
   AccountType'Loan -> "loan"
   AccountType'Brokerage -> "brokerage"
   AccountType'Other -> "other"
+  AccountType'UNKNOWN x -> x
 
 -- | parse 'AccountType' enum
 toAccountType :: Text -> P.Either String AccountType
@@ -14205,7 +14418,7 @@ toAccountType = \case
   "loan" -> P.Right AccountType'Loan
   "brokerage" -> P.Right AccountType'Brokerage
   "other" -> P.Right AccountType'Other
-  s -> P.Left $ "toAccountType: enum parse failure: " P.++ P.show s
+  s -> P.Right (AccountType'UNKNOWN s)
 
 
 -- ** BankTransferDirection
@@ -14215,7 +14428,23 @@ toAccountType = \case
 data BankTransferDirection
   = BankTransferDirection'Outbound -- ^ @"outbound"@
   | BankTransferDirection'Inbound -- ^ @"inbound"@
-  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
+  | BankTransferDirection'UNKNOWN Text -- ^ Catch-all for values not recognized by this client; keeps the enum open.
+  deriving (P.Show, P.Eq, P.Typeable, P.Ord)
+
+instance P.Bounded BankTransferDirection where
+  minBound = P.toEnum 0
+  maxBound = P.toEnum 2
+
+instance P.Enum BankTransferDirection where
+  fromEnum = \case
+    BankTransferDirection'Outbound -> 0
+    BankTransferDirection'Inbound -> 1
+    BankTransferDirection'UNKNOWN _ -> 2
+
+  toEnum = \case
+    0 -> BankTransferDirection'Outbound
+    1 -> BankTransferDirection'Inbound
+    _ -> BankTransferDirection'UNKNOWN ""
 
 instance A.ToJSON BankTransferDirection where toJSON = A.toJSON . fromBankTransferDirection
 instance A.FromJSON BankTransferDirection where parseJSON o = P.either P.fail (pure . P.id) . toBankTransferDirection =<< A.parseJSON o
@@ -14228,13 +14457,14 @@ fromBankTransferDirection :: BankTransferDirection -> Text
 fromBankTransferDirection = \case
   BankTransferDirection'Outbound -> "outbound"
   BankTransferDirection'Inbound -> "inbound"
+  BankTransferDirection'UNKNOWN x -> x
 
 -- | parse 'BankTransferDirection' enum
 toBankTransferDirection :: Text -> P.Either String BankTransferDirection
 toBankTransferDirection = \case
   "outbound" -> P.Right BankTransferDirection'Outbound
   "inbound" -> P.Right BankTransferDirection'Inbound
-  s -> P.Left $ "toBankTransferDirection: enum parse failure: " P.++ P.show s
+  s -> P.Right (BankTransferDirection'UNKNOWN s)
 
 
 -- ** BankTransferEventType
@@ -14249,7 +14479,33 @@ data BankTransferEventType
   | BankTransferEventType'Reversed -- ^ @"reversed"@
   | BankTransferEventType'Receiver_pending -- ^ @"receiver_pending"@
   | BankTransferEventType'Receiver_posted -- ^ @"receiver_posted"@
-  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
+  | BankTransferEventType'UNKNOWN Text -- ^ Catch-all for values not recognized by this client; keeps the enum open.
+  deriving (P.Show, P.Eq, P.Typeable, P.Ord)
+
+instance P.Bounded BankTransferEventType where
+  minBound = P.toEnum 0
+  maxBound = P.toEnum 7
+
+instance P.Enum BankTransferEventType where
+  fromEnum = \case
+    BankTransferEventType'Pending -> 0
+    BankTransferEventType'Cancelled -> 1
+    BankTransferEventType'Failed -> 2
+    BankTransferEventType'Posted -> 3
+    BankTransferEventType'Reversed -> 4
+    BankTransferEventType'Receiver_pending -> 5
+    BankTransferEventType'Receiver_posted -> 6
+    BankTransferEventType'UNKNOWN _ -> 7
+
+  toEnum = \case
+    0 -> BankTransferEventType'Pending
+    1 -> BankTransferEventType'Cancelled
+    2 -> BankTransferEventType'Failed
+    3 -> BankTransferEventType'Posted
+    4 -> BankTransferEventType'Reversed
+    5 -> BankTransferEventType'Receiver_pending
+    6 -> BankTransferEventType'Receiver_posted
+    _ -> BankTransferEventType'UNKNOWN ""
 
 instance A.ToJSON BankTransferEventType where toJSON = A.toJSON . fromBankTransferEventType
 instance A.FromJSON BankTransferEventType where parseJSON o = P.either P.fail (pure . P.id) . toBankTransferEventType =<< A.parseJSON o
@@ -14267,6 +14523,7 @@ fromBankTransferEventType = \case
   BankTransferEventType'Reversed -> "reversed"
   BankTransferEventType'Receiver_pending -> "receiver_pending"
   BankTransferEventType'Receiver_posted -> "receiver_posted"
+  BankTransferEventType'UNKNOWN x -> x
 
 -- | parse 'BankTransferEventType' enum
 toBankTransferEventType :: Text -> P.Either String BankTransferEventType
@@ -14278,7 +14535,7 @@ toBankTransferEventType = \case
   "reversed" -> P.Right BankTransferEventType'Reversed
   "receiver_pending" -> P.Right BankTransferEventType'Receiver_pending
   "receiver_posted" -> P.Right BankTransferEventType'Receiver_posted
-  s -> P.Left $ "toBankTransferEventType: enum parse failure: " P.++ P.show s
+  s -> P.Right (BankTransferEventType'UNKNOWN s)
 
 
 -- ** BankTransferNetwork
@@ -14289,7 +14546,25 @@ data BankTransferNetwork
   = BankTransferNetwork'Ach -- ^ @"ach"@
   | BankTransferNetwork'Same_day_ach -- ^ @"same-day-ach"@
   | BankTransferNetwork'Wire -- ^ @"wire"@
-  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
+  | BankTransferNetwork'UNKNOWN Text -- ^ Catch-all for values not recognized by this client; keeps the enum open.
+  deriving (P.Show, P.Eq, P.Typeable, P.Ord)
+
+instance P.Bounded BankTransferNetwork where
+  minBound = P.toEnum 0
+  maxBound = P.toEnum 3
+
+instance P.Enum BankTransferNetwork where
+  fromEnum = \case
+    BankTransferNetwork'Ach -> 0
+    BankTransferNetwork'Same_day_ach -> 1
+    BankTransferNetwork'Wire -> 2
+    BankTransferNetwork'UNKNOWN _ -> 3
+
+  toEnum = \case
+    0 -> BankTransferNetwork'Ach
+    1 -> BankTransferNetwork'Same_day_ach
+    2 -> BankTransferNetwork'Wire
+    _ -> BankTransferNetwork'UNKNOWN ""
 
 instance A.ToJSON BankTransferNetwork where toJSON = A.toJSON . fromBankTransferNetwork
 instance A.FromJSON BankTransferNetwork where parseJSON o = P.either P.fail (pure . P.id) . toBankTransferNetwork =<< A.parseJSON o
@@ -14303,6 +14578,7 @@ fromBankTransferNetwork = \case
   BankTransferNetwork'Ach -> "ach"
   BankTransferNetwork'Same_day_ach -> "same-day-ach"
   BankTransferNetwork'Wire -> "wire"
+  BankTransferNetwork'UNKNOWN x -> x
 
 -- | parse 'BankTransferNetwork' enum
 toBankTransferNetwork :: Text -> P.Either String BankTransferNetwork
@@ -14310,7 +14586,7 @@ toBankTransferNetwork = \case
   "ach" -> P.Right BankTransferNetwork'Ach
   "same-day-ach" -> P.Right BankTransferNetwork'Same_day_ach
   "wire" -> P.Right BankTransferNetwork'Wire
-  s -> P.Left $ "toBankTransferNetwork: enum parse failure: " P.++ P.show s
+  s -> P.Right (BankTransferNetwork'UNKNOWN s)
 
 
 -- ** BankTransferStatus
@@ -14323,7 +14599,29 @@ data BankTransferStatus
   | BankTransferStatus'Cancelled -- ^ @"cancelled"@
   | BankTransferStatus'Failed -- ^ @"failed"@
   | BankTransferStatus'Reversed -- ^ @"reversed"@
-  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
+  | BankTransferStatus'UNKNOWN Text -- ^ Catch-all for values not recognized by this client; keeps the enum open.
+  deriving (P.Show, P.Eq, P.Typeable, P.Ord)
+
+instance P.Bounded BankTransferStatus where
+  minBound = P.toEnum 0
+  maxBound = P.toEnum 5
+
+instance P.Enum BankTransferStatus where
+  fromEnum = \case
+    BankTransferStatus'Pending -> 0
+    BankTransferStatus'Posted -> 1
+    BankTransferStatus'Cancelled -> 2
+    BankTransferStatus'Failed -> 3
+    BankTransferStatus'Reversed -> 4
+    BankTransferStatus'UNKNOWN _ -> 5
+
+  toEnum = \case
+    0 -> BankTransferStatus'Pending
+    1 -> BankTransferStatus'Posted
+    2 -> BankTransferStatus'Cancelled
+    3 -> BankTransferStatus'Failed
+    4 -> BankTransferStatus'Reversed
+    _ -> BankTransferStatus'UNKNOWN ""
 
 instance A.ToJSON BankTransferStatus where toJSON = A.toJSON . fromBankTransferStatus
 instance A.FromJSON BankTransferStatus where parseJSON o = P.either P.fail (pure . P.id) . toBankTransferStatus =<< A.parseJSON o
@@ -14339,6 +14637,7 @@ fromBankTransferStatus = \case
   BankTransferStatus'Cancelled -> "cancelled"
   BankTransferStatus'Failed -> "failed"
   BankTransferStatus'Reversed -> "reversed"
+  BankTransferStatus'UNKNOWN x -> x
 
 -- | parse 'BankTransferStatus' enum
 toBankTransferStatus :: Text -> P.Either String BankTransferStatus
@@ -14348,7 +14647,7 @@ toBankTransferStatus = \case
   "cancelled" -> P.Right BankTransferStatus'Cancelled
   "failed" -> P.Right BankTransferStatus'Failed
   "reversed" -> P.Right BankTransferStatus'Reversed
-  s -> P.Left $ "toBankTransferStatus: enum parse failure: " P.++ P.show s
+  s -> P.Right (BankTransferStatus'UNKNOWN s)
 
 
 -- ** BankTransferType
@@ -14358,7 +14657,23 @@ toBankTransferStatus = \case
 data BankTransferType
   = BankTransferType'Debit -- ^ @"debit"@
   | BankTransferType'Credit -- ^ @"credit"@
-  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
+  | BankTransferType'UNKNOWN Text -- ^ Catch-all for values not recognized by this client; keeps the enum open.
+  deriving (P.Show, P.Eq, P.Typeable, P.Ord)
+
+instance P.Bounded BankTransferType where
+  minBound = P.toEnum 0
+  maxBound = P.toEnum 2
+
+instance P.Enum BankTransferType where
+  fromEnum = \case
+    BankTransferType'Debit -> 0
+    BankTransferType'Credit -> 1
+    BankTransferType'UNKNOWN _ -> 2
+
+  toEnum = \case
+    0 -> BankTransferType'Debit
+    1 -> BankTransferType'Credit
+    _ -> BankTransferType'UNKNOWN ""
 
 instance A.ToJSON BankTransferType where toJSON = A.toJSON . fromBankTransferType
 instance A.FromJSON BankTransferType where parseJSON o = P.either P.fail (pure . P.id) . toBankTransferType =<< A.parseJSON o
@@ -14371,13 +14686,14 @@ fromBankTransferType :: BankTransferType -> Text
 fromBankTransferType = \case
   BankTransferType'Debit -> "debit"
   BankTransferType'Credit -> "credit"
+  BankTransferType'UNKNOWN x -> x
 
 -- | parse 'BankTransferType' enum
 toBankTransferType :: Text -> P.Either String BankTransferType
 toBankTransferType = \case
   "debit" -> P.Right BankTransferType'Debit
   "credit" -> P.Right BankTransferType'Credit
-  s -> P.Left $ "toBankTransferType: enum parse failure: " P.++ P.show s
+  s -> P.Right (BankTransferType'UNKNOWN s)
 
 
 -- ** CountryCode
@@ -14392,7 +14708,33 @@ data CountryCode
   | CountryCode'FR -- ^ @"FR"@
   | CountryCode'IE -- ^ @"IE"@
   | CountryCode'CA -- ^ @"CA"@
-  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
+  | CountryCode'UNKNOWN Text -- ^ Catch-all for values not recognized by this client; keeps the enum open.
+  deriving (P.Show, P.Eq, P.Typeable, P.Ord)
+
+instance P.Bounded CountryCode where
+  minBound = P.toEnum 0
+  maxBound = P.toEnum 7
+
+instance P.Enum CountryCode where
+  fromEnum = \case
+    CountryCode'US -> 0
+    CountryCode'GB -> 1
+    CountryCode'ES -> 2
+    CountryCode'NL -> 3
+    CountryCode'FR -> 4
+    CountryCode'IE -> 5
+    CountryCode'CA -> 6
+    CountryCode'UNKNOWN _ -> 7
+
+  toEnum = \case
+    0 -> CountryCode'US
+    1 -> CountryCode'GB
+    2 -> CountryCode'ES
+    3 -> CountryCode'NL
+    4 -> CountryCode'FR
+    5 -> CountryCode'IE
+    6 -> CountryCode'CA
+    _ -> CountryCode'UNKNOWN ""
 
 instance A.ToJSON CountryCode where toJSON = A.toJSON . fromCountryCode
 instance A.FromJSON CountryCode where parseJSON o = P.either P.fail (pure . P.id) . toCountryCode =<< A.parseJSON o
@@ -14410,6 +14752,7 @@ fromCountryCode = \case
   CountryCode'FR -> "FR"
   CountryCode'IE -> "IE"
   CountryCode'CA -> "CA"
+  CountryCode'UNKNOWN x -> x
 
 -- | parse 'CountryCode' enum
 toCountryCode :: Text -> P.Either String CountryCode
@@ -14421,7 +14764,7 @@ toCountryCode = \case
   "FR" -> P.Right CountryCode'FR
   "IE" -> P.Right CountryCode'IE
   "CA" -> P.Right CountryCode'CA
-  s -> P.Left $ "toCountryCode: enum parse failure: " P.++ P.show s
+  s -> P.Right (CountryCode'UNKNOWN s)
 
 
 -- ** E'AccountSubtype
@@ -14431,7 +14774,23 @@ toCountryCode = \case
 data E'AccountSubtype
   = E'AccountSubtype'Checking -- ^ @"checking"@
   | E'AccountSubtype'Savings -- ^ @"savings"@
-  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
+  | E'AccountSubtype'UNKNOWN Text -- ^ Catch-all for values not recognized by this client; keeps the enum open.
+  deriving (P.Show, P.Eq, P.Typeable, P.Ord)
+
+instance P.Bounded E'AccountSubtype where
+  minBound = P.toEnum 0
+  maxBound = P.toEnum 2
+
+instance P.Enum E'AccountSubtype where
+  fromEnum = \case
+    E'AccountSubtype'Checking -> 0
+    E'AccountSubtype'Savings -> 1
+    E'AccountSubtype'UNKNOWN _ -> 2
+
+  toEnum = \case
+    0 -> E'AccountSubtype'Checking
+    1 -> E'AccountSubtype'Savings
+    _ -> E'AccountSubtype'UNKNOWN ""
 
 instance A.ToJSON E'AccountSubtype where toJSON = A.toJSON . fromE'AccountSubtype
 instance A.FromJSON E'AccountSubtype where parseJSON o = P.either P.fail (pure . P.id) . toE'AccountSubtype =<< A.parseJSON o
@@ -14444,13 +14803,14 @@ fromE'AccountSubtype :: E'AccountSubtype -> Text
 fromE'AccountSubtype = \case
   E'AccountSubtype'Checking -> "checking"
   E'AccountSubtype'Savings -> "savings"
+  E'AccountSubtype'UNKNOWN x -> x
 
 -- | parse 'E'AccountSubtype' enum
 toE'AccountSubtype :: Text -> P.Either String E'AccountSubtype
 toE'AccountSubtype = \case
   "checking" -> P.Right E'AccountSubtype'Checking
   "savings" -> P.Right E'AccountSubtype'Savings
-  s -> P.Left $ "toE'AccountSubtype: enum parse failure: " P.++ P.show s
+  s -> P.Right (E'AccountSubtype'UNKNOWN s)
 
 
 -- ** E'AprType
@@ -14462,7 +14822,27 @@ data E'AprType
   | E'AprType'Cash_apr -- ^ @"cash_apr"@
   | E'AprType'Purchase_apr -- ^ @"purchase_apr"@
   | E'AprType'Special -- ^ @"special"@
-  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
+  | E'AprType'UNKNOWN Text -- ^ Catch-all for values not recognized by this client; keeps the enum open.
+  deriving (P.Show, P.Eq, P.Typeable, P.Ord)
+
+instance P.Bounded E'AprType where
+  minBound = P.toEnum 0
+  maxBound = P.toEnum 4
+
+instance P.Enum E'AprType where
+  fromEnum = \case
+    E'AprType'Balance_transfer_apr -> 0
+    E'AprType'Cash_apr -> 1
+    E'AprType'Purchase_apr -> 2
+    E'AprType'Special -> 3
+    E'AprType'UNKNOWN _ -> 4
+
+  toEnum = \case
+    0 -> E'AprType'Balance_transfer_apr
+    1 -> E'AprType'Cash_apr
+    2 -> E'AprType'Purchase_apr
+    3 -> E'AprType'Special
+    _ -> E'AprType'UNKNOWN ""
 
 instance A.ToJSON E'AprType where toJSON = A.toJSON . fromE'AprType
 instance A.FromJSON E'AprType where parseJSON o = P.either P.fail (pure . P.id) . toE'AprType =<< A.parseJSON o
@@ -14477,6 +14857,7 @@ fromE'AprType = \case
   E'AprType'Cash_apr -> "cash_apr"
   E'AprType'Purchase_apr -> "purchase_apr"
   E'AprType'Special -> "special"
+  E'AprType'UNKNOWN x -> x
 
 -- | parse 'E'AprType' enum
 toE'AprType :: Text -> P.Either String E'AprType
@@ -14485,7 +14866,7 @@ toE'AprType = \case
   "cash_apr" -> P.Right E'AprType'Cash_apr
   "purchase_apr" -> P.Right E'AprType'Purchase_apr
   "special" -> P.Right E'AprType'Special
-  s -> P.Left $ "toE'AprType: enum parse failure: " P.++ P.show s
+  s -> P.Right (E'AprType'UNKNOWN s)
 
 
 -- ** E'AvailableBalance
@@ -14495,7 +14876,23 @@ toE'AprType = \case
 data E'AvailableBalance
   = E'AvailableBalance'Positive -- ^ @"positive"@
   | E'AvailableBalance'Negative -- ^ @"negative"@
-  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
+  | E'AvailableBalance'UNKNOWN Text -- ^ Catch-all for values not recognized by this client; keeps the enum open.
+  deriving (P.Show, P.Eq, P.Typeable, P.Ord)
+
+instance P.Bounded E'AvailableBalance where
+  minBound = P.toEnum 0
+  maxBound = P.toEnum 2
+
+instance P.Enum E'AvailableBalance where
+  fromEnum = \case
+    E'AvailableBalance'Positive -> 0
+    E'AvailableBalance'Negative -> 1
+    E'AvailableBalance'UNKNOWN _ -> 2
+
+  toEnum = \case
+    0 -> E'AvailableBalance'Positive
+    1 -> E'AvailableBalance'Negative
+    _ -> E'AvailableBalance'UNKNOWN ""
 
 instance A.ToJSON E'AvailableBalance where toJSON = A.toJSON . fromE'AvailableBalance
 instance A.FromJSON E'AvailableBalance where parseJSON o = P.either P.fail (pure . P.id) . toE'AvailableBalance =<< A.parseJSON o
@@ -14508,13 +14905,14 @@ fromE'AvailableBalance :: E'AvailableBalance -> Text
 fromE'AvailableBalance = \case
   E'AvailableBalance'Positive -> "positive"
   E'AvailableBalance'Negative -> "negative"
+  E'AvailableBalance'UNKNOWN x -> x
 
 -- | parse 'E'AvailableBalance' enum
 toE'AvailableBalance :: Text -> P.Either String E'AvailableBalance
 toE'AvailableBalance = \case
   "positive" -> P.Right E'AvailableBalance'Positive
   "negative" -> P.Right E'AvailableBalance'Negative
-  s -> P.Left $ "toE'AvailableBalance: enum parse failure: " P.++ P.show s
+  s -> P.Right (E'AvailableBalance'UNKNOWN s)
 
 
 -- ** E'BankTransferType
@@ -14524,7 +14922,23 @@ toE'AvailableBalance = \case
 data E'BankTransferType
   = E'BankTransferType'Debit -- ^ @"debit"@
   | E'BankTransferType'Credit -- ^ @"credit"@
-  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
+  | E'BankTransferType'UNKNOWN Text -- ^ Catch-all for values not recognized by this client; keeps the enum open.
+  deriving (P.Show, P.Eq, P.Typeable, P.Ord)
+
+instance P.Bounded E'BankTransferType where
+  minBound = P.toEnum 0
+  maxBound = P.toEnum 2
+
+instance P.Enum E'BankTransferType where
+  fromEnum = \case
+    E'BankTransferType'Debit -> 0
+    E'BankTransferType'Credit -> 1
+    E'BankTransferType'UNKNOWN _ -> 2
+
+  toEnum = \case
+    0 -> E'BankTransferType'Debit
+    1 -> E'BankTransferType'Credit
+    _ -> E'BankTransferType'UNKNOWN ""
 
 instance A.ToJSON E'BankTransferType where toJSON = A.toJSON . fromE'BankTransferType
 instance A.FromJSON E'BankTransferType where parseJSON o = P.either P.fail (pure . P.id) . toE'BankTransferType =<< A.parseJSON o
@@ -14537,13 +14951,14 @@ fromE'BankTransferType :: E'BankTransferType -> Text
 fromE'BankTransferType = \case
   E'BankTransferType'Debit -> "debit"
   E'BankTransferType'Credit -> "credit"
+  E'BankTransferType'UNKNOWN x -> x
 
 -- | parse 'E'BankTransferType' enum
 toE'BankTransferType :: Text -> P.Either String E'BankTransferType
 toE'BankTransferType = \case
   "debit" -> P.Right E'BankTransferType'Debit
   "credit" -> P.Right E'BankTransferType'Credit
-  s -> P.Left $ "toE'BankTransferType: enum parse failure: " P.++ P.show s
+  s -> P.Right (E'BankTransferType'UNKNOWN s)
 
 
 -- ** E'Currency
@@ -14553,7 +14968,23 @@ toE'BankTransferType = \case
 data E'Currency
   = E'Currency'GBP -- ^ @"GBP"@
   | E'Currency'EUR -- ^ @"EUR"@
-  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
+  | E'Currency'UNKNOWN Text -- ^ Catch-all for values not recognized by this client; keeps the enum open.
+  deriving (P.Show, P.Eq, P.Typeable, P.Ord)
+
+instance P.Bounded E'Currency where
+  minBound = P.toEnum 0
+  maxBound = P.toEnum 2
+
+instance P.Enum E'Currency where
+  fromEnum = \case
+    E'Currency'GBP -> 0
+    E'Currency'EUR -> 1
+    E'Currency'UNKNOWN _ -> 2
+
+  toEnum = \case
+    0 -> E'Currency'GBP
+    1 -> E'Currency'EUR
+    _ -> E'Currency'UNKNOWN ""
 
 instance A.ToJSON E'Currency where toJSON = A.toJSON . fromE'Currency
 instance A.FromJSON E'Currency where parseJSON o = P.either P.fail (pure . P.id) . toE'Currency =<< A.parseJSON o
@@ -14566,13 +14997,14 @@ fromE'Currency :: E'Currency -> Text
 fromE'Currency = \case
   E'Currency'GBP -> "GBP"
   E'Currency'EUR -> "EUR"
+  E'Currency'UNKNOWN x -> x
 
 -- | parse 'E'Currency' enum
 toE'Currency :: Text -> P.Either String E'Currency
 toE'Currency = \case
   "GBP" -> P.Right E'Currency'GBP
   "EUR" -> P.Right E'Currency'EUR
-  s -> P.Left $ "toE'Currency: enum parse failure: " P.++ P.show s
+  s -> P.Right (E'Currency'UNKNOWN s)
 
 
 -- ** E'ErrorType
@@ -14593,7 +15025,45 @@ data E'ErrorType
   | E'ErrorType'BANK_TRANSFER_ERROR -- ^ @"BANK_TRANSFER_ERROR"@
   | E'ErrorType'INVALID_RESULT
   | E'ErrorType'TRANSACTIONS_ERROR
-  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
+  | E'ErrorType'UNKNOWN Text -- ^ Catch-all for values not recognized by this client; keeps the enum open.
+  deriving (P.Show, P.Eq, P.Typeable, P.Ord)
+
+instance P.Bounded E'ErrorType where
+  minBound = P.toEnum 0
+  maxBound = P.toEnum 13
+
+instance P.Enum E'ErrorType where
+  fromEnum = \case
+    E'ErrorType'INVALID_REQUEST -> 0
+    E'ErrorType'INVALID_INPUT -> 1
+    E'ErrorType'INSTITUTION_ERROR -> 2
+    E'ErrorType'RATE_LIMIT_EXCEEDED -> 3
+    E'ErrorType'API_ERROR -> 4
+    E'ErrorType'ITEM_ERROR -> 5
+    E'ErrorType'ASSET_REPORT_ERROR -> 6
+    E'ErrorType'RECAPTCHA_ERROR -> 7
+    E'ErrorType'OAUTH_ERROR -> 8
+    E'ErrorType'PAYMENT_ERROR -> 9
+    E'ErrorType'BANK_TRANSFER_ERROR -> 10
+    E'ErrorType'INVALID_RESULT -> 11
+    E'ErrorType'TRANSACTIONS_ERROR -> 12
+    E'ErrorType'UNKNOWN _ -> 13
+
+  toEnum = \case
+    0 -> E'ErrorType'INVALID_REQUEST
+    1 -> E'ErrorType'INVALID_INPUT
+    2 -> E'ErrorType'INSTITUTION_ERROR
+    3 -> E'ErrorType'RATE_LIMIT_EXCEEDED
+    4 -> E'ErrorType'API_ERROR
+    5 -> E'ErrorType'ITEM_ERROR
+    6 -> E'ErrorType'ASSET_REPORT_ERROR
+    7 -> E'ErrorType'RECAPTCHA_ERROR
+    8 -> E'ErrorType'OAUTH_ERROR
+    9 -> E'ErrorType'PAYMENT_ERROR
+    10 -> E'ErrorType'BANK_TRANSFER_ERROR
+    11 -> E'ErrorType'INVALID_RESULT
+    12 -> E'ErrorType'TRANSACTIONS_ERROR
+    _ -> E'ErrorType'UNKNOWN ""
 
 instance A.ToJSON E'ErrorType where toJSON = A.toJSON . fromE'ErrorType
 instance A.FromJSON E'ErrorType where parseJSON o = P.either P.fail (pure . P.id) . toE'ErrorType =<< A.parseJSON o
@@ -14617,6 +15087,7 @@ fromE'ErrorType = \case
   E'ErrorType'BANK_TRANSFER_ERROR -> "BANK_TRANSFER_ERROR"
   E'ErrorType'INVALID_RESULT -> "INVALID_RESULT"
   E'ErrorType'TRANSACTIONS_ERROR -> "TRANSACTIONS_ERROR"
+  E'ErrorType'UNKNOWN x -> x
 -- | parse 'E'ErrorType' enum
 toE'ErrorType :: Text -> P.Either String E'ErrorType
 toE'ErrorType = \case
@@ -14633,7 +15104,7 @@ toE'ErrorType = \case
   "BANK_TRANSFER_ERROR" -> P.Right E'ErrorType'BANK_TRANSFER_ERROR
   "INVALID_RESULT" -> P.Right E'ErrorType'INVALID_RESULT
   "TRANSACTIONS_ERROR" -> P.Right E'ErrorType'TRANSACTIONS_ERROR
-  s -> P.Left $ "toE'ErrorType: enum parse failure: " P.++ P.show s
+  s -> P.Right (E'ErrorType'UNKNOWN s)
 
 
 -- ** E'PaymentChannel
@@ -14644,7 +15115,25 @@ data E'PaymentChannel
   = E'PaymentChannel'Online -- ^ @"online"@
   | E'PaymentChannel'In_store -- ^ @"in store"@
   | E'PaymentChannel'Other -- ^ @"other"@
-  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
+  | E'PaymentChannel'UNKNOWN Text -- ^ Catch-all for values not recognized by this client; keeps the enum open.
+  deriving (P.Show, P.Eq, P.Typeable, P.Ord)
+
+instance P.Bounded E'PaymentChannel where
+  minBound = P.toEnum 0
+  maxBound = P.toEnum 3
+
+instance P.Enum E'PaymentChannel where
+  fromEnum = \case
+    E'PaymentChannel'Online -> 0
+    E'PaymentChannel'In_store -> 1
+    E'PaymentChannel'Other -> 2
+    E'PaymentChannel'UNKNOWN _ -> 3
+
+  toEnum = \case
+    0 -> E'PaymentChannel'Online
+    1 -> E'PaymentChannel'In_store
+    2 -> E'PaymentChannel'Other
+    _ -> E'PaymentChannel'UNKNOWN ""
 
 instance A.ToJSON E'PaymentChannel where toJSON = A.toJSON . fromE'PaymentChannel
 instance A.FromJSON E'PaymentChannel where parseJSON o = P.either P.fail (pure . P.id) . toE'PaymentChannel =<< A.parseJSON o
@@ -14658,6 +15147,7 @@ fromE'PaymentChannel = \case
   E'PaymentChannel'Online -> "online"
   E'PaymentChannel'In_store -> "in store"
   E'PaymentChannel'Other -> "other"
+  E'PaymentChannel'UNKNOWN x -> x
 
 -- | parse 'E'PaymentChannel' enum
 toE'PaymentChannel :: Text -> P.Either String E'PaymentChannel
@@ -14665,7 +15155,7 @@ toE'PaymentChannel = \case
   "online" -> P.Right E'PaymentChannel'Online
   "in store" -> P.Right E'PaymentChannel'In_store
   "other" -> P.Right E'PaymentChannel'Other
-  s -> P.Left $ "toE'PaymentChannel: enum parse failure: " P.++ P.show s
+  s -> P.Right (E'PaymentChannel'UNKNOWN s)
 
 
 -- ** E'RefreshInterval
@@ -14676,7 +15166,25 @@ data E'RefreshInterval
   = E'RefreshInterval'NORMAL -- ^ @"NORMAL"@
   | E'RefreshInterval'DELAYED -- ^ @"DELAYED"@
   | E'RefreshInterval'STOPPED -- ^ @"STOPPED"@
-  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
+  | E'RefreshInterval'UNKNOWN Text -- ^ Catch-all for values not recognized by this client; keeps the enum open.
+  deriving (P.Show, P.Eq, P.Typeable, P.Ord)
+
+instance P.Bounded E'RefreshInterval where
+  minBound = P.toEnum 0
+  maxBound = P.toEnum 3
+
+instance P.Enum E'RefreshInterval where
+  fromEnum = \case
+    E'RefreshInterval'NORMAL -> 0
+    E'RefreshInterval'DELAYED -> 1
+    E'RefreshInterval'STOPPED -> 2
+    E'RefreshInterval'UNKNOWN _ -> 3
+
+  toEnum = \case
+    0 -> E'RefreshInterval'NORMAL
+    1 -> E'RefreshInterval'DELAYED
+    2 -> E'RefreshInterval'STOPPED
+    _ -> E'RefreshInterval'UNKNOWN ""
 
 instance A.ToJSON E'RefreshInterval where toJSON = A.toJSON . fromE'RefreshInterval
 instance A.FromJSON E'RefreshInterval where parseJSON o = P.either P.fail (pure . P.id) . toE'RefreshInterval =<< A.parseJSON o
@@ -14690,6 +15198,7 @@ fromE'RefreshInterval = \case
   E'RefreshInterval'NORMAL -> "NORMAL"
   E'RefreshInterval'DELAYED -> "DELAYED"
   E'RefreshInterval'STOPPED -> "STOPPED"
+  E'RefreshInterval'UNKNOWN x -> x
 
 -- | parse 'E'RefreshInterval' enum
 toE'RefreshInterval :: Text -> P.Either String E'RefreshInterval
@@ -14697,7 +15206,7 @@ toE'RefreshInterval = \case
   "NORMAL" -> P.Right E'RefreshInterval'NORMAL
   "DELAYED" -> P.Right E'RefreshInterval'DELAYED
   "STOPPED" -> P.Right E'RefreshInterval'STOPPED
-  s -> P.Left $ "toE'RefreshInterval: enum parse failure: " P.++ P.show s
+  s -> P.Right (E'RefreshInterval'UNKNOWN s)
 
 
 -- ** E'State
@@ -14708,7 +15217,25 @@ data E'State
   = E'State'Initialized -- ^ @"initialized"@
   | E'State'Completed -- ^ @"completed"@
   | E'State'Error -- ^ @"error"@
-  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
+  | E'State'UNKNOWN Text -- ^ Catch-all for values not recognized by this client; keeps the enum open.
+  deriving (P.Show, P.Eq, P.Typeable, P.Ord)
+
+instance P.Bounded E'State where
+  minBound = P.toEnum 0
+  maxBound = P.toEnum 3
+
+instance P.Enum E'State where
+  fromEnum = \case
+    E'State'Initialized -> 0
+    E'State'Completed -> 1
+    E'State'Error -> 2
+    E'State'UNKNOWN _ -> 3
+
+  toEnum = \case
+    0 -> E'State'Initialized
+    1 -> E'State'Completed
+    2 -> E'State'Error
+    _ -> E'State'UNKNOWN ""
 
 instance A.ToJSON E'State where toJSON = A.toJSON . fromE'State
 instance A.FromJSON E'State where parseJSON o = P.either P.fail (pure . P.id) . toE'State =<< A.parseJSON o
@@ -14722,6 +15249,7 @@ fromE'State = \case
   E'State'Initialized -> "initialized"
   E'State'Completed -> "completed"
   E'State'Error -> "error"
+  E'State'UNKNOWN x -> x
 
 -- | parse 'E'State' enum
 toE'State :: Text -> P.Either String E'State
@@ -14729,7 +15257,7 @@ toE'State = \case
   "initialized" -> P.Right E'State'Initialized
   "completed" -> P.Right E'State'Completed
   "error" -> P.Right E'State'Error
-  s -> P.Left $ "toE'State: enum parse failure: " P.++ P.show s
+  s -> P.Right (E'State'UNKNOWN s)
 
 
 -- ** E'Status
@@ -14745,7 +15273,35 @@ data E'Status
   | E'Status'FAILED -- ^ @"PAYMENT_STATUS_FAILED"@
   | E'Status'BLOCKED -- ^ @"PAYMENT_STATUS_BLOCKED"@
   | E'Status'UNKNOWN -- ^ @"PAYMENT_STATUS_UNKNOWN"@
-  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
+  | E'Status'UnrecognizedValue Text -- ^ Catch-all for values not recognized by this client; keeps the enum open.
+  deriving (P.Show, P.Eq, P.Typeable, P.Ord)
+
+instance P.Bounded E'Status where
+  minBound = P.toEnum 0
+  maxBound = P.toEnum 8
+
+instance P.Enum E'Status where
+  fromEnum = \case
+    E'Status'INPUT_NEEDED -> 0
+    E'Status'PROCESSING -> 1
+    E'Status'INITIATED -> 2
+    E'Status'COMPLETED -> 3
+    E'Status'INSUFFICIENT_FUNDS -> 4
+    E'Status'FAILED -> 5
+    E'Status'BLOCKED -> 6
+    E'Status'UNKNOWN -> 7
+    E'Status'UnrecognizedValue _ -> 8
+
+  toEnum = \case
+    0 -> E'Status'INPUT_NEEDED
+    1 -> E'Status'PROCESSING
+    2 -> E'Status'INITIATED
+    3 -> E'Status'COMPLETED
+    4 -> E'Status'INSUFFICIENT_FUNDS
+    5 -> E'Status'FAILED
+    6 -> E'Status'BLOCKED
+    7 -> E'Status'UNKNOWN
+    _ -> E'Status'UnrecognizedValue ""
 
 instance A.ToJSON E'Status where toJSON = A.toJSON . fromE'Status
 instance A.FromJSON E'Status where parseJSON o = P.either P.fail (pure . P.id) . toE'Status =<< A.parseJSON o
@@ -14764,6 +15320,7 @@ fromE'Status = \case
   E'Status'FAILED -> "PAYMENT_STATUS_FAILED"
   E'Status'BLOCKED -> "PAYMENT_STATUS_BLOCKED"
   E'Status'UNKNOWN -> "PAYMENT_STATUS_UNKNOWN"
+  E'Status'UnrecognizedValue x -> x
 
 -- | parse 'E'Status' enum
 toE'Status :: Text -> P.Either String E'Status
@@ -14776,7 +15333,7 @@ toE'Status = \case
   "PAYMENT_STATUS_FAILED" -> P.Right E'Status'FAILED
   "PAYMENT_STATUS_BLOCKED" -> P.Right E'Status'BLOCKED
   "PAYMENT_STATUS_UNKNOWN" -> P.Right E'Status'UNKNOWN
-  s -> P.Left $ "toE'Status: enum parse failure: " P.++ P.show s
+  s -> P.Right (E'Status'UnrecognizedValue s)
 
 
 -- ** E'Status2
@@ -14787,7 +15344,25 @@ data E'Status2
   = E'Status2'HEALTHY -- ^ @"HEALTHY"@
   | E'Status2'DEGRADED -- ^ @"DEGRADED"@
   | E'Status2'DOWN -- ^ @"DOWN"@
-  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
+  | E'Status2'UNKNOWN Text -- ^ Catch-all for values not recognized by this client; keeps the enum open.
+  deriving (P.Show, P.Eq, P.Typeable, P.Ord)
+
+instance P.Bounded E'Status2 where
+  minBound = P.toEnum 0
+  maxBound = P.toEnum 3
+
+instance P.Enum E'Status2 where
+  fromEnum = \case
+    E'Status2'HEALTHY -> 0
+    E'Status2'DEGRADED -> 1
+    E'Status2'DOWN -> 2
+    E'Status2'UNKNOWN _ -> 3
+
+  toEnum = \case
+    0 -> E'Status2'HEALTHY
+    1 -> E'Status2'DEGRADED
+    2 -> E'Status2'DOWN
+    _ -> E'Status2'UNKNOWN ""
 
 instance A.ToJSON E'Status2 where toJSON = A.toJSON . fromE'Status2
 instance A.FromJSON E'Status2 where parseJSON o = P.either P.fail (pure . P.id) . toE'Status2 =<< A.parseJSON o
@@ -14801,6 +15376,7 @@ fromE'Status2 = \case
   E'Status2'HEALTHY -> "HEALTHY"
   E'Status2'DEGRADED -> "DEGRADED"
   E'Status2'DOWN -> "DOWN"
+  E'Status2'UNKNOWN x -> x
 
 -- | parse 'E'Status2' enum
 toE'Status2 :: Text -> P.Either String E'Status2
@@ -14808,7 +15384,7 @@ toE'Status2 = \case
   "HEALTHY" -> P.Right E'Status2'HEALTHY
   "DEGRADED" -> P.Right E'Status2'DEGRADED
   "DOWN" -> P.Right E'Status2'DOWN
-  s -> P.Left $ "toE'Status2: enum parse failure: " P.++ P.show s
+  s -> P.Right (E'Status2'UNKNOWN s)
 
 
 -- ** E'Status3
@@ -14820,7 +15396,27 @@ data E'Status3
   | E'Status3'IDENTIFIED -- ^ @"IDENTIFIED"@
   | E'Status3'RESOLVED -- ^ @"RESOLVED"@
   | E'Status3'UNKNOWN -- ^ @"UNKNOWN"@
-  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
+  | E'Status3'UnrecognizedValue Text -- ^ Catch-all for values not recognized by this client; keeps the enum open.
+  deriving (P.Show, P.Eq, P.Typeable, P.Ord)
+
+instance P.Bounded E'Status3 where
+  minBound = P.toEnum 0
+  maxBound = P.toEnum 4
+
+instance P.Enum E'Status3 where
+  fromEnum = \case
+    E'Status3'INVESTIGATING -> 0
+    E'Status3'IDENTIFIED -> 1
+    E'Status3'RESOLVED -> 2
+    E'Status3'UNKNOWN -> 3
+    E'Status3'UnrecognizedValue _ -> 4
+
+  toEnum = \case
+    0 -> E'Status3'INVESTIGATING
+    1 -> E'Status3'IDENTIFIED
+    2 -> E'Status3'RESOLVED
+    3 -> E'Status3'UNKNOWN
+    _ -> E'Status3'UnrecognizedValue ""
 
 instance A.ToJSON E'Status3 where toJSON = A.toJSON . fromE'Status3
 instance A.FromJSON E'Status3 where parseJSON o = P.either P.fail (pure . P.id) . toE'Status3 =<< A.parseJSON o
@@ -14835,6 +15431,7 @@ fromE'Status3 = \case
   E'Status3'IDENTIFIED -> "IDENTIFIED"
   E'Status3'RESOLVED -> "RESOLVED"
   E'Status3'UNKNOWN -> "UNKNOWN"
+  E'Status3'UnrecognizedValue x -> x
 
 -- | parse 'E'Status3' enum
 toE'Status3 :: Text -> P.Either String E'Status3
@@ -14843,7 +15440,7 @@ toE'Status3 = \case
   "IDENTIFIED" -> P.Right E'Status3'IDENTIFIED
   "RESOLVED" -> P.Right E'Status3'RESOLVED
   "UNKNOWN" -> P.Right E'Status3'UNKNOWN
-  s -> P.Left $ "toE'Status3: enum parse failure: " P.++ P.show s
+  s -> P.Right (E'Status3'UnrecognizedValue s)
 
 
 -- ** E'Subtype
@@ -14895,7 +15492,107 @@ data E'Subtype
   | E'Subtype'Trust_fee -- ^ @"trust fee"@
   | E'Subtype'Unqualified_gain -- ^ @"unqualified gain"@
   | E'Subtype'Withdrawal -- ^ @"withdrawal"@
-  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
+  | E'Subtype'UNKNOWN Text -- ^ Catch-all for values not recognized by this client; keeps the enum open.
+  deriving (P.Show, P.Eq, P.Typeable, P.Ord)
+
+instance P.Bounded E'Subtype where
+  minBound = P.toEnum 0
+  maxBound = P.toEnum 44
+
+instance P.Enum E'Subtype where
+  fromEnum = \case
+    E'Subtype'Account_fee -> 0
+    E'Subtype'Assignment -> 1
+    E'Subtype'Buy -> 2
+    E'Subtype'Buy_to_cover -> 3
+    E'Subtype'Contribution -> 4
+    E'Subtype'Deposit -> 5
+    E'Subtype'Distribution -> 6
+    E'Subtype'Dividend -> 7
+    E'Subtype'Dividend_reinvestment -> 8
+    E'Subtype'Exercise -> 9
+    E'Subtype'Expire -> 10
+    E'Subtype'Fund_fee -> 11
+    E'Subtype'Interest -> 12
+    E'Subtype'Interest_receivable -> 13
+    E'Subtype'Interest_reinvestment -> 14
+    E'Subtype'Legal_fee -> 15
+    E'Subtype'Loan_payment -> 16
+    E'Subtype'Long_term_capital_gain -> 17
+    E'Subtype'Long_term_capital_gain_reinvestment -> 18
+    E'Subtype'Management_fee -> 19
+    E'Subtype'Margin_expense -> 20
+    E'Subtype'Merger -> 21
+    E'Subtype'Miscellaneous_fee -> 22
+    E'Subtype'Non_qualified_dividend -> 23
+    E'Subtype'Non_resident_tax -> 24
+    E'Subtype'Pending_credit -> 25
+    E'Subtype'Pending_debit -> 26
+    E'Subtype'Qualified_dividend -> 27
+    E'Subtype'Rebalance -> 28
+    E'Subtype'Return_of_principal -> 29
+    E'Subtype'Sell -> 30
+    E'Subtype'Sell_short -> 31
+    E'Subtype'Short_term_capital_gain -> 32
+    E'Subtype'Short_term_capital_gain_reinvestment -> 33
+    E'Subtype'Spin_off -> 34
+    E'Subtype'Split -> 35
+    E'Subtype'Stock_distribution -> 36
+    E'Subtype'Tax -> 37
+    E'Subtype'Tax_withheld -> 38
+    E'Subtype'Transfer -> 39
+    E'Subtype'Transfer_fee -> 40
+    E'Subtype'Trust_fee -> 41
+    E'Subtype'Unqualified_gain -> 42
+    E'Subtype'Withdrawal -> 43
+    E'Subtype'UNKNOWN _ -> 44
+
+  toEnum = \case
+    0 -> E'Subtype'Account_fee
+    1 -> E'Subtype'Assignment
+    2 -> E'Subtype'Buy
+    3 -> E'Subtype'Buy_to_cover
+    4 -> E'Subtype'Contribution
+    5 -> E'Subtype'Deposit
+    6 -> E'Subtype'Distribution
+    7 -> E'Subtype'Dividend
+    8 -> E'Subtype'Dividend_reinvestment
+    9 -> E'Subtype'Exercise
+    10 -> E'Subtype'Expire
+    11 -> E'Subtype'Fund_fee
+    12 -> E'Subtype'Interest
+    13 -> E'Subtype'Interest_receivable
+    14 -> E'Subtype'Interest_reinvestment
+    15 -> E'Subtype'Legal_fee
+    16 -> E'Subtype'Loan_payment
+    17 -> E'Subtype'Long_term_capital_gain
+    18 -> E'Subtype'Long_term_capital_gain_reinvestment
+    19 -> E'Subtype'Management_fee
+    20 -> E'Subtype'Margin_expense
+    21 -> E'Subtype'Merger
+    22 -> E'Subtype'Miscellaneous_fee
+    23 -> E'Subtype'Non_qualified_dividend
+    24 -> E'Subtype'Non_resident_tax
+    25 -> E'Subtype'Pending_credit
+    26 -> E'Subtype'Pending_debit
+    27 -> E'Subtype'Qualified_dividend
+    28 -> E'Subtype'Rebalance
+    29 -> E'Subtype'Return_of_principal
+    30 -> E'Subtype'Sell
+    31 -> E'Subtype'Sell_short
+    32 -> E'Subtype'Short_term_capital_gain
+    33 -> E'Subtype'Short_term_capital_gain_reinvestment
+    34 -> E'Subtype'Spin_off
+    35 -> E'Subtype'Split
+    36 -> E'Subtype'Stock_distribution
+    37 -> E'Subtype'Tax
+    38 -> E'Subtype'Tax_withheld
+    39 -> E'Subtype'Transfer
+    40 -> E'Subtype'Transfer_fee
+    41 -> E'Subtype'Trust_fee
+    42 -> E'Subtype'Unqualified_gain
+    43 -> E'Subtype'Withdrawal
+    _ -> E'Subtype'UNKNOWN ""
 
 instance A.ToJSON E'Subtype where toJSON = A.toJSON . fromE'Subtype
 instance A.FromJSON E'Subtype where parseJSON o = P.either P.fail (pure . P.id) . toE'Subtype =<< A.parseJSON o
@@ -14950,6 +15647,7 @@ fromE'Subtype = \case
   E'Subtype'Trust_fee -> "trust fee"
   E'Subtype'Unqualified_gain -> "unqualified gain"
   E'Subtype'Withdrawal -> "withdrawal"
+  E'Subtype'UNKNOWN x -> x
 
 -- | parse 'E'Subtype' enum
 toE'Subtype :: Text -> P.Either String E'Subtype
@@ -14998,7 +15696,7 @@ toE'Subtype = \case
   "trust fee" -> P.Right E'Subtype'Trust_fee
   "unqualified gain" -> P.Right E'Subtype'Unqualified_gain
   "withdrawal" -> P.Right E'Subtype'Withdrawal
-  s -> P.Left $ "toE'Subtype: enum parse failure: " P.++ P.show s
+  s -> P.Right (E'Subtype'UNKNOWN s)
 
 
 -- ** E'TransactionType
@@ -15010,7 +15708,27 @@ data E'TransactionType
   | E'TransactionType'Place -- ^ @"place"@
   | E'TransactionType'Special -- ^ @"special"@
   | E'TransactionType'Unresolved -- ^ @"unresolved"@
-  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
+  | E'TransactionType'UNKNOWN Text -- ^ Catch-all for values not recognized by this client; keeps the enum open.
+  deriving (P.Show, P.Eq, P.Typeable, P.Ord)
+
+instance P.Bounded E'TransactionType where
+  minBound = P.toEnum 0
+  maxBound = P.toEnum 4
+
+instance P.Enum E'TransactionType where
+  fromEnum = \case
+    E'TransactionType'Digital -> 0
+    E'TransactionType'Place -> 1
+    E'TransactionType'Special -> 2
+    E'TransactionType'Unresolved -> 3
+    E'TransactionType'UNKNOWN _ -> 4
+
+  toEnum = \case
+    0 -> E'TransactionType'Digital
+    1 -> E'TransactionType'Place
+    2 -> E'TransactionType'Special
+    3 -> E'TransactionType'Unresolved
+    _ -> E'TransactionType'UNKNOWN ""
 
 instance A.ToJSON E'TransactionType where toJSON = A.toJSON . fromE'TransactionType
 instance A.FromJSON E'TransactionType where parseJSON o = P.either P.fail (pure . P.id) . toE'TransactionType =<< A.parseJSON o
@@ -15025,6 +15743,7 @@ fromE'TransactionType = \case
   E'TransactionType'Place -> "place"
   E'TransactionType'Special -> "special"
   E'TransactionType'Unresolved -> "unresolved"
+  E'TransactionType'UNKNOWN x -> x
 
 -- | parse 'E'TransactionType' enum
 toE'TransactionType :: Text -> P.Either String E'TransactionType
@@ -15033,7 +15752,7 @@ toE'TransactionType = \case
   "place" -> P.Right E'TransactionType'Place
   "special" -> P.Right E'TransactionType'Special
   "unresolved" -> P.Right E'TransactionType'Unresolved
-  s -> P.Left $ "toE'TransactionType: enum parse failure: " P.++ P.show s
+  s -> P.Right (E'TransactionType'UNKNOWN s)
 
 
 -- ** E'Type
@@ -15047,7 +15766,31 @@ data E'Type
   | E'Type'Mobile -- ^ @"mobile"@
   | E'Type'Mobile1 -- ^ @"mobile1"@
   | E'Type'Other -- ^ @"other"@
-  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
+  | E'Type'UNKNOWN Text -- ^ Catch-all for values not recognized by this client; keeps the enum open.
+  deriving (P.Show, P.Eq, P.Typeable, P.Ord)
+
+instance P.Bounded E'Type where
+  minBound = P.toEnum 0
+  maxBound = P.toEnum 6
+
+instance P.Enum E'Type where
+  fromEnum = \case
+    E'Type'Home -> 0
+    E'Type'Work -> 1
+    E'Type'Office -> 2
+    E'Type'Mobile -> 3
+    E'Type'Mobile1 -> 4
+    E'Type'Other -> 5
+    E'Type'UNKNOWN _ -> 6
+
+  toEnum = \case
+    0 -> E'Type'Home
+    1 -> E'Type'Work
+    2 -> E'Type'Office
+    3 -> E'Type'Mobile
+    4 -> E'Type'Mobile1
+    5 -> E'Type'Other
+    _ -> E'Type'UNKNOWN ""
 
 instance A.ToJSON E'Type where toJSON = A.toJSON . fromE'Type
 instance A.FromJSON E'Type where parseJSON o = P.either P.fail (pure . P.id) . toE'Type =<< A.parseJSON o
@@ -15064,6 +15807,7 @@ fromE'Type = \case
   E'Type'Mobile -> "mobile"
   E'Type'Mobile1 -> "mobile1"
   E'Type'Other -> "other"
+  E'Type'UNKNOWN x -> x
 
 -- | parse 'E'Type' enum
 toE'Type :: Text -> P.Either String E'Type
@@ -15074,7 +15818,7 @@ toE'Type = \case
   "mobile" -> P.Right E'Type'Mobile
   "mobile1" -> P.Right E'Type'Mobile1
   "other" -> P.Right E'Type'Other
-  s -> P.Left $ "toE'Type: enum parse failure: " P.++ P.show s
+  s -> P.Right (E'Type'UNKNOWN s)
 
 
 -- ** E'Type2
@@ -15085,7 +15829,25 @@ data E'Type2
   = E'Type2'Primary -- ^ @"primary"@
   | E'Type2'Secondary -- ^ @"secondary"@
   | E'Type2'Other -- ^ @"other"@
-  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
+  | E'Type2'UNKNOWN Text -- ^ Catch-all for values not recognized by this client; keeps the enum open.
+  deriving (P.Show, P.Eq, P.Typeable, P.Ord)
+
+instance P.Bounded E'Type2 where
+  minBound = P.toEnum 0
+  maxBound = P.toEnum 3
+
+instance P.Enum E'Type2 where
+  fromEnum = \case
+    E'Type2'Primary -> 0
+    E'Type2'Secondary -> 1
+    E'Type2'Other -> 2
+    E'Type2'UNKNOWN _ -> 3
+
+  toEnum = \case
+    0 -> E'Type2'Primary
+    1 -> E'Type2'Secondary
+    2 -> E'Type2'Other
+    _ -> E'Type2'UNKNOWN ""
 
 instance A.ToJSON E'Type2 where toJSON = A.toJSON . fromE'Type2
 instance A.FromJSON E'Type2 where parseJSON o = P.either P.fail (pure . P.id) . toE'Type2 =<< A.parseJSON o
@@ -15099,6 +15861,7 @@ fromE'Type2 = \case
   E'Type2'Primary -> "primary"
   E'Type2'Secondary -> "secondary"
   E'Type2'Other -> "other"
+  E'Type2'UNKNOWN x -> x
 
 -- | parse 'E'Type2' enum
 toE'Type2 :: Text -> P.Either String E'Type2
@@ -15106,7 +15869,7 @@ toE'Type2 = \case
   "primary" -> P.Right E'Type2'Primary
   "secondary" -> P.Right E'Type2'Secondary
   "other" -> P.Right E'Type2'Other
-  s -> P.Left $ "toE'Type2: enum parse failure: " P.++ P.show s
+  s -> P.Right (E'Type2'UNKNOWN s)
 
 
 -- ** E'Type3
@@ -15132,7 +15895,55 @@ data E'Type3
   | E'Type3'Refunded -- ^ @"refunded"@
   | E'Type3'Repayment -- ^ @"repayment"@
   | E'Type3'Transferred -- ^ @"transferred"@
-  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
+  | E'Type3'UNKNOWN Text -- ^ Catch-all for values not recognized by this client; keeps the enum open.
+  deriving (P.Show, P.Eq, P.Typeable, P.Ord)
+
+instance P.Bounded E'Type3 where
+  minBound = P.toEnum 0
+  maxBound = P.toEnum 18
+
+instance P.Enum E'Type3 where
+  fromEnum = \case
+    E'Type3'Cancelled -> 0
+    E'Type3'Charged_off -> 1
+    E'Type3'Claim -> 2
+    E'Type3'Consolidated -> 3
+    E'Type3'Deferment -> 4
+    E'Type3'Delinquent -> 5
+    E'Type3'Discharged -> 6
+    E'Type3'Extension -> 7
+    E'Type3'Forbearance -> 8
+    E'Type3'In_grace -> 9
+    E'Type3'In_military -> 10
+    E'Type3'In_school -> 11
+    E'Type3'Not_fully_disbursed -> 12
+    E'Type3'Other -> 13
+    E'Type3'Paid_in_full -> 14
+    E'Type3'Refunded -> 15
+    E'Type3'Repayment -> 16
+    E'Type3'Transferred -> 17
+    E'Type3'UNKNOWN _ -> 18
+
+  toEnum = \case
+    0 -> E'Type3'Cancelled
+    1 -> E'Type3'Charged_off
+    2 -> E'Type3'Claim
+    3 -> E'Type3'Consolidated
+    4 -> E'Type3'Deferment
+    5 -> E'Type3'Delinquent
+    6 -> E'Type3'Discharged
+    7 -> E'Type3'Extension
+    8 -> E'Type3'Forbearance
+    9 -> E'Type3'In_grace
+    10 -> E'Type3'In_military
+    11 -> E'Type3'In_school
+    12 -> E'Type3'Not_fully_disbursed
+    13 -> E'Type3'Other
+    14 -> E'Type3'Paid_in_full
+    15 -> E'Type3'Refunded
+    16 -> E'Type3'Repayment
+    17 -> E'Type3'Transferred
+    _ -> E'Type3'UNKNOWN ""
 
 instance A.ToJSON E'Type3 where toJSON = A.toJSON . fromE'Type3
 instance A.FromJSON E'Type3 where parseJSON o = P.either P.fail (pure . P.id) . toE'Type3 =<< A.parseJSON o
@@ -15161,6 +15972,7 @@ fromE'Type3 = \case
   E'Type3'Refunded -> "refunded"
   E'Type3'Repayment -> "repayment"
   E'Type3'Transferred -> "transferred"
+  E'Type3'UNKNOWN x -> x
 
 -- | parse 'E'Type3' enum
 toE'Type3 :: Text -> P.Either String E'Type3
@@ -15183,7 +15995,7 @@ toE'Type3 = \case
   "refunded" -> P.Right E'Type3'Refunded
   "repayment" -> P.Right E'Type3'Repayment
   "transferred" -> P.Right E'Type3'Transferred
-  s -> P.Left $ "toE'Type3: enum parse failure: " P.++ P.show s
+  s -> P.Right (E'Type3'UNKNOWN s)
 
 
 -- ** E'Type4
@@ -15202,7 +16014,41 @@ data E'Type4
   | E'Type4'Revised_pay_as_you_earn -- ^ @"revised pay as you earn"@
   | E'Type4'Standard -- ^ @"standard"@
   | E'Type4'SavingOnAValuableEducation -- ^ @"saving on a valuable education"@
-  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
+  | E'Type4'UNKNOWN Text -- ^ Catch-all for values not recognized by this client; keeps the enum open.
+  deriving (P.Show, P.Eq, P.Typeable, P.Ord)
+
+instance P.Bounded E'Type4 where
+  minBound = P.toEnum 0
+  maxBound = P.toEnum 11
+
+instance P.Enum E'Type4 where
+  fromEnum = \case
+    E'Type4'Extended_graduated -> 0
+    E'Type4'Extended_standard -> 1
+    E'Type4'Graduated -> 2
+    E'Type4'Income_contingent_repayment -> 3
+    E'Type4'Income_based_repayment -> 4
+    E'Type4'Interest_only -> 5
+    E'Type4'Other -> 6
+    E'Type4'Pay_as_you_earn -> 7
+    E'Type4'Revised_pay_as_you_earn -> 8
+    E'Type4'Standard -> 9
+    E'Type4'SavingOnAValuableEducation -> 10
+    E'Type4'UNKNOWN _ -> 11
+
+  toEnum = \case
+    0 -> E'Type4'Extended_graduated
+    1 -> E'Type4'Extended_standard
+    2 -> E'Type4'Graduated
+    3 -> E'Type4'Income_contingent_repayment
+    4 -> E'Type4'Income_based_repayment
+    5 -> E'Type4'Interest_only
+    6 -> E'Type4'Other
+    7 -> E'Type4'Pay_as_you_earn
+    8 -> E'Type4'Revised_pay_as_you_earn
+    9 -> E'Type4'Standard
+    10 -> E'Type4'SavingOnAValuableEducation
+    _ -> E'Type4'UNKNOWN ""
 
 instance A.ToJSON E'Type4 where toJSON = A.toJSON . fromE'Type4
 instance A.FromJSON E'Type4 where parseJSON o = P.either P.fail (pure . P.id) . toE'Type4 =<< A.parseJSON o
@@ -15224,6 +16070,7 @@ fromE'Type4 = \case
   E'Type4'Revised_pay_as_you_earn -> "revised pay as you earn"
   E'Type4'Standard -> "standard"
   E'Type4'SavingOnAValuableEducation -> "saving on a valuable education"
+  E'Type4'UNKNOWN x -> x
 
 -- | parse 'E'Type4' enum
 toE'Type4 :: Text -> P.Either String E'Type4
@@ -15239,7 +16086,7 @@ toE'Type4 = \case
   "revised pay as you earn" -> P.Right E'Type4'Revised_pay_as_you_earn
   "standard" -> P.Right E'Type4'Standard
   "saving on a valuable education" -> P.Right E'Type4'SavingOnAValuableEducation
-  s -> P.Left $ "toE'Type4: enum parse failure: " P.++ P.show s
+  s -> P.Right (E'Type4'UNKNOWN s)
 
 
 -- ** E'Type5
@@ -15253,7 +16100,31 @@ data E'Type5
   | E'Type5'Cash -- ^ @"cash"@
   | E'Type5'Fee -- ^ @"fee"@
   | E'Type5'Transfer -- ^ @"transfer"@
-  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
+  | E'Type5'UNKNOWN Text -- ^ Catch-all for values not recognized by this client; keeps the enum open.
+  deriving (P.Show, P.Eq, P.Typeable, P.Ord)
+
+instance P.Bounded E'Type5 where
+  minBound = P.toEnum 0
+  maxBound = P.toEnum 6
+
+instance P.Enum E'Type5 where
+  fromEnum = \case
+    E'Type5'Buy -> 0
+    E'Type5'Sell -> 1
+    E'Type5'Cancel -> 2
+    E'Type5'Cash -> 3
+    E'Type5'Fee -> 4
+    E'Type5'Transfer -> 5
+    E'Type5'UNKNOWN _ -> 6
+
+  toEnum = \case
+    0 -> E'Type5'Buy
+    1 -> E'Type5'Sell
+    2 -> E'Type5'Cancel
+    3 -> E'Type5'Cash
+    4 -> E'Type5'Fee
+    5 -> E'Type5'Transfer
+    _ -> E'Type5'UNKNOWN ""
 
 instance A.ToJSON E'Type5 where toJSON = A.toJSON . fromE'Type5
 instance A.FromJSON E'Type5 where parseJSON o = P.either P.fail (pure . P.id) . toE'Type5 =<< A.parseJSON o
@@ -15270,6 +16141,7 @@ fromE'Type5 = \case
   E'Type5'Cash -> "cash"
   E'Type5'Fee -> "fee"
   E'Type5'Transfer -> "transfer"
+  E'Type5'UNKNOWN x -> x
 
 -- | parse 'E'Type5' enum
 toE'Type5 :: Text -> P.Either String E'Type5
@@ -15280,7 +16152,7 @@ toE'Type5 = \case
   "cash" -> P.Right E'Type5'Cash
   "fee" -> P.Right E'Type5'Fee
   "transfer" -> P.Right E'Type5'Transfer
-  s -> P.Left $ "toE'Type5: enum parse failure: " P.++ P.show s
+  s -> P.Right (E'Type5'UNKNOWN s)
 
 
 -- ** E'UpdateType
@@ -15290,7 +16162,23 @@ toE'Type5 = \case
 data E'UpdateType
   = E'UpdateType'Background -- ^ @"background"@
   | E'UpdateType'Requires_user_authentication -- ^ @"requires_user_authentication"@
-  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
+  | E'UpdateType'UNKNOWN Text -- ^ Catch-all for values not recognized by this client; keeps the enum open.
+  deriving (P.Show, P.Eq, P.Typeable, P.Ord)
+
+instance P.Bounded E'UpdateType where
+  minBound = P.toEnum 0
+  maxBound = P.toEnum 2
+
+instance P.Enum E'UpdateType where
+  fromEnum = \case
+    E'UpdateType'Background -> 0
+    E'UpdateType'Requires_user_authentication -> 1
+    E'UpdateType'UNKNOWN _ -> 2
+
+  toEnum = \case
+    0 -> E'UpdateType'Background
+    1 -> E'UpdateType'Requires_user_authentication
+    _ -> E'UpdateType'UNKNOWN ""
 
 instance A.ToJSON E'UpdateType where toJSON = A.toJSON . fromE'UpdateType
 instance A.FromJSON E'UpdateType where parseJSON o = P.either P.fail (pure . P.id) . toE'UpdateType =<< A.parseJSON o
@@ -15303,13 +16191,14 @@ fromE'UpdateType :: E'UpdateType -> Text
 fromE'UpdateType = \case
   E'UpdateType'Background -> "background"
   E'UpdateType'Requires_user_authentication -> "requires_user_authentication"
+  E'UpdateType'UNKNOWN x -> x
 
 -- | parse 'E'UpdateType' enum
 toE'UpdateType :: Text -> P.Either String E'UpdateType
 toE'UpdateType = \case
   "background" -> P.Right E'UpdateType'Background
   "requires_user_authentication" -> P.Right E'UpdateType'Requires_user_authentication
-  s -> P.Left $ "toE'UpdateType: enum parse failure: " P.++ P.show s
+  s -> P.Right (E'UpdateType'UNKNOWN s)
 
 
 -- ** E'Value
@@ -15323,7 +16212,31 @@ data E'Value
   | E'Value'Biweekly -- ^ @"biweekly"@
   | E'Value'Unknown -- ^ @"unknown"@
   | E'Value'Null -- ^ @"null"@
-  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
+  | E'Value'UNKNOWN Text -- ^ Catch-all for values not recognized by this client; keeps the enum open.
+  deriving (P.Show, P.Eq, P.Typeable, P.Ord)
+
+instance P.Bounded E'Value where
+  minBound = P.toEnum 0
+  maxBound = P.toEnum 6
+
+instance P.Enum E'Value where
+  fromEnum = \case
+    E'Value'Monthly -> 0
+    E'Value'Semimonthly -> 1
+    E'Value'Weekly -> 2
+    E'Value'Biweekly -> 3
+    E'Value'Unknown -> 4
+    E'Value'Null -> 5
+    E'Value'UNKNOWN _ -> 6
+
+  toEnum = \case
+    0 -> E'Value'Monthly
+    1 -> E'Value'Semimonthly
+    2 -> E'Value'Weekly
+    3 -> E'Value'Biweekly
+    4 -> E'Value'Unknown
+    5 -> E'Value'Null
+    _ -> E'Value'UNKNOWN ""
 
 instance A.ToJSON E'Value where toJSON = A.toJSON . fromE'Value
 instance A.FromJSON E'Value where parseJSON o = P.either P.fail (pure . P.id) . toE'Value =<< A.parseJSON o
@@ -15340,6 +16253,7 @@ fromE'Value = \case
   E'Value'Biweekly -> "biweekly"
   E'Value'Unknown -> "unknown"
   E'Value'Null -> "null"
+  E'Value'UNKNOWN x -> x
 
 -- | parse 'E'Value' enum
 toE'Value :: Text -> P.Either String E'Value
@@ -15350,7 +16264,7 @@ toE'Value = \case
   "biweekly" -> P.Right E'Value'Biweekly
   "unknown" -> P.Right E'Value'Unknown
   "null" -> P.Right E'Value'Null
-  s -> P.Left $ "toE'Value: enum parse failure: " P.++ P.show s
+  s -> P.Right (E'Value'UNKNOWN s)
 
 
 -- ** E'VerificationStatus
@@ -15360,7 +16274,23 @@ toE'Value = \case
 data E'VerificationStatus
   = E'VerificationStatus'Automatically_verified -- ^ @"automatically_verified"@
   | E'VerificationStatus'Verification_expired -- ^ @"verification_expired"@
-  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
+  | E'VerificationStatus'UNKNOWN Text -- ^ Catch-all for values not recognized by this client; keeps the enum open.
+  deriving (P.Show, P.Eq, P.Typeable, P.Ord)
+
+instance P.Bounded E'VerificationStatus where
+  minBound = P.toEnum 0
+  maxBound = P.toEnum 2
+
+instance P.Enum E'VerificationStatus where
+  fromEnum = \case
+    E'VerificationStatus'Automatically_verified -> 0
+    E'VerificationStatus'Verification_expired -> 1
+    E'VerificationStatus'UNKNOWN _ -> 2
+
+  toEnum = \case
+    0 -> E'VerificationStatus'Automatically_verified
+    1 -> E'VerificationStatus'Verification_expired
+    _ -> E'VerificationStatus'UNKNOWN ""
 
 instance A.ToJSON E'VerificationStatus where toJSON = A.toJSON . fromE'VerificationStatus
 instance A.FromJSON E'VerificationStatus where parseJSON o = P.either P.fail (pure . P.id) . toE'VerificationStatus =<< A.parseJSON o
@@ -15373,13 +16303,14 @@ fromE'VerificationStatus :: E'VerificationStatus -> Text
 fromE'VerificationStatus = \case
   E'VerificationStatus'Automatically_verified -> "automatically_verified"
   E'VerificationStatus'Verification_expired -> "verification_expired"
+  E'VerificationStatus'UNKNOWN x -> x
 
 -- | parse 'E'VerificationStatus' enum
 toE'VerificationStatus :: Text -> P.Either String E'VerificationStatus
 toE'VerificationStatus = \case
   "automatically_verified" -> P.Right E'VerificationStatus'Automatically_verified
   "verification_expired" -> P.Right E'VerificationStatus'Verification_expired
-  s -> P.Left $ "toE'VerificationStatus: enum parse failure: " P.++ P.show s
+  s -> P.Right (E'VerificationStatus'UNKNOWN s)
 
 
 -- ** E'VerificationStatus2
@@ -15393,7 +16324,31 @@ data E'VerificationStatus2
   | E'VerificationStatus2'Automatically_verified -- ^ @"automatically_verified"@
   | E'VerificationStatus2'Verification_expired -- ^ @"verification_expired"@
   | E'VerificationStatus2'Verification_failed -- ^ @"verification_failed"@
-  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
+  | E'VerificationStatus2'UNKNOWN Text -- ^ Catch-all for values not recognized by this client; keeps the enum open.
+  deriving (P.Show, P.Eq, P.Typeable, P.Ord)
+
+instance P.Bounded E'VerificationStatus2 where
+  minBound = P.toEnum 0
+  maxBound = P.toEnum 6
+
+instance P.Enum E'VerificationStatus2 where
+  fromEnum = \case
+    E'VerificationStatus2'Pending_automatic_verification -> 0
+    E'VerificationStatus2'Pending_manual_verification -> 1
+    E'VerificationStatus2'Manually_verified -> 2
+    E'VerificationStatus2'Automatically_verified -> 3
+    E'VerificationStatus2'Verification_expired -> 4
+    E'VerificationStatus2'Verification_failed -> 5
+    E'VerificationStatus2'UNKNOWN _ -> 6
+
+  toEnum = \case
+    0 -> E'VerificationStatus2'Pending_automatic_verification
+    1 -> E'VerificationStatus2'Pending_manual_verification
+    2 -> E'VerificationStatus2'Manually_verified
+    3 -> E'VerificationStatus2'Automatically_verified
+    4 -> E'VerificationStatus2'Verification_expired
+    5 -> E'VerificationStatus2'Verification_failed
+    _ -> E'VerificationStatus2'UNKNOWN ""
 
 instance A.ToJSON E'VerificationStatus2 where toJSON = A.toJSON . fromE'VerificationStatus2
 instance A.FromJSON E'VerificationStatus2 where parseJSON o = P.either P.fail (pure . P.id) . toE'VerificationStatus2 =<< A.parseJSON o
@@ -15410,6 +16365,7 @@ fromE'VerificationStatus2 = \case
   E'VerificationStatus2'Automatically_verified -> "automatically_verified"
   E'VerificationStatus2'Verification_expired -> "verification_expired"
   E'VerificationStatus2'Verification_failed -> "verification_failed"
+  E'VerificationStatus2'UNKNOWN x -> x
 
 -- | parse 'E'VerificationStatus2' enum
 toE'VerificationStatus2 :: Text -> P.Either String E'VerificationStatus2
@@ -15420,7 +16376,7 @@ toE'VerificationStatus2 = \case
   "automatically_verified" -> P.Right E'VerificationStatus2'Automatically_verified
   "verification_expired" -> P.Right E'VerificationStatus2'Verification_expired
   "verification_failed" -> P.Right E'VerificationStatus2'Verification_failed
-  s -> P.Left $ "toE'VerificationStatus2: enum parse failure: " P.++ P.show s
+  s -> P.Right (E'VerificationStatus2'UNKNOWN s)
 
 
 -- ** E'WebhookCode
@@ -15429,7 +16385,21 @@ toE'VerificationStatus2 = \case
 -- The following values for `webhook_code` are supported:  * `DEFAULT_UPDATE`
 data E'WebhookCode
   = E'WebhookCode'DEFAULT_UPDATE -- ^ @"DEFAULT_UPDATE"@
-  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
+  | E'WebhookCode'UNKNOWN Text -- ^ Catch-all for values not recognized by this client; keeps the enum open.
+  deriving (P.Show, P.Eq, P.Typeable, P.Ord)
+
+instance P.Bounded E'WebhookCode where
+  minBound = P.toEnum 0
+  maxBound = P.toEnum 1
+
+instance P.Enum E'WebhookCode where
+  fromEnum = \case
+    E'WebhookCode'DEFAULT_UPDATE -> 0
+    E'WebhookCode'UNKNOWN _ -> 1
+
+  toEnum = \case
+    0 -> E'WebhookCode'DEFAULT_UPDATE
+    _ -> E'WebhookCode'UNKNOWN ""
 
 instance A.ToJSON E'WebhookCode where toJSON = A.toJSON . fromE'WebhookCode
 instance A.FromJSON E'WebhookCode where parseJSON o = P.either P.fail (pure . P.id) . toE'WebhookCode =<< A.parseJSON o
@@ -15441,12 +16411,13 @@ instance MimeRender MimeMultipartFormData E'WebhookCode where mimeRender _ = mim
 fromE'WebhookCode :: E'WebhookCode -> Text
 fromE'WebhookCode = \case
   E'WebhookCode'DEFAULT_UPDATE -> "DEFAULT_UPDATE"
+  E'WebhookCode'UNKNOWN x -> x
 
 -- | parse 'E'WebhookCode' enum
 toE'WebhookCode :: Text -> P.Either String E'WebhookCode
 toE'WebhookCode = \case
   "DEFAULT_UPDATE" -> P.Right E'WebhookCode'DEFAULT_UPDATE
-  s -> P.Left $ "toE'WebhookCode: enum parse failure: " P.++ P.show s
+  s -> P.Right (E'WebhookCode'UNKNOWN s)
 
 
 -- ** Products
@@ -15544,7 +16515,6 @@ toProducts = \case
   "deposit_switch" -> P.Right Products'Deposit_switch
   "recurring_transactions" -> P.Right Products'RecurringTransactions
   unknownProduct -> P.Right (Products'UNKNOWN unknownProduct)
-  s -> P.Left $ "toProducts: enum parse failure: " P.++ P.show s
   
 
 
@@ -15611,7 +16581,6 @@ toRequiredIfSupportedProducts = \case
   "transactions" -> P.Right RequiredIfSupportedProducts'Transactions
   "statements" -> P.Right RequiredIfSupportedProducts'Statements
   unknownProduct -> P.Right (RequiredIfSupportedProducts'UNKNOWN unknownProduct)
-  s -> P.Left $ "toRequiredIfSupportedProducts: enum parse failure: " P.++ P.show s
 
 
 -- ** AdditionalConsentedProducts
@@ -15682,7 +16651,6 @@ toAdditionalConsentedProducts = \case
   "transactions" -> P.Right AdditionalConsentedProducts'Transactions
   "signal" -> P.Right AdditionalConsentedProducts'Signal
   unknownProduct -> P.Right (AdditionalConsentedProducts'UNKNOWN unknownProduct)
-  s -> P.Left $ "toAdditionalConsentedProducts: enum parse failure: " P.++ P.show s
 
 
 -- ** TransactionCode
@@ -15705,7 +16673,49 @@ data TransactionCode
   | TransactionCode'Standing_order -- ^ @"standing order"@
   | TransactionCode'Transfer -- ^ @"transfer"@
   | TransactionCode'Null -- ^ @"null"@
-  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
+  | TransactionCode'UNKNOWN Text -- ^ Catch-all for values not recognized by this client; keeps the enum open.
+  deriving (P.Show, P.Eq, P.Typeable, P.Ord)
+
+instance P.Bounded TransactionCode where
+  minBound = P.toEnum 0
+  maxBound = P.toEnum 15
+
+instance P.Enum TransactionCode where
+  fromEnum = \case
+    TransactionCode'Adjustment -> 0
+    TransactionCode'Atm -> 1
+    TransactionCode'Bank_charge -> 2
+    TransactionCode'Bill_payment -> 3
+    TransactionCode'Cash -> 4
+    TransactionCode'Cashback -> 5
+    TransactionCode'Cheque -> 6
+    TransactionCode'Direct_debit -> 7
+    TransactionCode'Interest -> 8
+    TransactionCode'Payment -> 9
+    TransactionCode'Purchase -> 10
+    TransactionCode'Refund -> 11
+    TransactionCode'Standing_order -> 12
+    TransactionCode'Transfer -> 13
+    TransactionCode'Null -> 14
+    TransactionCode'UNKNOWN _ -> 15
+
+  toEnum = \case
+    0 -> TransactionCode'Adjustment
+    1 -> TransactionCode'Atm
+    2 -> TransactionCode'Bank_charge
+    3 -> TransactionCode'Bill_payment
+    4 -> TransactionCode'Cash
+    5 -> TransactionCode'Cashback
+    6 -> TransactionCode'Cheque
+    7 -> TransactionCode'Direct_debit
+    8 -> TransactionCode'Interest
+    9 -> TransactionCode'Payment
+    10 -> TransactionCode'Purchase
+    11 -> TransactionCode'Refund
+    12 -> TransactionCode'Standing_order
+    13 -> TransactionCode'Transfer
+    14 -> TransactionCode'Null
+    _ -> TransactionCode'UNKNOWN ""
 
 instance A.ToJSON TransactionCode where toJSON = A.toJSON . fromTransactionCode
 instance A.FromJSON TransactionCode where parseJSON o = P.either P.fail (pure . P.id) . toTransactionCode =<< A.parseJSON o
@@ -15731,6 +16741,7 @@ fromTransactionCode = \case
   TransactionCode'Standing_order -> "standing order"
   TransactionCode'Transfer -> "transfer"
   TransactionCode'Null -> "null"
+  TransactionCode'UNKNOWN x -> x
 
 -- | parse 'TransactionCode' enum
 toTransactionCode :: Text -> P.Either String TransactionCode
@@ -15750,7 +16761,7 @@ toTransactionCode = \case
   "standing order" -> P.Right TransactionCode'Standing_order
   "transfer" -> P.Right TransactionCode'Transfer
   "null" -> P.Right TransactionCode'Null
-  s -> P.Left $ "toTransactionCode: enum parse failure: " P.++ P.show s
+  s -> P.Right (TransactionCode'UNKNOWN s)
 
 
 -- ** VerificationStatus
@@ -15763,7 +16774,29 @@ data VerificationStatus
   | VerificationStatus'NEEDS_INFO -- ^ @"NEEDS_INFO"@
   | VerificationStatus'UNABLE_TO_VERIFY -- ^ @"UNABLE_TO_VERIFY"@
   | VerificationStatus'UNKNOWN -- ^ @"UNKNOWN"@
-  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
+  | VerificationStatus'UnrecognizedValue Text -- ^ Catch-all for values not recognized by this client; keeps the enum open.
+  deriving (P.Show, P.Eq, P.Typeable, P.Ord)
+
+instance P.Bounded VerificationStatus where
+  minBound = P.toEnum 0
+  maxBound = P.toEnum 5
+
+instance P.Enum VerificationStatus where
+  fromEnum = \case
+    VerificationStatus'VERIFIED -> 0
+    VerificationStatus'UNVERIFIED -> 1
+    VerificationStatus'NEEDS_INFO -> 2
+    VerificationStatus'UNABLE_TO_VERIFY -> 3
+    VerificationStatus'UNKNOWN -> 4
+    VerificationStatus'UnrecognizedValue _ -> 5
+
+  toEnum = \case
+    0 -> VerificationStatus'VERIFIED
+    1 -> VerificationStatus'UNVERIFIED
+    2 -> VerificationStatus'NEEDS_INFO
+    3 -> VerificationStatus'UNABLE_TO_VERIFY
+    4 -> VerificationStatus'UNKNOWN
+    _ -> VerificationStatus'UnrecognizedValue ""
 
 instance A.ToJSON VerificationStatus where toJSON = A.toJSON . fromVerificationStatus
 instance A.FromJSON VerificationStatus where parseJSON o = P.either P.fail (pure . P.id) . toVerificationStatus =<< A.parseJSON o
@@ -15779,6 +16812,7 @@ fromVerificationStatus = \case
   VerificationStatus'NEEDS_INFO -> "NEEDS_INFO"
   VerificationStatus'UNABLE_TO_VERIFY -> "UNABLE_TO_VERIFY"
   VerificationStatus'UNKNOWN -> "UNKNOWN"
+  VerificationStatus'UnrecognizedValue x -> x
 
 -- | parse 'VerificationStatus' enum
 toVerificationStatus :: Text -> P.Either String VerificationStatus
@@ -15788,7 +16822,7 @@ toVerificationStatus = \case
   "NEEDS_INFO" -> P.Right VerificationStatus'NEEDS_INFO
   "UNABLE_TO_VERIFY" -> P.Right VerificationStatus'UNABLE_TO_VERIFY
   "UNKNOWN" -> P.Right VerificationStatus'UNKNOWN
-  s -> P.Left $ "toVerificationStatus: enum parse failure: " P.++ P.show s
+  s -> P.Right (VerificationStatus'UnrecognizedValue s)
 
 
 -- * Auth Methods

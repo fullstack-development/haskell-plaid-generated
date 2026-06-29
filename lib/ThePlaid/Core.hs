@@ -24,6 +24,7 @@ Module : ThePlaid.Core
 {-# LANGUAGE TupleSections #-}
 {-# LANGUAGE TypeFamilies #-}
 {-# OPTIONS_GHC -fno-warn-name-shadowing -fno-warn-unused-binds -fno-warn-unused-imports #-}
+{-# LANGUAGE TypeOperators #-}
 
 module ThePlaid.Core where
 
@@ -66,6 +67,7 @@ import Data.Function ((&))
 import Data.Foldable(foldlM)
 import Data.Monoid ((<>))
 import Data.Text (Text)
+import Data.Kind (Type)
 import Prelude (($), (.), (<$>), (<*>), Maybe(..), Bool(..), Char, String, fmap, mempty, pure, return, show, IO, Monad, Functor)
 
 -- * ThePlaidConfig
@@ -560,4 +562,4 @@ _showBinaryBase64 = T.decodeUtf8 . BL.toStrict . BL64.encode . unBinary
 -- * Lens Type Aliases
 
 type Lens_' s a = Lens_ s s a a
-type Lens_ s t a b = forall (f :: * -> *). Functor f => (a -> f b) -> s -> f t
+type Lens_ s t a b = forall (f :: Type -> Type). Functor f => (a -> f b) -> s -> f t
