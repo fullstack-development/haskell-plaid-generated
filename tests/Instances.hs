@@ -3651,3 +3651,1735 @@ instance Arbitrary TransactionCode where
 instance Arbitrary VerificationStatus where
   arbitrary = arbitraryBoundedEnum
 
+instance Arbitrary BankInitiatedReturnRisk where
+  arbitrary = sized genBankInitiatedReturnRisk
+
+genBankInitiatedReturnRisk :: Int -> Gen BankInitiatedReturnRisk
+genBankInitiatedReturnRisk n =
+  BankInitiatedReturnRisk
+    <$> arbitrary -- bankInitiatedReturnRiskRiskTier :: Int
+    <*> arbitrary -- bankInitiatedReturnRiskScore :: Int
+  
+instance Arbitrary BaseReport where
+  arbitrary = sized genBaseReport
+
+genBaseReport :: Int -> Gen BaseReport
+genBaseReport n =
+  BaseReport
+    <$> arbitraryReducedMaybe n -- baseReportAttributes :: Maybe BaseReportUserAttributes
+    <*> arbitraryReducedMaybe n -- baseReportClientReportId :: Maybe Text
+    <*> arbitraryReduced n -- baseReportDateGenerated :: DateTime
+    <*> arbitrary -- baseReportDaysRequested :: Double
+    <*> arbitraryReduced n -- baseReportItems :: [BaseReportItem]
+    <*> arbitrary -- baseReportReportId :: Text
+  
+instance Arbitrary BaseReportAccount where
+  arbitrary = sized genBaseReportAccount
+
+genBaseReportAccount :: Int -> Gen BaseReportAccount
+genBaseReportAccount n =
+  BaseReportAccount
+    <$> arbitrary -- baseReportAccountAccountId :: Text
+    <*> arbitraryReducedMaybe n -- baseReportAccountAccountInsights :: Maybe BaseReportAccountInsights
+    <*> arbitraryReducedMaybe n -- baseReportAccountAttributes :: Maybe BaseReportAttributes
+    <*> arbitraryReduced n -- baseReportAccountBalances :: BaseReportAccountBalances
+    <*> arbitraryReduced n -- baseReportAccountConsumerDisputes :: [ConsumerDispute]
+    <*> arbitrary -- baseReportAccountDaysAvailable :: Double
+    <*> arbitraryReducedMaybe n -- baseReportAccountHistoricalBalances :: Maybe [BaseReportHistoricalBalance]
+    <*> arbitrary -- baseReportAccountMask :: Text
+    <*> arbitraryReduced n -- baseReportAccountMetadata :: BaseReportAccountMetadata
+    <*> arbitrary -- baseReportAccountName :: Text
+    <*> arbitrary -- baseReportAccountOfficialName :: Text
+    <*> arbitraryReduced n -- baseReportAccountOwners :: [Owner]
+    <*> arbitraryReduced n -- baseReportAccountOwnershipType :: OwnershipType
+    <*> arbitraryReduced n -- baseReportAccountSubtype :: AccountSubtype
+    <*> arbitraryReduced n -- baseReportAccountTransactions :: [BaseReportTransaction]
+    <*> arbitraryReduced n -- baseReportAccountType :: AccountType
+  
+instance Arbitrary BaseReportAccountBalances where
+  arbitrary = sized genBaseReportAccountBalances
+
+genBaseReportAccountBalances :: Int -> Gen BaseReportAccountBalances
+genBaseReportAccountBalances n =
+  BaseReportAccountBalances
+    <$> arbitrary -- baseReportAccountBalancesAvailable :: Double
+    <*> arbitraryReducedMaybe n -- baseReportAccountBalancesAverageBalance :: Maybe Double
+    <*> arbitraryReducedMaybe n -- baseReportAccountBalancesAverageMonthlyBalances :: Maybe [BaseReportAverageMonthlyBalances]
+    <*> arbitrary -- baseReportAccountBalancesCurrent :: Double
+    <*> arbitrary -- baseReportAccountBalancesIsoCurrencyCode :: Text
+    <*> arbitraryReducedMaybe n -- baseReportAccountBalancesLastUpdatedDatetime :: Maybe DateTime
+    <*> arbitrary -- baseReportAccountBalancesLimit :: Double
+    <*> arbitraryReducedMaybe n -- baseReportAccountBalancesMostRecentThirtyDayAverageBalance :: Maybe Double
+    <*> arbitrary -- baseReportAccountBalancesUnofficialCurrencyCode :: Text
+  
+instance Arbitrary BaseReportAccountInsights where
+  arbitrary = sized genBaseReportAccountInsights
+
+genBaseReportAccountInsights :: Int -> Gen BaseReportAccountInsights
+genBaseReportAccountInsights n =
+  BaseReportAccountInsights
+    <$> arbitraryReducedMaybe n -- baseReportAccountInsightsAverageDaysBetweenTransactions :: Maybe Double
+    <*> arbitraryReducedMaybe n -- baseReportAccountInsightsAverageInflowAmounts :: Maybe [BaseReportAverageFlowInsights]
+    <*> arbitraryReducedMaybe n -- baseReportAccountInsightsAverageOutflowAmounts :: Maybe [BaseReportAverageFlowInsights]
+    <*> arbitraryReducedMaybe n -- baseReportAccountInsightsDaysAvailable :: Maybe Int
+    <*> arbitraryReducedMaybe n -- baseReportAccountInsightsLongestGapsBetweenTransactions :: Maybe [BaseReportLongestGapInsights]
+    <*> arbitraryReducedMaybe n -- baseReportAccountInsightsMostRecentTransactionDate :: Maybe Date
+    <*> arbitraryReducedMaybe n -- baseReportAccountInsightsNumberOfDaysNoTransactions :: Maybe Int
+    <*> arbitraryReducedMaybe n -- baseReportAccountInsightsNumberOfInflows :: Maybe [BaseReportNumberFlowInsights]
+    <*> arbitraryReducedMaybe n -- baseReportAccountInsightsNumberOfOutflows :: Maybe [BaseReportNumberFlowInsights]
+    <*> arbitraryReducedMaybe n -- baseReportAccountInsightsOldestTransactionDate :: Maybe Date
+  
+instance Arbitrary BaseReportAccountMetadata where
+  arbitrary = sized genBaseReportAccountMetadata
+
+genBaseReportAccountMetadata :: Int -> Gen BaseReportAccountMetadata
+genBaseReportAccountMetadata n =
+  BaseReportAccountMetadata
+    <$> arbitraryReduced n -- baseReportAccountMetadataEndDate :: Date
+    <*> arbitraryReduced n -- baseReportAccountMetadataStartDate :: Date
+  
+instance Arbitrary BaseReportAttributes where
+  arbitrary = sized genBaseReportAttributes
+
+genBaseReportAttributes :: Int -> Gen BaseReportAttributes
+genBaseReportAttributes n =
+  BaseReportAttributes
+    <$> arbitraryReducedMaybe n -- baseReportAttributesIsPrimaryAccount :: Maybe Bool
+    <*> arbitraryReducedMaybe n -- baseReportAttributesNsfOverdraftTransactionsCount :: Maybe Int
+    <*> arbitraryReducedMaybe n -- baseReportAttributesNsfOverdraftTransactionsCount30d :: Maybe Int
+    <*> arbitraryReducedMaybe n -- baseReportAttributesNsfOverdraftTransactionsCount60d :: Maybe Int
+    <*> arbitraryReducedMaybe n -- baseReportAttributesNsfOverdraftTransactionsCount90d :: Maybe Int
+    <*> arbitraryReducedMaybe n -- baseReportAttributesPrimaryAccountScore :: Maybe Double
+    <*> arbitraryReducedMaybe n -- baseReportAttributesTotalInflowAmount :: Maybe TotalInflowAmount
+    <*> arbitraryReducedMaybe n -- baseReportAttributesTotalInflowAmount30d :: Maybe TotalInflowAmount30d
+    <*> arbitraryReducedMaybe n -- baseReportAttributesTotalInflowAmount60d :: Maybe TotalInflowAmount60d
+    <*> arbitraryReducedMaybe n -- baseReportAttributesTotalInflowAmount90d :: Maybe TotalInflowAmount90d
+    <*> arbitraryReducedMaybe n -- baseReportAttributesTotalOutflowAmount :: Maybe TotalOutflowAmount
+    <*> arbitraryReducedMaybe n -- baseReportAttributesTotalOutflowAmount30d :: Maybe TotalOutflowAmount30d
+    <*> arbitraryReducedMaybe n -- baseReportAttributesTotalOutflowAmount60d :: Maybe TotalOutflowAmount60d
+    <*> arbitraryReducedMaybe n -- baseReportAttributesTotalOutflowAmount90d :: Maybe TotalOutflowAmount90d
+  
+instance Arbitrary BaseReportAverageFlowInsights where
+  arbitrary = sized genBaseReportAverageFlowInsights
+
+genBaseReportAverageFlowInsights :: Int -> Gen BaseReportAverageFlowInsights
+genBaseReportAverageFlowInsights n =
+  BaseReportAverageFlowInsights
+    <$> arbitraryReduced n -- baseReportAverageFlowInsightsEndDate :: Date
+    <*> arbitraryReduced n -- baseReportAverageFlowInsightsStartDate :: Date
+    <*> arbitraryReduced n -- baseReportAverageFlowInsightsTotalAmount :: CreditAmountWithCurrency
+  
+instance Arbitrary BaseReportAverageMonthlyBalances where
+  arbitrary = sized genBaseReportAverageMonthlyBalances
+
+genBaseReportAverageMonthlyBalances :: Int -> Gen BaseReportAverageMonthlyBalances
+genBaseReportAverageMonthlyBalances n =
+  BaseReportAverageMonthlyBalances
+    <$> arbitraryReduced n -- baseReportAverageMonthlyBalancesAverageBalance :: CreditAmountWithCurrency
+    <*> arbitrary -- baseReportAverageMonthlyBalancesEndDate :: Text
+    <*> arbitrary -- baseReportAverageMonthlyBalancesStartDate :: Text
+  
+instance Arbitrary BaseReportHistoricalBalance where
+  arbitrary = sized genBaseReportHistoricalBalance
+
+genBaseReportHistoricalBalance :: Int -> Gen BaseReportHistoricalBalance
+genBaseReportHistoricalBalance n =
+  BaseReportHistoricalBalance
+    <$> arbitrary -- baseReportHistoricalBalanceCurrent :: Double
+    <*> arbitraryReduced n -- baseReportHistoricalBalanceDate :: Date
+    <*> arbitrary -- baseReportHistoricalBalanceIsoCurrencyCode :: Text
+    <*> arbitrary -- baseReportHistoricalBalanceUnofficialCurrencyCode :: Text
+  
+instance Arbitrary BaseReportItem where
+  arbitrary = sized genBaseReportItem
+
+genBaseReportItem :: Int -> Gen BaseReportItem
+genBaseReportItem n =
+  BaseReportItem
+    <$> arbitraryReduced n -- baseReportItemAccounts :: [BaseReportAccount]
+    <*> arbitraryReduced n -- baseReportItemDateLastUpdated :: DateTime
+    <*> arbitrary -- baseReportItemInstitutionId :: Text
+    <*> arbitrary -- baseReportItemInstitutionName :: Text
+    <*> arbitrary -- baseReportItemItemId :: Text
+  
+instance Arbitrary BaseReportLongestGapInsights where
+  arbitrary = sized genBaseReportLongestGapInsights
+
+genBaseReportLongestGapInsights :: Int -> Gen BaseReportLongestGapInsights
+genBaseReportLongestGapInsights n =
+  BaseReportLongestGapInsights
+    <$> arbitraryReducedMaybe n -- baseReportLongestGapInsightsDays :: Maybe Int
+    <*> arbitraryReducedMaybe n -- baseReportLongestGapInsightsEndDate :: Maybe Date
+    <*> arbitraryReducedMaybe n -- baseReportLongestGapInsightsStartDate :: Maybe Date
+  
+instance Arbitrary BaseReportNumberFlowInsights where
+  arbitrary = sized genBaseReportNumberFlowInsights
+
+genBaseReportNumberFlowInsights :: Int -> Gen BaseReportNumberFlowInsights
+genBaseReportNumberFlowInsights n =
+  BaseReportNumberFlowInsights
+    <$> arbitrary -- baseReportNumberFlowInsightsCount :: Int
+    <*> arbitraryReduced n -- baseReportNumberFlowInsightsEndDate :: Date
+    <*> arbitraryReduced n -- baseReportNumberFlowInsightsStartDate :: Date
+  
+instance Arbitrary BaseReportTransaction where
+  arbitrary = sized genBaseReportTransaction
+
+genBaseReportTransaction :: Int -> Gen BaseReportTransaction
+genBaseReportTransaction n =
+  BaseReportTransaction
+    <$> arbitrary -- baseReportTransactionAccountId :: Text
+    <*> arbitraryReducedMaybe n -- baseReportTransactionAccountOwner :: Maybe Text
+    <*> arbitrary -- baseReportTransactionAmount :: Double
+    <*> arbitraryReducedMaybe n -- baseReportTransactionCategory :: Maybe [Text]
+    <*> arbitraryReducedMaybe n -- baseReportTransactionCategoryId :: Maybe Text
+    <*> arbitraryReducedMaybe n -- baseReportTransactionCheckNumber :: Maybe Text
+    <*> arbitraryReducedMaybe n -- baseReportTransactionCreditCategory :: Maybe CreditCategory
+    <*> arbitraryReduced n -- baseReportTransactionDate :: Date
+    <*> arbitraryReducedMaybe n -- baseReportTransactionDateTransacted :: Maybe Text
+    <*> arbitrary -- baseReportTransactionIsoCurrencyCode :: Text
+    <*> arbitraryReducedMaybe n -- baseReportTransactionLocation :: Maybe Location
+    <*> arbitraryReducedMaybe n -- baseReportTransactionMerchantName :: Maybe Text
+    <*> arbitraryReducedMaybe n -- baseReportTransactionName :: Maybe Text
+    <*> arbitrary -- baseReportTransactionOriginalDescription :: Text
+    <*> arbitrary -- baseReportTransactionPending :: Bool
+    <*> arbitraryReducedMaybe n -- baseReportTransactionPersonalFinanceCategory :: Maybe PersonalFinanceCategory
+    <*> arbitrary -- baseReportTransactionTransactionId :: Text
+    <*> arbitraryReducedMaybe n -- baseReportTransactionTransactionType :: Maybe BaseReportTransactionType
+    <*> arbitrary -- baseReportTransactionUnofficialCurrencyCode :: Text
+  
+instance Arbitrary BaseReportUserAttributes where
+  arbitrary = sized genBaseReportUserAttributes
+
+genBaseReportUserAttributes :: Int -> Gen BaseReportUserAttributes
+genBaseReportUserAttributes n =
+  BaseReportUserAttributes
+    <$> arbitraryReducedMaybe n -- baseReportUserAttributesNsfOverdraftTransactionsCount :: Maybe Int
+    <*> arbitraryReducedMaybe n -- baseReportUserAttributesNsfOverdraftTransactionsCount30d :: Maybe Int
+    <*> arbitraryReducedMaybe n -- baseReportUserAttributesNsfOverdraftTransactionsCount60d :: Maybe Int
+    <*> arbitraryReducedMaybe n -- baseReportUserAttributesNsfOverdraftTransactionsCount90d :: Maybe Int
+    <*> arbitraryReducedMaybe n -- baseReportUserAttributesTotalInflowAmount :: Maybe TotalReportInflowAmount
+    <*> arbitraryReducedMaybe n -- baseReportUserAttributesTotalInflowAmount30d :: Maybe TotalReportInflowAmount30d
+    <*> arbitraryReducedMaybe n -- baseReportUserAttributesTotalInflowAmount60d :: Maybe TotalReportInflowAmount60d
+    <*> arbitraryReducedMaybe n -- baseReportUserAttributesTotalInflowAmount90d :: Maybe TotalReportInflowAmount90d
+    <*> arbitraryReducedMaybe n -- baseReportUserAttributesTotalOutflowAmount :: Maybe TotalReportOutflowAmount
+    <*> arbitraryReducedMaybe n -- baseReportUserAttributesTotalOutflowAmount30d :: Maybe TotalReportOutflowAmount30d
+    <*> arbitraryReducedMaybe n -- baseReportUserAttributesTotalOutflowAmount60d :: Maybe TotalReportOutflowAmount60d
+    <*> arbitraryReducedMaybe n -- baseReportUserAttributesTotalOutflowAmount90d :: Maybe TotalReportOutflowAmount90d
+  
+instance Arbitrary BaseReportWarning where
+  arbitrary = sized genBaseReportWarning
+
+genBaseReportWarning :: Int -> Gen BaseReportWarning
+genBaseReportWarning n =
+  BaseReportWarning
+    <$> arbitraryReduced n -- baseReportWarningCause :: Cause
+    <*> arbitraryReduced n -- baseReportWarningWarningCode :: BaseReportWarningCode
+    <*> arbitrary -- baseReportWarningWarningType :: Text
+  
+instance Arbitrary CheckReportWarning where
+  arbitrary = sized genCheckReportWarning
+
+genCheckReportWarning :: Int -> Gen CheckReportWarning
+genCheckReportWarning n =
+  CheckReportWarning
+    <$> arbitraryReduced n -- checkReportWarningCause :: Cause
+    <*> arbitraryReduced n -- checkReportWarningWarningCode :: CheckReportWarningCode
+    <*> arbitrary -- checkReportWarningWarningType :: Text
+  
+instance Arbitrary ClientUserIdentity where
+  arbitrary = sized genClientUserIdentity
+
+genClientUserIdentity :: Int -> Gen ClientUserIdentity
+genClientUserIdentity n =
+  ClientUserIdentity
+    <$> arbitraryReducedMaybe n -- clientUserIdentityAddresses :: Maybe [ClientUserIdentityAddress]
+    <*> arbitraryReducedMaybe n -- clientUserIdentityDateOfBirth :: Maybe Date
+    <*> arbitraryReducedMaybe n -- clientUserIdentityEmails :: Maybe [ClientUserIdentityEmail]
+    <*> arbitraryReducedMaybe n -- clientUserIdentityIdNumbers :: Maybe [UserIDNumber]
+    <*> arbitraryReducedMaybe n -- clientUserIdentityName :: Maybe ClientUserIdentityName
+    <*> arbitraryReducedMaybe n -- clientUserIdentityPhoneNumbers :: Maybe [ClientUserIdentityPhoneNumber]
+  
+instance Arbitrary ClientUserIdentityAddress where
+  arbitrary = sized genClientUserIdentityAddress
+
+genClientUserIdentityAddress :: Int -> Gen ClientUserIdentityAddress
+genClientUserIdentityAddress n =
+  ClientUserIdentityAddress
+    <$> arbitraryReducedMaybe n -- clientUserIdentityAddressCity :: Maybe Text
+    <*> arbitrary -- clientUserIdentityAddressCountry :: Text
+    <*> arbitraryReducedMaybe n -- clientUserIdentityAddressPostalCode :: Maybe Text
+    <*> arbitrary -- clientUserIdentityAddressPrimary :: Bool
+    <*> arbitraryReducedMaybe n -- clientUserIdentityAddressRegion :: Maybe Text
+    <*> arbitraryReducedMaybe n -- clientUserIdentityAddressStreet1 :: Maybe Text
+    <*> arbitraryReducedMaybe n -- clientUserIdentityAddressStreet2 :: Maybe Text
+  
+instance Arbitrary ClientUserIdentityEmail where
+  arbitrary = sized genClientUserIdentityEmail
+
+genClientUserIdentityEmail :: Int -> Gen ClientUserIdentityEmail
+genClientUserIdentityEmail n =
+  ClientUserIdentityEmail
+    <$> arbitrary -- clientUserIdentityEmailData :: Text
+    <*> arbitrary -- clientUserIdentityEmailPrimary :: Bool
+  
+instance Arbitrary ClientUserIdentityName where
+  arbitrary = sized genClientUserIdentityName
+
+genClientUserIdentityName :: Int -> Gen ClientUserIdentityName
+genClientUserIdentityName n =
+  ClientUserIdentityName
+    <$> arbitrary -- clientUserIdentityNameFamilyName :: Text
+    <*> arbitrary -- clientUserIdentityNameGivenName :: Text
+  
+instance Arbitrary ClientUserIdentityPhoneNumber where
+  arbitrary = sized genClientUserIdentityPhoneNumber
+
+genClientUserIdentityPhoneNumber :: Int -> Gen ClientUserIdentityPhoneNumber
+genClientUserIdentityPhoneNumber n =
+  ClientUserIdentityPhoneNumber
+    <$> arbitrary -- clientUserIdentityPhoneNumberData :: Text
+    <*> arbitrary -- clientUserIdentityPhoneNumberPrimary :: Bool
+  
+instance Arbitrary ConsumerDispute where
+  arbitrary = sized genConsumerDispute
+
+genConsumerDispute :: Int -> Gen ConsumerDispute
+genConsumerDispute n =
+  ConsumerDispute
+    <$> arbitraryReduced n -- consumerDisputeCategory :: ConsumerDisputeCategory
+    <*> arbitrary -- consumerDisputeConsumerDisputeId :: Text
+    <*> arbitraryReduced n -- consumerDisputeDisputeFieldCreateDate :: Date
+    <*> arbitrary -- consumerDisputeStatement :: Text
+  
+instance Arbitrary ConsumerReportUserIdentity where
+  arbitrary = sized genConsumerReportUserIdentity
+
+genConsumerReportUserIdentity :: Int -> Gen ConsumerReportUserIdentity
+genConsumerReportUserIdentity n =
+  ConsumerReportUserIdentity
+    <$> arbitraryReduced n -- consumerReportUserIdentityDateOfBirth :: Date
+    <*> arbitrary -- consumerReportUserIdentityEmails :: [Text]
+    <*> arbitrary -- consumerReportUserIdentityFirstName :: Text
+    <*> arbitrary -- consumerReportUserIdentityLastName :: Text
+    <*> arbitrary -- consumerReportUserIdentityPhoneNumbers :: [Text]
+    <*> arbitraryReduced n -- consumerReportUserIdentityPrimaryAddress :: AddressData
+    <*> arbitraryReducedMaybe n -- consumerReportUserIdentitySsnFull :: Maybe Text
+    <*> arbitraryReducedMaybe n -- consumerReportUserIdentitySsnLast4 :: Maybe Text
+  
+instance Arbitrary CraAnnualIncomeValues where
+  arbitrary = sized genCraAnnualIncomeValues
+
+genCraAnnualIncomeValues :: Int -> Gen CraAnnualIncomeValues
+genCraAnnualIncomeValues n =
+  CraAnnualIncomeValues
+    <$> arbitrary -- craAnnualIncomeValuesGrossIncome :: Double
+    <*> arbitrary -- craAnnualIncomeValuesNetIncome :: Double
+  
+instance Arbitrary CraBankIncomeAccount where
+  arbitrary = sized genCraBankIncomeAccount
+
+genCraBankIncomeAccount :: Int -> Gen CraBankIncomeAccount
+genCraBankIncomeAccount n =
+  CraBankIncomeAccount
+    <$> arbitraryReducedMaybe n -- craBankIncomeAccountAccountId :: Maybe Text
+    <*> arbitrary -- craBankIncomeAccountMask :: Text
+    <*> arbitraryReduced n -- craBankIncomeAccountMetadata :: CraBankIncomeAccountMetadata
+    <*> arbitrary -- craBankIncomeAccountName :: Text
+    <*> arbitrary -- craBankIncomeAccountOfficialName :: Text
+    <*> arbitraryReduced n -- craBankIncomeAccountOwners :: [Owner]
+    <*> arbitraryReduced n -- craBankIncomeAccountSubtype :: DepositoryAccountSubtype
+    <*> arbitraryReduced n -- craBankIncomeAccountType :: CreditBankIncomeAccountType
+  
+instance Arbitrary CraBankIncomeAccountMetadata where
+  arbitrary = sized genCraBankIncomeAccountMetadata
+
+genCraBankIncomeAccountMetadata :: Int -> Gen CraBankIncomeAccountMetadata
+genCraBankIncomeAccountMetadata n =
+  CraBankIncomeAccountMetadata
+    <$> arbitraryReduced n -- craBankIncomeAccountMetadataEndDate :: Date
+    <*> arbitraryReduced n -- craBankIncomeAccountMetadataStartDate :: Date
+  
+instance Arbitrary CraBankIncomeCause where
+  arbitrary = sized genCraBankIncomeCause
+
+genCraBankIncomeCause :: Int -> Gen CraBankIncomeCause
+genCraBankIncomeCause n =
+  CraBankIncomeCause
+    <$> arbitrary -- craBankIncomeCauseDisplayMessage :: Text
+    <*> arbitrary -- craBankIncomeCauseErrorCode :: Text
+    <*> arbitrary -- craBankIncomeCauseErrorMessage :: Text
+    <*> arbitraryReduced n -- craBankIncomeCauseErrorType :: CreditBankIncomeErrorType
+  
+instance Arbitrary CraBankIncomeEmployer where
+  arbitrary = sized genCraBankIncomeEmployer
+
+genCraBankIncomeEmployer :: Int -> Gen CraBankIncomeEmployer
+genCraBankIncomeEmployer n =
+  CraBankIncomeEmployer
+    <$> arbitrary -- craBankIncomeEmployerName :: Text
+  
+instance Arbitrary CraBankIncomeHistoricalSummary where
+  arbitrary = sized genCraBankIncomeHistoricalSummary
+
+genCraBankIncomeHistoricalSummary :: Int -> Gen CraBankIncomeHistoricalSummary
+genCraBankIncomeHistoricalSummary n =
+  CraBankIncomeHistoricalSummary
+    <$> arbitraryReducedMaybe n -- craBankIncomeHistoricalSummaryEndDate :: Maybe Date
+    <*> arbitraryReducedMaybe n -- craBankIncomeHistoricalSummaryStartDate :: Maybe Date
+    <*> arbitraryReducedMaybe n -- craBankIncomeHistoricalSummaryTotalAmounts :: Maybe [CreditAmountWithCurrency]
+    <*> arbitraryReducedMaybe n -- craBankIncomeHistoricalSummaryTransactions :: Maybe [CraBankIncomeTransaction]
+  
+instance Arbitrary CraBankIncomeIncomeProvider where
+  arbitrary = sized genCraBankIncomeIncomeProvider
+
+genCraBankIncomeIncomeProvider :: Int -> Gen CraBankIncomeIncomeProvider
+genCraBankIncomeIncomeProvider n =
+  CraBankIncomeIncomeProvider
+    <$> arbitrary -- craBankIncomeIncomeProviderIsNormalized :: Bool
+    <*> arbitrary -- craBankIncomeIncomeProviderName :: Text
+  
+instance Arbitrary CraBankIncomeItem where
+  arbitrary = sized genCraBankIncomeItem
+
+genCraBankIncomeItem :: Int -> Gen CraBankIncomeItem
+genCraBankIncomeItem n =
+  CraBankIncomeItem
+    <$> arbitraryReducedMaybe n -- craBankIncomeItemAccounts :: Maybe [CraBankIncomeAccount]
+    <*> arbitraryReduced n -- craBankIncomeItemBankIncomeAccounts :: [CraBankIncomeAccount]
+    <*> arbitraryReduced n -- craBankIncomeItemBankIncomeSources :: [CraBankIncomeSource]
+    <*> arbitraryReducedMaybe n -- craBankIncomeItemInstitutionId :: Maybe Text
+    <*> arbitraryReducedMaybe n -- craBankIncomeItemInstitutionName :: Maybe Text
+    <*> arbitraryReducedMaybe n -- craBankIncomeItemItemId :: Maybe Text
+    <*> arbitraryReducedMaybe n -- craBankIncomeItemLastUpdatedTime :: Maybe DateTime
+  
+instance Arbitrary CraBankIncomeSource where
+  arbitrary = sized genCraBankIncomeSource
+
+genCraBankIncomeSource :: Int -> Gen CraBankIncomeSource
+genCraBankIncomeSource n =
+  CraBankIncomeSource
+    <$> arbitraryReducedMaybe n -- craBankIncomeSourceAccountId :: Maybe Text
+    <*> arbitraryReducedMaybe n -- craBankIncomeSourceEmployer :: Maybe CraBankIncomeEmployer
+    <*> arbitraryReducedMaybe n -- craBankIncomeSourceEndDate :: Maybe Date
+    <*> arbitraryReducedMaybe n -- craBankIncomeSourceForecastedAverageMonthlyIncome :: Maybe Double
+    <*> arbitraryReduced n -- craBankIncomeSourceForecastedAverageMonthlyIncomePredictionIntervals :: [CraPredictionInterval]
+    <*> arbitraryReducedMaybe n -- craBankIncomeSourceHistoricalAverageMonthlyGrossIncome :: Maybe Double
+    <*> arbitraryReducedMaybe n -- craBankIncomeSourceHistoricalAverageMonthlyIncome :: Maybe Double
+    <*> arbitraryReducedMaybe n -- craBankIncomeSourceHistoricalSummary :: Maybe [CraBankIncomeHistoricalSummary]
+    <*> arbitraryReducedMaybe n -- craBankIncomeSourceIncomeCategory :: Maybe CreditBankIncomeCategory
+    <*> arbitraryReducedMaybe n -- craBankIncomeSourceIncomeDescription :: Maybe Text
+    <*> arbitraryReduced n -- craBankIncomeSourceIncomeProvider :: CraBankIncomeIncomeProvider
+    <*> arbitraryReducedMaybe n -- craBankIncomeSourceIncomeSourceId :: Maybe Text
+    <*> arbitraryReducedMaybe n -- craBankIncomeSourceIsoCurrencyCode :: Maybe Text
+    <*> arbitraryReducedMaybe n -- craBankIncomeSourceNextPaymentDate :: Maybe Date
+    <*> arbitraryReducedMaybe n -- craBankIncomeSourcePayFrequency :: Maybe CreditBankIncomePayFrequency
+    <*> arbitraryReducedMaybe n -- craBankIncomeSourceStartDate :: Maybe Date
+    <*> arbitraryReducedMaybe n -- craBankIncomeSourceStatus :: Maybe CraBankIncomeStatus
+    <*> arbitraryReducedMaybe n -- craBankIncomeSourceTotalAmount :: Maybe Double
+    <*> arbitraryReducedMaybe n -- craBankIncomeSourceTransactionCount :: Maybe Int
+    <*> arbitraryReducedMaybe n -- craBankIncomeSourceUnofficialCurrencyCode :: Maybe Text
+  
+instance Arbitrary CraBankIncomeSummary where
+  arbitrary = sized genCraBankIncomeSummary
+
+genCraBankIncomeSummary :: Int -> Gen CraBankIncomeSummary
+genCraBankIncomeSummary n =
+  CraBankIncomeSummary
+    <$> arbitraryReducedMaybe n -- craBankIncomeSummaryEndDate :: Maybe Date
+    <*> arbitraryReducedMaybe n -- craBankIncomeSummaryForecastedAnnualIncome :: Maybe [CreditAmountWithCurrency]
+    <*> arbitraryReducedMaybe n -- craBankIncomeSummaryForecastedAverageMonthlyIncome :: Maybe [CreditAmountWithCurrency]
+    <*> arbitraryReducedMaybe n -- craBankIncomeSummaryHistoricalAnnualGrossIncome :: Maybe [CreditAmountWithCurrency]
+    <*> arbitraryReducedMaybe n -- craBankIncomeSummaryHistoricalAnnualIncome :: Maybe [CreditAmountWithCurrency]
+    <*> arbitraryReducedMaybe n -- craBankIncomeSummaryHistoricalAverageMonthlyGrossIncome :: Maybe [CreditAmountWithCurrency]
+    <*> arbitraryReducedMaybe n -- craBankIncomeSummaryHistoricalAverageMonthlyIncome :: Maybe [CreditAmountWithCurrency]
+    <*> arbitraryReducedMaybe n -- craBankIncomeSummaryHistoricalSummary :: Maybe [CraBankIncomeHistoricalSummary]
+    <*> arbitraryReducedMaybe n -- craBankIncomeSummaryIncomeCategoriesCount :: Maybe Int
+    <*> arbitraryReducedMaybe n -- craBankIncomeSummaryIncomeSourcesCount :: Maybe Int
+    <*> arbitraryReducedMaybe n -- craBankIncomeSummaryIncomeTransactionsCount :: Maybe Int
+    <*> arbitraryReducedMaybe n -- craBankIncomeSummaryStartDate :: Maybe Date
+    <*> arbitraryReducedMaybe n -- craBankIncomeSummaryTotalAmounts :: Maybe [CreditAmountWithCurrency]
+  
+instance Arbitrary CraBankIncomeTransaction where
+  arbitrary = sized genCraBankIncomeTransaction
+
+genCraBankIncomeTransaction :: Int -> Gen CraBankIncomeTransaction
+genCraBankIncomeTransaction n =
+  CraBankIncomeTransaction
+    <$> arbitrary -- craBankIncomeTransactionAmount :: Double
+    <*> arbitraryReducedMaybe n -- craBankIncomeTransactionBonusType :: Maybe CraBankIncomeBonusType
+    <*> arbitraryReducedMaybe n -- craBankIncomeTransactionCheckNumber :: Maybe Text
+    <*> arbitraryReduced n -- craBankIncomeTransactionDate :: Date
+    <*> arbitrary -- craBankIncomeTransactionIsoCurrencyCode :: Text
+    <*> arbitraryReducedMaybe n -- craBankIncomeTransactionName :: Maybe Text
+    <*> arbitrary -- craBankIncomeTransactionOriginalDescription :: Text
+    <*> arbitrary -- craBankIncomeTransactionPending :: Bool
+    <*> arbitrary -- craBankIncomeTransactionTransactionId :: Text
+    <*> arbitrary -- craBankIncomeTransactionUnofficialCurrencyCode :: Text
+  
+instance Arbitrary CraBankIncomeWarning where
+  arbitrary = sized genCraBankIncomeWarning
+
+genCraBankIncomeWarning :: Int -> Gen CraBankIncomeWarning
+genCraBankIncomeWarning n =
+  CraBankIncomeWarning
+    <$> arbitraryReducedMaybe n -- craBankIncomeWarningCause :: Maybe CraBankIncomeCause
+    <*> arbitraryReducedMaybe n -- craBankIncomeWarningWarningCode :: Maybe CraBankIncomeWarningCode
+    <*> arbitraryReducedMaybe n -- craBankIncomeWarningWarningType :: Maybe CreditBankIncomeWarningType
+  
+instance Arbitrary CraCheckReportBaseReportGetRequest where
+  arbitrary = sized genCraCheckReportBaseReportGetRequest
+
+genCraCheckReportBaseReportGetRequest :: Int -> Gen CraCheckReportBaseReportGetRequest
+genCraCheckReportBaseReportGetRequest n =
+  CraCheckReportBaseReportGetRequest
+    <$> arbitraryReducedMaybe n -- craCheckReportBaseReportGetRequestClientId :: Maybe Text
+    <*> arbitraryReducedMaybe n -- craCheckReportBaseReportGetRequestConsumerReportPermissiblePurpose :: Maybe CraCheckReportPermissiblePurpose
+    <*> arbitraryReducedMaybe n -- craCheckReportBaseReportGetRequestItemIds :: Maybe [Text]
+    <*> arbitraryReducedMaybe n -- craCheckReportBaseReportGetRequestReportId :: Maybe Text
+    <*> arbitraryReducedMaybe n -- craCheckReportBaseReportGetRequestSecret :: Maybe Text
+    <*> arbitraryReducedMaybe n -- craCheckReportBaseReportGetRequestThirdPartyUserToken :: Maybe Text
+    <*> arbitraryReducedMaybe n -- craCheckReportBaseReportGetRequestUserId :: Maybe Text
+    <*> arbitraryReducedMaybe n -- craCheckReportBaseReportGetRequestUserTier :: Maybe CraUserTier
+    <*> arbitraryReducedMaybe n -- craCheckReportBaseReportGetRequestUserToken :: Maybe Text
+  
+instance Arbitrary CraCheckReportBaseReportGetResponse where
+  arbitrary = sized genCraCheckReportBaseReportGetResponse
+
+genCraCheckReportBaseReportGetResponse :: Int -> Gen CraCheckReportBaseReportGetResponse
+genCraCheckReportBaseReportGetResponse n =
+  CraCheckReportBaseReportGetResponse
+    <$> arbitraryReduced n -- craCheckReportBaseReportGetResponseReport :: BaseReport
+    <*> arbitrary -- craCheckReportBaseReportGetResponseRequestId :: Text
+    <*> arbitraryReduced n -- craCheckReportBaseReportGetResponseWarnings :: [BaseReportWarning]
+  
+instance Arbitrary CraCheckReportCreateBaseReportOptions where
+  arbitrary = sized genCraCheckReportCreateBaseReportOptions
+
+genCraCheckReportCreateBaseReportOptions :: Int -> Gen CraCheckReportCreateBaseReportOptions
+genCraCheckReportCreateBaseReportOptions n =
+  CraCheckReportCreateBaseReportOptions
+    <$> arbitraryReducedMaybe n -- craCheckReportCreateBaseReportOptionsClientReportId :: Maybe Text
+    <*> arbitraryReducedMaybe n -- craCheckReportCreateBaseReportOptionsGseOptions :: Maybe CraCheckReportGSEOptions
+    <*> arbitraryReducedMaybe n -- craCheckReportCreateBaseReportOptionsHomeLendingReportOptions :: Maybe CraCheckReportHomeLendingReportOptions
+    <*> arbitraryReducedMaybe n -- craCheckReportCreateBaseReportOptionsRequireIdentity :: Maybe Bool
+  
+instance Arbitrary CraCheckReportCreateCashflowInsightsOptions where
+  arbitrary = sized genCraCheckReportCreateCashflowInsightsOptions
+
+genCraCheckReportCreateCashflowInsightsOptions :: Int -> Gen CraCheckReportCreateCashflowInsightsOptions
+genCraCheckReportCreateCashflowInsightsOptions n =
+  CraCheckReportCreateCashflowInsightsOptions
+    <$> arbitraryReducedMaybe n -- craCheckReportCreateCashflowInsightsOptionsAttributesVersion :: Maybe CashflowAttributesVersion
+  
+instance Arbitrary CraCheckReportCreateEmploymentRefreshOptions where
+  arbitrary = sized genCraCheckReportCreateEmploymentRefreshOptions
+
+genCraCheckReportCreateEmploymentRefreshOptions :: Int -> Gen CraCheckReportCreateEmploymentRefreshOptions
+genCraCheckReportCreateEmploymentRefreshOptions n =
+  CraCheckReportCreateEmploymentRefreshOptions
+    <$> arbitrary -- craCheckReportCreateEmploymentRefreshOptionsDaysRequested :: Int
+  
+instance Arbitrary CraCheckReportCreateIncomeInsightsOptions where
+  arbitrary = sized genCraCheckReportCreateIncomeInsightsOptions
+
+genCraCheckReportCreateIncomeInsightsOptions :: Int -> Gen CraCheckReportCreateIncomeInsightsOptions
+genCraCheckReportCreateIncomeInsightsOptions n =
+  CraCheckReportCreateIncomeInsightsOptions
+    <$> arbitraryReducedMaybe n -- craCheckReportCreateIncomeInsightsOptionsIncomeInsightsFilter :: Maybe IncomeInsightsFilter
+    <*> arbitraryReduced n -- craCheckReportCreateIncomeInsightsOptionsIncomeInsightsVersion :: IncomeInsightsVersion
+  
+instance Arbitrary CraCheckReportCreateLendScoreOptions where
+  arbitrary = sized genCraCheckReportCreateLendScoreOptions
+
+genCraCheckReportCreateLendScoreOptions :: Int -> Gen CraCheckReportCreateLendScoreOptions
+genCraCheckReportCreateLendScoreOptions n =
+  CraCheckReportCreateLendScoreOptions
+    <$> arbitraryReducedMaybe n -- craCheckReportCreateLendScoreOptionsLendScoreVersion :: Maybe PlaidLendScoreVersion
+  
+instance Arbitrary CraCheckReportCreateNetworkInsightsOptions where
+  arbitrary = sized genCraCheckReportCreateNetworkInsightsOptions
+
+genCraCheckReportCreateNetworkInsightsOptions :: Int -> Gen CraCheckReportCreateNetworkInsightsOptions
+genCraCheckReportCreateNetworkInsightsOptions n =
+  CraCheckReportCreateNetworkInsightsOptions
+    <$> arbitraryReducedMaybe n -- craCheckReportCreateNetworkInsightsOptionsNetworkInsightsVersion :: Maybe NetworkInsightsVersion
+  
+instance Arbitrary CraCheckReportCreatePartnerInsightsOptions where
+  arbitrary = sized genCraCheckReportCreatePartnerInsightsOptions
+
+genCraCheckReportCreatePartnerInsightsOptions :: Int -> Gen CraCheckReportCreatePartnerInsightsOptions
+genCraCheckReportCreatePartnerInsightsOptions n =
+  CraCheckReportCreatePartnerInsightsOptions
+    <$> arbitraryReducedMaybe n -- craCheckReportCreatePartnerInsightsOptionsFico :: Maybe CraPartnerInsightsFicoInput
+    <*> arbitraryReducedMaybe n -- craCheckReportCreatePartnerInsightsOptionsPrismVersions :: Maybe PrismVersions
+  
+instance Arbitrary CraCheckReportCreateRequest where
+  arbitrary = sized genCraCheckReportCreateRequest
+
+genCraCheckReportCreateRequest :: Int -> Gen CraCheckReportCreateRequest
+genCraCheckReportCreateRequest n =
+  CraCheckReportCreateRequest
+    <$> arbitraryReducedMaybe n -- craCheckReportCreateRequestBaseReport :: Maybe CraCheckReportCreateBaseReportOptions
+    <*> arbitraryReducedMaybe n -- craCheckReportCreateRequestCashflowInsights :: Maybe CraCheckReportCreateCashflowInsightsOptions
+    <*> arbitraryReducedMaybe n -- craCheckReportCreateRequestClientId :: Maybe Text
+    <*> arbitraryReducedMaybe n -- craCheckReportCreateRequestClientReportId :: Maybe Text
+    <*> arbitraryReduced n -- craCheckReportCreateRequestConsumerReportPermissiblePurpose :: ConsumerReportPermissiblePurpose
+    <*> arbitrary -- craCheckReportCreateRequestDaysRequested :: Int
+    <*> arbitraryReducedMaybe n -- craCheckReportCreateRequestDaysRequired :: Maybe Int
+    <*> arbitraryReducedMaybe n -- craCheckReportCreateRequestIncludeInvestments :: Maybe Bool
+    <*> arbitraryReducedMaybe n -- craCheckReportCreateRequestIncomeInsights :: Maybe CraCheckReportCreateIncomeInsightsOptions
+    <*> arbitraryReducedMaybe n -- craCheckReportCreateRequestLendScore :: Maybe CraCheckReportCreateLendScoreOptions
+    <*> arbitraryReducedMaybe n -- craCheckReportCreateRequestNetworkInsights :: Maybe CraCheckReportCreateNetworkInsightsOptions
+    <*> arbitraryReducedMaybe n -- craCheckReportCreateRequestPartnerInsights :: Maybe CraCheckReportCreatePartnerInsightsOptions
+    <*> arbitraryReducedMaybe n -- craCheckReportCreateRequestProducts :: Maybe [Products]
+    <*> arbitraryReducedMaybe n -- craCheckReportCreateRequestSecret :: Maybe Text
+    <*> arbitraryReducedMaybe n -- craCheckReportCreateRequestUserId :: Maybe Text
+    <*> arbitraryReducedMaybe n -- craCheckReportCreateRequestUserToken :: Maybe Text
+    <*> arbitrary -- craCheckReportCreateRequestWebhook :: Text
+  
+instance Arbitrary CraCheckReportCreateResponse where
+  arbitrary = sized genCraCheckReportCreateResponse
+
+genCraCheckReportCreateResponse :: Int -> Gen CraCheckReportCreateResponse
+genCraCheckReportCreateResponse n =
+  CraCheckReportCreateResponse
+    <$> arbitraryReducedMaybe n -- craCheckReportCreateResponseRequestId :: Maybe Text
+  
+instance Arbitrary CraCheckReportGSEOptions where
+  arbitrary = sized genCraCheckReportGSEOptions
+
+genCraCheckReportGSEOptions :: Int -> Gen CraCheckReportGSEOptions
+genCraCheckReportGSEOptions n =
+  CraCheckReportGSEOptions
+    <$> arbitraryReduced n -- craCheckReportGSEOptionsReportTypes :: [GSEReportType]
+  
+instance Arbitrary CraCheckReportHomeLendingReportOptions where
+  arbitrary = sized genCraCheckReportHomeLendingReportOptions
+
+genCraCheckReportHomeLendingReportOptions :: Int -> Gen CraCheckReportHomeLendingReportOptions
+genCraCheckReportHomeLendingReportOptions n =
+  CraCheckReportHomeLendingReportOptions
+    <$> arbitraryReducedMaybe n -- craCheckReportHomeLendingReportOptionsEmploymentRefreshOptions :: Maybe CraCheckReportCreateEmploymentRefreshOptions
+    <*> arbitraryReduced n -- craCheckReportHomeLendingReportOptionsReportsRequested :: [CraCheckReportVerificationGetReportType]
+  
+instance Arbitrary CraCheckReportIncomeInsightsGetOptions where
+  arbitrary = sized genCraCheckReportIncomeInsightsGetOptions
+
+genCraCheckReportIncomeInsightsGetOptions :: Int -> Gen CraCheckReportIncomeInsightsGetOptions
+genCraCheckReportIncomeInsightsGetOptions n =
+  CraCheckReportIncomeInsightsGetOptions
+    <$> arbitraryReducedMaybe n -- craCheckReportIncomeInsightsGetOptionsIncomeInsightsFilter :: Maybe IncomeInsightsFilter
+    <*> arbitraryReduced n -- craCheckReportIncomeInsightsGetOptionsIncomeInsightsVersion :: IncomeInsightsVersion
+  
+instance Arbitrary CraCheckReportIncomeInsightsGetRequest where
+  arbitrary = sized genCraCheckReportIncomeInsightsGetRequest
+
+genCraCheckReportIncomeInsightsGetRequest :: Int -> Gen CraCheckReportIncomeInsightsGetRequest
+genCraCheckReportIncomeInsightsGetRequest n =
+  CraCheckReportIncomeInsightsGetRequest
+    <$> arbitraryReducedMaybe n -- craCheckReportIncomeInsightsGetRequestClientId :: Maybe Text
+    <*> arbitraryReducedMaybe n -- craCheckReportIncomeInsightsGetRequestConsumerReportPermissiblePurpose :: Maybe CraCheckReportPermissiblePurpose
+    <*> arbitraryReducedMaybe n -- craCheckReportIncomeInsightsGetRequestOptions :: Maybe CraCheckReportIncomeInsightsGetOptions
+    <*> arbitraryReducedMaybe n -- craCheckReportIncomeInsightsGetRequestReportId :: Maybe Text
+    <*> arbitraryReducedMaybe n -- craCheckReportIncomeInsightsGetRequestSecret :: Maybe Text
+    <*> arbitraryReducedMaybe n -- craCheckReportIncomeInsightsGetRequestThirdPartyUserToken :: Maybe Text
+    <*> arbitraryReducedMaybe n -- craCheckReportIncomeInsightsGetRequestUserId :: Maybe Text
+    <*> arbitraryReducedMaybe n -- craCheckReportIncomeInsightsGetRequestUserToken :: Maybe Text
+  
+instance Arbitrary CraCheckReportIncomeInsightsGetResponse where
+  arbitrary = sized genCraCheckReportIncomeInsightsGetResponse
+
+genCraCheckReportIncomeInsightsGetResponse :: Int -> Gen CraCheckReportIncomeInsightsGetResponse
+genCraCheckReportIncomeInsightsGetResponse n =
+  CraCheckReportIncomeInsightsGetResponse
+    <$> arbitraryReducedMaybe n -- craCheckReportIncomeInsightsGetResponseReport :: Maybe CraIncomeInsights
+    <*> arbitrary -- craCheckReportIncomeInsightsGetResponseRequestId :: Text
+    <*> arbitraryReducedMaybe n -- craCheckReportIncomeInsightsGetResponseWarnings :: Maybe [CheckReportWarning]
+  
+instance Arbitrary CraCheckReportPDFGetRequest where
+  arbitrary = sized genCraCheckReportPDFGetRequest
+
+genCraCheckReportPDFGetRequest :: Int -> Gen CraCheckReportPDFGetRequest
+genCraCheckReportPDFGetRequest n =
+  CraCheckReportPDFGetRequest
+    <$> arbitraryReducedMaybe n -- craCheckReportPDFGetRequestAddOns :: Maybe [CraPDFAddOns]
+    <*> arbitraryReducedMaybe n -- craCheckReportPDFGetRequestClientId :: Maybe Text
+    <*> arbitraryReducedMaybe n -- craCheckReportPDFGetRequestSecret :: Maybe Text
+    <*> arbitraryReducedMaybe n -- craCheckReportPDFGetRequestThirdPartyUserToken :: Maybe Text
+    <*> arbitraryReducedMaybe n -- craCheckReportPDFGetRequestUserId :: Maybe Text
+    <*> arbitraryReducedMaybe n -- craCheckReportPDFGetRequestUserToken :: Maybe Text
+  
+instance Arbitrary CraCheckReportPartnerInsightsGetOptions where
+  arbitrary = sized genCraCheckReportPartnerInsightsGetOptions
+
+genCraCheckReportPartnerInsightsGetOptions :: Int -> Gen CraCheckReportPartnerInsightsGetOptions
+genCraCheckReportPartnerInsightsGetOptions n =
+  CraCheckReportPartnerInsightsGetOptions
+    <$> arbitraryReducedMaybe n -- craCheckReportPartnerInsightsGetOptionsPrismVersions :: Maybe PrismVersionsDeprecated
+  
+instance Arbitrary CraCheckReportPartnerInsightsGetPartnerInsights where
+  arbitrary = sized genCraCheckReportPartnerInsightsGetPartnerInsights
+
+genCraCheckReportPartnerInsightsGetPartnerInsights :: Int -> Gen CraCheckReportPartnerInsightsGetPartnerInsights
+genCraCheckReportPartnerInsightsGetPartnerInsights n =
+  CraCheckReportPartnerInsightsGetPartnerInsights
+    <$> arbitraryReducedMaybe n -- craCheckReportPartnerInsightsGetPartnerInsightsFico :: Maybe CraPartnerInsightsFicoInput
+    <*> arbitraryReducedMaybe n -- craCheckReportPartnerInsightsGetPartnerInsightsPrismVersions :: Maybe PrismVersions
+  
+instance Arbitrary CraCheckReportPartnerInsightsGetRequest where
+  arbitrary = sized genCraCheckReportPartnerInsightsGetRequest
+
+genCraCheckReportPartnerInsightsGetRequest :: Int -> Gen CraCheckReportPartnerInsightsGetRequest
+genCraCheckReportPartnerInsightsGetRequest n =
+  CraCheckReportPartnerInsightsGetRequest
+    <$> arbitraryReducedMaybe n -- craCheckReportPartnerInsightsGetRequestClientId :: Maybe Text
+    <*> arbitraryReducedMaybe n -- craCheckReportPartnerInsightsGetRequestOptions :: Maybe CraCheckReportPartnerInsightsGetOptions
+    <*> arbitraryReducedMaybe n -- craCheckReportPartnerInsightsGetRequestPartnerInsights :: Maybe CraCheckReportPartnerInsightsGetPartnerInsights
+    <*> arbitraryReducedMaybe n -- craCheckReportPartnerInsightsGetRequestSecret :: Maybe Text
+    <*> arbitraryReducedMaybe n -- craCheckReportPartnerInsightsGetRequestThirdPartyUserToken :: Maybe Text
+    <*> arbitraryReducedMaybe n -- craCheckReportPartnerInsightsGetRequestUserId :: Maybe Text
+    <*> arbitraryReducedMaybe n -- craCheckReportPartnerInsightsGetRequestUserTier :: Maybe CraUserTier
+    <*> arbitraryReducedMaybe n -- craCheckReportPartnerInsightsGetRequestUserToken :: Maybe Text
+  
+instance Arbitrary CraCheckReportPartnerInsightsGetResponse where
+  arbitrary = sized genCraCheckReportPartnerInsightsGetResponse
+
+genCraCheckReportPartnerInsightsGetResponse :: Int -> Gen CraCheckReportPartnerInsightsGetResponse
+genCraCheckReportPartnerInsightsGetResponse n =
+  CraCheckReportPartnerInsightsGetResponse
+    <$> arbitraryReducedMaybe n -- craCheckReportPartnerInsightsGetResponseReport :: Maybe CraPartnerInsights
+    <*> arbitrary -- craCheckReportPartnerInsightsGetResponseRequestId :: Text
+    <*> arbitraryReducedMaybe n -- craCheckReportPartnerInsightsGetResponseWarnings :: Maybe [CheckReportWarning]
+  
+instance Arbitrary CraCurrentModeledIncome where
+  arbitrary = sized genCraCurrentModeledIncome
+
+genCraCurrentModeledIncome :: Int -> Gen CraCurrentModeledIncome
+genCraCurrentModeledIncome n =
+  CraCurrentModeledIncome
+    <$> arbitraryReduced n -- craCurrentModeledIncomeAnnual :: CraAnnualIncomeValues
+    <*> arbitraryReduced n -- craCurrentModeledIncomeMonthly :: CraMonthlyIncomeValues
+  
+instance Arbitrary CraIncomeCategory where
+  arbitrary = sized genCraIncomeCategory
+
+genCraIncomeCategory :: Int -> Gen CraIncomeCategory
+genCraIncomeCategory n =
+  CraIncomeCategory
+    <$> arbitrary -- craIncomeCategoryPrimary :: Text
+    <*> arbitrary -- craIncomeCategorySecondary :: Text
+  
+instance Arbitrary CraIncomeInsights where
+  arbitrary = sized genCraIncomeInsights
+
+genCraIncomeInsights :: Int -> Gen CraIncomeInsights
+genCraIncomeInsights n =
+  CraIncomeInsights
+    <$> arbitraryReducedMaybe n -- craIncomeInsightsBankIncomeSummary :: Maybe CraBankIncomeSummary
+    <*> arbitraryReducedMaybe n -- craIncomeInsightsClientReportId :: Maybe Text
+    <*> arbitraryReducedMaybe n -- craIncomeInsightsDaysRequested :: Maybe Int
+    <*> arbitraryReducedMaybe n -- craIncomeInsightsGeneratedTime :: Maybe DateTime
+    <*> arbitraryReduced n -- craIncomeInsightsIncomeStreams :: [CraIncomeStream]
+    <*> arbitraryReducedMaybe n -- craIncomeInsightsItems :: Maybe [CraBankIncomeItem]
+    <*> arbitraryReducedMaybe n -- craIncomeInsightsReportId :: Maybe Text
+    <*> arbitraryReducedMaybe n -- craIncomeInsightsUserSummary :: Maybe CraIncomeInsightsUserSummary
+    <*> arbitraryReducedMaybe n -- craIncomeInsightsWarnings :: Maybe [CraBankIncomeWarning]
+  
+instance Arbitrary CraIncomeInsightsUserSummary where
+  arbitrary = sized genCraIncomeInsightsUserSummary
+
+genCraIncomeInsightsUserSummary :: Int -> Gen CraIncomeInsightsUserSummary
+genCraIncomeInsightsUserSummary n =
+  CraIncomeInsightsUserSummary
+    <$> arbitraryReduced n -- craIncomeInsightsUserSummaryIncomeMetrics :: [CraIncomeMetrics]
+  
+instance Arbitrary CraIncomeMetrics where
+  arbitrary = sized genCraIncomeMetrics
+
+genCraIncomeMetrics :: Int -> Gen CraIncomeMetrics
+genCraIncomeMetrics n =
+  CraIncomeMetrics
+    <$> arbitraryReduced n -- craIncomeMetricsCurrent :: CraCurrentModeledIncome
+    <*> arbitrary -- craIncomeMetricsIsoCurrencyCode :: Text
+    <*> arbitraryReduced n -- craIncomeMetricsProjected :: CraProjectedModeledIncome
+    <*> arbitrary -- craIncomeMetricsUnofficialCurrencyCode :: Text
+  
+instance Arbitrary CraIncomeNextPayment where
+  arbitrary = sized genCraIncomeNextPayment
+
+genCraIncomeNextPayment :: Int -> Gen CraIncomeNextPayment
+genCraIncomeNextPayment n =
+  CraIncomeNextPayment
+    <$> arbitraryReduced n -- craIncomeNextPaymentDate :: Date
+  
+instance Arbitrary CraIncomeStream where
+  arbitrary = sized genCraIncomeStream
+
+genCraIncomeStream :: Int -> Gen CraIncomeStream
+genCraIncomeStream n =
+  CraIncomeStream
+    <$> arbitrary -- craIncomeStreamDescription :: Text
+    <*> arbitraryReduced n -- craIncomeStreamEndDate :: Date
+    <*> arbitraryReduced n -- craIncomeStreamIncomeMetrics :: CraIncomeMetrics
+    <*> arbitrary -- craIncomeStreamIncomeStreamId :: Text
+    <*> arbitraryReduced n -- craIncomeStreamInsights :: CraIncomeStreamInsights
+    <*> arbitraryReduced n -- craIncomeStreamStartDate :: Date
+    <*> arbitraryReduced n -- craIncomeStreamTransactions :: [CraIncomeTransaction]
+  
+instance Arbitrary CraIncomeStreamInsights where
+  arbitrary = sized genCraIncomeStreamInsights
+
+genCraIncomeStreamInsights :: Int -> Gen CraIncomeStreamInsights
+genCraIncomeStreamInsights n =
+  CraIncomeStreamInsights
+    <$> arbitraryReduced n -- craIncomeStreamInsightsIncomeCategory :: CraIncomeCategory
+    <*> arbitraryReduced n -- craIncomeStreamInsightsIncomeProvider :: CraBankIncomeIncomeProvider
+    <*> arbitraryReduced n -- craIncomeStreamInsightsNextPayment :: CraIncomeNextPayment
+    <*> arbitraryReduced n -- craIncomeStreamInsightsPayFrequency :: CreditBankIncomePayFrequency
+    <*> arbitraryReduced n -- craIncomeStreamInsightsStatus :: CraBankIncomeStatus
+  
+instance Arbitrary CraIncomeTransaction where
+  arbitrary = sized genCraIncomeTransaction
+
+genCraIncomeTransaction :: Int -> Gen CraIncomeTransaction
+genCraIncomeTransaction n =
+  CraIncomeTransaction
+    <$> arbitrary -- craIncomeTransactionAccountId :: Text
+    <*> arbitrary -- craIncomeTransactionAmount :: Double
+    <*> arbitraryReduced n -- craIncomeTransactionDate :: Date
+    <*> arbitrary -- craIncomeTransactionIsoCurrencyCode :: Text
+    <*> arbitrary -- craIncomeTransactionItemId :: Text
+    <*> arbitrary -- craIncomeTransactionOriginalDescription :: Text
+    <*> arbitraryReduced n -- craIncomeTransactionOutlier :: CraIncomeTransactionOutlier
+    <*> arbitrary -- craIncomeTransactionTransactionId :: Text
+    <*> arbitrary -- craIncomeTransactionUnofficialCurrencyCode :: Text
+  
+instance Arbitrary CraIncomeTransactionOutlier where
+  arbitrary = sized genCraIncomeTransactionOutlier
+
+genCraIncomeTransactionOutlier :: Int -> Gen CraIncomeTransactionOutlier
+genCraIncomeTransactionOutlier n =
+  CraIncomeTransactionOutlier
+    <$> arbitraryReducedMaybe n -- craIncomeTransactionOutlierAmount :: Maybe Double
+    <*> arbitrary -- craIncomeTransactionOutlierIsOutlier :: Bool
+  
+instance Arbitrary CraMonthlyIncomeValues where
+  arbitrary = sized genCraMonthlyIncomeValues
+
+genCraMonthlyIncomeValues :: Int -> Gen CraMonthlyIncomeValues
+genCraMonthlyIncomeValues n =
+  CraMonthlyIncomeValues
+    <$> arbitrary -- craMonthlyIncomeValuesGrossIncome :: Double
+    <*> arbitrary -- craMonthlyIncomeValuesNetIncome :: Double
+  
+instance Arbitrary CraPartnerInsights where
+  arbitrary = sized genCraPartnerInsights
+
+genCraPartnerInsights :: Int -> Gen CraPartnerInsights
+genCraPartnerInsights n =
+  CraPartnerInsights
+    <$> arbitraryReducedMaybe n -- craPartnerInsightsClientReportId :: Maybe Text
+    <*> arbitraryReducedMaybe n -- craPartnerInsightsFico :: Maybe CraPartnerInsightsFicoResults
+    <*> arbitraryReducedMaybe n -- craPartnerInsightsGeneratedTime :: Maybe DateTime
+    <*> arbitraryReducedMaybe n -- craPartnerInsightsItems :: Maybe [CraPartnerInsightsItem]
+    <*> arbitraryReducedMaybe n -- craPartnerInsightsPrism :: Maybe CraPartnerInsightsPrism
+    <*> arbitraryReducedMaybe n -- craPartnerInsightsReportId :: Maybe Text
+  
+instance Arbitrary CraPartnerInsightsBaseFicoScore where
+  arbitrary = sized genCraPartnerInsightsBaseFicoScore
+
+genCraPartnerInsightsBaseFicoScore :: Int -> Gen CraPartnerInsightsBaseFicoScore
+genCraPartnerInsightsBaseFicoScore n =
+  CraPartnerInsightsBaseFicoScore
+    <$> arbitraryReduced n -- craPartnerInsightsBaseFicoScoreBaseFicoScoreVersion :: CraPartnerInsightsBaseFicoScoreVersion
+    <*> arbitraryReduced n -- craPartnerInsightsBaseFicoScoreBureau :: CraPartnerInsightsBureau
+    <*> arbitraryReducedMaybe n -- craPartnerInsightsBaseFicoScoreDidInquiriesAdverselyAffectScore :: Maybe Bool
+    <*> arbitraryReducedMaybe n -- craPartnerInsightsBaseFicoScoreReasonCode1 :: Maybe Text
+    <*> arbitraryReducedMaybe n -- craPartnerInsightsBaseFicoScoreReasonCode2 :: Maybe Text
+    <*> arbitraryReducedMaybe n -- craPartnerInsightsBaseFicoScoreReasonCode3 :: Maybe Text
+    <*> arbitraryReducedMaybe n -- craPartnerInsightsBaseFicoScoreReasonCode4 :: Maybe Text
+    <*> arbitraryReducedMaybe n -- craPartnerInsightsBaseFicoScoreReasonCodes :: Maybe [Text]
+    <*> arbitrary -- craPartnerInsightsBaseFicoScoreScore :: Int
+  
+instance Arbitrary CraPartnerInsightsFicoInput where
+  arbitrary = sized genCraPartnerInsightsFicoInput
+
+genCraPartnerInsightsFicoInput :: Int -> Gen CraPartnerInsightsFicoInput
+genCraPartnerInsightsFicoInput n =
+  CraPartnerInsightsFicoInput
+    <$> arbitrary -- craPartnerInsightsFicoInputFicoLenderId :: Text
+    <*> arbitrary -- craPartnerInsightsFicoInputLenderApplicationId :: Text
+    <*> arbitraryReduced n -- craPartnerInsightsFicoInputUltraficoScoreRequests :: [CraPartnerInsightsUltraFicoScoreRequest]
+  
+instance Arbitrary CraPartnerInsightsFicoReportCharacteristics where
+  arbitrary = sized genCraPartnerInsightsFicoReportCharacteristics
+
+genCraPartnerInsightsFicoReportCharacteristics :: Int -> Gen CraPartnerInsightsFicoReportCharacteristics
+genCraPartnerInsightsFicoReportCharacteristics n =
+  CraPartnerInsightsFicoReportCharacteristics
+    <$> arbitraryReducedMaybe n -- craPartnerInsightsFicoReportCharacteristicsAvgDailyBalanceOver12Months :: Maybe Double
+    <*> arbitraryReducedMaybe n -- craPartnerInsightsFicoReportCharacteristicsAvgDailyBalanceOver1Month :: Maybe Double
+    <*> arbitraryReducedMaybe n -- craPartnerInsightsFicoReportCharacteristicsAvgDailyBalanceOver3Months :: Maybe Double
+    <*> arbitraryReducedMaybe n -- craPartnerInsightsFicoReportCharacteristicsAvgDailyBalanceOver6Months :: Maybe Double
+    <*> arbitraryReducedMaybe n -- craPartnerInsightsFicoReportCharacteristicsDaysSinceEarliestTx :: Maybe Int
+    <*> arbitraryReducedMaybe n -- craPartnerInsightsFicoReportCharacteristicsDaysSinceMostRecentInsufficientFundsFeeDebitTx :: Maybe Int
+    <*> arbitraryReducedMaybe n -- craPartnerInsightsFicoReportCharacteristicsDaysSinceMostRecentNegativeEndingBalance :: Maybe Int
+    <*> arbitraryReducedMaybe n -- craPartnerInsightsFicoReportCharacteristicsDaysSinceMostRecentTx :: Maybe Int
+    <*> arbitraryReducedMaybe n -- craPartnerInsightsFicoReportCharacteristicsDaysWithTxOver12Months :: Maybe Int
+    <*> arbitraryReducedMaybe n -- craPartnerInsightsFicoReportCharacteristicsDaysWithTxOver1Month :: Maybe Int
+    <*> arbitraryReducedMaybe n -- craPartnerInsightsFicoReportCharacteristicsDaysWithTxOver3Months :: Maybe Int
+    <*> arbitraryReducedMaybe n -- craPartnerInsightsFicoReportCharacteristicsDaysWithTxOver6Months :: Maybe Int
+    <*> arbitraryReducedMaybe n -- craPartnerInsightsFicoReportCharacteristicsNumAccounts :: Maybe Int
+    <*> arbitraryReducedMaybe n -- craPartnerInsightsFicoReportCharacteristicsNumCheckingAccounts :: Maybe Int
+    <*> arbitraryReducedMaybe n -- craPartnerInsightsFicoReportCharacteristicsNumMoneyMarketAccounts :: Maybe Int
+    <*> arbitraryReducedMaybe n -- craPartnerInsightsFicoReportCharacteristicsNumSavingsAccounts :: Maybe Int
+    <*> arbitraryReducedMaybe n -- craPartnerInsightsFicoReportCharacteristicsTotCurrentBalances :: Maybe Double
+    <*> arbitraryReducedMaybe n -- craPartnerInsightsFicoReportCharacteristicsTotNumberDaysWithNegativeBalanceOver12Months :: Maybe Int
+    <*> arbitraryReducedMaybe n -- craPartnerInsightsFicoReportCharacteristicsTotNumberDaysWithNegativeBalanceOver1Month :: Maybe Int
+    <*> arbitraryReducedMaybe n -- craPartnerInsightsFicoReportCharacteristicsTotNumberDaysWithNegativeBalanceOver3Months :: Maybe Int
+    <*> arbitraryReducedMaybe n -- craPartnerInsightsFicoReportCharacteristicsTotNumberDaysWithNegativeBalanceOver6Months :: Maybe Int
+  
+instance Arbitrary CraPartnerInsightsFicoResults where
+  arbitrary = sized genCraPartnerInsightsFicoResults
+
+genCraPartnerInsightsFicoResults :: Int -> Gen CraPartnerInsightsFicoResults
+genCraPartnerInsightsFicoResults n =
+  CraPartnerInsightsFicoResults
+    <$> arbitrary -- craPartnerInsightsFicoResultsLenderApplicationId :: Text
+    <*> arbitraryReducedMaybe n -- craPartnerInsightsFicoResultsReportCharacteristics :: Maybe CraPartnerInsightsFicoReportCharacteristics
+    <*> arbitraryReduced n -- craPartnerInsightsFicoResultsUltraficoScoreResults :: [CraPartnerInsightsUltraFicoScoreResult]
+  
+instance Arbitrary CraPartnerInsightsItem where
+  arbitrary = sized genCraPartnerInsightsItem
+
+genCraPartnerInsightsItem :: Int -> Gen CraPartnerInsightsItem
+genCraPartnerInsightsItem n =
+  CraPartnerInsightsItem
+    <$> arbitraryReducedMaybe n -- craPartnerInsightsItemAccounts :: Maybe [CraPartnerInsightsItemAccount]
+    <*> arbitraryReducedMaybe n -- craPartnerInsightsItemInstitutionId :: Maybe Text
+    <*> arbitraryReducedMaybe n -- craPartnerInsightsItemInstitutionName :: Maybe Text
+    <*> arbitraryReducedMaybe n -- craPartnerInsightsItemItemId :: Maybe Text
+  
+instance Arbitrary CraPartnerInsightsItemAccount where
+  arbitrary = sized genCraPartnerInsightsItemAccount
+
+genCraPartnerInsightsItemAccount :: Int -> Gen CraPartnerInsightsItemAccount
+genCraPartnerInsightsItemAccount n =
+  CraPartnerInsightsItemAccount
+    <$> arbitraryReducedMaybe n -- craPartnerInsightsItemAccountAccountId :: Maybe Text
+    <*> arbitrary -- craPartnerInsightsItemAccountMask :: Text
+    <*> arbitraryReduced n -- craPartnerInsightsItemAccountMetadata :: CraPartnerInsightsItemAccountMetadata
+    <*> arbitrary -- craPartnerInsightsItemAccountName :: Text
+    <*> arbitrary -- craPartnerInsightsItemAccountOfficialName :: Text
+    <*> arbitraryReduced n -- craPartnerInsightsItemAccountOwners :: [Owner]
+    <*> arbitraryReduced n -- craPartnerInsightsItemAccountSubtype :: DepositoryAccountSubtype
+    <*> arbitraryReduced n -- craPartnerInsightsItemAccountType :: CreditBankIncomeAccountType
+  
+instance Arbitrary CraPartnerInsightsItemAccountMetadata where
+  arbitrary = sized genCraPartnerInsightsItemAccountMetadata
+
+genCraPartnerInsightsItemAccountMetadata :: Int -> Gen CraPartnerInsightsItemAccountMetadata
+genCraPartnerInsightsItemAccountMetadata n =
+  CraPartnerInsightsItemAccountMetadata
+    <$> arbitraryReduced n -- craPartnerInsightsItemAccountMetadataEndDate :: Date
+    <*> arbitraryReduced n -- craPartnerInsightsItemAccountMetadataStartDate :: Date
+  
+instance Arbitrary CraPartnerInsightsPrism where
+  arbitrary = sized genCraPartnerInsightsPrism
+
+genCraPartnerInsightsPrism :: Int -> Gen CraPartnerInsightsPrism
+genCraPartnerInsightsPrism n =
+  CraPartnerInsightsPrism
+    <$> arbitraryReducedMaybe n -- craPartnerInsightsPrismCashScore :: Maybe PrismCashScore
+    <*> arbitraryReducedMaybe n -- craPartnerInsightsPrismDetect :: Maybe PrismDetect
+    <*> arbitraryReducedMaybe n -- craPartnerInsightsPrismExtend :: Maybe PrismExtend
+    <*> arbitraryReducedMaybe n -- craPartnerInsightsPrismFirstDetect :: Maybe PrismFirstDetect
+    <*> arbitraryReducedMaybe n -- craPartnerInsightsPrismInsights :: Maybe PrismInsights
+    <*> arbitrary -- craPartnerInsightsPrismStatus :: Text
+  
+instance Arbitrary CraPartnerInsightsUltraFicoScore where
+  arbitrary = sized genCraPartnerInsightsUltraFicoScore
+
+genCraPartnerInsightsUltraFicoScore :: Int -> Gen CraPartnerInsightsUltraFicoScore
+genCraPartnerInsightsUltraFicoScore n =
+  CraPartnerInsightsUltraFicoScore
+    <$> arbitraryReducedMaybe n -- craPartnerInsightsUltraFicoScoreDidInquiriesAdverselyAffectScore :: Maybe Bool
+    <*> arbitraryReducedMaybe n -- craPartnerInsightsUltraFicoScoreNegativeReasonCodes :: Maybe [Text]
+    <*> arbitraryReducedMaybe n -- craPartnerInsightsUltraFicoScorePositiveReasonCode1 :: Maybe Text
+    <*> arbitraryReducedMaybe n -- craPartnerInsightsUltraFicoScorePositiveReasonCode2 :: Maybe Text
+    <*> arbitraryReducedMaybe n -- craPartnerInsightsUltraFicoScorePositiveReasonCode3 :: Maybe Text
+    <*> arbitraryReducedMaybe n -- craPartnerInsightsUltraFicoScorePositiveReasonCode4 :: Maybe Text
+    <*> arbitraryReducedMaybe n -- craPartnerInsightsUltraFicoScorePositiveReasonCodes :: Maybe [Text]
+    <*> arbitraryReducedMaybe n -- craPartnerInsightsUltraFicoScoreReasonCode1 :: Maybe Text
+    <*> arbitraryReducedMaybe n -- craPartnerInsightsUltraFicoScoreReasonCode2 :: Maybe Text
+    <*> arbitraryReducedMaybe n -- craPartnerInsightsUltraFicoScoreReasonCode3 :: Maybe Text
+    <*> arbitraryReducedMaybe n -- craPartnerInsightsUltraFicoScoreReasonCode4 :: Maybe Text
+    <*> arbitrary -- craPartnerInsightsUltraFicoScoreScore :: Int
+    <*> arbitraryReduced n -- craPartnerInsightsUltraFicoScoreUltraficoScoreVersion :: CraPartnerInsightsUltraFicoScoreVersion
+  
+instance Arbitrary CraPartnerInsightsUltraFicoScoreRequest where
+  arbitrary = sized genCraPartnerInsightsUltraFicoScoreRequest
+
+genCraPartnerInsightsUltraFicoScoreRequest :: Int -> Gen CraPartnerInsightsUltraFicoScoreRequest
+genCraPartnerInsightsUltraFicoScoreRequest n =
+  CraPartnerInsightsUltraFicoScoreRequest
+    <$> arbitraryReduced n -- craPartnerInsightsUltraFicoScoreRequestBaseFicoScore :: CraPartnerInsightsBaseFicoScore
+    <*> arbitraryReducedMaybe n -- craPartnerInsightsUltraFicoScoreRequestFicoScoringRequestId :: Maybe Text
+    <*> arbitraryReducedMaybe n -- craPartnerInsightsUltraFicoScoreRequestRequestCorrelationId :: Maybe Text
+    <*> arbitraryReduced n -- craPartnerInsightsUltraFicoScoreRequestUltraficoScoreVersion :: CraPartnerInsightsUltraFicoScoreVersion
+  
+instance Arbitrary CraPartnerInsightsUltraFicoScoreResult where
+  arbitrary = sized genCraPartnerInsightsUltraFicoScoreResult
+
+genCraPartnerInsightsUltraFicoScoreResult :: Int -> Gen CraPartnerInsightsUltraFicoScoreResult
+genCraPartnerInsightsUltraFicoScoreResult n =
+  CraPartnerInsightsUltraFicoScoreResult
+    <$> arbitraryReducedMaybe n -- craPartnerInsightsUltraFicoScoreResultErrorReason :: Maybe Text
+    <*> arbitraryReducedMaybe n -- craPartnerInsightsUltraFicoScoreResultExclusionCode :: Maybe Text
+    <*> arbitraryReducedMaybe n -- craPartnerInsightsUltraFicoScoreResultFicoScoringRequestId :: Maybe Text
+    <*> arbitraryReducedMaybe n -- craPartnerInsightsUltraFicoScoreResultRequestCorrelationId :: Maybe Text
+    <*> arbitraryReducedMaybe n -- craPartnerInsightsUltraFicoScoreResultUltraficoScore :: Maybe CraPartnerInsightsUltraFicoScore
+  
+instance Arbitrary CraPredictionInterval where
+  arbitrary = sized genCraPredictionInterval
+
+genCraPredictionInterval :: Int -> Gen CraPredictionInterval
+genCraPredictionInterval n =
+  CraPredictionInterval
+    <$> arbitraryReducedMaybe n -- craPredictionIntervalLowerBound :: Maybe Double
+    <*> arbitraryReducedMaybe n -- craPredictionIntervalProbability :: Maybe Double
+    <*> arbitraryReducedMaybe n -- craPredictionIntervalUpperBound :: Maybe Double
+  
+instance Arbitrary CraProjectedModeledIncome where
+  arbitrary = sized genCraProjectedModeledIncome
+
+genCraProjectedModeledIncome :: Int -> Gen CraProjectedModeledIncome
+genCraProjectedModeledIncome n =
+  CraProjectedModeledIncome
+    <$> arbitraryReduced n -- craProjectedModeledIncomeAnnual :: CraAnnualIncomeValues
+    <*> arbitraryReduced n -- craProjectedModeledIncomeMonthly :: CraMonthlyIncomeValues
+  
+instance Arbitrary CreditAmountWithCurrency where
+  arbitrary = sized genCreditAmountWithCurrency
+
+genCreditAmountWithCurrency :: Int -> Gen CreditAmountWithCurrency
+genCreditAmountWithCurrency n =
+  CreditAmountWithCurrency
+    <$> arbitrary -- creditAmountWithCurrencyAmount :: Double
+    <*> arbitrary -- creditAmountWithCurrencyIsoCurrencyCode :: Text
+    <*> arbitrary -- creditAmountWithCurrencyUnofficialCurrencyCode :: Text
+  
+instance Arbitrary CreditCategory where
+  arbitrary = sized genCreditCategory
+
+genCreditCategory :: Int -> Gen CreditCategory
+genCreditCategory n =
+  CreditCategory
+    <$> arbitrary -- creditCategoryDetailed :: Text
+    <*> arbitrary -- creditCategoryPrimary :: Text
+  
+instance Arbitrary CustomerInitiatedReturnRisk where
+  arbitrary = sized genCustomerInitiatedReturnRisk
+
+genCustomerInitiatedReturnRisk :: Int -> Gen CustomerInitiatedReturnRisk
+genCustomerInitiatedReturnRisk n =
+  CustomerInitiatedReturnRisk
+    <$> arbitrary -- customerInitiatedReturnRiskRiskTier :: Int
+    <*> arbitrary -- customerInitiatedReturnRiskScore :: Int
+  
+instance Arbitrary IncomeInsightsFilter where
+  arbitrary = sized genIncomeInsightsFilter
+
+genIncomeInsightsFilter :: Int -> Gen IncomeInsightsFilter
+genIncomeInsightsFilter n =
+  IncomeInsightsFilter
+    <$> arbitraryReducedMaybe n -- incomeInsightsFilterExcludedCategories :: Maybe [Text]
+    <*> arbitrary -- incomeInsightsFilterIncludedCategories :: [Text]
+  
+instance Arbitrary PlaidError where
+  arbitrary = sized genPlaidError
+
+genPlaidError :: Int -> Gen PlaidError
+genPlaidError n =
+  PlaidError
+    <$> arbitraryReducedMaybe n -- plaidErrorCauses :: Maybe [A.Value]
+    <*> arbitrary -- plaidErrorDisplayMessage :: Text
+    <*> arbitraryReducedMaybe n -- plaidErrorDocumentationUrl :: Maybe Text
+    <*> arbitrary -- plaidErrorErrorCode :: Text
+    <*> arbitraryReducedMaybe n -- plaidErrorErrorCodeReason :: Maybe Text
+    <*> arbitrary -- plaidErrorErrorMessage :: Text
+    <*> arbitraryReduced n -- plaidErrorErrorType :: PlaidErrorType
+    <*> arbitraryReducedMaybe n -- plaidErrorProvidedAccountSubtypes :: Maybe [Text]
+    <*> arbitraryReducedMaybe n -- plaidErrorRequestId :: Maybe Text
+    <*> arbitraryReducedMaybe n -- plaidErrorRequiredAccountSubtypes :: Maybe [Text]
+    <*> arbitraryReducedMaybe n -- plaidErrorStatus :: Maybe Int
+    <*> arbitraryReducedMaybe n -- plaidErrorSuggestedAction :: Maybe Text
+  
+instance Arbitrary PrismCashScore where
+  arbitrary = sized genPrismCashScore
+
+genPrismCashScore :: Int -> Gen PrismCashScore
+genPrismCashScore n =
+  PrismCashScore
+    <$> arbitraryReducedMaybe n -- prismCashScoreErrorReason :: Maybe Text
+    <*> arbitraryReducedMaybe n -- prismCashScoreMetadata :: Maybe PrismCashScoreMetadata
+    <*> arbitraryReducedMaybe n -- prismCashScoreModelVersion :: Maybe Text
+    <*> arbitraryReducedMaybe n -- prismCashScoreReasonCodes :: Maybe [Text]
+    <*> arbitrary -- prismCashScoreScore :: Int
+    <*> arbitrary -- prismCashScoreVersion :: Int
+  
+instance Arbitrary PrismCashScoreMetadata where
+  arbitrary = sized genPrismCashScoreMetadata
+
+genPrismCashScoreMetadata :: Int -> Gen PrismCashScoreMetadata
+genPrismCashScoreMetadata n =
+  PrismCashScoreMetadata
+    <$> arbitrary -- prismCashScoreMetadataL1mCreditValueCnt :: Int
+    <*> arbitrary -- prismCashScoreMetadataL1mDebitValueCnt :: Int
+    <*> arbitrary -- prismCashScoreMetadataMaxAge :: Int
+    <*> arbitrary -- prismCashScoreMetadataMaxAgeCredit :: Int
+    <*> arbitrary -- prismCashScoreMetadataMaxAgeDebit :: Int
+    <*> arbitrary -- prismCashScoreMetadataMinAge :: Int
+    <*> arbitrary -- prismCashScoreMetadataMinAgeCredit :: Int
+    <*> arbitrary -- prismCashScoreMetadataMinAgeDebit :: Int
+    <*> arbitrary -- prismCashScoreMetadataNumTrxnCredit :: Int
+    <*> arbitrary -- prismCashScoreMetadataNumTrxnDebit :: Int
+  
+instance Arbitrary PrismDetect where
+  arbitrary = sized genPrismDetect
+
+genPrismDetect :: Int -> Gen PrismDetect
+genPrismDetect n =
+  PrismDetect
+    <$> arbitraryReducedMaybe n -- prismDetectErrorReason :: Maybe Text
+    <*> arbitraryReducedMaybe n -- prismDetectMetadata :: Maybe PrismCashScoreMetadata
+    <*> arbitrary -- prismDetectModelVersion :: Text
+    <*> arbitraryReducedMaybe n -- prismDetectReasonCodes :: Maybe [Text]
+    <*> arbitrary -- prismDetectScore :: Int
+  
+instance Arbitrary PrismExtend where
+  arbitrary = sized genPrismExtend
+
+genPrismExtend :: Int -> Gen PrismExtend
+genPrismExtend n =
+  PrismExtend
+    <$> arbitraryReducedMaybe n -- prismExtendErrorReason :: Maybe Text
+    <*> arbitraryReducedMaybe n -- prismExtendMetadata :: Maybe PrismCashScoreMetadata
+    <*> arbitrary -- prismExtendModelVersion :: Text
+    <*> arbitraryReducedMaybe n -- prismExtendReasonCodes :: Maybe [Text]
+    <*> arbitrary -- prismExtendScore :: Int
+  
+instance Arbitrary PrismFirstDetect where
+  arbitrary = sized genPrismFirstDetect
+
+genPrismFirstDetect :: Int -> Gen PrismFirstDetect
+genPrismFirstDetect n =
+  PrismFirstDetect
+    <$> arbitraryReducedMaybe n -- prismFirstDetectErrorReason :: Maybe Text
+    <*> arbitraryReducedMaybe n -- prismFirstDetectMetadata :: Maybe PrismCashScoreMetadata
+    <*> arbitraryReducedMaybe n -- prismFirstDetectModelVersion :: Maybe Text
+    <*> arbitraryReducedMaybe n -- prismFirstDetectReasonCodes :: Maybe [Text]
+    <*> arbitrary -- prismFirstDetectScore :: Int
+    <*> arbitrary -- prismFirstDetectVersion :: Int
+  
+instance Arbitrary PrismInsights where
+  arbitrary = sized genPrismInsights
+
+genPrismInsights :: Int -> Gen PrismInsights
+genPrismInsights n =
+  PrismInsights
+    <$> arbitraryReducedMaybe n -- prismInsightsErrorReason :: Maybe Text
+    <*> arbitraryReducedMaybe n -- prismInsightsModelVersion :: Maybe Text
+    <*> arbitraryReducedMaybeValue n -- prismInsightsResult :: Maybe A.Value
+    <*> arbitrary -- prismInsightsVersion :: Int
+  
+instance Arbitrary PrismVersions where
+  arbitrary = sized genPrismVersions
+
+genPrismVersions :: Int -> Gen PrismVersions
+genPrismVersions n =
+  PrismVersions
+    <$> arbitraryReducedMaybe n -- prismVersionsCashscore :: Maybe PrismCashScoreVersion
+    <*> arbitraryReducedMaybe n -- prismVersionsDetect :: Maybe PrismDetectVersion
+    <*> arbitraryReducedMaybe n -- prismVersionsExtend :: Maybe PrismExtendVersion
+    <*> arbitraryReducedMaybe n -- prismVersionsFirstdetect :: Maybe PrismFirstDetectVersion
+    <*> arbitraryReducedMaybe n -- prismVersionsInsights :: Maybe PrismInsightsVersion
+  
+instance Arbitrary PrismVersionsDeprecated where
+  arbitrary = sized genPrismVersionsDeprecated
+
+genPrismVersionsDeprecated :: Int -> Gen PrismVersionsDeprecated
+genPrismVersionsDeprecated n =
+  PrismVersionsDeprecated
+    <$> arbitraryReducedMaybe n -- prismVersionsDeprecatedCashscore :: Maybe PrismCashScoreVersion
+    <*> arbitraryReducedMaybe n -- prismVersionsDeprecatedDetect :: Maybe PrismDetectVersion
+    <*> arbitraryReducedMaybe n -- prismVersionsDeprecatedExtend :: Maybe PrismExtendVersion
+    <*> arbitraryReducedMaybe n -- prismVersionsDeprecatedFirstdetect :: Maybe PrismFirstDetectVersion
+    <*> arbitraryReducedMaybe n -- prismVersionsDeprecatedInsights :: Maybe PrismInsightsVersion
+  
+instance Arbitrary RiskProfile where
+  arbitrary = sized genRiskProfile
+
+genRiskProfile :: Int -> Gen RiskProfile
+genRiskProfile n =
+  RiskProfile
+    <$> arbitraryReducedMaybe n -- riskProfileKey :: Maybe Text
+    <*> arbitraryReducedMaybe n -- riskProfileOutcome :: Maybe Text
+  
+instance Arbitrary RuleDetails where
+  arbitrary = sized genRuleDetails
+
+genRuleDetails :: Int -> Gen RuleDetails
+genRuleDetails n =
+  RuleDetails
+    <$> arbitraryReducedMaybe n -- ruleDetailsCustomActionKey :: Maybe Text
+    <*> arbitraryReducedMaybe n -- ruleDetailsInternalNote :: Maybe Text
+  
+instance Arbitrary Ruleset where
+  arbitrary = sized genRuleset
+
+genRuleset :: Int -> Gen Ruleset
+genRuleset n =
+  Ruleset
+    <$> arbitraryReducedMaybe n -- rulesetOutcome :: Maybe Text
+    <*> arbitraryReduced n -- rulesetResult :: RuleResult
+    <*> arbitraryReducedMaybe n -- rulesetRulesetKey :: Maybe Text
+    <*> arbitraryReducedMaybe n -- rulesetTriggeredRuleDetails :: Maybe RuleDetails
+  
+instance Arbitrary SignalAddressData where
+  arbitrary = sized genSignalAddressData
+
+genSignalAddressData :: Int -> Gen SignalAddressData
+genSignalAddressData n =
+  SignalAddressData
+    <$> arbitraryReducedMaybe n -- signalAddressDataCity :: Maybe Text
+    <*> arbitraryReducedMaybe n -- signalAddressDataCountry :: Maybe Text
+    <*> arbitraryReducedMaybe n -- signalAddressDataPostalCode :: Maybe Text
+    <*> arbitraryReducedMaybe n -- signalAddressDataRegion :: Maybe Text
+    <*> arbitraryReducedMaybe n -- signalAddressDataStreet :: Maybe Text
+  
+instance Arbitrary SignalDecisionReportRequest where
+  arbitrary = sized genSignalDecisionReportRequest
+
+genSignalDecisionReportRequest :: Int -> Gen SignalDecisionReportRequest
+genSignalDecisionReportRequest n =
+  SignalDecisionReportRequest
+    <$> arbitraryReducedMaybe n -- signalDecisionReportRequestAmountInstantlyAvailable :: Maybe Double
+    <*> arbitraryReducedMaybe n -- signalDecisionReportRequestClientId :: Maybe Text
+    <*> arbitrary -- signalDecisionReportRequestClientTransactionId :: Text
+    <*> arbitraryReducedMaybe n -- signalDecisionReportRequestDaysFundsOnHold :: Maybe Int
+    <*> arbitraryReducedMaybe n -- signalDecisionReportRequestDecisionOutcome :: Maybe SignalDecisionOutcome
+    <*> arbitrary -- signalDecisionReportRequestInitiated :: Bool
+    <*> arbitraryReducedMaybe n -- signalDecisionReportRequestPaymentMethod :: Maybe SignalPaymentMethod
+    <*> arbitraryReducedMaybe n -- signalDecisionReportRequestSecret :: Maybe Text
+    <*> arbitraryReducedMaybe n -- signalDecisionReportRequestSubmittedAt :: Maybe DateTime
+  
+instance Arbitrary SignalDecisionReportResponse where
+  arbitrary = sized genSignalDecisionReportResponse
+
+genSignalDecisionReportResponse :: Int -> Gen SignalDecisionReportResponse
+genSignalDecisionReportResponse n =
+  SignalDecisionReportResponse
+    <$> arbitrary -- signalDecisionReportResponseRequestId :: Text
+  
+instance Arbitrary SignalDevice where
+  arbitrary = sized genSignalDevice
+
+genSignalDevice :: Int -> Gen SignalDevice
+genSignalDevice n =
+  SignalDevice
+    <$> arbitraryReducedMaybe n -- signalDeviceIpAddress :: Maybe Text
+    <*> arbitraryReducedMaybe n -- signalDeviceUserAgent :: Maybe Text
+  
+instance Arbitrary SignalEvaluateCoreAttributes where
+  arbitrary = sized genSignalEvaluateCoreAttributes
+
+genSignalEvaluateCoreAttributes :: Int -> Gen SignalEvaluateCoreAttributes
+genSignalEvaluateCoreAttributes n =
+  SignalEvaluateCoreAttributes
+    <$> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesAddressChangeCount28d :: Maybe Int
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesAddressChangeCount90d :: Maybe Int
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesAvailableBalance :: Maybe Double
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesBalanceLastUpdated :: Maybe DateTime
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesBalanceToTransactionAmountRatio :: Maybe Double
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesCreditTransactionsCount10d :: Maybe Int
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesCreditTransactionsCount30d :: Maybe Int
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesCreditTransactionsCount60d :: Maybe Int
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesCreditTransactionsCount90d :: Maybe Int
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesCurrentBalance :: Maybe Double
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesDaysSinceAccountOpening :: Maybe Int
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesDaysSinceFirstPlaidConnection :: Maybe Int
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesDaysWithNegativeBalanceCount90d :: Maybe Int
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesDebitTransactionsCount10d :: Maybe Int
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesDebitTransactionsCount30d :: Maybe Int
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesDebitTransactionsCount60d :: Maybe Int
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesDebitTransactionsCount90d :: Maybe Int
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesDistinctIpAddressesCount30d :: Maybe Int
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesDistinctIpAddressesCount3d :: Maybe Int
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesDistinctIpAddressesCount7d :: Maybe Int
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesDistinctIpAddressesCount90d :: Maybe Int
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesDistinctSslTlsConnectionSessionsCount30d :: Maybe Int
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesDistinctSslTlsConnectionSessionsCount3d :: Maybe Int
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesDistinctSslTlsConnectionSessionsCount7d :: Maybe Int
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesDistinctSslTlsConnectionSessionsCount90d :: Maybe Int
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesDistinctUserAgentsCount30d :: Maybe Int
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesDistinctUserAgentsCount3d :: Maybe Int
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesDistinctUserAgentsCount7d :: Maybe Int
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesDistinctUserAgentsCount90d :: Maybe Int
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesEmailChangeCount28d :: Maybe Int
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesEmailChangeCount90d :: Maybe Int
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesFailedPlaidNonOauthAuthenticationAttemptsCount30d :: Maybe Int
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesFailedPlaidNonOauthAuthenticationAttemptsCount3d :: Maybe Int
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesFailedPlaidNonOauthAuthenticationAttemptsCount7d :: Maybe Int
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesIsAccountClosed :: Maybe Bool
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesIsAccountFrozenOrRestricted :: Maybe Bool
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesIsSavingsOrMoneyMarketAccount :: Maybe Bool
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesNsfOverdraftTransactionsCount30d :: Maybe Int
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesNsfOverdraftTransactionsCount60d :: Maybe Int
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesNsfOverdraftTransactionsCount7d :: Maybe Int
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesNsfOverdraftTransactionsCount90d :: Maybe Int
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesP10EodBalance30d :: Maybe Double
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesP10EodBalance31dTo60d :: Maybe Double
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesP10EodBalance60d :: Maybe Double
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesP10EodBalance61dTo90d :: Maybe Double
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesP10EodBalance90d :: Maybe Double
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesP50CreditTransactionsAmount28d :: Maybe Double
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesP50DebitTransactionsAmount28d :: Maybe Double
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesP50EodBalance30d :: Maybe Double
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesP50EodBalance31dTo60d :: Maybe Double
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesP50EodBalance60d :: Maybe Double
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesP50EodBalance61dTo90d :: Maybe Double
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesP50EodBalance90d :: Maybe Double
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesP90EodBalance30d :: Maybe Double
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesP90EodBalance31dTo60d :: Maybe Double
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesP90EodBalance60d :: Maybe Double
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesP90EodBalance61dTo90d :: Maybe Double
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesP90EodBalance90d :: Maybe Double
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesP95CreditTransactionsAmount28d :: Maybe Double
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesP95DebitTransactionsAmount28d :: Maybe Double
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesPhoneChangeCount28d :: Maybe Int
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesPhoneChangeCount90d :: Maybe Int
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesPlaidConnectionsCount30d :: Maybe Int
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesPlaidConnectionsCount7d :: Maybe Int
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesPlaidNonOauthAuthenticationAttemptsCount30d :: Maybe Int
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesPlaidNonOauthAuthenticationAttemptsCount3d :: Maybe Int
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesPlaidNonOauthAuthenticationAttemptsCount7d :: Maybe Int
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesTotalCreditTransactionsAmount10d :: Maybe Double
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesTotalCreditTransactionsAmount30d :: Maybe Double
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesTotalCreditTransactionsAmount60d :: Maybe Double
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesTotalCreditTransactionsAmount90d :: Maybe Double
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesTotalDebitTransactionsAmount10d :: Maybe Double
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesTotalDebitTransactionsAmount30d :: Maybe Double
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesTotalDebitTransactionsAmount60d :: Maybe Double
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesTotalDebitTransactionsAmount90d :: Maybe Double
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesTotalPlaidConnectionsCount :: Maybe Int
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesTransactionsLastUpdated :: Maybe DateTime
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesUnauthorizedTransactionsCount30d :: Maybe Int
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesUnauthorizedTransactionsCount60d :: Maybe Int
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesUnauthorizedTransactionsCount7d :: Maybe Int
+    <*> arbitraryReducedMaybe n -- signalEvaluateCoreAttributesUnauthorizedTransactionsCount90d :: Maybe Int
+  
+instance Arbitrary SignalEvaluateRequest where
+  arbitrary = sized genSignalEvaluateRequest
+
+genSignalEvaluateRequest :: Int -> Gen SignalEvaluateRequest
+genSignalEvaluateRequest n =
+  SignalEvaluateRequest
+    <$> arbitrary -- signalEvaluateRequestAccessToken :: Text
+    <*> arbitrary -- signalEvaluateRequestAccountId :: Text
+    <*> arbitrary -- signalEvaluateRequestAmount :: Double
+    <*> arbitraryReducedMaybe n -- signalEvaluateRequestClientId :: Maybe Text
+    <*> arbitrary -- signalEvaluateRequestClientTransactionId :: Text
+    <*> arbitraryReducedMaybe n -- signalEvaluateRequestClientUserId :: Maybe Text
+    <*> arbitraryReducedMaybe n -- signalEvaluateRequestDefaultPaymentMethod :: Maybe Text
+    <*> arbitraryReducedMaybe n -- signalEvaluateRequestDevice :: Maybe SignalDevice
+    <*> arbitraryReducedMaybe n -- signalEvaluateRequestIsRecurring :: Maybe Bool
+    <*> arbitraryReducedMaybe n -- signalEvaluateRequestRiskProfileKey :: Maybe Text
+    <*> arbitraryReducedMaybe n -- signalEvaluateRequestRulesetKey :: Maybe Text
+    <*> arbitraryReducedMaybe n -- signalEvaluateRequestSecret :: Maybe Text
+    <*> arbitraryReducedMaybe n -- signalEvaluateRequestUser :: Maybe SignalUser
+    <*> arbitraryReducedMaybe n -- signalEvaluateRequestUserPresent :: Maybe Bool
+  
+instance Arbitrary SignalEvaluateResponse where
+  arbitrary = sized genSignalEvaluateResponse
+
+genSignalEvaluateResponse :: Int -> Gen SignalEvaluateResponse
+genSignalEvaluateResponse n =
+  SignalEvaluateResponse
+    <$> arbitraryReducedMaybe n -- signalEvaluateResponseCoreAttributes :: Maybe SignalEvaluateCoreAttributes
+    <*> arbitrary -- signalEvaluateResponseRequestId :: Text
+    <*> arbitraryReducedMaybe n -- signalEvaluateResponseRiskProfile :: Maybe RiskProfile
+    <*> arbitraryReducedMaybe n -- signalEvaluateResponseRuleset :: Maybe Ruleset
+    <*> arbitraryReduced n -- signalEvaluateResponseScores :: SignalScores
+    <*> arbitraryReduced n -- signalEvaluateResponseWarnings :: [SignalWarning]
+  
+instance Arbitrary SignalPersonName where
+  arbitrary = sized genSignalPersonName
+
+genSignalPersonName :: Int -> Gen SignalPersonName
+genSignalPersonName n =
+  SignalPersonName
+    <$> arbitraryReducedMaybe n -- signalPersonNameFamilyName :: Maybe Text
+    <*> arbitraryReducedMaybe n -- signalPersonNameGivenName :: Maybe Text
+    <*> arbitraryReducedMaybe n -- signalPersonNameMiddleName :: Maybe Text
+    <*> arbitraryReducedMaybe n -- signalPersonNamePrefix :: Maybe Text
+    <*> arbitraryReducedMaybe n -- signalPersonNameSuffix :: Maybe Text
+  
+instance Arbitrary SignalReturnReportRequest where
+  arbitrary = sized genSignalReturnReportRequest
+
+genSignalReturnReportRequest :: Int -> Gen SignalReturnReportRequest
+genSignalReturnReportRequest n =
+  SignalReturnReportRequest
+    <$> arbitraryReducedMaybe n -- signalReturnReportRequestClientId :: Maybe Text
+    <*> arbitrary -- signalReturnReportRequestClientTransactionId :: Text
+    <*> arbitrary -- signalReturnReportRequestReturnCode :: Text
+    <*> arbitraryReducedMaybe n -- signalReturnReportRequestReturnedAt :: Maybe DateTime
+    <*> arbitraryReducedMaybe n -- signalReturnReportRequestSecret :: Maybe Text
+  
+instance Arbitrary SignalReturnReportResponse where
+  arbitrary = sized genSignalReturnReportResponse
+
+genSignalReturnReportResponse :: Int -> Gen SignalReturnReportResponse
+genSignalReturnReportResponse n =
+  SignalReturnReportResponse
+    <$> arbitrary -- signalReturnReportResponseRequestId :: Text
+  
+instance Arbitrary SignalScores where
+  arbitrary = sized genSignalScores
+
+genSignalScores :: Int -> Gen SignalScores
+genSignalScores n =
+  SignalScores
+    <$> arbitraryReducedMaybe n -- signalScoresBankInitiatedReturnRisk :: Maybe BankInitiatedReturnRisk
+    <*> arbitraryReducedMaybe n -- signalScoresCustomerInitiatedReturnRisk :: Maybe CustomerInitiatedReturnRisk
+  
+instance Arbitrary SignalUser where
+  arbitrary = sized genSignalUser
+
+genSignalUser :: Int -> Gen SignalUser
+genSignalUser n =
+  SignalUser
+    <$> arbitraryReducedMaybe n -- signalUserAddress :: Maybe SignalAddressData
+    <*> arbitraryReducedMaybe n -- signalUserEmailAddress :: Maybe Text
+    <*> arbitraryReducedMaybe n -- signalUserName :: Maybe SignalPersonName
+    <*> arbitraryReducedMaybe n -- signalUserPhoneNumber :: Maybe Text
+  
+instance Arbitrary SignalWarning where
+  arbitrary = sized genSignalWarning
+
+genSignalWarning :: Int -> Gen SignalWarning
+genSignalWarning n =
+  SignalWarning
+    <$> arbitraryReducedMaybe n -- signalWarningWarningCode :: Maybe Text
+    <*> arbitraryReducedMaybe n -- signalWarningWarningMessage :: Maybe Text
+    <*> arbitraryReducedMaybe n -- signalWarningWarningType :: Maybe Text
+  
+instance Arbitrary TotalInflowAmount where
+  arbitrary = sized genTotalInflowAmount
+
+genTotalInflowAmount :: Int -> Gen TotalInflowAmount
+genTotalInflowAmount n =
+  TotalInflowAmount
+    <$> arbitrary -- totalInflowAmountAmount :: Double
+    <*> arbitrary -- totalInflowAmountIsoCurrencyCode :: Text
+    <*> arbitrary -- totalInflowAmountUnofficialCurrencyCode :: Text
+  
+instance Arbitrary TotalInflowAmount30d where
+  arbitrary = sized genTotalInflowAmount30d
+
+genTotalInflowAmount30d :: Int -> Gen TotalInflowAmount30d
+genTotalInflowAmount30d n =
+  TotalInflowAmount30d
+    <$> arbitrary -- totalInflowAmount30dAmount :: Double
+    <*> arbitrary -- totalInflowAmount30dIsoCurrencyCode :: Text
+    <*> arbitrary -- totalInflowAmount30dUnofficialCurrencyCode :: Text
+  
+instance Arbitrary TotalInflowAmount60d where
+  arbitrary = sized genTotalInflowAmount60d
+
+genTotalInflowAmount60d :: Int -> Gen TotalInflowAmount60d
+genTotalInflowAmount60d n =
+  TotalInflowAmount60d
+    <$> arbitrary -- totalInflowAmount60dAmount :: Double
+    <*> arbitrary -- totalInflowAmount60dIsoCurrencyCode :: Text
+    <*> arbitrary -- totalInflowAmount60dUnofficialCurrencyCode :: Text
+  
+instance Arbitrary TotalInflowAmount90d where
+  arbitrary = sized genTotalInflowAmount90d
+
+genTotalInflowAmount90d :: Int -> Gen TotalInflowAmount90d
+genTotalInflowAmount90d n =
+  TotalInflowAmount90d
+    <$> arbitrary -- totalInflowAmount90dAmount :: Double
+    <*> arbitrary -- totalInflowAmount90dIsoCurrencyCode :: Text
+    <*> arbitrary -- totalInflowAmount90dUnofficialCurrencyCode :: Text
+  
+instance Arbitrary TotalOutflowAmount where
+  arbitrary = sized genTotalOutflowAmount
+
+genTotalOutflowAmount :: Int -> Gen TotalOutflowAmount
+genTotalOutflowAmount n =
+  TotalOutflowAmount
+    <$> arbitrary -- totalOutflowAmountAmount :: Double
+    <*> arbitrary -- totalOutflowAmountIsoCurrencyCode :: Text
+    <*> arbitrary -- totalOutflowAmountUnofficialCurrencyCode :: Text
+  
+instance Arbitrary TotalOutflowAmount30d where
+  arbitrary = sized genTotalOutflowAmount30d
+
+genTotalOutflowAmount30d :: Int -> Gen TotalOutflowAmount30d
+genTotalOutflowAmount30d n =
+  TotalOutflowAmount30d
+    <$> arbitrary -- totalOutflowAmount30dAmount :: Double
+    <*> arbitrary -- totalOutflowAmount30dIsoCurrencyCode :: Text
+    <*> arbitrary -- totalOutflowAmount30dUnofficialCurrencyCode :: Text
+  
+instance Arbitrary TotalOutflowAmount60d where
+  arbitrary = sized genTotalOutflowAmount60d
+
+genTotalOutflowAmount60d :: Int -> Gen TotalOutflowAmount60d
+genTotalOutflowAmount60d n =
+  TotalOutflowAmount60d
+    <$> arbitrary -- totalOutflowAmount60dAmount :: Double
+    <*> arbitrary -- totalOutflowAmount60dIsoCurrencyCode :: Text
+    <*> arbitrary -- totalOutflowAmount60dUnofficialCurrencyCode :: Text
+  
+instance Arbitrary TotalOutflowAmount90d where
+  arbitrary = sized genTotalOutflowAmount90d
+
+genTotalOutflowAmount90d :: Int -> Gen TotalOutflowAmount90d
+genTotalOutflowAmount90d n =
+  TotalOutflowAmount90d
+    <$> arbitrary -- totalOutflowAmount90dAmount :: Double
+    <*> arbitrary -- totalOutflowAmount90dIsoCurrencyCode :: Text
+    <*> arbitrary -- totalOutflowAmount90dUnofficialCurrencyCode :: Text
+  
+instance Arbitrary TotalReportInflowAmount where
+  arbitrary = sized genTotalReportInflowAmount
+
+genTotalReportInflowAmount :: Int -> Gen TotalReportInflowAmount
+genTotalReportInflowAmount n =
+  TotalReportInflowAmount
+    <$> arbitrary -- totalReportInflowAmountAmount :: Double
+    <*> arbitrary -- totalReportInflowAmountIsoCurrencyCode :: Text
+    <*> arbitrary -- totalReportInflowAmountUnofficialCurrencyCode :: Text
+  
+instance Arbitrary TotalReportInflowAmount30d where
+  arbitrary = sized genTotalReportInflowAmount30d
+
+genTotalReportInflowAmount30d :: Int -> Gen TotalReportInflowAmount30d
+genTotalReportInflowAmount30d n =
+  TotalReportInflowAmount30d
+    <$> arbitrary -- totalReportInflowAmount30dAmount :: Double
+    <*> arbitrary -- totalReportInflowAmount30dIsoCurrencyCode :: Text
+    <*> arbitrary -- totalReportInflowAmount30dUnofficialCurrencyCode :: Text
+  
+instance Arbitrary TotalReportInflowAmount60d where
+  arbitrary = sized genTotalReportInflowAmount60d
+
+genTotalReportInflowAmount60d :: Int -> Gen TotalReportInflowAmount60d
+genTotalReportInflowAmount60d n =
+  TotalReportInflowAmount60d
+    <$> arbitrary -- totalReportInflowAmount60dAmount :: Double
+    <*> arbitrary -- totalReportInflowAmount60dIsoCurrencyCode :: Text
+    <*> arbitrary -- totalReportInflowAmount60dUnofficialCurrencyCode :: Text
+  
+instance Arbitrary TotalReportInflowAmount90d where
+  arbitrary = sized genTotalReportInflowAmount90d
+
+genTotalReportInflowAmount90d :: Int -> Gen TotalReportInflowAmount90d
+genTotalReportInflowAmount90d n =
+  TotalReportInflowAmount90d
+    <$> arbitrary -- totalReportInflowAmount90dAmount :: Double
+    <*> arbitrary -- totalReportInflowAmount90dIsoCurrencyCode :: Text
+    <*> arbitrary -- totalReportInflowAmount90dUnofficialCurrencyCode :: Text
+  
+instance Arbitrary TotalReportOutflowAmount where
+  arbitrary = sized genTotalReportOutflowAmount
+
+genTotalReportOutflowAmount :: Int -> Gen TotalReportOutflowAmount
+genTotalReportOutflowAmount n =
+  TotalReportOutflowAmount
+    <$> arbitrary -- totalReportOutflowAmountAmount :: Double
+    <*> arbitrary -- totalReportOutflowAmountIsoCurrencyCode :: Text
+    <*> arbitrary -- totalReportOutflowAmountUnofficialCurrencyCode :: Text
+  
+instance Arbitrary TotalReportOutflowAmount30d where
+  arbitrary = sized genTotalReportOutflowAmount30d
+
+genTotalReportOutflowAmount30d :: Int -> Gen TotalReportOutflowAmount30d
+genTotalReportOutflowAmount30d n =
+  TotalReportOutflowAmount30d
+    <$> arbitrary -- totalReportOutflowAmount30dAmount :: Double
+    <*> arbitrary -- totalReportOutflowAmount30dIsoCurrencyCode :: Text
+    <*> arbitrary -- totalReportOutflowAmount30dUnofficialCurrencyCode :: Text
+  
+instance Arbitrary TotalReportOutflowAmount60d where
+  arbitrary = sized genTotalReportOutflowAmount60d
+
+genTotalReportOutflowAmount60d :: Int -> Gen TotalReportOutflowAmount60d
+genTotalReportOutflowAmount60d n =
+  TotalReportOutflowAmount60d
+    <$> arbitrary -- totalReportOutflowAmount60dAmount :: Double
+    <*> arbitrary -- totalReportOutflowAmount60dIsoCurrencyCode :: Text
+    <*> arbitrary -- totalReportOutflowAmount60dUnofficialCurrencyCode :: Text
+  
+instance Arbitrary TotalReportOutflowAmount90d where
+  arbitrary = sized genTotalReportOutflowAmount90d
+
+genTotalReportOutflowAmount90d :: Int -> Gen TotalReportOutflowAmount90d
+genTotalReportOutflowAmount90d n =
+  TotalReportOutflowAmount90d
+    <$> arbitrary -- totalReportOutflowAmount90dAmount :: Double
+    <*> arbitrary -- totalReportOutflowAmount90dIsoCurrencyCode :: Text
+    <*> arbitrary -- totalReportOutflowAmount90dUnofficialCurrencyCode :: Text
+  
+instance Arbitrary UserCreateRequest where
+  arbitrary = sized genUserCreateRequest
+
+genUserCreateRequest :: Int -> Gen UserCreateRequest
+genUserCreateRequest n =
+  UserCreateRequest
+    <$> arbitraryReducedMaybe n -- userCreateRequestClientId :: Maybe Text
+    <*> arbitrary -- userCreateRequestClientUserId :: Text
+    <*> arbitraryReducedMaybe n -- userCreateRequestConsumerReportUserIdentity :: Maybe ConsumerReportUserIdentity
+    <*> arbitraryReducedMaybe n -- userCreateRequestEndCustomer :: Maybe Text
+    <*> arbitraryReducedMaybe n -- userCreateRequestIdentity :: Maybe ClientUserIdentity
+    <*> arbitraryReducedMaybe n -- userCreateRequestSecret :: Maybe Text
+    <*> arbitraryReducedMaybe n -- userCreateRequestWithUpgradedUser :: Maybe Bool
+  
+instance Arbitrary UserCreateResponse where
+  arbitrary = sized genUserCreateResponse
+
+genUserCreateResponse :: Int -> Gen UserCreateResponse
+genUserCreateResponse n =
+  UserCreateResponse
+    <$> arbitrary -- userCreateResponseRequestId :: Text
+    <*> arbitrary -- userCreateResponseUserId :: Text
+    <*> arbitraryReducedMaybe n -- userCreateResponseUserToken :: Maybe Text
+  
+instance Arbitrary UserIDNumber where
+  arbitrary = sized genUserIDNumber
+
+genUserIDNumber :: Int -> Gen UserIDNumber
+genUserIDNumber n =
+  UserIDNumber
+    <$> arbitraryReduced n -- userIDNumberType :: IDNumberType
+    <*> arbitrary -- userIDNumberValue :: Text
+  
+instance Arbitrary BaseReportTransactionType where
+  arbitrary = arbitraryBoundedEnum
+
+instance Arbitrary BaseReportWarningCode where
+  arbitrary = arbitraryBoundedEnum
+
+instance Arbitrary CashflowAttributesVersion where
+  arbitrary = arbitraryBoundedEnum
+
+instance Arbitrary CheckReportWarningCode where
+  arbitrary = arbitraryBoundedEnum
+
+instance Arbitrary ConsumerDisputeCategory where
+  arbitrary = arbitraryBoundedEnum
+
+instance Arbitrary ConsumerReportPermissiblePurpose where
+  arbitrary = arbitraryBoundedEnum
+
+instance Arbitrary CraBankIncomeBonusType where
+  arbitrary = arbitraryBoundedEnum
+
+instance Arbitrary CraBankIncomeStatus where
+  arbitrary = arbitraryBoundedEnum
+
+instance Arbitrary CraBankIncomeWarningCode where
+  arbitrary = arbitraryBoundedEnum
+
+instance Arbitrary CraCheckReportPermissiblePurpose where
+  arbitrary = arbitraryBoundedEnum
+
+instance Arbitrary CraCheckReportVerificationGetReportType where
+  arbitrary = arbitraryBoundedEnum
+
+instance Arbitrary CraPDFAddOns where
+  arbitrary = arbitraryBoundedEnum
+
+instance Arbitrary CraPartnerInsightsBaseFicoScoreVersion where
+  arbitrary = arbitraryBoundedEnum
+
+instance Arbitrary CraPartnerInsightsBureau where
+  arbitrary = arbitraryBoundedEnum
+
+instance Arbitrary CraPartnerInsightsUltraFicoScoreVersion where
+  arbitrary = arbitraryBoundedEnum
+
+instance Arbitrary CraUserTier where
+  arbitrary = arbitraryBoundedEnum
+
+instance Arbitrary CreditBankIncomeAccountType where
+  arbitrary = arbitraryBoundedEnum
+
+instance Arbitrary CreditBankIncomeCategory where
+  arbitrary = arbitraryBoundedEnum
+
+instance Arbitrary CreditBankIncomeErrorType where
+  arbitrary = arbitraryBoundedEnum
+
+instance Arbitrary CreditBankIncomePayFrequency where
+  arbitrary = arbitraryBoundedEnum
+
+instance Arbitrary CreditBankIncomeWarningType where
+  arbitrary = arbitraryBoundedEnum
+
+instance Arbitrary DepositoryAccountSubtype where
+  arbitrary = arbitraryBoundedEnum
+
+instance Arbitrary GSEReportType where
+  arbitrary = arbitraryBoundedEnum
+
+instance Arbitrary IDNumberType where
+  arbitrary = arbitraryBoundedEnum
+
+instance Arbitrary IncomeInsightsVersion where
+  arbitrary = arbitraryBoundedEnum
+
+instance Arbitrary NetworkInsightsVersion where
+  arbitrary = arbitraryBoundedEnum
+
+instance Arbitrary OwnershipType where
+  arbitrary = arbitraryBoundedEnum
+
+instance Arbitrary PersonalFinanceCategoryVersion where
+  arbitrary = arbitraryBoundedEnum
+
+instance Arbitrary PlaidErrorType where
+  arbitrary = arbitraryBoundedEnum
+
+instance Arbitrary PlaidLendScoreVersion where
+  arbitrary = arbitraryBoundedEnum
+
+instance Arbitrary PrismCashScoreVersion where
+  arbitrary = arbitraryBoundedEnum
+
+instance Arbitrary PrismDetectVersion where
+  arbitrary = arbitraryBoundedEnum
+
+instance Arbitrary PrismExtendVersion where
+  arbitrary = arbitraryBoundedEnum
+
+instance Arbitrary PrismFirstDetectVersion where
+  arbitrary = arbitraryBoundedEnum
+
+instance Arbitrary PrismInsightsVersion where
+  arbitrary = arbitraryBoundedEnum
+
+instance Arbitrary RuleResult where
+  arbitrary = arbitraryBoundedEnum
+
+instance Arbitrary SignalDecisionOutcome where
+  arbitrary = arbitraryBoundedEnum
+
+instance Arbitrary SignalPaymentMethod where
+  arbitrary = arbitraryBoundedEnum
+
