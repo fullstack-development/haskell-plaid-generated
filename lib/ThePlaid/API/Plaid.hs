@@ -2183,130 +2183,6 @@ instance Consumes WebhookVerificationKeyGet MimeJSON
 -- | @application/json@
 instance Produces WebhookVerificationKeyGet MimeJSON
 
--- *** craCheckReportBaseReportGet
-
--- | @POST \/cra\/check_report\/base_report\/get@
--- 
--- Retrieve a Base Report
--- 
--- This endpoint allows you to retrieve the Base Report for your user, allowing you to receive comprehensive bank account and cash flow data. You should call this endpoint after you've received a `CHECK_REPORT_READY` or a `USER_CHECK_REPORT_READY` webhook, either after the Link session for the user or after calling `/cra/check_report/create`. If the most recent consumer report for the user doesn't have sufficient data to generate the base report, or the consumer report has expired, you will receive an error indicating that you should create a new consumer report by calling `/cra/check_report/create`.
--- 
--- AuthMethod: 'AuthApiKeyClientId', 'AuthApiKeyPlaidVersion', 'AuthApiKeySecret'
--- 
-craCheckReportBaseReportGet
-  :: (Consumes CraCheckReportBaseReportGet MimeJSON, MimeRender MimeJSON CraCheckReportBaseReportGetRequest)
-  => CraCheckReportBaseReportGetRequest -- ^ "craCheckReportBaseReportGetRequest"
-  -> ThePlaidRequest CraCheckReportBaseReportGet MimeJSON CraCheckReportBaseReportGetResponse MimeJSON
-craCheckReportBaseReportGet craCheckReportBaseReportGetRequest =
-  _mkRequest "POST" ["/cra/check_report/base_report/get"]
-    `_hasAuthType` (P.Proxy :: P.Proxy AuthApiKeyClientId)
-    `_hasAuthType` (P.Proxy :: P.Proxy AuthApiKeyPlaidVersion)
-    `_hasAuthType` (P.Proxy :: P.Proxy AuthApiKeySecret)
-    `setBodyParam` craCheckReportBaseReportGetRequest
-
-data CraCheckReportBaseReportGet 
-instance HasBodyParam CraCheckReportBaseReportGet CraCheckReportBaseReportGetRequest 
-
--- | @application/json@
-instance Consumes CraCheckReportBaseReportGet MimeJSON
-
--- | @application/json@
-instance Produces CraCheckReportBaseReportGet MimeJSON
-
-
--- *** craCheckReportCreate
-
--- | @POST \/cra\/check_report\/create@
--- 
--- Refresh or create a Consumer Report
--- 
--- Use `/cra/check_report/create` to refresh data in an existing report. A Consumer Report will last for 24 hours before expiring; you should call any `/get` endpoints on the report before it expires. If a report expires, you can call `/cra/check_report/create` again to re-generate it and refresh the data in the report. The report is generated from all Items associated with the user, excluding [duplicate Items](https://plaid.com/docs/check/add-to-app/#duplicate-items) and Items that cannot supply data.  Each call to `/cra/check_report/create` creates a new, independent report. `/get` endpoints will retrieve the most recently created report for the requested user.
--- 
--- AuthMethod: 'AuthApiKeyClientId', 'AuthApiKeyPlaidVersion', 'AuthApiKeySecret'
--- 
-craCheckReportCreate
-  :: (Consumes CraCheckReportCreate MimeJSON, MimeRender MimeJSON CraCheckReportCreateRequest)
-  => CraCheckReportCreateRequest -- ^ "craCheckReportCreateRequest"
-  -> ThePlaidRequest CraCheckReportCreate MimeJSON CraCheckReportCreateResponse MimeJSON
-craCheckReportCreate craCheckReportCreateRequest =
-  _mkRequest "POST" ["/cra/check_report/create"]
-    `_hasAuthType` (P.Proxy :: P.Proxy AuthApiKeyClientId)
-    `_hasAuthType` (P.Proxy :: P.Proxy AuthApiKeyPlaidVersion)
-    `_hasAuthType` (P.Proxy :: P.Proxy AuthApiKeySecret)
-    `setBodyParam` craCheckReportCreateRequest
-
-data CraCheckReportCreate 
-instance HasBodyParam CraCheckReportCreate CraCheckReportCreateRequest 
-
--- | @application/json@
-instance Consumes CraCheckReportCreate MimeJSON
-
--- | @application/json@
-instance Produces CraCheckReportCreate MimeJSON
-
-
--- *** craCheckReportIncomeInsightsGet
-
--- | @POST \/cra\/check_report\/income_insights\/get@
--- 
--- Retrieve income insights from your user's banks
--- 
--- This endpoint allows you to retrieve the Income Insights report for your user. You should call this endpoint after you've received a `CHECK_REPORT_READY` or a `USER_CHECK_REPORT_READY` webhook, either after the Link session for the user or after calling `/cra/check_report/create`. If the most recent consumer report for the user doesn't have sufficient data to generate the report, or the consumer report has expired, you will receive an error indicating that you should create a new consumer report by calling `/cra/check_report/create`.  NOTE: The following schema was updated in April 2026 to reflect the response when the provided version is \"II2\". Please see [this document](https://docs.google.com/document/d/1kQkQ7FOgFaC4n-sUGUk74hoXZNY_L_nJeCuMe7Keip4/edit?tab=t.0#heading=h.rudamzinus2i) for guidance on migrating to II2 if you are currently using the II1 version, and [this section](https://docs.google.com/document/d/1kQkQ7FOgFaC4n-sUGUk74hoXZNY_L_nJeCuMe7Keip4/edit?tab=t.0#bookmark=id.tdcc2wpk0h60) for an example II1 response along with its [documentation](https://docs.google.com/document/d/1kQkQ7FOgFaC4n-sUGUk74hoXZNY_L_nJeCuMe7Keip4/edit?tab=t.36c85n2ircqk#heading=h.79dwr5c1iszl).
--- 
--- AuthMethod: 'AuthApiKeyClientId', 'AuthApiKeyPlaidVersion', 'AuthApiKeySecret'
--- 
-craCheckReportIncomeInsightsGet
-  :: (Consumes CraCheckReportIncomeInsightsGet MimeJSON, MimeRender MimeJSON CraCheckReportIncomeInsightsGetRequest)
-  => CraCheckReportIncomeInsightsGetRequest -- ^ "craCheckReportIncomeInsightsGetRequest"
-  -> ThePlaidRequest CraCheckReportIncomeInsightsGet MimeJSON CraCheckReportIncomeInsightsGetResponse MimeJSON
-craCheckReportIncomeInsightsGet craCheckReportIncomeInsightsGetRequest =
-  _mkRequest "POST" ["/cra/check_report/income_insights/get"]
-    `_hasAuthType` (P.Proxy :: P.Proxy AuthApiKeyClientId)
-    `_hasAuthType` (P.Proxy :: P.Proxy AuthApiKeyPlaidVersion)
-    `_hasAuthType` (P.Proxy :: P.Proxy AuthApiKeySecret)
-    `setBodyParam` craCheckReportIncomeInsightsGetRequest
-
-data CraCheckReportIncomeInsightsGet 
-instance HasBodyParam CraCheckReportIncomeInsightsGet CraCheckReportIncomeInsightsGetRequest 
-
--- | @application/json@
-instance Consumes CraCheckReportIncomeInsightsGet MimeJSON
-
--- | @application/json@
-instance Produces CraCheckReportIncomeInsightsGet MimeJSON
-
-
--- *** craCheckReportPartnerInsightsGet
-
--- | @POST \/cra\/check_report\/partner_insights\/get@
--- 
--- Retrieve cash flow insights from partners
--- 
--- This endpoint allows you to retrieve the Partner Insights report for your user. You should call this endpoint after you've received a `CHECK_REPORT_READY` or a `USER_CHECK_REPORT_READY` webhook, either after the Link session for the user or after calling `/cra/check_report/create`. If the most recent consumer report for the user doesn't have sufficient data to generate the report, or the consumer report has expired, you will receive an error indicating that you should create a new consumer report by calling `/cra/check_report/create`.
--- 
--- AuthMethod: 'AuthApiKeyClientId', 'AuthApiKeyPlaidVersion', 'AuthApiKeySecret'
--- 
-craCheckReportPartnerInsightsGet
-  :: (Consumes CraCheckReportPartnerInsightsGet MimeJSON, MimeRender MimeJSON CraCheckReportPartnerInsightsGetRequest)
-  => CraCheckReportPartnerInsightsGetRequest -- ^ "craCheckReportPartnerInsightsGetRequest"
-  -> ThePlaidRequest CraCheckReportPartnerInsightsGet MimeJSON CraCheckReportPartnerInsightsGetResponse MimeJSON
-craCheckReportPartnerInsightsGet craCheckReportPartnerInsightsGetRequest =
-  _mkRequest "POST" ["/cra/check_report/partner_insights/get"]
-    `_hasAuthType` (P.Proxy :: P.Proxy AuthApiKeyClientId)
-    `_hasAuthType` (P.Proxy :: P.Proxy AuthApiKeyPlaidVersion)
-    `_hasAuthType` (P.Proxy :: P.Proxy AuthApiKeySecret)
-    `setBodyParam` craCheckReportPartnerInsightsGetRequest
-
-data CraCheckReportPartnerInsightsGet 
-instance HasBodyParam CraCheckReportPartnerInsightsGet CraCheckReportPartnerInsightsGetRequest 
-
--- | @application/json@
-instance Consumes CraCheckReportPartnerInsightsGet MimeJSON
-
--- | @application/json@
-instance Produces CraCheckReportPartnerInsightsGet MimeJSON
-
-
 -- *** craCheckReportPdfGet
 
 -- | @POST \/cra\/check_report\/pdf\/get@
@@ -2463,4 +2339,67 @@ instance Consumes UserCreate MimeJSON
 
 -- | @application/json@
 instance Produces UserCreate MimeJSON
+
+
+-- *** craReportCreate
+
+-- | @POST \/cra\/report\/create@
+-- 
+-- Create a CRA Report for provided user
+-- 
+-- `/cra/report/create` generates a CRA Report for a user from the Items associated with that user.  Each requested product is generated asynchronously. Use the returned `report_id` to retrieve the report once its products are ready.
+-- 
+-- AuthMethod: 'AuthApiKeyClientId', 'AuthApiKeyPlaidVersion', 'AuthApiKeySecret'
+-- 
+craReportCreate
+  :: (Consumes CraReportCreate MimeJSON, MimeRender MimeJSON CraReportCreateRequest)
+  => CraReportCreateRequest -- ^ "craReportCreateRequest"
+  -> ThePlaidRequest CraReportCreate MimeJSON CraReportCreateResponse MimeJSON
+craReportCreate craReportCreateRequest =
+  _mkRequest "POST" ["/cra/report/create"]
+    `_hasAuthType` (P.Proxy :: P.Proxy AuthApiKeyClientId)
+    `_hasAuthType` (P.Proxy :: P.Proxy AuthApiKeyPlaidVersion)
+    `_hasAuthType` (P.Proxy :: P.Proxy AuthApiKeySecret)
+    `setBodyParam` craReportCreateRequest
+
+data CraReportCreate 
+instance HasBodyParam CraReportCreate CraReportCreateRequest 
+
+-- | @application/json@
+instance Consumes CraReportCreate MimeJSON
+
+-- | @application/json@
+instance Produces CraReportCreate MimeJSON
+
+
+-- *** craReportGet
+
+-- | @POST \/cra\/report\/get@
+-- 
+-- Retrieve a CRA Report for provided user
+-- 
+-- `/cra/report/get` retrieves a CRA Report for a user.
+-- 
+-- AuthMethod: 'AuthApiKeyClientId', 'AuthApiKeyPlaidVersion', 'AuthApiKeySecret'
+-- 
+craReportGet
+  :: (Consumes CraReportGet MimeJSON, MimeRender MimeJSON CraReportGetRequest)
+  => CraReportGetRequest -- ^ "craReportGetRequest"
+  -> ThePlaidRequest CraReportGet MimeJSON CraReportGetResponse MimeJSON
+craReportGet craReportGetRequest =
+  _mkRequest "POST" ["/cra/report/get"]
+    `_hasAuthType` (P.Proxy :: P.Proxy AuthApiKeyClientId)
+    `_hasAuthType` (P.Proxy :: P.Proxy AuthApiKeyPlaidVersion)
+    `_hasAuthType` (P.Proxy :: P.Proxy AuthApiKeySecret)
+    `setBodyParam` craReportGetRequest
+
+data CraReportGet 
+instance HasBodyParam CraReportGet CraReportGetRequest 
+
+-- | @application/json@
+instance Consumes CraReportGet MimeJSON
+
+-- | @application/json@
+instance Produces CraReportGet MimeJSON
+
 

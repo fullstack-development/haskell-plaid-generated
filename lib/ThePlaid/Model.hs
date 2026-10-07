@@ -13913,912 +13913,6 @@ mkBankInitiatedReturnRisk bankInitiatedReturnRiskRiskTier bankInitiatedReturnRis
   , bankInitiatedReturnRiskScore
   }
 
--- ** BaseReport
--- | BaseReport
--- BaseReport
--- 
--- An object representing a Base Report
-data BaseReport = BaseReport
-  { baseReportAttributes :: !(Maybe BaseReportUserAttributes) -- ^ "attributes"
-  , baseReportClientReportId :: !(Maybe Text) -- ^ "client_report_id" - Client-generated identifier, which can be used by lenders to track loan applications.
-  , baseReportDateGenerated :: !(DateTime) -- ^ /Required/ "date_generated" - The date and time when the Base Report was created, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format (e.g. \&quot;2018-04-12T03:32:11Z\&quot;).
-  , baseReportDaysRequested :: !(Double) -- ^ /Required/ "days_requested" - The number of days of transaction history requested.
-  , baseReportItems :: !([BaseReportItem]) -- ^ /Required/ "items" - Data returned by Plaid about each of the Items included in the Base Report.
-  , baseReportReportId :: !(Text) -- ^ /Required/ "report_id" - A unique ID identifying a Base Report. Like all Plaid identifiers, this ID is case sensitive.
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON BaseReport
-instance A.FromJSON BaseReport where
-  parseJSON = A.withObject "BaseReport" $ \o ->
-    BaseReport
-      <$> (o .:? "attributes")
-      <*> (o .:? "client_report_id")
-      <*> (o .:  "date_generated")
-      <*> (o .:  "days_requested")
-      <*> (o .:  "items")
-      <*> (o .:  "report_id")
-
--- | ToJSON BaseReport
-instance A.ToJSON BaseReport where
-  toJSON BaseReport {..} =
-   _omitNulls
-      [ "attributes" .= baseReportAttributes
-      , "client_report_id" .= baseReportClientReportId
-      , "date_generated" .= baseReportDateGenerated
-      , "days_requested" .= baseReportDaysRequested
-      , "items" .= baseReportItems
-      , "report_id" .= baseReportReportId
-      ]
-
-
--- | Construct a value of type 'BaseReport' (by applying it's required fields, if any)
-mkBaseReport
-  :: DateTime -- ^ 'baseReportDateGenerated': The date and time when the Base Report was created, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format (e.g. \"2018-04-12T03:32:11Z\").
-  -> Double -- ^ 'baseReportDaysRequested': The number of days of transaction history requested.
-  -> [BaseReportItem] -- ^ 'baseReportItems': Data returned by Plaid about each of the Items included in the Base Report.
-  -> Text -- ^ 'baseReportReportId': A unique ID identifying a Base Report. Like all Plaid identifiers, this ID is case sensitive.
-  -> BaseReport
-mkBaseReport baseReportDateGenerated baseReportDaysRequested baseReportItems baseReportReportId =
-  BaseReport
-  { baseReportAttributes = Nothing
-  , baseReportClientReportId = Nothing
-  , baseReportDateGenerated
-  , baseReportDaysRequested
-  , baseReportItems
-  , baseReportReportId
-  }
-
--- ** BaseReportAccount
--- | BaseReportAccount
--- BaseReportAccount
--- 
--- Base Report information about an account
-data BaseReportAccount = BaseReportAccount
-  { baseReportAccountAccountId :: !(Text) -- ^ /Required/ "account_id" - Plaid&#39;s unique identifier for the account. This value will not change unless Plaid can&#39;t reconcile the account with the data returned by the financial institution. This may occur, for example, when the name of the account changes. If this happens a new &#x60;account_id&#x60; will be assigned to the account.  If an account with a specific &#x60;account_id&#x60; disappears instead of changing, the account is likely closed. Closed accounts are not returned by the Plaid API.  Like all Plaid identifiers, the &#x60;account_id&#x60; is case sensitive.
-  , baseReportAccountAccountInsights :: !(Maybe BaseReportAccountInsights) -- ^ "account_insights"
-  , baseReportAccountAttributes :: !(Maybe BaseReportAttributes) -- ^ "attributes"
-  , baseReportAccountBalances :: !(BaseReportAccountBalances) -- ^ /Required/ "balances"
-  , baseReportAccountConsumerDisputes :: !([ConsumerDispute]) -- ^ /Required/ "consumer_disputes" - The information about previously submitted valid dispute statements by the consumer
-  , baseReportAccountDaysAvailable :: !(Double) -- ^ /Required/ "days_available" - The duration of transaction history available within this report for this Item, typically defined as the time since the date of the earliest transaction in that account.
-  , baseReportAccountHistoricalBalances :: !(Maybe [BaseReportHistoricalBalance]) -- ^ "historical_balances" - Calculated data about the historical balances on the account. Currently not supported by &#x60;brokerage&#x60; or &#x60;investment&#x60; accounts.
-  , baseReportAccountMask :: !(Text) -- ^ /Required/ "mask" - The last 2-4 alphanumeric characters of an account&#39;s official account number. Note that the mask may be non-unique between an Item&#39;s accounts, and it may also not match the mask that the bank displays to the user.
-  , baseReportAccountMetadata :: !(BaseReportAccountMetadata) -- ^ /Required/ "metadata"
-  , baseReportAccountName :: !(Text) -- ^ /Required/ "name" - The name of the account, either assigned by the user or by the financial institution itself
-  , baseReportAccountOfficialName :: !(Text) -- ^ /Required/ "official_name" - The official name of the account as given by the financial institution
-  , baseReportAccountOwners :: !([Owner]) -- ^ /Required/ "owners" - Data returned by the financial institution about the account owner or owners. For business accounts, the name reported may be either the name of the individual or the name of the business, depending on the institution. Multiple owners on a single account will be represented in the same &#x60;owner&#x60; object, not in multiple owner objects within the array. This array can also be empty if no owners are found.
-  , baseReportAccountOwnershipType :: !(OwnershipType) -- ^ /Required/ "ownership_type"
-  , baseReportAccountSubtype :: !(AccountSubtype) -- ^ /Required/ "subtype"
-  , baseReportAccountTransactions :: !([BaseReportTransaction]) -- ^ /Required/ "transactions" - Transaction history associated with the account. Transaction history returned by endpoints such as &#x60;/transactions/get&#x60; or &#x60;/investments/transactions/get&#x60; will be returned in the top-level &#x60;transactions&#x60; field instead. Some transactions may have their details masked in accordance with the FCRA. These will appear with a &#x60;credit_category&#x60; of &#x60;MASKED_TRANSACTION_CATEGORY&#x60;.
-  , baseReportAccountType :: !(AccountType) -- ^ /Required/ "type"
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON BaseReportAccount
-instance A.FromJSON BaseReportAccount where
-  parseJSON = A.withObject "BaseReportAccount" $ \o ->
-    BaseReportAccount
-      <$> (o .:  "account_id")
-      <*> (o .:? "account_insights")
-      <*> (o .:? "attributes")
-      <*> (o .:  "balances")
-      <*> (o .:  "consumer_disputes")
-      <*> (o .:  "days_available")
-      <*> (o .:? "historical_balances")
-      <*> (o .:  "mask")
-      <*> (o .:  "metadata")
-      <*> (o .:  "name")
-      <*> (o .:  "official_name")
-      <*> (o .:  "owners")
-      <*> (o .:  "ownership_type")
-      <*> (o .:  "subtype")
-      <*> (o .:  "transactions")
-      <*> (o .:  "type")
-
--- | ToJSON BaseReportAccount
-instance A.ToJSON BaseReportAccount where
-  toJSON BaseReportAccount {..} =
-   _omitNulls
-      [ "account_id" .= baseReportAccountAccountId
-      , "account_insights" .= baseReportAccountAccountInsights
-      , "attributes" .= baseReportAccountAttributes
-      , "balances" .= baseReportAccountBalances
-      , "consumer_disputes" .= baseReportAccountConsumerDisputes
-      , "days_available" .= baseReportAccountDaysAvailable
-      , "historical_balances" .= baseReportAccountHistoricalBalances
-      , "mask" .= baseReportAccountMask
-      , "metadata" .= baseReportAccountMetadata
-      , "name" .= baseReportAccountName
-      , "official_name" .= baseReportAccountOfficialName
-      , "owners" .= baseReportAccountOwners
-      , "ownership_type" .= baseReportAccountOwnershipType
-      , "subtype" .= baseReportAccountSubtype
-      , "transactions" .= baseReportAccountTransactions
-      , "type" .= baseReportAccountType
-      ]
-
-
--- | Construct a value of type 'BaseReportAccount' (by applying it's required fields, if any)
-mkBaseReportAccount
-  :: Text -- ^ 'baseReportAccountAccountId': Plaid's unique identifier for the account. This value will not change unless Plaid can't reconcile the account with the data returned by the financial institution. This may occur, for example, when the name of the account changes. If this happens a new `account_id` will be assigned to the account.  If an account with a specific `account_id` disappears instead of changing, the account is likely closed. Closed accounts are not returned by the Plaid API.  Like all Plaid identifiers, the `account_id` is case sensitive.
-  -> BaseReportAccountBalances -- ^ 'baseReportAccountBalances' 
-  -> [ConsumerDispute] -- ^ 'baseReportAccountConsumerDisputes': The information about previously submitted valid dispute statements by the consumer
-  -> Double -- ^ 'baseReportAccountDaysAvailable': The duration of transaction history available within this report for this Item, typically defined as the time since the date of the earliest transaction in that account.
-  -> Text -- ^ 'baseReportAccountMask': The last 2-4 alphanumeric characters of an account's official account number. Note that the mask may be non-unique between an Item's accounts, and it may also not match the mask that the bank displays to the user.
-  -> BaseReportAccountMetadata -- ^ 'baseReportAccountMetadata' 
-  -> Text -- ^ 'baseReportAccountName': The name of the account, either assigned by the user or by the financial institution itself
-  -> Text -- ^ 'baseReportAccountOfficialName': The official name of the account as given by the financial institution
-  -> [Owner] -- ^ 'baseReportAccountOwners': Data returned by the financial institution about the account owner or owners. For business accounts, the name reported may be either the name of the individual or the name of the business, depending on the institution. Multiple owners on a single account will be represented in the same `owner` object, not in multiple owner objects within the array. This array can also be empty if no owners are found.
-  -> OwnershipType -- ^ 'baseReportAccountOwnershipType' 
-  -> AccountSubtype -- ^ 'baseReportAccountSubtype' 
-  -> [BaseReportTransaction] -- ^ 'baseReportAccountTransactions': Transaction history associated with the account. Transaction history returned by endpoints such as `/transactions/get` or `/investments/transactions/get` will be returned in the top-level `transactions` field instead. Some transactions may have their details masked in accordance with the FCRA. These will appear with a `credit_category` of `MASKED_TRANSACTION_CATEGORY`.
-  -> AccountType -- ^ 'baseReportAccountType' 
-  -> BaseReportAccount
-mkBaseReportAccount baseReportAccountAccountId baseReportAccountBalances baseReportAccountConsumerDisputes baseReportAccountDaysAvailable baseReportAccountMask baseReportAccountMetadata baseReportAccountName baseReportAccountOfficialName baseReportAccountOwners baseReportAccountOwnershipType baseReportAccountSubtype baseReportAccountTransactions baseReportAccountType =
-  BaseReportAccount
-  { baseReportAccountAccountId
-  , baseReportAccountAccountInsights = Nothing
-  , baseReportAccountAttributes = Nothing
-  , baseReportAccountBalances
-  , baseReportAccountConsumerDisputes
-  , baseReportAccountDaysAvailable
-  , baseReportAccountHistoricalBalances = Nothing
-  , baseReportAccountMask
-  , baseReportAccountMetadata
-  , baseReportAccountName
-  , baseReportAccountOfficialName
-  , baseReportAccountOwners
-  , baseReportAccountOwnershipType
-  , baseReportAccountSubtype
-  , baseReportAccountTransactions
-  , baseReportAccountType
-  }
-
--- ** BaseReportAccountBalances
--- | BaseReportAccountBalances
--- BaseReportAccountBalances
--- 
--- Information about an account's balances.
-data BaseReportAccountBalances = BaseReportAccountBalances
-  { baseReportAccountBalancesAvailable :: !(Double) -- ^ /Required/ "available" - The amount of funds available to be withdrawn from the account, as determined by the financial institution.  For &#x60;credit&#x60;-type accounts, the &#x60;available&#x60; balance typically equals the &#x60;limit&#x60; less the &#x60;current&#x60; balance, less any pending outflows plus any pending inflows.  For &#x60;depository&#x60;-type accounts, the &#x60;available&#x60; balance typically equals the &#x60;current&#x60; balance less any pending outflows plus any pending inflows. For &#x60;depository&#x60;-type accounts, the &#x60;available&#x60; balance does not include the overdraft limit.  For &#x60;investment&#x60;-type accounts (or &#x60;brokerage&#x60;-type accounts for API versions 2018-05-22 and earlier), the &#x60;available&#x60; balance is the total cash available to withdraw as presented by the institution.  Note that not all institutions calculate the &#x60;available&#x60;  balance. In the event that &#x60;available&#x60; balance is unavailable, Plaid will return an &#x60;available&#x60; balance value of &#x60;null&#x60;.  Available balance may be cached and is not guaranteed to be up-to-date in real-time unless the value was returned by &#x60;/accounts/balance/get&#x60;.  If &#x60;current&#x60; is &#x60;null&#x60; this field is guaranteed not to be &#x60;null&#x60;.
-  , baseReportAccountBalancesAverageBalance :: !(Maybe Double) -- ^ "average_balance" - The average historical balance for the entire report
-  , baseReportAccountBalancesAverageMonthlyBalances :: !(Maybe [BaseReportAverageMonthlyBalances]) -- ^ "average_monthly_balances" - The average historical balance of each calendar month
-  , baseReportAccountBalancesCurrent :: !(Double) -- ^ /Required/ "current" - The total amount of funds in or owed by the account.  For &#x60;credit&#x60;-type accounts, a positive balance indicates the amount owed; a negative amount indicates the lender owing the account holder.  For &#x60;loan&#x60;-type accounts, the current balance is the principal remaining on the loan, except in the case of student loan accounts at Sallie Mae (&#x60;ins_116944&#x60;). For Sallie Mae student loans, the account&#39;s balance includes both principal and any outstanding interest.  For &#x60;investment&#x60;-type accounts (or &#x60;brokerage&#x60;-type accounts for API versions 2018-05-22 and earlier), the current balance is the total value of assets as presented by the institution.  Note that balance information may be cached unless the value was returned by &#x60;/accounts/balance/get&#x60;; if the Item is enabled for Transactions, the balance will be at least as recent as the most recent Transaction update. If you require real-time balance information, use the &#x60;available&#x60; balance as provided by &#x60;/accounts/balance/get&#x60;.  When returned by &#x60;/accounts/balance/get&#x60;, this field may be &#x60;null&#x60;. When this happens, &#x60;available&#x60; is guaranteed not to be &#x60;null&#x60;.
-  , baseReportAccountBalancesIsoCurrencyCode :: !(Text) -- ^ /Required/ "iso_currency_code" - The ISO-4217 currency code of the balance. Always null if &#x60;unofficial_currency_code&#x60; is non-null.
-  , baseReportAccountBalancesLastUpdatedDatetime :: !(Maybe DateTime) -- ^ "last_updated_datetime" - Timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format (&#x60;YYYY-MM-DDTHH:mm:ssZ&#x60;) indicating the oldest acceptable balance when making a request to &#x60;/accounts/balance/get&#x60;.  This field is only used and expected when the institution is &#x60;ins_128026&#x60; (Capital One) and the Item contains one or more accounts with a non-depository account type, in which case a value must be provided or an &#x60;INVALID_REQUEST&#x60; error with the code of &#x60;INVALID_FIELD&#x60; will be returned. For Capital One depository accounts as well as all other account types on all other institutions, this field is ignored. See [account type schema](https://plaid.com/docs/api/accounts/#account-type-schema) for a full list of account types.  If the balance that is pulled is older than the given timestamp for Items with this field required, an &#x60;INVALID_REQUEST&#x60; error with the code of &#x60;LAST_UPDATED_DATETIME_OUT_OF_RANGE&#x60; will be returned with the most recent timestamp for the requested account contained in the response.
-  , baseReportAccountBalancesLimit :: !(Double) -- ^ /Required/ "limit" - For &#x60;credit&#x60;-type accounts, this represents the credit limit.  For &#x60;depository&#x60;-type accounts, this represents the pre-arranged overdraft limit, which is common for current (checking) accounts in Europe.  In North America, this field is typically only available for &#x60;credit&#x60;-type accounts.
-  , baseReportAccountBalancesMostRecentThirtyDayAverageBalance :: !(Maybe Double) -- ^ "most_recent_thirty_day_average_balance" - The average historical balance from the most recent 30 days
-  , baseReportAccountBalancesUnofficialCurrencyCode :: !(Text) -- ^ /Required/ "unofficial_currency_code" - The unofficial currency code associated with the balance. Always null if &#x60;iso_currency_code&#x60; is non-null. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries.  See the [currency code schema](https://plaid.com/docs/api/accounts#currency-code-schema) for a full listing of supported &#x60;unofficial_currency_code&#x60;s.
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON BaseReportAccountBalances
-instance A.FromJSON BaseReportAccountBalances where
-  parseJSON = A.withObject "BaseReportAccountBalances" $ \o ->
-    BaseReportAccountBalances
-      <$> (o .:  "available")
-      <*> (o .:? "average_balance")
-      <*> (o .:? "average_monthly_balances")
-      <*> (o .:  "current")
-      <*> (o .:  "iso_currency_code")
-      <*> (o .:? "last_updated_datetime")
-      <*> (o .:  "limit")
-      <*> (o .:? "most_recent_thirty_day_average_balance")
-      <*> (o .:  "unofficial_currency_code")
-
--- | ToJSON BaseReportAccountBalances
-instance A.ToJSON BaseReportAccountBalances where
-  toJSON BaseReportAccountBalances {..} =
-   _omitNulls
-      [ "available" .= baseReportAccountBalancesAvailable
-      , "average_balance" .= baseReportAccountBalancesAverageBalance
-      , "average_monthly_balances" .= baseReportAccountBalancesAverageMonthlyBalances
-      , "current" .= baseReportAccountBalancesCurrent
-      , "iso_currency_code" .= baseReportAccountBalancesIsoCurrencyCode
-      , "last_updated_datetime" .= baseReportAccountBalancesLastUpdatedDatetime
-      , "limit" .= baseReportAccountBalancesLimit
-      , "most_recent_thirty_day_average_balance" .= baseReportAccountBalancesMostRecentThirtyDayAverageBalance
-      , "unofficial_currency_code" .= baseReportAccountBalancesUnofficialCurrencyCode
-      ]
-
-
--- | Construct a value of type 'BaseReportAccountBalances' (by applying it's required fields, if any)
-mkBaseReportAccountBalances
-  :: Double -- ^ 'baseReportAccountBalancesAvailable': The amount of funds available to be withdrawn from the account, as determined by the financial institution.  For `credit`-type accounts, the `available` balance typically equals the `limit` less the `current` balance, less any pending outflows plus any pending inflows.  For `depository`-type accounts, the `available` balance typically equals the `current` balance less any pending outflows plus any pending inflows. For `depository`-type accounts, the `available` balance does not include the overdraft limit.  For `investment`-type accounts (or `brokerage`-type accounts for API versions 2018-05-22 and earlier), the `available` balance is the total cash available to withdraw as presented by the institution.  Note that not all institutions calculate the `available`  balance. In the event that `available` balance is unavailable, Plaid will return an `available` balance value of `null`.  Available balance may be cached and is not guaranteed to be up-to-date in real-time unless the value was returned by `/accounts/balance/get`.  If `current` is `null` this field is guaranteed not to be `null`.
-  -> Double -- ^ 'baseReportAccountBalancesCurrent': The total amount of funds in or owed by the account.  For `credit`-type accounts, a positive balance indicates the amount owed; a negative amount indicates the lender owing the account holder.  For `loan`-type accounts, the current balance is the principal remaining on the loan, except in the case of student loan accounts at Sallie Mae (`ins_116944`). For Sallie Mae student loans, the account's balance includes both principal and any outstanding interest.  For `investment`-type accounts (or `brokerage`-type accounts for API versions 2018-05-22 and earlier), the current balance is the total value of assets as presented by the institution.  Note that balance information may be cached unless the value was returned by `/accounts/balance/get`; if the Item is enabled for Transactions, the balance will be at least as recent as the most recent Transaction update. If you require real-time balance information, use the `available` balance as provided by `/accounts/balance/get`.  When returned by `/accounts/balance/get`, this field may be `null`. When this happens, `available` is guaranteed not to be `null`.
-  -> Text -- ^ 'baseReportAccountBalancesIsoCurrencyCode': The ISO-4217 currency code of the balance. Always null if `unofficial_currency_code` is non-null.
-  -> Double -- ^ 'baseReportAccountBalancesLimit': For `credit`-type accounts, this represents the credit limit.  For `depository`-type accounts, this represents the pre-arranged overdraft limit, which is common for current (checking) accounts in Europe.  In North America, this field is typically only available for `credit`-type accounts.
-  -> Text -- ^ 'baseReportAccountBalancesUnofficialCurrencyCode': The unofficial currency code associated with the balance. Always null if `iso_currency_code` is non-null. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries.  See the [currency code schema](https://plaid.com/docs/api/accounts#currency-code-schema) for a full listing of supported `unofficial_currency_code`s.
-  -> BaseReportAccountBalances
-mkBaseReportAccountBalances baseReportAccountBalancesAvailable baseReportAccountBalancesCurrent baseReportAccountBalancesIsoCurrencyCode baseReportAccountBalancesLimit baseReportAccountBalancesUnofficialCurrencyCode =
-  BaseReportAccountBalances
-  { baseReportAccountBalancesAvailable
-  , baseReportAccountBalancesAverageBalance = Nothing
-  , baseReportAccountBalancesAverageMonthlyBalances = Nothing
-  , baseReportAccountBalancesCurrent
-  , baseReportAccountBalancesIsoCurrencyCode
-  , baseReportAccountBalancesLastUpdatedDatetime = Nothing
-  , baseReportAccountBalancesLimit
-  , baseReportAccountBalancesMostRecentThirtyDayAverageBalance = Nothing
-  , baseReportAccountBalancesUnofficialCurrencyCode
-  }
-
--- ** BaseReportAccountInsights
--- | BaseReportAccountInsights
--- BaseReportAccountInsights
--- 
--- Calculated insights derived from transaction-level data. This field has been deprecated in favor of [Base Report attributes aggregated across accounts](https://plaid.com/docs/api/products/check/#cra-check_report-base_report-get-response-report-attributes) and will be removed in a future release.
-data BaseReportAccountInsights = BaseReportAccountInsights
-  { baseReportAccountInsightsAverageDaysBetweenTransactions :: !(Maybe Double) -- ^ "average_days_between_transactions" - Average number of days between sequential transactions
-  , baseReportAccountInsightsAverageInflowAmounts :: !(Maybe [BaseReportAverageFlowInsights]) -- ^ "average_inflow_amounts" - Average amount of debit transactions into the account in a time period. This array will be empty for non-depository accounts. This field only takes into account USD transactions from the account.
-  , baseReportAccountInsightsAverageOutflowAmounts :: !(Maybe [BaseReportAverageFlowInsights]) -- ^ "average_outflow_amounts" - Average amount of transactions out of the account in a time period. This array will be empty for non-depository accounts. This field only takes into account USD transactions from the account.
-  , baseReportAccountInsightsDaysAvailable :: !(Maybe Int) -- ^ "days_available" - Number of days available for the account.
-  , baseReportAccountInsightsLongestGapsBetweenTransactions :: !(Maybe [BaseReportLongestGapInsights]) -- ^ "longest_gaps_between_transactions" - Longest gap between sequential transactions in a time period. This array can include multiple time periods.
-  , baseReportAccountInsightsMostRecentTransactionDate :: !(Maybe Date) -- ^ "most_recent_transaction_date" - Date of the most recent transaction for the account.
-  , baseReportAccountInsightsNumberOfDaysNoTransactions :: !(Maybe Int) -- ^ "number_of_days_no_transactions" - Number of days with no transactions
-  , baseReportAccountInsightsNumberOfInflows :: !(Maybe [BaseReportNumberFlowInsights]) -- ^ "number_of_inflows" - The number of debits into the account. This array will be empty for non-depository accounts.
-  , baseReportAccountInsightsNumberOfOutflows :: !(Maybe [BaseReportNumberFlowInsights]) -- ^ "number_of_outflows" - The number of outflows from the account. This array will be empty for non-depository accounts.
-  , baseReportAccountInsightsOldestTransactionDate :: !(Maybe Date) -- ^ "oldest_transaction_date" - Date of the earliest transaction for the account.
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON BaseReportAccountInsights
-instance A.FromJSON BaseReportAccountInsights where
-  parseJSON = A.withObject "BaseReportAccountInsights" $ \o ->
-    BaseReportAccountInsights
-      <$> (o .:? "average_days_between_transactions")
-      <*> (o .:? "average_inflow_amounts")
-      <*> (o .:? "average_outflow_amounts")
-      <*> (o .:? "days_available")
-      <*> (o .:? "longest_gaps_between_transactions")
-      <*> (o .:? "most_recent_transaction_date")
-      <*> (o .:? "number_of_days_no_transactions")
-      <*> (o .:? "number_of_inflows")
-      <*> (o .:? "number_of_outflows")
-      <*> (o .:? "oldest_transaction_date")
-
--- | ToJSON BaseReportAccountInsights
-instance A.ToJSON BaseReportAccountInsights where
-  toJSON BaseReportAccountInsights {..} =
-   _omitNulls
-      [ "average_days_between_transactions" .= baseReportAccountInsightsAverageDaysBetweenTransactions
-      , "average_inflow_amounts" .= baseReportAccountInsightsAverageInflowAmounts
-      , "average_outflow_amounts" .= baseReportAccountInsightsAverageOutflowAmounts
-      , "days_available" .= baseReportAccountInsightsDaysAvailable
-      , "longest_gaps_between_transactions" .= baseReportAccountInsightsLongestGapsBetweenTransactions
-      , "most_recent_transaction_date" .= baseReportAccountInsightsMostRecentTransactionDate
-      , "number_of_days_no_transactions" .= baseReportAccountInsightsNumberOfDaysNoTransactions
-      , "number_of_inflows" .= baseReportAccountInsightsNumberOfInflows
-      , "number_of_outflows" .= baseReportAccountInsightsNumberOfOutflows
-      , "oldest_transaction_date" .= baseReportAccountInsightsOldestTransactionDate
-      ]
-
-
--- | Construct a value of type 'BaseReportAccountInsights' (by applying it's required fields, if any)
-mkBaseReportAccountInsights
-  :: BaseReportAccountInsights
-mkBaseReportAccountInsights =
-  BaseReportAccountInsights
-  { baseReportAccountInsightsAverageDaysBetweenTransactions = Nothing
-  , baseReportAccountInsightsAverageInflowAmounts = Nothing
-  , baseReportAccountInsightsAverageOutflowAmounts = Nothing
-  , baseReportAccountInsightsDaysAvailable = Nothing
-  , baseReportAccountInsightsLongestGapsBetweenTransactions = Nothing
-  , baseReportAccountInsightsMostRecentTransactionDate = Nothing
-  , baseReportAccountInsightsNumberOfDaysNoTransactions = Nothing
-  , baseReportAccountInsightsNumberOfInflows = Nothing
-  , baseReportAccountInsightsNumberOfOutflows = Nothing
-  , baseReportAccountInsightsOldestTransactionDate = Nothing
-  }
-
--- ** BaseReportAccountMetadata
--- | BaseReportAccountMetadata
--- BaseReportAccountMetadata
--- 
--- Metadata about the extracted account.
-data BaseReportAccountMetadata = BaseReportAccountMetadata
-  { baseReportAccountMetadataEndDate :: !(Date) -- ^ /Required/ "end_date" - The end of the range of the financial institution provided data for the account, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format (\&quot;yyyy-mm-dd\&quot;).
-  , baseReportAccountMetadataStartDate :: !(Date) -- ^ /Required/ "start_date" - The beginning of the range of the financial institution provided data for the account, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format (\&quot;yyyy-mm-dd\&quot;).
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON BaseReportAccountMetadata
-instance A.FromJSON BaseReportAccountMetadata where
-  parseJSON = A.withObject "BaseReportAccountMetadata" $ \o ->
-    BaseReportAccountMetadata
-      <$> (o .:  "end_date")
-      <*> (o .:  "start_date")
-
--- | ToJSON BaseReportAccountMetadata
-instance A.ToJSON BaseReportAccountMetadata where
-  toJSON BaseReportAccountMetadata {..} =
-   _omitNulls
-      [ "end_date" .= baseReportAccountMetadataEndDate
-      , "start_date" .= baseReportAccountMetadataStartDate
-      ]
-
-
--- | Construct a value of type 'BaseReportAccountMetadata' (by applying it's required fields, if any)
-mkBaseReportAccountMetadata
-  :: Date -- ^ 'baseReportAccountMetadataEndDate': The end of the range of the financial institution provided data for the account, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format (\"yyyy-mm-dd\").
-  -> Date -- ^ 'baseReportAccountMetadataStartDate': The beginning of the range of the financial institution provided data for the account, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format (\"yyyy-mm-dd\").
-  -> BaseReportAccountMetadata
-mkBaseReportAccountMetadata baseReportAccountMetadataEndDate baseReportAccountMetadataStartDate =
-  BaseReportAccountMetadata
-  { baseReportAccountMetadataEndDate
-  , baseReportAccountMetadataStartDate
-  }
-
--- ** BaseReportAttributes
--- | BaseReportAttributes
--- BaseReportAttributes
--- 
--- Calculated attributes derived from transaction-level data.
-data BaseReportAttributes = BaseReportAttributes
-  { baseReportAttributesIsPrimaryAccount :: !(Maybe Bool) -- ^ "is_primary_account" - Prediction indicator of whether the account is a primary account. Only one account per account type across the items connected will have a value of true.
-  , baseReportAttributesNsfOverdraftTransactionsCount :: !(Maybe Int) -- ^ "nsf_overdraft_transactions_count" - The number of net NSF fee transactions for a given account within the report time range (not counting any fees that were reversed within the time range).
-  , baseReportAttributesNsfOverdraftTransactionsCount30d :: !(Maybe Int) -- ^ "nsf_overdraft_transactions_count_30d" - The number of net NSF fee transactions within the last 30 days for a given account (not counting any fees that were reversed within the time range).
-  , baseReportAttributesNsfOverdraftTransactionsCount60d :: !(Maybe Int) -- ^ "nsf_overdraft_transactions_count_60d" - The number of net NSF fee transactions within the last 60 days for a given account (not counting any fees that were reversed within the time range).
-  , baseReportAttributesNsfOverdraftTransactionsCount90d :: !(Maybe Int) -- ^ "nsf_overdraft_transactions_count_90d" - The number of net NSF fee transactions within the last 90 days for a given account (not counting any fees that were reversed within the time range).
-  , baseReportAttributesPrimaryAccountScore :: !(Maybe Double) -- ^ "primary_account_score" - Value ranging from 0-1. The higher the score, the more confident we are of the account being the primary account.
-  , baseReportAttributesTotalInflowAmount :: !(Maybe TotalInflowAmount) -- ^ "total_inflow_amount"
-  , baseReportAttributesTotalInflowAmount30d :: !(Maybe TotalInflowAmount30d) -- ^ "total_inflow_amount_30d"
-  , baseReportAttributesTotalInflowAmount60d :: !(Maybe TotalInflowAmount60d) -- ^ "total_inflow_amount_60d"
-  , baseReportAttributesTotalInflowAmount90d :: !(Maybe TotalInflowAmount90d) -- ^ "total_inflow_amount_90d"
-  , baseReportAttributesTotalOutflowAmount :: !(Maybe TotalOutflowAmount) -- ^ "total_outflow_amount"
-  , baseReportAttributesTotalOutflowAmount30d :: !(Maybe TotalOutflowAmount30d) -- ^ "total_outflow_amount_30d"
-  , baseReportAttributesTotalOutflowAmount60d :: !(Maybe TotalOutflowAmount60d) -- ^ "total_outflow_amount_60d"
-  , baseReportAttributesTotalOutflowAmount90d :: !(Maybe TotalOutflowAmount90d) -- ^ "total_outflow_amount_90d"
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON BaseReportAttributes
-instance A.FromJSON BaseReportAttributes where
-  parseJSON = A.withObject "BaseReportAttributes" $ \o ->
-    BaseReportAttributes
-      <$> (o .:? "is_primary_account")
-      <*> (o .:? "nsf_overdraft_transactions_count")
-      <*> (o .:? "nsf_overdraft_transactions_count_30d")
-      <*> (o .:? "nsf_overdraft_transactions_count_60d")
-      <*> (o .:? "nsf_overdraft_transactions_count_90d")
-      <*> (o .:? "primary_account_score")
-      <*> (o .:? "total_inflow_amount")
-      <*> (o .:? "total_inflow_amount_30d")
-      <*> (o .:? "total_inflow_amount_60d")
-      <*> (o .:? "total_inflow_amount_90d")
-      <*> (o .:? "total_outflow_amount")
-      <*> (o .:? "total_outflow_amount_30d")
-      <*> (o .:? "total_outflow_amount_60d")
-      <*> (o .:? "total_outflow_amount_90d")
-
--- | ToJSON BaseReportAttributes
-instance A.ToJSON BaseReportAttributes where
-  toJSON BaseReportAttributes {..} =
-   _omitNulls
-      [ "is_primary_account" .= baseReportAttributesIsPrimaryAccount
-      , "nsf_overdraft_transactions_count" .= baseReportAttributesNsfOverdraftTransactionsCount
-      , "nsf_overdraft_transactions_count_30d" .= baseReportAttributesNsfOverdraftTransactionsCount30d
-      , "nsf_overdraft_transactions_count_60d" .= baseReportAttributesNsfOverdraftTransactionsCount60d
-      , "nsf_overdraft_transactions_count_90d" .= baseReportAttributesNsfOverdraftTransactionsCount90d
-      , "primary_account_score" .= baseReportAttributesPrimaryAccountScore
-      , "total_inflow_amount" .= baseReportAttributesTotalInflowAmount
-      , "total_inflow_amount_30d" .= baseReportAttributesTotalInflowAmount30d
-      , "total_inflow_amount_60d" .= baseReportAttributesTotalInflowAmount60d
-      , "total_inflow_amount_90d" .= baseReportAttributesTotalInflowAmount90d
-      , "total_outflow_amount" .= baseReportAttributesTotalOutflowAmount
-      , "total_outflow_amount_30d" .= baseReportAttributesTotalOutflowAmount30d
-      , "total_outflow_amount_60d" .= baseReportAttributesTotalOutflowAmount60d
-      , "total_outflow_amount_90d" .= baseReportAttributesTotalOutflowAmount90d
-      ]
-
-
--- | Construct a value of type 'BaseReportAttributes' (by applying it's required fields, if any)
-mkBaseReportAttributes
-  :: BaseReportAttributes
-mkBaseReportAttributes =
-  BaseReportAttributes
-  { baseReportAttributesIsPrimaryAccount = Nothing
-  , baseReportAttributesNsfOverdraftTransactionsCount = Nothing
-  , baseReportAttributesNsfOverdraftTransactionsCount30d = Nothing
-  , baseReportAttributesNsfOverdraftTransactionsCount60d = Nothing
-  , baseReportAttributesNsfOverdraftTransactionsCount90d = Nothing
-  , baseReportAttributesPrimaryAccountScore = Nothing
-  , baseReportAttributesTotalInflowAmount = Nothing
-  , baseReportAttributesTotalInflowAmount30d = Nothing
-  , baseReportAttributesTotalInflowAmount60d = Nothing
-  , baseReportAttributesTotalInflowAmount90d = Nothing
-  , baseReportAttributesTotalOutflowAmount = Nothing
-  , baseReportAttributesTotalOutflowAmount30d = Nothing
-  , baseReportAttributesTotalOutflowAmount60d = Nothing
-  , baseReportAttributesTotalOutflowAmount90d = Nothing
-  }
-
--- ** BaseReportAverageFlowInsights
--- | BaseReportAverageFlowInsights
--- BaseReportAverageFlowInsights
--- 
--- Average dollar amount of credit or debit transactions out of the account. This field will only be included for depository accounts.
-data BaseReportAverageFlowInsights = BaseReportAverageFlowInsights
-  { baseReportAverageFlowInsightsEndDate :: !(Date) -- ^ /Required/ "end_date" - The end date of this time period. The date will be returned in an ISO 8601 format (YYYY-MM-DD).
-  , baseReportAverageFlowInsightsStartDate :: !(Date) -- ^ /Required/ "start_date" - The start date of this time period. The date will be returned in an ISO 8601 format (YYYY-MM-DD).
-  , baseReportAverageFlowInsightsTotalAmount :: !(CreditAmountWithCurrency) -- ^ /Required/ "total_amount"
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON BaseReportAverageFlowInsights
-instance A.FromJSON BaseReportAverageFlowInsights where
-  parseJSON = A.withObject "BaseReportAverageFlowInsights" $ \o ->
-    BaseReportAverageFlowInsights
-      <$> (o .:  "end_date")
-      <*> (o .:  "start_date")
-      <*> (o .:  "total_amount")
-
--- | ToJSON BaseReportAverageFlowInsights
-instance A.ToJSON BaseReportAverageFlowInsights where
-  toJSON BaseReportAverageFlowInsights {..} =
-   _omitNulls
-      [ "end_date" .= baseReportAverageFlowInsightsEndDate
-      , "start_date" .= baseReportAverageFlowInsightsStartDate
-      , "total_amount" .= baseReportAverageFlowInsightsTotalAmount
-      ]
-
-
--- | Construct a value of type 'BaseReportAverageFlowInsights' (by applying it's required fields, if any)
-mkBaseReportAverageFlowInsights
-  :: Date -- ^ 'baseReportAverageFlowInsightsEndDate': The end date of this time period. The date will be returned in an ISO 8601 format (YYYY-MM-DD).
-  -> Date -- ^ 'baseReportAverageFlowInsightsStartDate': The start date of this time period. The date will be returned in an ISO 8601 format (YYYY-MM-DD).
-  -> CreditAmountWithCurrency -- ^ 'baseReportAverageFlowInsightsTotalAmount' 
-  -> BaseReportAverageFlowInsights
-mkBaseReportAverageFlowInsights baseReportAverageFlowInsightsEndDate baseReportAverageFlowInsightsStartDate baseReportAverageFlowInsightsTotalAmount =
-  BaseReportAverageFlowInsights
-  { baseReportAverageFlowInsightsEndDate
-  , baseReportAverageFlowInsightsStartDate
-  , baseReportAverageFlowInsightsTotalAmount
-  }
-
--- ** BaseReportAverageMonthlyBalances
--- | BaseReportAverageMonthlyBalances
--- BaseReportAverageMonthlyBalances
--- 
--- Average balance in dollar amount per month
-data BaseReportAverageMonthlyBalances = BaseReportAverageMonthlyBalances
-  { baseReportAverageMonthlyBalancesAverageBalance :: !(CreditAmountWithCurrency) -- ^ /Required/ "average_balance"
-  , baseReportAverageMonthlyBalancesEndDate :: !(Text) -- ^ /Required/ "end_date" - The end date of this time period. The date will be returned in an ISO 8601 format (YYYY-MM-DD).
-  , baseReportAverageMonthlyBalancesStartDate :: !(Text) -- ^ /Required/ "start_date" - The start date of this time period. The date will be returned in an ISO 8601 format (YYYY-MM-DD).
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON BaseReportAverageMonthlyBalances
-instance A.FromJSON BaseReportAverageMonthlyBalances where
-  parseJSON = A.withObject "BaseReportAverageMonthlyBalances" $ \o ->
-    BaseReportAverageMonthlyBalances
-      <$> (o .:  "average_balance")
-      <*> (o .:  "end_date")
-      <*> (o .:  "start_date")
-
--- | ToJSON BaseReportAverageMonthlyBalances
-instance A.ToJSON BaseReportAverageMonthlyBalances where
-  toJSON BaseReportAverageMonthlyBalances {..} =
-   _omitNulls
-      [ "average_balance" .= baseReportAverageMonthlyBalancesAverageBalance
-      , "end_date" .= baseReportAverageMonthlyBalancesEndDate
-      , "start_date" .= baseReportAverageMonthlyBalancesStartDate
-      ]
-
-
--- | Construct a value of type 'BaseReportAverageMonthlyBalances' (by applying it's required fields, if any)
-mkBaseReportAverageMonthlyBalances
-  :: CreditAmountWithCurrency -- ^ 'baseReportAverageMonthlyBalancesAverageBalance' 
-  -> Text -- ^ 'baseReportAverageMonthlyBalancesEndDate': The end date of this time period. The date will be returned in an ISO 8601 format (YYYY-MM-DD).
-  -> Text -- ^ 'baseReportAverageMonthlyBalancesStartDate': The start date of this time period. The date will be returned in an ISO 8601 format (YYYY-MM-DD).
-  -> BaseReportAverageMonthlyBalances
-mkBaseReportAverageMonthlyBalances baseReportAverageMonthlyBalancesAverageBalance baseReportAverageMonthlyBalancesEndDate baseReportAverageMonthlyBalancesStartDate =
-  BaseReportAverageMonthlyBalances
-  { baseReportAverageMonthlyBalancesAverageBalance
-  , baseReportAverageMonthlyBalancesEndDate
-  , baseReportAverageMonthlyBalancesStartDate
-  }
-
--- ** BaseReportHistoricalBalance
--- | BaseReportHistoricalBalance
--- BaseReportHistoricalBalance
--- 
--- An object representing a balance held by an account in the past
-data BaseReportHistoricalBalance = BaseReportHistoricalBalance
-  { baseReportHistoricalBalanceCurrent :: !(Double) -- ^ /Required/ "current" - The total amount of funds in the account, calculated from the &#x60;current&#x60; balance in the &#x60;balance&#x60; object by subtracting inflows and adding back outflows according to the posted date of each transaction.  If the account has any pending transactions, historical balance amounts on or before the date of the earliest pending transaction may differ if retrieved in subsequent Asset Reports as a result of those pending transactions posting.
-  , baseReportHistoricalBalanceDate :: !(Date) -- ^ /Required/ "date" - The date of the calculated historical balance, in an [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format (YYYY-MM-DD)
-  , baseReportHistoricalBalanceIsoCurrencyCode :: !(Text) -- ^ /Required/ "iso_currency_code" - The ISO-4217 currency code of the balance. Always &#x60;null&#x60; if &#x60;unofficial_currency_code&#x60; is non-&#x60;null&#x60;.
-  , baseReportHistoricalBalanceUnofficialCurrencyCode :: !(Text) -- ^ /Required/ "unofficial_currency_code" - The unofficial currency code associated with the balance. Always &#x60;null&#x60; if &#x60;iso_currency_code&#x60; is non-&#x60;null&#x60;.  See the [currency code schema](https://plaid.com/docs/api/accounts#currency-code-schema) for a full listing of supported &#x60;unofficial_currency_code&#x60;s.
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON BaseReportHistoricalBalance
-instance A.FromJSON BaseReportHistoricalBalance where
-  parseJSON = A.withObject "BaseReportHistoricalBalance" $ \o ->
-    BaseReportHistoricalBalance
-      <$> (o .:  "current")
-      <*> (o .:  "date")
-      <*> (o .:  "iso_currency_code")
-      <*> (o .:  "unofficial_currency_code")
-
--- | ToJSON BaseReportHistoricalBalance
-instance A.ToJSON BaseReportHistoricalBalance where
-  toJSON BaseReportHistoricalBalance {..} =
-   _omitNulls
-      [ "current" .= baseReportHistoricalBalanceCurrent
-      , "date" .= baseReportHistoricalBalanceDate
-      , "iso_currency_code" .= baseReportHistoricalBalanceIsoCurrencyCode
-      , "unofficial_currency_code" .= baseReportHistoricalBalanceUnofficialCurrencyCode
-      ]
-
-
--- | Construct a value of type 'BaseReportHistoricalBalance' (by applying it's required fields, if any)
-mkBaseReportHistoricalBalance
-  :: Double -- ^ 'baseReportHistoricalBalanceCurrent': The total amount of funds in the account, calculated from the `current` balance in the `balance` object by subtracting inflows and adding back outflows according to the posted date of each transaction.  If the account has any pending transactions, historical balance amounts on or before the date of the earliest pending transaction may differ if retrieved in subsequent Asset Reports as a result of those pending transactions posting.
-  -> Date -- ^ 'baseReportHistoricalBalanceDate': The date of the calculated historical balance, in an [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format (YYYY-MM-DD)
-  -> Text -- ^ 'baseReportHistoricalBalanceIsoCurrencyCode': The ISO-4217 currency code of the balance. Always `null` if `unofficial_currency_code` is non-`null`.
-  -> Text -- ^ 'baseReportHistoricalBalanceUnofficialCurrencyCode': The unofficial currency code associated with the balance. Always `null` if `iso_currency_code` is non-`null`.  See the [currency code schema](https://plaid.com/docs/api/accounts#currency-code-schema) for a full listing of supported `unofficial_currency_code`s.
-  -> BaseReportHistoricalBalance
-mkBaseReportHistoricalBalance baseReportHistoricalBalanceCurrent baseReportHistoricalBalanceDate baseReportHistoricalBalanceIsoCurrencyCode baseReportHistoricalBalanceUnofficialCurrencyCode =
-  BaseReportHistoricalBalance
-  { baseReportHistoricalBalanceCurrent
-  , baseReportHistoricalBalanceDate
-  , baseReportHistoricalBalanceIsoCurrencyCode
-  , baseReportHistoricalBalanceUnofficialCurrencyCode
-  }
-
--- ** BaseReportItem
--- | BaseReportItem
--- BaseReportItem
--- 
--- A representation of an Item within a Base Report.
-data BaseReportItem = BaseReportItem
-  { baseReportItemAccounts :: !([BaseReportAccount]) -- ^ /Required/ "accounts" - Data about each of the accounts open on the Item.
-  , baseReportItemDateLastUpdated :: !(DateTime) -- ^ /Required/ "date_last_updated" - The date and time when this Item&#39;s data was last retrieved from the financial institution, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format.
-  , baseReportItemInstitutionId :: !(Text) -- ^ /Required/ "institution_id" - The id of the financial institution associated with the Item.
-  , baseReportItemInstitutionName :: !(Text) -- ^ /Required/ "institution_name" - The full financial institution name associated with the Item.
-  , baseReportItemItemId :: !(Text) -- ^ /Required/ "item_id" - The &#x60;item_id&#x60; of the Item associated with this webhook, warning, or error
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON BaseReportItem
-instance A.FromJSON BaseReportItem where
-  parseJSON = A.withObject "BaseReportItem" $ \o ->
-    BaseReportItem
-      <$> (o .:  "accounts")
-      <*> (o .:  "date_last_updated")
-      <*> (o .:  "institution_id")
-      <*> (o .:  "institution_name")
-      <*> (o .:  "item_id")
-
--- | ToJSON BaseReportItem
-instance A.ToJSON BaseReportItem where
-  toJSON BaseReportItem {..} =
-   _omitNulls
-      [ "accounts" .= baseReportItemAccounts
-      , "date_last_updated" .= baseReportItemDateLastUpdated
-      , "institution_id" .= baseReportItemInstitutionId
-      , "institution_name" .= baseReportItemInstitutionName
-      , "item_id" .= baseReportItemItemId
-      ]
-
-
--- | Construct a value of type 'BaseReportItem' (by applying it's required fields, if any)
-mkBaseReportItem
-  :: [BaseReportAccount] -- ^ 'baseReportItemAccounts': Data about each of the accounts open on the Item.
-  -> DateTime -- ^ 'baseReportItemDateLastUpdated': The date and time when this Item's data was last retrieved from the financial institution, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format.
-  -> Text -- ^ 'baseReportItemInstitutionId': The id of the financial institution associated with the Item.
-  -> Text -- ^ 'baseReportItemInstitutionName': The full financial institution name associated with the Item.
-  -> Text -- ^ 'baseReportItemItemId': The `item_id` of the Item associated with this webhook, warning, or error
-  -> BaseReportItem
-mkBaseReportItem baseReportItemAccounts baseReportItemDateLastUpdated baseReportItemInstitutionId baseReportItemInstitutionName baseReportItemItemId =
-  BaseReportItem
-  { baseReportItemAccounts
-  , baseReportItemDateLastUpdated
-  , baseReportItemInstitutionId
-  , baseReportItemInstitutionName
-  , baseReportItemItemId
-  }
-
--- ** BaseReportLongestGapInsights
--- | BaseReportLongestGapInsights
--- BaseReportLongestGapInsights
--- 
--- Largest number of days between sequential transactions per calendar month
-data BaseReportLongestGapInsights = BaseReportLongestGapInsights
-  { baseReportLongestGapInsightsDays :: !(Maybe Int) -- ^ "days" - Largest number of days between sequential transactions for this time period.
-  , baseReportLongestGapInsightsEndDate :: !(Maybe Date) -- ^ "end_date" - The end date of this time period. The date will be returned in an ISO 8601 format (YYYY-MM-DD).
-  , baseReportLongestGapInsightsStartDate :: !(Maybe Date) -- ^ "start_date" - The start date of this time period. The date will be returned in an ISO 8601 format (YYYY-MM-DD).
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON BaseReportLongestGapInsights
-instance A.FromJSON BaseReportLongestGapInsights where
-  parseJSON = A.withObject "BaseReportLongestGapInsights" $ \o ->
-    BaseReportLongestGapInsights
-      <$> (o .:? "days")
-      <*> (o .:? "end_date")
-      <*> (o .:? "start_date")
-
--- | ToJSON BaseReportLongestGapInsights
-instance A.ToJSON BaseReportLongestGapInsights where
-  toJSON BaseReportLongestGapInsights {..} =
-   _omitNulls
-      [ "days" .= baseReportLongestGapInsightsDays
-      , "end_date" .= baseReportLongestGapInsightsEndDate
-      , "start_date" .= baseReportLongestGapInsightsStartDate
-      ]
-
-
--- | Construct a value of type 'BaseReportLongestGapInsights' (by applying it's required fields, if any)
-mkBaseReportLongestGapInsights
-  :: BaseReportLongestGapInsights
-mkBaseReportLongestGapInsights =
-  BaseReportLongestGapInsights
-  { baseReportLongestGapInsightsDays = Nothing
-  , baseReportLongestGapInsightsEndDate = Nothing
-  , baseReportLongestGapInsightsStartDate = Nothing
-  }
-
--- ** BaseReportNumberFlowInsights
--- | BaseReportNumberFlowInsights
--- BaseReportNumberFlowInsights
--- 
--- The number of credits or debits out of the account. This field will only be included for depository accounts.
-data BaseReportNumberFlowInsights = BaseReportNumberFlowInsights
-  { baseReportNumberFlowInsightsCount :: !(Int) -- ^ /Required/ "count" - The number of credits or debits out of the account for this time period.
-  , baseReportNumberFlowInsightsEndDate :: !(Date) -- ^ /Required/ "end_date" - The end date of this time period. The date will be returned in an ISO 8601 format (YYYY-MM-DD).
-  , baseReportNumberFlowInsightsStartDate :: !(Date) -- ^ /Required/ "start_date" - The start date of this time period. The date will be returned in an ISO 8601 format (YYYY-MM-DD).
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON BaseReportNumberFlowInsights
-instance A.FromJSON BaseReportNumberFlowInsights where
-  parseJSON = A.withObject "BaseReportNumberFlowInsights" $ \o ->
-    BaseReportNumberFlowInsights
-      <$> (o .:  "count")
-      <*> (o .:  "end_date")
-      <*> (o .:  "start_date")
-
--- | ToJSON BaseReportNumberFlowInsights
-instance A.ToJSON BaseReportNumberFlowInsights where
-  toJSON BaseReportNumberFlowInsights {..} =
-   _omitNulls
-      [ "count" .= baseReportNumberFlowInsightsCount
-      , "end_date" .= baseReportNumberFlowInsightsEndDate
-      , "start_date" .= baseReportNumberFlowInsightsStartDate
-      ]
-
-
--- | Construct a value of type 'BaseReportNumberFlowInsights' (by applying it's required fields, if any)
-mkBaseReportNumberFlowInsights
-  :: Int -- ^ 'baseReportNumberFlowInsightsCount': The number of credits or debits out of the account for this time period.
-  -> Date -- ^ 'baseReportNumberFlowInsightsEndDate': The end date of this time period. The date will be returned in an ISO 8601 format (YYYY-MM-DD).
-  -> Date -- ^ 'baseReportNumberFlowInsightsStartDate': The start date of this time period. The date will be returned in an ISO 8601 format (YYYY-MM-DD).
-  -> BaseReportNumberFlowInsights
-mkBaseReportNumberFlowInsights baseReportNumberFlowInsightsCount baseReportNumberFlowInsightsEndDate baseReportNumberFlowInsightsStartDate =
-  BaseReportNumberFlowInsights
-  { baseReportNumberFlowInsightsCount
-  , baseReportNumberFlowInsightsEndDate
-  , baseReportNumberFlowInsightsStartDate
-  }
-
--- ** BaseReportTransaction
--- | BaseReportTransaction
--- BaseReportTransaction
--- 
--- A transaction on the Base Report
-data BaseReportTransaction = BaseReportTransaction
-  { baseReportTransactionAccountId :: !(Text) -- ^ /Required/ "account_id" - The ID of the account in which this transaction occurred.
-  , baseReportTransactionAccountOwner :: !(Maybe Text) -- ^ "account_owner" - The name of the account owner. This field is not typically populated and only relevant when dealing with sub-accounts.
-  , baseReportTransactionAmount :: !(Double) -- ^ /Required/ "amount" - The settled value of the transaction, denominated in the transaction&#39;s currency, as stated in &#x60;iso_currency_code&#x60; or &#x60;unofficial_currency_code&#x60;. Positive values when money moves out of the account; negative values when money moves in. For example, debit card purchases are positive; credit card payments, direct deposits, and refunds are negative.
-  , baseReportTransactionCategory :: !(Maybe [Text]) -- ^ "category" - A hierarchical array of the categories to which this transaction belongs. For a full list of categories, see [&#x60;/categories/get&#x60;](https://plaid.com/docs/api/products/transactions/#categoriesget).
-  , baseReportTransactionCategoryId :: !(Maybe Text) -- ^ "category_id" - The ID of the category to which this transaction belongs. For a full list of categories, see [&#x60;/categories/get&#x60;](https://plaid.com/docs/api/products/transactions/#categoriesget).
-  , baseReportTransactionCheckNumber :: !(Maybe Text) -- ^ "check_number" - The check number of the transaction. This field is only populated for check transactions.
-  , baseReportTransactionCreditCategory :: !(Maybe CreditCategory) -- ^ "credit_category"
-  , baseReportTransactionDate :: !(Date) -- ^ /Required/ "date" - For pending transactions, the date that the transaction occurred; for posted transactions, the date that the transaction posted. Both dates are returned in an [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format ( &#x60;YYYY-MM-DD&#x60; ).
-  , baseReportTransactionDateTransacted :: !(Maybe Text) -- ^ "date_transacted" - The date on which the transaction took place, in ISO 8601 format.
-  , baseReportTransactionIsoCurrencyCode :: !(Text) -- ^ /Required/ "iso_currency_code" - The ISO-4217 currency code of the transaction. Always &#x60;null&#x60; if &#x60;unofficial_currency_code&#x60; is non-null.
-  , baseReportTransactionLocation :: !(Maybe Location) -- ^ "location"
-  , baseReportTransactionMerchantName :: !(Maybe Text) -- ^ "merchant_name" - The merchant name, as enriched by Plaid from the &#x60;name&#x60; field. This is typically a more human-readable version of the merchant counterparty in the transaction. For some bank transactions (such as checks or account transfers) where there is no meaningful merchant name, this value will be &#x60;null&#x60;.
-  , baseReportTransactionName :: !(Maybe Text) -- ^ "name" - The merchant name or transaction description.  Note: This is a legacy field that is not actively maintained. Use &#x60;merchant_name&#x60; instead for the merchant name.
-  , baseReportTransactionOriginalDescription :: !(Text) -- ^ /Required/ "original_description" - The string returned by the financial institution to describe the transaction.
-  , baseReportTransactionPending :: !(Bool) -- ^ /Required/ "pending" - When &#x60;true&#x60;, identifies the transaction as pending or unsettled. Pending transaction details (name, type, amount, category ID) may change before they are settled.
-  , baseReportTransactionPersonalFinanceCategory :: !(Maybe PersonalFinanceCategory) -- ^ "personal_finance_category"
-  , baseReportTransactionTransactionId :: !(Text) -- ^ /Required/ "transaction_id" - The unique ID of the transaction. Like all Plaid identifiers, the &#x60;transaction_id&#x60; is case sensitive.
-  , baseReportTransactionTransactionType :: !(Maybe BaseReportTransactionType) -- ^ "transaction_type"
-  , baseReportTransactionUnofficialCurrencyCode :: !(Text) -- ^ /Required/ "unofficial_currency_code" - The unofficial currency code associated with the transaction. Always &#x60;null&#x60; if &#x60;iso_currency_code&#x60; is non-&#x60;null&#x60;. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries.  See the [currency code schema](https://plaid.com/docs/api/accounts#currency-code-schema) for a full listing of supported &#x60;unofficial_currency_code&#x60;s.
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON BaseReportTransaction
-instance A.FromJSON BaseReportTransaction where
-  parseJSON = A.withObject "BaseReportTransaction" $ \o ->
-    BaseReportTransaction
-      <$> (o .:  "account_id")
-      <*> (o .:? "account_owner")
-      <*> (o .:  "amount")
-      <*> (o .:? "category")
-      <*> (o .:? "category_id")
-      <*> (o .:? "check_number")
-      <*> (o .:? "credit_category")
-      <*> (o .:  "date")
-      <*> (o .:? "date_transacted")
-      <*> (o .:  "iso_currency_code")
-      <*> (o .:? "location")
-      <*> (o .:? "merchant_name")
-      <*> (o .:? "name")
-      <*> (o .:  "original_description")
-      <*> (o .:  "pending")
-      <*> (o .:? "personal_finance_category")
-      <*> (o .:  "transaction_id")
-      <*> (o .:? "transaction_type")
-      <*> (o .:  "unofficial_currency_code")
-
--- | ToJSON BaseReportTransaction
-instance A.ToJSON BaseReportTransaction where
-  toJSON BaseReportTransaction {..} =
-   _omitNulls
-      [ "account_id" .= baseReportTransactionAccountId
-      , "account_owner" .= baseReportTransactionAccountOwner
-      , "amount" .= baseReportTransactionAmount
-      , "category" .= baseReportTransactionCategory
-      , "category_id" .= baseReportTransactionCategoryId
-      , "check_number" .= baseReportTransactionCheckNumber
-      , "credit_category" .= baseReportTransactionCreditCategory
-      , "date" .= baseReportTransactionDate
-      , "date_transacted" .= baseReportTransactionDateTransacted
-      , "iso_currency_code" .= baseReportTransactionIsoCurrencyCode
-      , "location" .= baseReportTransactionLocation
-      , "merchant_name" .= baseReportTransactionMerchantName
-      , "name" .= baseReportTransactionName
-      , "original_description" .= baseReportTransactionOriginalDescription
-      , "pending" .= baseReportTransactionPending
-      , "personal_finance_category" .= baseReportTransactionPersonalFinanceCategory
-      , "transaction_id" .= baseReportTransactionTransactionId
-      , "transaction_type" .= baseReportTransactionTransactionType
-      , "unofficial_currency_code" .= baseReportTransactionUnofficialCurrencyCode
-      ]
-
-
--- | Construct a value of type 'BaseReportTransaction' (by applying it's required fields, if any)
-mkBaseReportTransaction
-  :: Text -- ^ 'baseReportTransactionAccountId': The ID of the account in which this transaction occurred.
-  -> Double -- ^ 'baseReportTransactionAmount': The settled value of the transaction, denominated in the transaction's currency, as stated in `iso_currency_code` or `unofficial_currency_code`. Positive values when money moves out of the account; negative values when money moves in. For example, debit card purchases are positive; credit card payments, direct deposits, and refunds are negative.
-  -> Date -- ^ 'baseReportTransactionDate': For pending transactions, the date that the transaction occurred; for posted transactions, the date that the transaction posted. Both dates are returned in an [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format ( `YYYY-MM-DD` ).
-  -> Text -- ^ 'baseReportTransactionIsoCurrencyCode': The ISO-4217 currency code of the transaction. Always `null` if `unofficial_currency_code` is non-null.
-  -> Text -- ^ 'baseReportTransactionOriginalDescription': The string returned by the financial institution to describe the transaction.
-  -> Bool -- ^ 'baseReportTransactionPending': When `true`, identifies the transaction as pending or unsettled. Pending transaction details (name, type, amount, category ID) may change before they are settled.
-  -> Text -- ^ 'baseReportTransactionTransactionId': The unique ID of the transaction. Like all Plaid identifiers, the `transaction_id` is case sensitive.
-  -> Text -- ^ 'baseReportTransactionUnofficialCurrencyCode': The unofficial currency code associated with the transaction. Always `null` if `iso_currency_code` is non-`null`. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries.  See the [currency code schema](https://plaid.com/docs/api/accounts#currency-code-schema) for a full listing of supported `unofficial_currency_code`s.
-  -> BaseReportTransaction
-mkBaseReportTransaction baseReportTransactionAccountId baseReportTransactionAmount baseReportTransactionDate baseReportTransactionIsoCurrencyCode baseReportTransactionOriginalDescription baseReportTransactionPending baseReportTransactionTransactionId baseReportTransactionUnofficialCurrencyCode =
-  BaseReportTransaction
-  { baseReportTransactionAccountId
-  , baseReportTransactionAccountOwner = Nothing
-  , baseReportTransactionAmount
-  , baseReportTransactionCategory = Nothing
-  , baseReportTransactionCategoryId = Nothing
-  , baseReportTransactionCheckNumber = Nothing
-  , baseReportTransactionCreditCategory = Nothing
-  , baseReportTransactionDate
-  , baseReportTransactionDateTransacted = Nothing
-  , baseReportTransactionIsoCurrencyCode
-  , baseReportTransactionLocation = Nothing
-  , baseReportTransactionMerchantName = Nothing
-  , baseReportTransactionName = Nothing
-  , baseReportTransactionOriginalDescription
-  , baseReportTransactionPending
-  , baseReportTransactionPersonalFinanceCategory = Nothing
-  , baseReportTransactionTransactionId
-  , baseReportTransactionTransactionType = Nothing
-  , baseReportTransactionUnofficialCurrencyCode
-  }
-
--- ** BaseReportUserAttributes
--- | BaseReportUserAttributes
--- BaseReportUserAttributes
--- 
--- Calculated attributes derived from transaction-level data, aggregated across accounts.
-data BaseReportUserAttributes = BaseReportUserAttributes
-  { baseReportUserAttributesNsfOverdraftTransactionsCount :: !(Maybe Int) -- ^ "nsf_overdraft_transactions_count" - The number of net NSF fee transactions in the time range for the report (not counting any fees that were reversed within that time range).
-  , baseReportUserAttributesNsfOverdraftTransactionsCount30d :: !(Maybe Int) -- ^ "nsf_overdraft_transactions_count_30d" - The number of net NSF fee transactions in the last 30 days in the report (not counting any fees that were reversed within that time range).
-  , baseReportUserAttributesNsfOverdraftTransactionsCount60d :: !(Maybe Int) -- ^ "nsf_overdraft_transactions_count_60d" - The number of net NSF fee transactions in the last 60 days in the report (not counting any fees that were reversed within that time range).
-  , baseReportUserAttributesNsfOverdraftTransactionsCount90d :: !(Maybe Int) -- ^ "nsf_overdraft_transactions_count_90d" - The number of net NSF fee transactions in the last 90 days in the report (not counting any fees that were reversed within that time range).
-  , baseReportUserAttributesTotalInflowAmount :: !(Maybe TotalReportInflowAmount) -- ^ "total_inflow_amount"
-  , baseReportUserAttributesTotalInflowAmount30d :: !(Maybe TotalReportInflowAmount30d) -- ^ "total_inflow_amount_30d"
-  , baseReportUserAttributesTotalInflowAmount60d :: !(Maybe TotalReportInflowAmount60d) -- ^ "total_inflow_amount_60d"
-  , baseReportUserAttributesTotalInflowAmount90d :: !(Maybe TotalReportInflowAmount90d) -- ^ "total_inflow_amount_90d"
-  , baseReportUserAttributesTotalOutflowAmount :: !(Maybe TotalReportOutflowAmount) -- ^ "total_outflow_amount"
-  , baseReportUserAttributesTotalOutflowAmount30d :: !(Maybe TotalReportOutflowAmount30d) -- ^ "total_outflow_amount_30d"
-  , baseReportUserAttributesTotalOutflowAmount60d :: !(Maybe TotalReportOutflowAmount60d) -- ^ "total_outflow_amount_60d"
-  , baseReportUserAttributesTotalOutflowAmount90d :: !(Maybe TotalReportOutflowAmount90d) -- ^ "total_outflow_amount_90d"
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON BaseReportUserAttributes
-instance A.FromJSON BaseReportUserAttributes where
-  parseJSON = A.withObject "BaseReportUserAttributes" $ \o ->
-    BaseReportUserAttributes
-      <$> (o .:? "nsf_overdraft_transactions_count")
-      <*> (o .:? "nsf_overdraft_transactions_count_30d")
-      <*> (o .:? "nsf_overdraft_transactions_count_60d")
-      <*> (o .:? "nsf_overdraft_transactions_count_90d")
-      <*> (o .:? "total_inflow_amount")
-      <*> (o .:? "total_inflow_amount_30d")
-      <*> (o .:? "total_inflow_amount_60d")
-      <*> (o .:? "total_inflow_amount_90d")
-      <*> (o .:? "total_outflow_amount")
-      <*> (o .:? "total_outflow_amount_30d")
-      <*> (o .:? "total_outflow_amount_60d")
-      <*> (o .:? "total_outflow_amount_90d")
-
--- | ToJSON BaseReportUserAttributes
-instance A.ToJSON BaseReportUserAttributes where
-  toJSON BaseReportUserAttributes {..} =
-   _omitNulls
-      [ "nsf_overdraft_transactions_count" .= baseReportUserAttributesNsfOverdraftTransactionsCount
-      , "nsf_overdraft_transactions_count_30d" .= baseReportUserAttributesNsfOverdraftTransactionsCount30d
-      , "nsf_overdraft_transactions_count_60d" .= baseReportUserAttributesNsfOverdraftTransactionsCount60d
-      , "nsf_overdraft_transactions_count_90d" .= baseReportUserAttributesNsfOverdraftTransactionsCount90d
-      , "total_inflow_amount" .= baseReportUserAttributesTotalInflowAmount
-      , "total_inflow_amount_30d" .= baseReportUserAttributesTotalInflowAmount30d
-      , "total_inflow_amount_60d" .= baseReportUserAttributesTotalInflowAmount60d
-      , "total_inflow_amount_90d" .= baseReportUserAttributesTotalInflowAmount90d
-      , "total_outflow_amount" .= baseReportUserAttributesTotalOutflowAmount
-      , "total_outflow_amount_30d" .= baseReportUserAttributesTotalOutflowAmount30d
-      , "total_outflow_amount_60d" .= baseReportUserAttributesTotalOutflowAmount60d
-      , "total_outflow_amount_90d" .= baseReportUserAttributesTotalOutflowAmount90d
-      ]
-
-
--- | Construct a value of type 'BaseReportUserAttributes' (by applying it's required fields, if any)
-mkBaseReportUserAttributes
-  :: BaseReportUserAttributes
-mkBaseReportUserAttributes =
-  BaseReportUserAttributes
-  { baseReportUserAttributesNsfOverdraftTransactionsCount = Nothing
-  , baseReportUserAttributesNsfOverdraftTransactionsCount30d = Nothing
-  , baseReportUserAttributesNsfOverdraftTransactionsCount60d = Nothing
-  , baseReportUserAttributesNsfOverdraftTransactionsCount90d = Nothing
-  , baseReportUserAttributesTotalInflowAmount = Nothing
-  , baseReportUserAttributesTotalInflowAmount30d = Nothing
-  , baseReportUserAttributesTotalInflowAmount60d = Nothing
-  , baseReportUserAttributesTotalInflowAmount90d = Nothing
-  , baseReportUserAttributesTotalOutflowAmount = Nothing
-  , baseReportUserAttributesTotalOutflowAmount30d = Nothing
-  , baseReportUserAttributesTotalOutflowAmount60d = Nothing
-  , baseReportUserAttributesTotalOutflowAmount90d = Nothing
-  }
-
--- ** BaseReportWarning
--- | BaseReportWarning
--- BaseReportWarning
--- 
--- It is possible for a Base Report to be returned with missing account owner information. In such cases, the Base Report will contain warning data in the response, indicating why obtaining the owner information failed.
-data BaseReportWarning = BaseReportWarning
-  { baseReportWarningCause :: !(Cause) -- ^ /Required/ "cause"
-  , baseReportWarningWarningCode :: !(BaseReportWarningCode) -- ^ /Required/ "warning_code"
-  , baseReportWarningWarningType :: !(Text) -- ^ /Required/ "warning_type" - The warning type, which will always be &#x60;BASE_REPORT_WARNING&#x60;
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON BaseReportWarning
-instance A.FromJSON BaseReportWarning where
-  parseJSON = A.withObject "BaseReportWarning" $ \o ->
-    BaseReportWarning
-      <$> (o .:  "cause")
-      <*> (o .:  "warning_code")
-      <*> (o .:  "warning_type")
-
--- | ToJSON BaseReportWarning
-instance A.ToJSON BaseReportWarning where
-  toJSON BaseReportWarning {..} =
-   _omitNulls
-      [ "cause" .= baseReportWarningCause
-      , "warning_code" .= baseReportWarningWarningCode
-      , "warning_type" .= baseReportWarningWarningType
-      ]
-
-
--- | Construct a value of type 'BaseReportWarning' (by applying it's required fields, if any)
-mkBaseReportWarning
-  :: Cause -- ^ 'baseReportWarningCause' 
-  -> BaseReportWarningCode -- ^ 'baseReportWarningWarningCode' 
-  -> Text -- ^ 'baseReportWarningWarningType': The warning type, which will always be `BASE_REPORT_WARNING`
-  -> BaseReportWarning
-mkBaseReportWarning baseReportWarningCause baseReportWarningWarningCode baseReportWarningWarningType =
-  BaseReportWarning
-  { baseReportWarningCause
-  , baseReportWarningWarningCode
-  , baseReportWarningWarningType
-  }
-
 -- ** CheckReportWarning
 -- | CheckReportWarning
 -- CraReportWarning
@@ -15070,53 +14164,6 @@ mkClientUserIdentityPhoneNumber clientUserIdentityPhoneNumberData clientUserIden
   , clientUserIdentityPhoneNumberPrimary
   }
 
--- ** ConsumerDispute
--- | ConsumerDispute
--- ConsumerDispute
--- 
--- The information about a previously submitted valid dispute statement by the consumer
-data ConsumerDispute = ConsumerDispute
-  { consumerDisputeCategory :: !(ConsumerDisputeCategory) -- ^ /Required/ "category"
-  , consumerDisputeConsumerDisputeId :: !(Text) -- ^ /Required/ "consumer_dispute_id" - (Deprecated) A unique identifier (UUID) of the consumer dispute that can be used for troubleshooting
-  , consumerDisputeDisputeFieldCreateDate :: !(Date) -- ^ /Required/ "dispute_field_create_date" - Date of the disputed field (e.g. transaction date), in an ISO 8601 format (YYYY-MM-DD)
-  , consumerDisputeStatement :: !(Text) -- ^ /Required/ "statement" - Text content of dispute
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON ConsumerDispute
-instance A.FromJSON ConsumerDispute where
-  parseJSON = A.withObject "ConsumerDispute" $ \o ->
-    ConsumerDispute
-      <$> (o .:  "category")
-      <*> (o .:  "consumer_dispute_id")
-      <*> (o .:  "dispute_field_create_date")
-      <*> (o .:  "statement")
-
--- | ToJSON ConsumerDispute
-instance A.ToJSON ConsumerDispute where
-  toJSON ConsumerDispute {..} =
-   _omitNulls
-      [ "category" .= consumerDisputeCategory
-      , "consumer_dispute_id" .= consumerDisputeConsumerDisputeId
-      , "dispute_field_create_date" .= consumerDisputeDisputeFieldCreateDate
-      , "statement" .= consumerDisputeStatement
-      ]
-
-
--- | Construct a value of type 'ConsumerDispute' (by applying it's required fields, if any)
-mkConsumerDispute
-  :: ConsumerDisputeCategory -- ^ 'consumerDisputeCategory' 
-  -> Text -- ^ 'consumerDisputeConsumerDisputeId': (Deprecated) A unique identifier (UUID) of the consumer dispute that can be used for troubleshooting
-  -> Date -- ^ 'consumerDisputeDisputeFieldCreateDate': Date of the disputed field (e.g. transaction date), in an ISO 8601 format (YYYY-MM-DD)
-  -> Text -- ^ 'consumerDisputeStatement': Text content of dispute
-  -> ConsumerDispute
-mkConsumerDispute consumerDisputeCategory consumerDisputeConsumerDisputeId consumerDisputeDisputeFieldCreateDate consumerDisputeStatement =
-  ConsumerDispute
-  { consumerDisputeCategory
-  , consumerDisputeConsumerDisputeId
-  , consumerDisputeDisputeFieldCreateDate
-  , consumerDisputeStatement
-  }
-
 -- ** ConsumerReportUserIdentity
 -- | ConsumerReportUserIdentity
 -- This field is only used by integrations created before December 10, 2025. All other integrations must use the `identity` object instead. For more details, see [New User APIs](https://plaid.com/docs/api/users/user-apis). To create a Plaid Check Consumer Report for a user when using a `user_token`, this field must be present. If this field is not provided during user token creation, you can add it to the user later by calling `/user/update`. Once the field has been added to the user, you will be able to call `/link/token/create` with a non-empty `consumer_report_permissible_purpose` (which will automatically create a Plaid Check Consumer Report), or call `/cra/check_report/create` for that user.
@@ -15217,223 +14264,6 @@ mkCraAnnualIncomeValues craAnnualIncomeValuesGrossIncome craAnnualIncomeValuesNe
   , craAnnualIncomeValuesNetIncome
   }
 
--- ** CraBankIncomeAccount
--- | CraBankIncomeAccount
--- The Item's bank accounts that have the selected data.
-data CraBankIncomeAccount = CraBankIncomeAccount
-  { craBankIncomeAccountAccountId :: !(Maybe Text) -- ^ "account_id" - Plaid&#39;s unique identifier for the account. This value will not change unless Plaid can&#39;t reconcile the account with the data returned by the financial institution. This may occur, for example, when the name of the account changes. If this happens a new &#x60;account_id&#x60; will be assigned to the account.  If an account with a specific &#x60;account_id&#x60; disappears instead of changing, the account is likely closed. Closed accounts are not returned by the Plaid API.  Like all Plaid identifiers, the &#x60;account_id&#x60; is case sensitive.
-  , craBankIncomeAccountMask :: !(Text) -- ^ /Required/ "mask" - The last 2-4 alphanumeric characters of an account&#39;s official account number. Note that the mask may be non-unique between an Item&#39;s accounts, and it may also not match the mask that the bank displays to the user.
-  , craBankIncomeAccountMetadata :: !(CraBankIncomeAccountMetadata) -- ^ /Required/ "metadata"
-  , craBankIncomeAccountName :: !(Text) -- ^ /Required/ "name" - The name of the bank account.
-  , craBankIncomeAccountOfficialName :: !(Text) -- ^ /Required/ "official_name" - The official name of the bank account.
-  , craBankIncomeAccountOwners :: !([Owner]) -- ^ /Required/ "owners" - Data returned by the financial institution about the account owner or owners. Identity information is optional, so field may return an empty array.
-  , craBankIncomeAccountSubtype :: !(DepositoryAccountSubtype) -- ^ /Required/ "subtype"
-  , craBankIncomeAccountType :: !(CreditBankIncomeAccountType) -- ^ /Required/ "type"
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON CraBankIncomeAccount
-instance A.FromJSON CraBankIncomeAccount where
-  parseJSON = A.withObject "CraBankIncomeAccount" $ \o ->
-    CraBankIncomeAccount
-      <$> (o .:? "account_id")
-      <*> (o .:  "mask")
-      <*> (o .:  "metadata")
-      <*> (o .:  "name")
-      <*> (o .:  "official_name")
-      <*> (o .:  "owners")
-      <*> (o .:  "subtype")
-      <*> (o .:  "type")
-
--- | ToJSON CraBankIncomeAccount
-instance A.ToJSON CraBankIncomeAccount where
-  toJSON CraBankIncomeAccount {..} =
-   _omitNulls
-      [ "account_id" .= craBankIncomeAccountAccountId
-      , "mask" .= craBankIncomeAccountMask
-      , "metadata" .= craBankIncomeAccountMetadata
-      , "name" .= craBankIncomeAccountName
-      , "official_name" .= craBankIncomeAccountOfficialName
-      , "owners" .= craBankIncomeAccountOwners
-      , "subtype" .= craBankIncomeAccountSubtype
-      , "type" .= craBankIncomeAccountType
-      ]
-
-
--- | Construct a value of type 'CraBankIncomeAccount' (by applying it's required fields, if any)
-mkCraBankIncomeAccount
-  :: Text -- ^ 'craBankIncomeAccountMask': The last 2-4 alphanumeric characters of an account's official account number. Note that the mask may be non-unique between an Item's accounts, and it may also not match the mask that the bank displays to the user.
-  -> CraBankIncomeAccountMetadata -- ^ 'craBankIncomeAccountMetadata' 
-  -> Text -- ^ 'craBankIncomeAccountName': The name of the bank account.
-  -> Text -- ^ 'craBankIncomeAccountOfficialName': The official name of the bank account.
-  -> [Owner] -- ^ 'craBankIncomeAccountOwners': Data returned by the financial institution about the account owner or owners. Identity information is optional, so field may return an empty array.
-  -> DepositoryAccountSubtype -- ^ 'craBankIncomeAccountSubtype' 
-  -> CreditBankIncomeAccountType -- ^ 'craBankIncomeAccountType' 
-  -> CraBankIncomeAccount
-mkCraBankIncomeAccount craBankIncomeAccountMask craBankIncomeAccountMetadata craBankIncomeAccountName craBankIncomeAccountOfficialName craBankIncomeAccountOwners craBankIncomeAccountSubtype craBankIncomeAccountType =
-  CraBankIncomeAccount
-  { craBankIncomeAccountAccountId = Nothing
-  , craBankIncomeAccountMask
-  , craBankIncomeAccountMetadata
-  , craBankIncomeAccountName
-  , craBankIncomeAccountOfficialName
-  , craBankIncomeAccountOwners
-  , craBankIncomeAccountSubtype
-  , craBankIncomeAccountType
-  }
-
--- ** CraBankIncomeAccountMetadata
--- | CraBankIncomeAccountMetadata
--- CraBankIncomeAccountMetadata
--- 
--- An object containing metadata about the extracted account.
-data CraBankIncomeAccountMetadata = CraBankIncomeAccountMetadata
-  { craBankIncomeAccountMetadataEndDate :: !(Date) -- ^ /Required/ "end_date" - The date of the most recent extracted transaction, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format (\&quot;yyyy-mm-dd\&quot;).
-  , craBankIncomeAccountMetadataStartDate :: !(Date) -- ^ /Required/ "start_date" - The date of the earliest extracted transaction, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format (\&quot;yyyy-mm-dd\&quot;).
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON CraBankIncomeAccountMetadata
-instance A.FromJSON CraBankIncomeAccountMetadata where
-  parseJSON = A.withObject "CraBankIncomeAccountMetadata" $ \o ->
-    CraBankIncomeAccountMetadata
-      <$> (o .:  "end_date")
-      <*> (o .:  "start_date")
-
--- | ToJSON CraBankIncomeAccountMetadata
-instance A.ToJSON CraBankIncomeAccountMetadata where
-  toJSON CraBankIncomeAccountMetadata {..} =
-   _omitNulls
-      [ "end_date" .= craBankIncomeAccountMetadataEndDate
-      , "start_date" .= craBankIncomeAccountMetadataStartDate
-      ]
-
-
--- | Construct a value of type 'CraBankIncomeAccountMetadata' (by applying it's required fields, if any)
-mkCraBankIncomeAccountMetadata
-  :: Date -- ^ 'craBankIncomeAccountMetadataEndDate': The date of the most recent extracted transaction, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format (\"yyyy-mm-dd\").
-  -> Date -- ^ 'craBankIncomeAccountMetadataStartDate': The date of the earliest extracted transaction, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format (\"yyyy-mm-dd\").
-  -> CraBankIncomeAccountMetadata
-mkCraBankIncomeAccountMetadata craBankIncomeAccountMetadataEndDate craBankIncomeAccountMetadataStartDate =
-  CraBankIncomeAccountMetadata
-  { craBankIncomeAccountMetadataEndDate
-  , craBankIncomeAccountMetadataStartDate
-  }
-
--- ** CraBankIncomeCause
--- | CraBankIncomeCause
--- An error object and associated `item_id` used to identify a specific Item and error when a batch operation operating on multiple Items has encountered an error in one of the Items.
-data CraBankIncomeCause = CraBankIncomeCause
-  { craBankIncomeCauseDisplayMessage :: !(Text) -- ^ /Required/ "display_message" - A user-friendly representation of the error code. null if the error is not related to user action. This may change over time and is not safe for programmatic use.
-  , craBankIncomeCauseErrorCode :: !(Text) -- ^ /Required/ "error_code" - We use standard HTTP response codes for success and failure notifications, and our errors are further classified by &#x60;error_type&#x60;. In general, 200 HTTP codes correspond to success, 40X codes are for developer- or user-related failures, and 50X codes are for Plaid-related issues. Error fields will be &#x60;null&#x60; if no error has occurred.
-  , craBankIncomeCauseErrorMessage :: !(Text) -- ^ /Required/ "error_message" - A developer-friendly representation of the error code. This may change over time and is not safe for programmatic use.
-  , craBankIncomeCauseErrorType :: !(CreditBankIncomeErrorType) -- ^ /Required/ "error_type"
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON CraBankIncomeCause
-instance A.FromJSON CraBankIncomeCause where
-  parseJSON = A.withObject "CraBankIncomeCause" $ \o ->
-    CraBankIncomeCause
-      <$> (o .:  "display_message")
-      <*> (o .:  "error_code")
-      <*> (o .:  "error_message")
-      <*> (o .:  "error_type")
-
--- | ToJSON CraBankIncomeCause
-instance A.ToJSON CraBankIncomeCause where
-  toJSON CraBankIncomeCause {..} =
-   _omitNulls
-      [ "display_message" .= craBankIncomeCauseDisplayMessage
-      , "error_code" .= craBankIncomeCauseErrorCode
-      , "error_message" .= craBankIncomeCauseErrorMessage
-      , "error_type" .= craBankIncomeCauseErrorType
-      ]
-
-
--- | Construct a value of type 'CraBankIncomeCause' (by applying it's required fields, if any)
-mkCraBankIncomeCause
-  :: Text -- ^ 'craBankIncomeCauseDisplayMessage': A user-friendly representation of the error code. null if the error is not related to user action. This may change over time and is not safe for programmatic use.
-  -> Text -- ^ 'craBankIncomeCauseErrorCode': We use standard HTTP response codes for success and failure notifications, and our errors are further classified by `error_type`. In general, 200 HTTP codes correspond to success, 40X codes are for developer- or user-related failures, and 50X codes are for Plaid-related issues. Error fields will be `null` if no error has occurred.
-  -> Text -- ^ 'craBankIncomeCauseErrorMessage': A developer-friendly representation of the error code. This may change over time and is not safe for programmatic use.
-  -> CreditBankIncomeErrorType -- ^ 'craBankIncomeCauseErrorType' 
-  -> CraBankIncomeCause
-mkCraBankIncomeCause craBankIncomeCauseDisplayMessage craBankIncomeCauseErrorCode craBankIncomeCauseErrorMessage craBankIncomeCauseErrorType =
-  CraBankIncomeCause
-  { craBankIncomeCauseDisplayMessage
-  , craBankIncomeCauseErrorCode
-  , craBankIncomeCauseErrorMessage
-  , craBankIncomeCauseErrorType
-  }
-
--- ** CraBankIncomeEmployer
--- | CraBankIncomeEmployer
--- The object containing employer data.
-data CraBankIncomeEmployer = CraBankIncomeEmployer
-  { craBankIncomeEmployerName :: !(Text) -- ^ /Required/ "name" - The name of the employer.
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON CraBankIncomeEmployer
-instance A.FromJSON CraBankIncomeEmployer where
-  parseJSON = A.withObject "CraBankIncomeEmployer" $ \o ->
-    CraBankIncomeEmployer
-      <$> (o .:  "name")
-
--- | ToJSON CraBankIncomeEmployer
-instance A.ToJSON CraBankIncomeEmployer where
-  toJSON CraBankIncomeEmployer {..} =
-   _omitNulls
-      [ "name" .= craBankIncomeEmployerName
-      ]
-
-
--- | Construct a value of type 'CraBankIncomeEmployer' (by applying it's required fields, if any)
-mkCraBankIncomeEmployer
-  :: Text -- ^ 'craBankIncomeEmployerName': The name of the employer.
-  -> CraBankIncomeEmployer
-mkCraBankIncomeEmployer craBankIncomeEmployerName =
-  CraBankIncomeEmployer
-  { craBankIncomeEmployerName
-  }
-
--- ** CraBankIncomeHistoricalSummary
--- | CraBankIncomeHistoricalSummary
--- The end user's monthly summary for the income source(s).
-data CraBankIncomeHistoricalSummary = CraBankIncomeHistoricalSummary
-  { craBankIncomeHistoricalSummaryEndDate :: !(Maybe Date) -- ^ "end_date" - The end date of the period included in this monthly summary. This date will be the last day of the month, unless the month being covered is a partial month because it is the last month included in the summary and the date range being requested does not end with the last day of the month. The date will be returned in an ISO 8601 format (YYYY-MM-DD).
-  , craBankIncomeHistoricalSummaryStartDate :: !(Maybe Date) -- ^ "start_date" - The start date of the period covered in this monthly summary. This date will be the first day of the month, unless the month being covered is a partial month because it is the first month included in the summary and the date range being requested does not begin with the first day of the month. The date will be returned in an ISO 8601 format (YYYY-MM-DD).
-  , craBankIncomeHistoricalSummaryTotalAmounts :: !(Maybe [CreditAmountWithCurrency]) -- ^ "total_amounts" - Total amount of earnings for the income source(s) of the user for the month in the summary. This can contain multiple amounts, with each amount denominated in one unique currency.
-  , craBankIncomeHistoricalSummaryTransactions :: !(Maybe [CraBankIncomeTransaction]) -- ^ "transactions"
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON CraBankIncomeHistoricalSummary
-instance A.FromJSON CraBankIncomeHistoricalSummary where
-  parseJSON = A.withObject "CraBankIncomeHistoricalSummary" $ \o ->
-    CraBankIncomeHistoricalSummary
-      <$> (o .:? "end_date")
-      <*> (o .:? "start_date")
-      <*> (o .:? "total_amounts")
-      <*> (o .:? "transactions")
-
--- | ToJSON CraBankIncomeHistoricalSummary
-instance A.ToJSON CraBankIncomeHistoricalSummary where
-  toJSON CraBankIncomeHistoricalSummary {..} =
-   _omitNulls
-      [ "end_date" .= craBankIncomeHistoricalSummaryEndDate
-      , "start_date" .= craBankIncomeHistoricalSummaryStartDate
-      , "total_amounts" .= craBankIncomeHistoricalSummaryTotalAmounts
-      , "transactions" .= craBankIncomeHistoricalSummaryTransactions
-      ]
-
-
--- | Construct a value of type 'CraBankIncomeHistoricalSummary' (by applying it's required fields, if any)
-mkCraBankIncomeHistoricalSummary
-  :: CraBankIncomeHistoricalSummary
-mkCraBankIncomeHistoricalSummary =
-  CraBankIncomeHistoricalSummary
-  { craBankIncomeHistoricalSummaryEndDate = Nothing
-  , craBankIncomeHistoricalSummaryStartDate = Nothing
-  , craBankIncomeHistoricalSummaryTotalAmounts = Nothing
-  , craBankIncomeHistoricalSummaryTransactions = Nothing
-  }
-
 -- ** CraBankIncomeIncomeProvider
 -- | CraBankIncomeIncomeProvider
 -- The object containing data about the income provider.
@@ -15467,1030 +14297,6 @@ mkCraBankIncomeIncomeProvider craBankIncomeIncomeProviderIsNormalized craBankInc
   CraBankIncomeIncomeProvider
   { craBankIncomeIncomeProviderIsNormalized
   , craBankIncomeIncomeProviderName
-  }
-
--- ** CraBankIncomeItem
--- | CraBankIncomeItem
--- The details and metadata for an end user's Item.
-data CraBankIncomeItem = CraBankIncomeItem
-  { craBankIncomeItemAccounts :: !(Maybe [CraBankIncomeAccount]) -- ^ "accounts" - The Item&#39;s accounts that have bank income data.
-  , craBankIncomeItemBankIncomeAccounts :: !([CraBankIncomeAccount]) -- ^ /Required/ "bank_income_accounts" - This is a V1 (II1) field. For the V2 (II2) equivalent, use the &#x60;accounts&#x60; field. The Item&#39;s accounts that have bank income data.
-  , craBankIncomeItemBankIncomeSources :: !([CraBankIncomeSource]) -- ^ /Required/ "bank_income_sources" - This is a V1 (II1) field. For the V2 (II2) equivalent, use the report-level &#x60;income_streams&#x60; field. The income sources for this Item. Each entry in the array is a single income source.
-  , craBankIncomeItemInstitutionId :: !(Maybe Text) -- ^ "institution_id" - The unique identifier of the institution associated with the Item.
-  , craBankIncomeItemInstitutionName :: !(Maybe Text) -- ^ "institution_name" - The name of the institution associated with the Item.
-  , craBankIncomeItemItemId :: !(Maybe Text) -- ^ "item_id" - The &#x60;item_id&#x60; of the Item associated with this webhook, warning, or error
-  , craBankIncomeItemLastUpdatedTime :: !(Maybe DateTime) -- ^ "last_updated_time" - The time when this Item&#39;s data was last retrieved from the financial institution.
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON CraBankIncomeItem
-instance A.FromJSON CraBankIncomeItem where
-  parseJSON = A.withObject "CraBankIncomeItem" $ \o ->
-    CraBankIncomeItem
-      <$> (o .:? "accounts")
-      <*> (o .:  "bank_income_accounts")
-      <*> (o .:  "bank_income_sources")
-      <*> (o .:? "institution_id")
-      <*> (o .:? "institution_name")
-      <*> (o .:? "item_id")
-      <*> (o .:? "last_updated_time")
-
--- | ToJSON CraBankIncomeItem
-instance A.ToJSON CraBankIncomeItem where
-  toJSON CraBankIncomeItem {..} =
-   _omitNulls
-      [ "accounts" .= craBankIncomeItemAccounts
-      , "bank_income_accounts" .= craBankIncomeItemBankIncomeAccounts
-      , "bank_income_sources" .= craBankIncomeItemBankIncomeSources
-      , "institution_id" .= craBankIncomeItemInstitutionId
-      , "institution_name" .= craBankIncomeItemInstitutionName
-      , "item_id" .= craBankIncomeItemItemId
-      , "last_updated_time" .= craBankIncomeItemLastUpdatedTime
-      ]
-
-
--- | Construct a value of type 'CraBankIncomeItem' (by applying it's required fields, if any)
-mkCraBankIncomeItem
-  :: [CraBankIncomeAccount] -- ^ 'craBankIncomeItemBankIncomeAccounts': This is a V1 (II1) field. For the V2 (II2) equivalent, use the `accounts` field. The Item's accounts that have bank income data.
-  -> [CraBankIncomeSource] -- ^ 'craBankIncomeItemBankIncomeSources': This is a V1 (II1) field. For the V2 (II2) equivalent, use the report-level `income_streams` field. The income sources for this Item. Each entry in the array is a single income source.
-  -> CraBankIncomeItem
-mkCraBankIncomeItem craBankIncomeItemBankIncomeAccounts craBankIncomeItemBankIncomeSources =
-  CraBankIncomeItem
-  { craBankIncomeItemAccounts = Nothing
-  , craBankIncomeItemBankIncomeAccounts
-  , craBankIncomeItemBankIncomeSources
-  , craBankIncomeItemInstitutionId = Nothing
-  , craBankIncomeItemInstitutionName = Nothing
-  , craBankIncomeItemItemId = Nothing
-  , craBankIncomeItemLastUpdatedTime = Nothing
-  }
-
--- ** CraBankIncomeSource
--- | CraBankIncomeSource
--- Detailed information for the income source.
-data CraBankIncomeSource = CraBankIncomeSource
-  { craBankIncomeSourceAccountId :: !(Maybe Text) -- ^ "account_id" - The account ID with which this income source is associated.
-  , craBankIncomeSourceEmployer :: !(Maybe CraBankIncomeEmployer) -- ^ "employer"
-  , craBankIncomeSourceEndDate :: !(Maybe Date) -- ^ "end_date" - Maximum of all dates within the specific income sources in the user&#39;s bank account for days requested by the client. The date will be returned in an ISO 8601 format (YYYY-MM-DD).
-  , craBankIncomeSourceForecastedAverageMonthlyIncome :: !(Maybe Double) -- ^ "forecasted_average_monthly_income" - The predicted average monthly net income amount for the income source(s).
-  , craBankIncomeSourceForecastedAverageMonthlyIncomePredictionIntervals :: !([CraPredictionInterval]) -- ^ /Required/ "forecasted_average_monthly_income_prediction_intervals" - The prediction interval(s) for the forecasted average monthly income.
-  , craBankIncomeSourceHistoricalAverageMonthlyGrossIncome :: !(Maybe Double) -- ^ "historical_average_monthly_gross_income" - An estimate of the average gross monthly income based on the historical net amount and income category for the income source(s).
-  , craBankIncomeSourceHistoricalAverageMonthlyIncome :: !(Maybe Double) -- ^ "historical_average_monthly_income" - The average monthly net income amount estimated based on the historical data for the income source(s).
-  , craBankIncomeSourceHistoricalSummary :: !(Maybe [CraBankIncomeHistoricalSummary]) -- ^ "historical_summary"
-  , craBankIncomeSourceIncomeCategory :: !(Maybe CreditBankIncomeCategory) -- ^ "income_category"
-  , craBankIncomeSourceIncomeDescription :: !(Maybe Text) -- ^ "income_description" - The most common name or original description for the underlying income transactions.
-  , craBankIncomeSourceIncomeProvider :: !(CraBankIncomeIncomeProvider) -- ^ /Required/ "income_provider"
-  , craBankIncomeSourceIncomeSourceId :: !(Maybe Text) -- ^ "income_source_id" - A unique identifier for an income source. If the report is regenerated and a new &#x60;report_id&#x60; is created, the new report will have a new set of &#x60;income_source_id&#x60;s.
-  , craBankIncomeSourceIsoCurrencyCode :: !(Maybe Text) -- ^ "iso_currency_code" - The ISO 4217 currency code of the amount or balance.
-  , craBankIncomeSourceNextPaymentDate :: !(Maybe Date) -- ^ "next_payment_date" - The expected date of the end user&#39;s next paycheck for the income source. The date will be returned in an ISO 8601 format (YYYY-MM-DD).
-  , craBankIncomeSourcePayFrequency :: !(Maybe CreditBankIncomePayFrequency) -- ^ "pay_frequency"
-  , craBankIncomeSourceStartDate :: !(Maybe Date) -- ^ "start_date" - Minimum of all dates within the specific income sources in the user&#39;s bank account for days requested by the client. The date will be returned in an ISO 8601 format (YYYY-MM-DD).
-  , craBankIncomeSourceStatus :: !(Maybe CraBankIncomeStatus) -- ^ "status"
-  , craBankIncomeSourceTotalAmount :: !(Maybe Double) -- ^ "total_amount" - Total amount of earnings in the user&#39;s bank account for the specific income source for days requested by the client.
-  , craBankIncomeSourceTransactionCount :: !(Maybe Int) -- ^ "transaction_count" - Number of transactions for the income source within the start and end date.
-  , craBankIncomeSourceUnofficialCurrencyCode :: !(Maybe Text) -- ^ "unofficial_currency_code" - The unofficial currency code associated with the amount or balance. Always &#x60;null&#x60; if &#x60;iso_currency_code&#x60; is non-null. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries.
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON CraBankIncomeSource
-instance A.FromJSON CraBankIncomeSource where
-  parseJSON = A.withObject "CraBankIncomeSource" $ \o ->
-    CraBankIncomeSource
-      <$> (o .:? "account_id")
-      <*> (o .:? "employer")
-      <*> (o .:? "end_date")
-      <*> (o .:? "forecasted_average_monthly_income")
-      <*> (o .:  "forecasted_average_monthly_income_prediction_intervals")
-      <*> (o .:? "historical_average_monthly_gross_income")
-      <*> (o .:? "historical_average_monthly_income")
-      <*> (o .:? "historical_summary")
-      <*> (o .:? "income_category")
-      <*> (o .:? "income_description")
-      <*> (o .:  "income_provider")
-      <*> (o .:? "income_source_id")
-      <*> (o .:? "iso_currency_code")
-      <*> (o .:? "next_payment_date")
-      <*> (o .:? "pay_frequency")
-      <*> (o .:? "start_date")
-      <*> (o .:? "status")
-      <*> (o .:? "total_amount")
-      <*> (o .:? "transaction_count")
-      <*> (o .:? "unofficial_currency_code")
-
--- | ToJSON CraBankIncomeSource
-instance A.ToJSON CraBankIncomeSource where
-  toJSON CraBankIncomeSource {..} =
-   _omitNulls
-      [ "account_id" .= craBankIncomeSourceAccountId
-      , "employer" .= craBankIncomeSourceEmployer
-      , "end_date" .= craBankIncomeSourceEndDate
-      , "forecasted_average_monthly_income" .= craBankIncomeSourceForecastedAverageMonthlyIncome
-      , "forecasted_average_monthly_income_prediction_intervals" .= craBankIncomeSourceForecastedAverageMonthlyIncomePredictionIntervals
-      , "historical_average_monthly_gross_income" .= craBankIncomeSourceHistoricalAverageMonthlyGrossIncome
-      , "historical_average_monthly_income" .= craBankIncomeSourceHistoricalAverageMonthlyIncome
-      , "historical_summary" .= craBankIncomeSourceHistoricalSummary
-      , "income_category" .= craBankIncomeSourceIncomeCategory
-      , "income_description" .= craBankIncomeSourceIncomeDescription
-      , "income_provider" .= craBankIncomeSourceIncomeProvider
-      , "income_source_id" .= craBankIncomeSourceIncomeSourceId
-      , "iso_currency_code" .= craBankIncomeSourceIsoCurrencyCode
-      , "next_payment_date" .= craBankIncomeSourceNextPaymentDate
-      , "pay_frequency" .= craBankIncomeSourcePayFrequency
-      , "start_date" .= craBankIncomeSourceStartDate
-      , "status" .= craBankIncomeSourceStatus
-      , "total_amount" .= craBankIncomeSourceTotalAmount
-      , "transaction_count" .= craBankIncomeSourceTransactionCount
-      , "unofficial_currency_code" .= craBankIncomeSourceUnofficialCurrencyCode
-      ]
-
-
--- | Construct a value of type 'CraBankIncomeSource' (by applying it's required fields, if any)
-mkCraBankIncomeSource
-  :: [CraPredictionInterval] -- ^ 'craBankIncomeSourceForecastedAverageMonthlyIncomePredictionIntervals': The prediction interval(s) for the forecasted average monthly income.
-  -> CraBankIncomeIncomeProvider -- ^ 'craBankIncomeSourceIncomeProvider' 
-  -> CraBankIncomeSource
-mkCraBankIncomeSource craBankIncomeSourceForecastedAverageMonthlyIncomePredictionIntervals craBankIncomeSourceIncomeProvider =
-  CraBankIncomeSource
-  { craBankIncomeSourceAccountId = Nothing
-  , craBankIncomeSourceEmployer = Nothing
-  , craBankIncomeSourceEndDate = Nothing
-  , craBankIncomeSourceForecastedAverageMonthlyIncome = Nothing
-  , craBankIncomeSourceForecastedAverageMonthlyIncomePredictionIntervals
-  , craBankIncomeSourceHistoricalAverageMonthlyGrossIncome = Nothing
-  , craBankIncomeSourceHistoricalAverageMonthlyIncome = Nothing
-  , craBankIncomeSourceHistoricalSummary = Nothing
-  , craBankIncomeSourceIncomeCategory = Nothing
-  , craBankIncomeSourceIncomeDescription = Nothing
-  , craBankIncomeSourceIncomeProvider
-  , craBankIncomeSourceIncomeSourceId = Nothing
-  , craBankIncomeSourceIsoCurrencyCode = Nothing
-  , craBankIncomeSourceNextPaymentDate = Nothing
-  , craBankIncomeSourcePayFrequency = Nothing
-  , craBankIncomeSourceStartDate = Nothing
-  , craBankIncomeSourceStatus = Nothing
-  , craBankIncomeSourceTotalAmount = Nothing
-  , craBankIncomeSourceTransactionCount = Nothing
-  , craBankIncomeSourceUnofficialCurrencyCode = Nothing
-  }
-
--- ** CraBankIncomeSummary
--- | CraBankIncomeSummary
--- This is a V1 (II1) schema. For the V2 (II2) equivalent, use `CraIncomeInsightsUserSummary`. Summary for income across all income sources and items (max history of 730 days).
-data CraBankIncomeSummary = CraBankIncomeSummary
-  { craBankIncomeSummaryEndDate :: !(Maybe Date) -- ^ "end_date" - The latest date in which all income sources identified by Plaid appear in the user&#39;s account. The date will be returned in an ISO 8601 format (YYYY-MM-DD).
-  , craBankIncomeSummaryForecastedAnnualIncome :: !(Maybe [CreditAmountWithCurrency]) -- ^ "forecasted_annual_income" - The predicted average annual income amount for the income source(s).
-  , craBankIncomeSummaryForecastedAverageMonthlyIncome :: !(Maybe [CreditAmountWithCurrency]) -- ^ "forecasted_average_monthly_income" - The predicted average monthly income amount for the income source(s).
-  , craBankIncomeSummaryHistoricalAnnualGrossIncome :: !(Maybe [CreditAmountWithCurrency]) -- ^ "historical_annual_gross_income" - An estimate of the annual gross income for the income source, calculated by multiplying the &#x60;historical_average_monthly_gross_income&#x60; by 12.
-  , craBankIncomeSummaryHistoricalAnnualIncome :: !(Maybe [CreditAmountWithCurrency]) -- ^ "historical_annual_income" - An estimate of the annual net income for the income source, calculated by multiplying the &#x60;historical_average_monthly_income&#x60; by 12.
-  , craBankIncomeSummaryHistoricalAverageMonthlyGrossIncome :: !(Maybe [CreditAmountWithCurrency]) -- ^ "historical_average_monthly_gross_income" - An estimate of the average gross monthly income based on the historical net amount and income category for the income source(s). The average monthly income is calculated based on the lifetime of the income stream, rather than the entire historical period included in the scope of the report.
-  , craBankIncomeSummaryHistoricalAverageMonthlyIncome :: !(Maybe [CreditAmountWithCurrency]) -- ^ "historical_average_monthly_income" - The average monthly income amount estimated based on the historical data for the income source(s). The average monthly income is calculated based on the lifetime of the income stream, rather than the entire historical period included in the scope of the report.
-  , craBankIncomeSummaryHistoricalSummary :: !(Maybe [CraBankIncomeHistoricalSummary]) -- ^ "historical_summary"
-  , craBankIncomeSummaryIncomeCategoriesCount :: !(Maybe Int) -- ^ "income_categories_count" - Number of income categories per end user.
-  , craBankIncomeSummaryIncomeSourcesCount :: !(Maybe Int) -- ^ "income_sources_count" - Number of income sources per end user.
-  , craBankIncomeSummaryIncomeTransactionsCount :: !(Maybe Int) -- ^ "income_transactions_count" - Number of income transactions per end user.
-  , craBankIncomeSummaryStartDate :: !(Maybe Date) -- ^ "start_date" - The earliest date within the days requested in which all income sources identified by Plaid appear in a user&#39;s account. The date will be returned in an ISO 8601 format (YYYY-MM-DD).
-  , craBankIncomeSummaryTotalAmounts :: !(Maybe [CreditAmountWithCurrency]) -- ^ "total_amounts" - Total amount of earnings across all the income sources in the end user&#39;s Items for the days requested by the client. This can contain multiple amounts, with each amount denominated in one unique currency.
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON CraBankIncomeSummary
-instance A.FromJSON CraBankIncomeSummary where
-  parseJSON = A.withObject "CraBankIncomeSummary" $ \o ->
-    CraBankIncomeSummary
-      <$> (o .:? "end_date")
-      <*> (o .:? "forecasted_annual_income")
-      <*> (o .:? "forecasted_average_monthly_income")
-      <*> (o .:? "historical_annual_gross_income")
-      <*> (o .:? "historical_annual_income")
-      <*> (o .:? "historical_average_monthly_gross_income")
-      <*> (o .:? "historical_average_monthly_income")
-      <*> (o .:? "historical_summary")
-      <*> (o .:? "income_categories_count")
-      <*> (o .:? "income_sources_count")
-      <*> (o .:? "income_transactions_count")
-      <*> (o .:? "start_date")
-      <*> (o .:? "total_amounts")
-
--- | ToJSON CraBankIncomeSummary
-instance A.ToJSON CraBankIncomeSummary where
-  toJSON CraBankIncomeSummary {..} =
-   _omitNulls
-      [ "end_date" .= craBankIncomeSummaryEndDate
-      , "forecasted_annual_income" .= craBankIncomeSummaryForecastedAnnualIncome
-      , "forecasted_average_monthly_income" .= craBankIncomeSummaryForecastedAverageMonthlyIncome
-      , "historical_annual_gross_income" .= craBankIncomeSummaryHistoricalAnnualGrossIncome
-      , "historical_annual_income" .= craBankIncomeSummaryHistoricalAnnualIncome
-      , "historical_average_monthly_gross_income" .= craBankIncomeSummaryHistoricalAverageMonthlyGrossIncome
-      , "historical_average_monthly_income" .= craBankIncomeSummaryHistoricalAverageMonthlyIncome
-      , "historical_summary" .= craBankIncomeSummaryHistoricalSummary
-      , "income_categories_count" .= craBankIncomeSummaryIncomeCategoriesCount
-      , "income_sources_count" .= craBankIncomeSummaryIncomeSourcesCount
-      , "income_transactions_count" .= craBankIncomeSummaryIncomeTransactionsCount
-      , "start_date" .= craBankIncomeSummaryStartDate
-      , "total_amounts" .= craBankIncomeSummaryTotalAmounts
-      ]
-
-
--- | Construct a value of type 'CraBankIncomeSummary' (by applying it's required fields, if any)
-mkCraBankIncomeSummary
-  :: CraBankIncomeSummary
-mkCraBankIncomeSummary =
-  CraBankIncomeSummary
-  { craBankIncomeSummaryEndDate = Nothing
-  , craBankIncomeSummaryForecastedAnnualIncome = Nothing
-  , craBankIncomeSummaryForecastedAverageMonthlyIncome = Nothing
-  , craBankIncomeSummaryHistoricalAnnualGrossIncome = Nothing
-  , craBankIncomeSummaryHistoricalAnnualIncome = Nothing
-  , craBankIncomeSummaryHistoricalAverageMonthlyGrossIncome = Nothing
-  , craBankIncomeSummaryHistoricalAverageMonthlyIncome = Nothing
-  , craBankIncomeSummaryHistoricalSummary = Nothing
-  , craBankIncomeSummaryIncomeCategoriesCount = Nothing
-  , craBankIncomeSummaryIncomeSourcesCount = Nothing
-  , craBankIncomeSummaryIncomeTransactionsCount = Nothing
-  , craBankIncomeSummaryStartDate = Nothing
-  , craBankIncomeSummaryTotalAmounts = Nothing
-  }
-
--- ** CraBankIncomeTransaction
--- | CraBankIncomeTransaction
--- The transactions data for the end user's income source(s).
-data CraBankIncomeTransaction = CraBankIncomeTransaction
-  { craBankIncomeTransactionAmount :: !(Double) -- ^ /Required/ "amount" - The settled value of the transaction, denominated in the transaction&#39;s currency as stated in &#x60;iso_currency_code&#x60; or &#x60;unofficial_currency_code&#x60;. Positive values when money moves out of the account; negative values when money moves in. For example, credit card purchases are positive; credit card payment, direct deposits, and refunds are negative.
-  , craBankIncomeTransactionBonusType :: !(Maybe CraBankIncomeBonusType) -- ^ "bonus_type"
-  , craBankIncomeTransactionCheckNumber :: !(Maybe Text) -- ^ "check_number" - The check number of the transaction. This field is only populated for check transactions.
-  , craBankIncomeTransactionDate :: !(Date) -- ^ /Required/ "date" - For pending transactions, the date that the transaction occurred; for posted transactions, the date that the transaction posted. Both dates are returned in an ISO 8601 format (YYYY-MM-DD).
-  , craBankIncomeTransactionIsoCurrencyCode :: !(Text) -- ^ /Required/ "iso_currency_code" - The ISO 4217 currency code of the amount or balance.
-  , craBankIncomeTransactionName :: !(Maybe Text) -- ^ "name" - The merchant name or transaction description. This is a legacy field that is no longer maintained. For merchant name, use the &#x60;merchant_name&#x60; field; for description, use the &#x60;original_description&#x60; field.
-  , craBankIncomeTransactionOriginalDescription :: !(Text) -- ^ /Required/ "original_description" - The string returned by the financial institution to describe the transaction.
-  , craBankIncomeTransactionPending :: !(Bool) -- ^ /Required/ "pending" - When true, identifies the transaction as pending or unsettled. Pending transaction details (name, type, amount, category ID) may change before they are settled.
-  , craBankIncomeTransactionTransactionId :: !(Text) -- ^ /Required/ "transaction_id" - The unique ID of the transaction. Like all Plaid identifiers, the &#x60;transaction_id&#x60; is case sensitive.
-  , craBankIncomeTransactionUnofficialCurrencyCode :: !(Text) -- ^ /Required/ "unofficial_currency_code" - The unofficial currency code associated with the amount or balance. Always &#x60;null&#x60; if &#x60;iso_currency_code&#x60; is non-null. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries.
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON CraBankIncomeTransaction
-instance A.FromJSON CraBankIncomeTransaction where
-  parseJSON = A.withObject "CraBankIncomeTransaction" $ \o ->
-    CraBankIncomeTransaction
-      <$> (o .:  "amount")
-      <*> (o .:? "bonus_type")
-      <*> (o .:? "check_number")
-      <*> (o .:  "date")
-      <*> (o .:  "iso_currency_code")
-      <*> (o .:? "name")
-      <*> (o .:  "original_description")
-      <*> (o .:  "pending")
-      <*> (o .:  "transaction_id")
-      <*> (o .:  "unofficial_currency_code")
-
--- | ToJSON CraBankIncomeTransaction
-instance A.ToJSON CraBankIncomeTransaction where
-  toJSON CraBankIncomeTransaction {..} =
-   _omitNulls
-      [ "amount" .= craBankIncomeTransactionAmount
-      , "bonus_type" .= craBankIncomeTransactionBonusType
-      , "check_number" .= craBankIncomeTransactionCheckNumber
-      , "date" .= craBankIncomeTransactionDate
-      , "iso_currency_code" .= craBankIncomeTransactionIsoCurrencyCode
-      , "name" .= craBankIncomeTransactionName
-      , "original_description" .= craBankIncomeTransactionOriginalDescription
-      , "pending" .= craBankIncomeTransactionPending
-      , "transaction_id" .= craBankIncomeTransactionTransactionId
-      , "unofficial_currency_code" .= craBankIncomeTransactionUnofficialCurrencyCode
-      ]
-
-
--- | Construct a value of type 'CraBankIncomeTransaction' (by applying it's required fields, if any)
-mkCraBankIncomeTransaction
-  :: Double -- ^ 'craBankIncomeTransactionAmount': The settled value of the transaction, denominated in the transaction's currency as stated in `iso_currency_code` or `unofficial_currency_code`. Positive values when money moves out of the account; negative values when money moves in. For example, credit card purchases are positive; credit card payment, direct deposits, and refunds are negative.
-  -> Date -- ^ 'craBankIncomeTransactionDate': For pending transactions, the date that the transaction occurred; for posted transactions, the date that the transaction posted. Both dates are returned in an ISO 8601 format (YYYY-MM-DD).
-  -> Text -- ^ 'craBankIncomeTransactionIsoCurrencyCode': The ISO 4217 currency code of the amount or balance.
-  -> Text -- ^ 'craBankIncomeTransactionOriginalDescription': The string returned by the financial institution to describe the transaction.
-  -> Bool -- ^ 'craBankIncomeTransactionPending': When true, identifies the transaction as pending or unsettled. Pending transaction details (name, type, amount, category ID) may change before they are settled.
-  -> Text -- ^ 'craBankIncomeTransactionTransactionId': The unique ID of the transaction. Like all Plaid identifiers, the `transaction_id` is case sensitive.
-  -> Text -- ^ 'craBankIncomeTransactionUnofficialCurrencyCode': The unofficial currency code associated with the amount or balance. Always `null` if `iso_currency_code` is non-null. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries.
-  -> CraBankIncomeTransaction
-mkCraBankIncomeTransaction craBankIncomeTransactionAmount craBankIncomeTransactionDate craBankIncomeTransactionIsoCurrencyCode craBankIncomeTransactionOriginalDescription craBankIncomeTransactionPending craBankIncomeTransactionTransactionId craBankIncomeTransactionUnofficialCurrencyCode =
-  CraBankIncomeTransaction
-  { craBankIncomeTransactionAmount
-  , craBankIncomeTransactionBonusType = Nothing
-  , craBankIncomeTransactionCheckNumber = Nothing
-  , craBankIncomeTransactionDate
-  , craBankIncomeTransactionIsoCurrencyCode
-  , craBankIncomeTransactionName = Nothing
-  , craBankIncomeTransactionOriginalDescription
-  , craBankIncomeTransactionPending
-  , craBankIncomeTransactionTransactionId
-  , craBankIncomeTransactionUnofficialCurrencyCode
-  }
-
--- ** CraBankIncomeWarning
--- | CraBankIncomeWarning
--- The warning associated with the data that was unavailable.
-data CraBankIncomeWarning = CraBankIncomeWarning
-  { craBankIncomeWarningCause :: !(Maybe CraBankIncomeCause) -- ^ "cause"
-  , craBankIncomeWarningWarningCode :: !(Maybe CraBankIncomeWarningCode) -- ^ "warning_code"
-  , craBankIncomeWarningWarningType :: !(Maybe CreditBankIncomeWarningType) -- ^ "warning_type"
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON CraBankIncomeWarning
-instance A.FromJSON CraBankIncomeWarning where
-  parseJSON = A.withObject "CraBankIncomeWarning" $ \o ->
-    CraBankIncomeWarning
-      <$> (o .:? "cause")
-      <*> (o .:? "warning_code")
-      <*> (o .:? "warning_type")
-
--- | ToJSON CraBankIncomeWarning
-instance A.ToJSON CraBankIncomeWarning where
-  toJSON CraBankIncomeWarning {..} =
-   _omitNulls
-      [ "cause" .= craBankIncomeWarningCause
-      , "warning_code" .= craBankIncomeWarningWarningCode
-      , "warning_type" .= craBankIncomeWarningWarningType
-      ]
-
-
--- | Construct a value of type 'CraBankIncomeWarning' (by applying it's required fields, if any)
-mkCraBankIncomeWarning
-  :: CraBankIncomeWarning
-mkCraBankIncomeWarning =
-  CraBankIncomeWarning
-  { craBankIncomeWarningCause = Nothing
-  , craBankIncomeWarningWarningCode = Nothing
-  , craBankIncomeWarningWarningType = Nothing
-  }
-
--- ** CraCheckReportBaseReportGetRequest
--- | CraCheckReportBaseReportGetRequest
--- CraCheckReportBaseReportGetRequest
--- 
--- CraCheckReportBaseReportGetRequest defines the request schema for `/cra/check_report/base_report/get`
-data CraCheckReportBaseReportGetRequest = CraCheckReportBaseReportGetRequest
-  { craCheckReportBaseReportGetRequestClientId :: !(Maybe Text) -- ^ "client_id" - Your Plaid API &#x60;client_id&#x60;.
-  , craCheckReportBaseReportGetRequestConsumerReportPermissiblePurpose :: !(Maybe CraCheckReportPermissiblePurpose) -- ^ "consumer_report_permissible_purpose" - The permissible purpose under which the consumer report is being retrieved.
-  , craCheckReportBaseReportGetRequestItemIds :: !(Maybe [Text]) -- ^ "item_ids" - The Item IDs to include in the Base Report. If not provided, all Items associated with the user will be included.
-  , craCheckReportBaseReportGetRequestReportId :: !(Maybe Text) -- ^ "report_id" - The CRA report token (formatted &#x60;cra-report-&lt;env&gt;-&lt;uuid&gt;&#x60;) identifying a specific consumer report. When provided alongside &#x60;consumer_report_permissible_purpose&#x60;, pins retrieval to that report and stamps its permissible purpose. If omitted, the most recently generated report for the user is returned.
-  , craCheckReportBaseReportGetRequestSecret :: !(Maybe Text) -- ^ "secret" - Your Plaid API &#x60;secret&#x60;.
-  , craCheckReportBaseReportGetRequestThirdPartyUserToken :: !(Maybe Text) -- ^ "third_party_user_token" - The third-party user token associated with the requested User data.
-  , craCheckReportBaseReportGetRequestUserId :: !(Maybe Text) -- ^ "user_id" - A unique user identifier, created by &#x60;/user/create&#x60;. Integrations that began using &#x60;/user/create&#x60; after December 10, 2025 use this field to identify a user instead of the &#x60;user_token&#x60;. For more details, see [New User APIs](https://plaid.com/docs/api/users/user-apis).
-  , craCheckReportBaseReportGetRequestUserTier :: !(Maybe CraUserTier) -- ^ "user_tier"
-  , craCheckReportBaseReportGetRequestUserToken :: !(Maybe Text) -- ^ "user_token" - The user token associated with the user for which data is being requested. This field is used only by customers with pre-existing integrations that already use the &#x60;user_token&#x60; field. All other customers should use the &#x60;user_id&#x60; instead. For more details, see [New User APIs](https://plaid.com/docs/api/users/user-apis).
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON CraCheckReportBaseReportGetRequest
-instance A.FromJSON CraCheckReportBaseReportGetRequest where
-  parseJSON = A.withObject "CraCheckReportBaseReportGetRequest" $ \o ->
-    CraCheckReportBaseReportGetRequest
-      <$> (o .:? "client_id")
-      <*> (o .:? "consumer_report_permissible_purpose")
-      <*> (o .:? "item_ids")
-      <*> (o .:? "report_id")
-      <*> (o .:? "secret")
-      <*> (o .:? "third_party_user_token")
-      <*> (o .:? "user_id")
-      <*> (o .:? "user_tier")
-      <*> (o .:? "user_token")
-
--- | ToJSON CraCheckReportBaseReportGetRequest
-instance A.ToJSON CraCheckReportBaseReportGetRequest where
-  toJSON CraCheckReportBaseReportGetRequest {..} =
-   _omitNulls
-      [ "client_id" .= craCheckReportBaseReportGetRequestClientId
-      , "consumer_report_permissible_purpose" .= craCheckReportBaseReportGetRequestConsumerReportPermissiblePurpose
-      , "item_ids" .= craCheckReportBaseReportGetRequestItemIds
-      , "report_id" .= craCheckReportBaseReportGetRequestReportId
-      , "secret" .= craCheckReportBaseReportGetRequestSecret
-      , "third_party_user_token" .= craCheckReportBaseReportGetRequestThirdPartyUserToken
-      , "user_id" .= craCheckReportBaseReportGetRequestUserId
-      , "user_tier" .= craCheckReportBaseReportGetRequestUserTier
-      , "user_token" .= craCheckReportBaseReportGetRequestUserToken
-      ]
-
-
--- | Construct a value of type 'CraCheckReportBaseReportGetRequest' (by applying it's required fields, if any)
-mkCraCheckReportBaseReportGetRequest
-  :: CraCheckReportBaseReportGetRequest
-mkCraCheckReportBaseReportGetRequest =
-  CraCheckReportBaseReportGetRequest
-  { craCheckReportBaseReportGetRequestClientId = Nothing
-  , craCheckReportBaseReportGetRequestConsumerReportPermissiblePurpose = Nothing
-  , craCheckReportBaseReportGetRequestItemIds = Nothing
-  , craCheckReportBaseReportGetRequestReportId = Nothing
-  , craCheckReportBaseReportGetRequestSecret = Nothing
-  , craCheckReportBaseReportGetRequestThirdPartyUserToken = Nothing
-  , craCheckReportBaseReportGetRequestUserId = Nothing
-  , craCheckReportBaseReportGetRequestUserTier = Nothing
-  , craCheckReportBaseReportGetRequestUserToken = Nothing
-  }
-
--- ** CraCheckReportBaseReportGetResponse
--- | CraCheckReportBaseReportGetResponse
--- CraCheckReportBaseReportGetResponse
--- 
--- CraCheckReportBaseReportGetResponse defines the response schema for `/cra/check_report/base_report/get`
-data CraCheckReportBaseReportGetResponse = CraCheckReportBaseReportGetResponse
-  { craCheckReportBaseReportGetResponseReport :: !(BaseReport) -- ^ /Required/ "report"
-  , craCheckReportBaseReportGetResponseRequestId :: !(Text) -- ^ /Required/ "request_id" - A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive.
-  , craCheckReportBaseReportGetResponseWarnings :: !([BaseReportWarning]) -- ^ /Required/ "warnings" - This array contains any information about errors or alerts related to the Base Report that did not block generation of the report.
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON CraCheckReportBaseReportGetResponse
-instance A.FromJSON CraCheckReportBaseReportGetResponse where
-  parseJSON = A.withObject "CraCheckReportBaseReportGetResponse" $ \o ->
-    CraCheckReportBaseReportGetResponse
-      <$> (o .:  "report")
-      <*> (o .:  "request_id")
-      <*> (o .:  "warnings")
-
--- | ToJSON CraCheckReportBaseReportGetResponse
-instance A.ToJSON CraCheckReportBaseReportGetResponse where
-  toJSON CraCheckReportBaseReportGetResponse {..} =
-   _omitNulls
-      [ "report" .= craCheckReportBaseReportGetResponseReport
-      , "request_id" .= craCheckReportBaseReportGetResponseRequestId
-      , "warnings" .= craCheckReportBaseReportGetResponseWarnings
-      ]
-
-
--- | Construct a value of type 'CraCheckReportBaseReportGetResponse' (by applying it's required fields, if any)
-mkCraCheckReportBaseReportGetResponse
-  :: BaseReport -- ^ 'craCheckReportBaseReportGetResponseReport' 
-  -> Text -- ^ 'craCheckReportBaseReportGetResponseRequestId': A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive.
-  -> [BaseReportWarning] -- ^ 'craCheckReportBaseReportGetResponseWarnings': This array contains any information about errors or alerts related to the Base Report that did not block generation of the report.
-  -> CraCheckReportBaseReportGetResponse
-mkCraCheckReportBaseReportGetResponse craCheckReportBaseReportGetResponseReport craCheckReportBaseReportGetResponseRequestId craCheckReportBaseReportGetResponseWarnings =
-  CraCheckReportBaseReportGetResponse
-  { craCheckReportBaseReportGetResponseReport
-  , craCheckReportBaseReportGetResponseRequestId
-  , craCheckReportBaseReportGetResponseWarnings
-  }
-
--- ** CraCheckReportCreateBaseReportOptions
--- | CraCheckReportCreateBaseReportOptions
--- CraCheckReportCreateBaseReportOptions
--- 
--- Defines configuration options to generate a Base Report
-data CraCheckReportCreateBaseReportOptions = CraCheckReportCreateBaseReportOptions
-  { craCheckReportCreateBaseReportOptionsClientReportId :: !(Maybe Text) -- ^ "client_report_id" - Client-generated identifier, which can be used by lenders to track loan applications. This field is deprecated. Use the &#x60;client_report_id&#x60; field at the top level of the request instead.
-  , craCheckReportCreateBaseReportOptionsGseOptions :: !(Maybe CraCheckReportGSEOptions) -- ^ "gse_options"
-  , craCheckReportCreateBaseReportOptionsHomeLendingReportOptions :: !(Maybe CraCheckReportHomeLendingReportOptions) -- ^ "home_lending_report_options"
-  , craCheckReportCreateBaseReportOptionsRequireIdentity :: !(Maybe Bool) -- ^ "require_identity" - Indicates that the report must include identity information. If identity information is not available, the report will fail.
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON CraCheckReportCreateBaseReportOptions
-instance A.FromJSON CraCheckReportCreateBaseReportOptions where
-  parseJSON = A.withObject "CraCheckReportCreateBaseReportOptions" $ \o ->
-    CraCheckReportCreateBaseReportOptions
-      <$> (o .:? "client_report_id")
-      <*> (o .:? "gse_options")
-      <*> (o .:? "home_lending_report_options")
-      <*> (o .:? "require_identity")
-
--- | ToJSON CraCheckReportCreateBaseReportOptions
-instance A.ToJSON CraCheckReportCreateBaseReportOptions where
-  toJSON CraCheckReportCreateBaseReportOptions {..} =
-   _omitNulls
-      [ "client_report_id" .= craCheckReportCreateBaseReportOptionsClientReportId
-      , "gse_options" .= craCheckReportCreateBaseReportOptionsGseOptions
-      , "home_lending_report_options" .= craCheckReportCreateBaseReportOptionsHomeLendingReportOptions
-      , "require_identity" .= craCheckReportCreateBaseReportOptionsRequireIdentity
-      ]
-
-
--- | Construct a value of type 'CraCheckReportCreateBaseReportOptions' (by applying it's required fields, if any)
-mkCraCheckReportCreateBaseReportOptions
-  :: CraCheckReportCreateBaseReportOptions
-mkCraCheckReportCreateBaseReportOptions =
-  CraCheckReportCreateBaseReportOptions
-  { craCheckReportCreateBaseReportOptionsClientReportId = Nothing
-  , craCheckReportCreateBaseReportOptionsGseOptions = Nothing
-  , craCheckReportCreateBaseReportOptionsHomeLendingReportOptions = Nothing
-  , craCheckReportCreateBaseReportOptionsRequireIdentity = Nothing
-  }
-
--- ** CraCheckReportCreateCashflowInsightsOptions
--- | CraCheckReportCreateCashflowInsightsOptions
--- CraCheckReportCreateCashflowInsightsOptions
--- 
--- Defines configuration options to generate Cashflow Insights
-data CraCheckReportCreateCashflowInsightsOptions = CraCheckReportCreateCashflowInsightsOptions
-  { craCheckReportCreateCashflowInsightsOptionsAttributesVersion :: !(Maybe CashflowAttributesVersion) -- ^ "attributes_version"
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON CraCheckReportCreateCashflowInsightsOptions
-instance A.FromJSON CraCheckReportCreateCashflowInsightsOptions where
-  parseJSON = A.withObject "CraCheckReportCreateCashflowInsightsOptions" $ \o ->
-    CraCheckReportCreateCashflowInsightsOptions
-      <$> (o .:? "attributes_version")
-
--- | ToJSON CraCheckReportCreateCashflowInsightsOptions
-instance A.ToJSON CraCheckReportCreateCashflowInsightsOptions where
-  toJSON CraCheckReportCreateCashflowInsightsOptions {..} =
-   _omitNulls
-      [ "attributes_version" .= craCheckReportCreateCashflowInsightsOptionsAttributesVersion
-      ]
-
-
--- | Construct a value of type 'CraCheckReportCreateCashflowInsightsOptions' (by applying it's required fields, if any)
-mkCraCheckReportCreateCashflowInsightsOptions
-  :: CraCheckReportCreateCashflowInsightsOptions
-mkCraCheckReportCreateCashflowInsightsOptions =
-  CraCheckReportCreateCashflowInsightsOptions
-  { craCheckReportCreateCashflowInsightsOptionsAttributesVersion = Nothing
-  }
-
--- ** CraCheckReportCreateEmploymentRefreshOptions
--- | CraCheckReportCreateEmploymentRefreshOptions
--- CraCheckReportCreateEmploymentRefreshOptions
--- 
--- Defines configuration options for the Employment Refresh Report.
-data CraCheckReportCreateEmploymentRefreshOptions = CraCheckReportCreateEmploymentRefreshOptions
-  { craCheckReportCreateEmploymentRefreshOptionsDaysRequested :: !(Int) -- ^ /Required/ "days_requested" - The number of days of data to request for the report. This field is required if an Employment Refresh Report is requested. Maximum is 731.
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON CraCheckReportCreateEmploymentRefreshOptions
-instance A.FromJSON CraCheckReportCreateEmploymentRefreshOptions where
-  parseJSON = A.withObject "CraCheckReportCreateEmploymentRefreshOptions" $ \o ->
-    CraCheckReportCreateEmploymentRefreshOptions
-      <$> (o .:  "days_requested")
-
--- | ToJSON CraCheckReportCreateEmploymentRefreshOptions
-instance A.ToJSON CraCheckReportCreateEmploymentRefreshOptions where
-  toJSON CraCheckReportCreateEmploymentRefreshOptions {..} =
-   _omitNulls
-      [ "days_requested" .= craCheckReportCreateEmploymentRefreshOptionsDaysRequested
-      ]
-
-
--- | Construct a value of type 'CraCheckReportCreateEmploymentRefreshOptions' (by applying it's required fields, if any)
-mkCraCheckReportCreateEmploymentRefreshOptions
-  :: Int -- ^ 'craCheckReportCreateEmploymentRefreshOptionsDaysRequested': The number of days of data to request for the report. This field is required if an Employment Refresh Report is requested. Maximum is 731.
-  -> CraCheckReportCreateEmploymentRefreshOptions
-mkCraCheckReportCreateEmploymentRefreshOptions craCheckReportCreateEmploymentRefreshOptionsDaysRequested =
-  CraCheckReportCreateEmploymentRefreshOptions
-  { craCheckReportCreateEmploymentRefreshOptionsDaysRequested
-  }
-
--- ** CraCheckReportCreateIncomeInsightsOptions
--- | CraCheckReportCreateIncomeInsightsOptions
--- CraCheckReportCreateIncomeInsightsOptions
--- 
--- Defines configuration options to generate Income Insights.
-data CraCheckReportCreateIncomeInsightsOptions = CraCheckReportCreateIncomeInsightsOptions
-  { craCheckReportCreateIncomeInsightsOptionsIncomeInsightsFilter :: !(Maybe IncomeInsightsFilter) -- ^ "income_insights_filter"
-  , craCheckReportCreateIncomeInsightsOptionsIncomeInsightsVersion :: !(IncomeInsightsVersion) -- ^ /Required/ "income_insights_version"
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON CraCheckReportCreateIncomeInsightsOptions
-instance A.FromJSON CraCheckReportCreateIncomeInsightsOptions where
-  parseJSON = A.withObject "CraCheckReportCreateIncomeInsightsOptions" $ \o ->
-    CraCheckReportCreateIncomeInsightsOptions
-      <$> (o .:? "income_insights_filter")
-      <*> (o .:  "income_insights_version")
-
--- | ToJSON CraCheckReportCreateIncomeInsightsOptions
-instance A.ToJSON CraCheckReportCreateIncomeInsightsOptions where
-  toJSON CraCheckReportCreateIncomeInsightsOptions {..} =
-   _omitNulls
-      [ "income_insights_filter" .= craCheckReportCreateIncomeInsightsOptionsIncomeInsightsFilter
-      , "income_insights_version" .= craCheckReportCreateIncomeInsightsOptionsIncomeInsightsVersion
-      ]
-
-
--- | Construct a value of type 'CraCheckReportCreateIncomeInsightsOptions' (by applying it's required fields, if any)
-mkCraCheckReportCreateIncomeInsightsOptions
-  :: IncomeInsightsVersion -- ^ 'craCheckReportCreateIncomeInsightsOptionsIncomeInsightsVersion' 
-  -> CraCheckReportCreateIncomeInsightsOptions
-mkCraCheckReportCreateIncomeInsightsOptions craCheckReportCreateIncomeInsightsOptionsIncomeInsightsVersion =
-  CraCheckReportCreateIncomeInsightsOptions
-  { craCheckReportCreateIncomeInsightsOptionsIncomeInsightsFilter = Nothing
-  , craCheckReportCreateIncomeInsightsOptionsIncomeInsightsVersion
-  }
-
--- ** CraCheckReportCreateLendScoreOptions
--- | CraCheckReportCreateLendScoreOptions
--- CraCheckReportCreateLendScoreOptions
--- 
--- Defines configuration options to generate the LendScore
-data CraCheckReportCreateLendScoreOptions = CraCheckReportCreateLendScoreOptions
-  { craCheckReportCreateLendScoreOptionsLendScoreVersion :: !(Maybe PlaidLendScoreVersion) -- ^ "lend_score_version"
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON CraCheckReportCreateLendScoreOptions
-instance A.FromJSON CraCheckReportCreateLendScoreOptions where
-  parseJSON = A.withObject "CraCheckReportCreateLendScoreOptions" $ \o ->
-    CraCheckReportCreateLendScoreOptions
-      <$> (o .:? "lend_score_version")
-
--- | ToJSON CraCheckReportCreateLendScoreOptions
-instance A.ToJSON CraCheckReportCreateLendScoreOptions where
-  toJSON CraCheckReportCreateLendScoreOptions {..} =
-   _omitNulls
-      [ "lend_score_version" .= craCheckReportCreateLendScoreOptionsLendScoreVersion
-      ]
-
-
--- | Construct a value of type 'CraCheckReportCreateLendScoreOptions' (by applying it's required fields, if any)
-mkCraCheckReportCreateLendScoreOptions
-  :: CraCheckReportCreateLendScoreOptions
-mkCraCheckReportCreateLendScoreOptions =
-  CraCheckReportCreateLendScoreOptions
-  { craCheckReportCreateLendScoreOptionsLendScoreVersion = Nothing
-  }
-
--- ** CraCheckReportCreateNetworkInsightsOptions
--- | CraCheckReportCreateNetworkInsightsOptions
--- CraCheckReportCreateNetworkInsightsOptions
--- 
--- Defines configuration options to generate Network Insights
-data CraCheckReportCreateNetworkInsightsOptions = CraCheckReportCreateNetworkInsightsOptions
-  { craCheckReportCreateNetworkInsightsOptionsNetworkInsightsVersion :: !(Maybe NetworkInsightsVersion) -- ^ "network_insights_version"
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON CraCheckReportCreateNetworkInsightsOptions
-instance A.FromJSON CraCheckReportCreateNetworkInsightsOptions where
-  parseJSON = A.withObject "CraCheckReportCreateNetworkInsightsOptions" $ \o ->
-    CraCheckReportCreateNetworkInsightsOptions
-      <$> (o .:? "network_insights_version")
-
--- | ToJSON CraCheckReportCreateNetworkInsightsOptions
-instance A.ToJSON CraCheckReportCreateNetworkInsightsOptions where
-  toJSON CraCheckReportCreateNetworkInsightsOptions {..} =
-   _omitNulls
-      [ "network_insights_version" .= craCheckReportCreateNetworkInsightsOptionsNetworkInsightsVersion
-      ]
-
-
--- | Construct a value of type 'CraCheckReportCreateNetworkInsightsOptions' (by applying it's required fields, if any)
-mkCraCheckReportCreateNetworkInsightsOptions
-  :: CraCheckReportCreateNetworkInsightsOptions
-mkCraCheckReportCreateNetworkInsightsOptions =
-  CraCheckReportCreateNetworkInsightsOptions
-  { craCheckReportCreateNetworkInsightsOptionsNetworkInsightsVersion = Nothing
-  }
-
--- ** CraCheckReportCreatePartnerInsightsOptions
--- | CraCheckReportCreatePartnerInsightsOptions
--- CraCheckReportCreatePartnerInsightsOptions
--- 
--- Defines configuration to generate Partner Insights.
-data CraCheckReportCreatePartnerInsightsOptions = CraCheckReportCreatePartnerInsightsOptions
-  { craCheckReportCreatePartnerInsightsOptionsFico :: !(Maybe CraPartnerInsightsFicoInput) -- ^ "fico"
-  , craCheckReportCreatePartnerInsightsOptionsPrismVersions :: !(Maybe PrismVersions) -- ^ "prism_versions"
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON CraCheckReportCreatePartnerInsightsOptions
-instance A.FromJSON CraCheckReportCreatePartnerInsightsOptions where
-  parseJSON = A.withObject "CraCheckReportCreatePartnerInsightsOptions" $ \o ->
-    CraCheckReportCreatePartnerInsightsOptions
-      <$> (o .:? "fico")
-      <*> (o .:? "prism_versions")
-
--- | ToJSON CraCheckReportCreatePartnerInsightsOptions
-instance A.ToJSON CraCheckReportCreatePartnerInsightsOptions where
-  toJSON CraCheckReportCreatePartnerInsightsOptions {..} =
-   _omitNulls
-      [ "fico" .= craCheckReportCreatePartnerInsightsOptionsFico
-      , "prism_versions" .= craCheckReportCreatePartnerInsightsOptionsPrismVersions
-      ]
-
-
--- | Construct a value of type 'CraCheckReportCreatePartnerInsightsOptions' (by applying it's required fields, if any)
-mkCraCheckReportCreatePartnerInsightsOptions
-  :: CraCheckReportCreatePartnerInsightsOptions
-mkCraCheckReportCreatePartnerInsightsOptions =
-  CraCheckReportCreatePartnerInsightsOptions
-  { craCheckReportCreatePartnerInsightsOptionsFico = Nothing
-  , craCheckReportCreatePartnerInsightsOptionsPrismVersions = Nothing
-  }
-
--- ** CraCheckReportCreateRequest
--- | CraCheckReportCreateRequest
--- CraCheckReportCreateRequest
--- 
--- CraCheckReportCreateRequest defines the request schema for `/cra/check_report/create`.
-data CraCheckReportCreateRequest = CraCheckReportCreateRequest
-  { craCheckReportCreateRequestBaseReport :: !(Maybe CraCheckReportCreateBaseReportOptions) -- ^ "base_report"
-  , craCheckReportCreateRequestCashflowInsights :: !(Maybe CraCheckReportCreateCashflowInsightsOptions) -- ^ "cashflow_insights"
-  , craCheckReportCreateRequestClientId :: !(Maybe Text) -- ^ "client_id" - Your Plaid API &#x60;client_id&#x60;.
-  , craCheckReportCreateRequestClientReportId :: !(Maybe Text) -- ^ "client_report_id" - Client-generated identifier, which can be used by lenders to track loan applications.
-  , craCheckReportCreateRequestConsumerReportPermissiblePurpose :: !(ConsumerReportPermissiblePurpose) -- ^ /Required/ "consumer_report_permissible_purpose"
-  , craCheckReportCreateRequestDaysRequested :: !(Int) -- ^ /Required/ "days_requested" - The number of days of data to request for the report. Default value is 365; maximum is 731; minimum is 180. If a value lower than 180 is provided, a minimum of 180 days of history will be requested.
-  , craCheckReportCreateRequestDaysRequired :: !(Maybe Int) -- ^ "days_required" - The minimum number of days of data required for the report to be successfully generated.
-  , craCheckReportCreateRequestIncludeInvestments :: !(Maybe Bool) -- ^ "include_investments" - Indicates that investment data should be extracted from the linked account(s).
-  , craCheckReportCreateRequestIncomeInsights :: !(Maybe CraCheckReportCreateIncomeInsightsOptions) -- ^ "income_insights"
-  , craCheckReportCreateRequestLendScore :: !(Maybe CraCheckReportCreateLendScoreOptions) -- ^ "lend_score"
-  , craCheckReportCreateRequestNetworkInsights :: !(Maybe CraCheckReportCreateNetworkInsightsOptions) -- ^ "network_insights"
-  , craCheckReportCreateRequestPartnerInsights :: !(Maybe CraCheckReportCreatePartnerInsightsOptions) -- ^ "partner_insights"
-  , craCheckReportCreateRequestProducts :: !(Maybe [Products]) -- ^ "products" - Specifies a list of products to generate when creating the report (in addition to the Base Report, which is always generated). These products will be made available before a success webhook is sent. Note that specifying &#x60;cra_partner_insights&#x60; in this field will trigger a billable event. Other products are not billed until the respective reports are retrieved via their product-specific &#x60;/get&#x60; endpoints.
-  , craCheckReportCreateRequestSecret :: !(Maybe Text) -- ^ "secret" - Your Plaid API &#x60;secret&#x60;.
-  , craCheckReportCreateRequestUserId :: !(Maybe Text) -- ^ "user_id" - A unique user identifier, created by &#x60;/user/create&#x60;. Integrations that began using &#x60;/user/create&#x60; after December 10, 2025 use this field to identify a user instead of the &#x60;user_token&#x60;. For more details, see [New User APIs](https://plaid.com/docs/api/users/user-apis).
-  , craCheckReportCreateRequestUserToken :: !(Maybe Text) -- ^ "user_token" - The user token associated with the user for which data is being requested. This field is used only by customers with pre-existing integrations that already use the &#x60;user_token&#x60; field. All other customers should use the &#x60;user_id&#x60; instead. For more details, see [New User APIs](https://plaid.com/docs/api/users/user-apis).
-  , craCheckReportCreateRequestWebhook :: !(Text) -- ^ /Required/ "webhook" - The destination URL to which webhooks will be sent 
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON CraCheckReportCreateRequest
-instance A.FromJSON CraCheckReportCreateRequest where
-  parseJSON = A.withObject "CraCheckReportCreateRequest" $ \o ->
-    CraCheckReportCreateRequest
-      <$> (o .:? "base_report")
-      <*> (o .:? "cashflow_insights")
-      <*> (o .:? "client_id")
-      <*> (o .:? "client_report_id")
-      <*> (o .:  "consumer_report_permissible_purpose")
-      <*> (o .:  "days_requested")
-      <*> (o .:? "days_required")
-      <*> (o .:? "include_investments")
-      <*> (o .:? "income_insights")
-      <*> (o .:? "lend_score")
-      <*> (o .:? "network_insights")
-      <*> (o .:? "partner_insights")
-      <*> (o .:? "products")
-      <*> (o .:? "secret")
-      <*> (o .:? "user_id")
-      <*> (o .:? "user_token")
-      <*> (o .:  "webhook")
-
--- | ToJSON CraCheckReportCreateRequest
-instance A.ToJSON CraCheckReportCreateRequest where
-  toJSON CraCheckReportCreateRequest {..} =
-   _omitNulls
-      [ "base_report" .= craCheckReportCreateRequestBaseReport
-      , "cashflow_insights" .= craCheckReportCreateRequestCashflowInsights
-      , "client_id" .= craCheckReportCreateRequestClientId
-      , "client_report_id" .= craCheckReportCreateRequestClientReportId
-      , "consumer_report_permissible_purpose" .= craCheckReportCreateRequestConsumerReportPermissiblePurpose
-      , "days_requested" .= craCheckReportCreateRequestDaysRequested
-      , "days_required" .= craCheckReportCreateRequestDaysRequired
-      , "include_investments" .= craCheckReportCreateRequestIncludeInvestments
-      , "income_insights" .= craCheckReportCreateRequestIncomeInsights
-      , "lend_score" .= craCheckReportCreateRequestLendScore
-      , "network_insights" .= craCheckReportCreateRequestNetworkInsights
-      , "partner_insights" .= craCheckReportCreateRequestPartnerInsights
-      , "products" .= craCheckReportCreateRequestProducts
-      , "secret" .= craCheckReportCreateRequestSecret
-      , "user_id" .= craCheckReportCreateRequestUserId
-      , "user_token" .= craCheckReportCreateRequestUserToken
-      , "webhook" .= craCheckReportCreateRequestWebhook
-      ]
-
-
--- | Construct a value of type 'CraCheckReportCreateRequest' (by applying it's required fields, if any)
-mkCraCheckReportCreateRequest
-  :: ConsumerReportPermissiblePurpose -- ^ 'craCheckReportCreateRequestConsumerReportPermissiblePurpose' 
-  -> Int -- ^ 'craCheckReportCreateRequestDaysRequested': The number of days of data to request for the report. Default value is 365; maximum is 731; minimum is 180. If a value lower than 180 is provided, a minimum of 180 days of history will be requested.
-  -> Text -- ^ 'craCheckReportCreateRequestWebhook': The destination URL to which webhooks will be sent 
-  -> CraCheckReportCreateRequest
-mkCraCheckReportCreateRequest craCheckReportCreateRequestConsumerReportPermissiblePurpose craCheckReportCreateRequestDaysRequested craCheckReportCreateRequestWebhook =
-  CraCheckReportCreateRequest
-  { craCheckReportCreateRequestBaseReport = Nothing
-  , craCheckReportCreateRequestCashflowInsights = Nothing
-  , craCheckReportCreateRequestClientId = Nothing
-  , craCheckReportCreateRequestClientReportId = Nothing
-  , craCheckReportCreateRequestConsumerReportPermissiblePurpose
-  , craCheckReportCreateRequestDaysRequested
-  , craCheckReportCreateRequestDaysRequired = Nothing
-  , craCheckReportCreateRequestIncludeInvestments = Nothing
-  , craCheckReportCreateRequestIncomeInsights = Nothing
-  , craCheckReportCreateRequestLendScore = Nothing
-  , craCheckReportCreateRequestNetworkInsights = Nothing
-  , craCheckReportCreateRequestPartnerInsights = Nothing
-  , craCheckReportCreateRequestProducts = Nothing
-  , craCheckReportCreateRequestSecret = Nothing
-  , craCheckReportCreateRequestUserId = Nothing
-  , craCheckReportCreateRequestUserToken = Nothing
-  , craCheckReportCreateRequestWebhook
-  }
-
--- ** CraCheckReportCreateResponse
--- | CraCheckReportCreateResponse
--- CraCheckReportCreateResponse
--- 
--- CraCheckReportCreateResponse defines the response schema for `/cra/check_report/create`.
-data CraCheckReportCreateResponse = CraCheckReportCreateResponse
-  { craCheckReportCreateResponseRequestId :: !(Maybe Text) -- ^ "request_id" - A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive.
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON CraCheckReportCreateResponse
-instance A.FromJSON CraCheckReportCreateResponse where
-  parseJSON = A.withObject "CraCheckReportCreateResponse" $ \o ->
-    CraCheckReportCreateResponse
-      <$> (o .:? "request_id")
-
--- | ToJSON CraCheckReportCreateResponse
-instance A.ToJSON CraCheckReportCreateResponse where
-  toJSON CraCheckReportCreateResponse {..} =
-   _omitNulls
-      [ "request_id" .= craCheckReportCreateResponseRequestId
-      ]
-
-
--- | Construct a value of type 'CraCheckReportCreateResponse' (by applying it's required fields, if any)
-mkCraCheckReportCreateResponse
-  :: CraCheckReportCreateResponse
-mkCraCheckReportCreateResponse =
-  CraCheckReportCreateResponse
-  { craCheckReportCreateResponseRequestId = Nothing
-  }
-
--- ** CraCheckReportGSEOptions
--- | CraCheckReportGSEOptions
--- CraCheckReportGSEOptions
--- 
--- Specifies options for creating reports that can be shared with GSEs for mortgage verification.
-data CraCheckReportGSEOptions = CraCheckReportGSEOptions
-  { craCheckReportGSEOptionsReportTypes :: !([GSEReportType]) -- ^ /Required/ "report_types" - Specifies which types of reports should be made available to GSEs.
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON CraCheckReportGSEOptions
-instance A.FromJSON CraCheckReportGSEOptions where
-  parseJSON = A.withObject "CraCheckReportGSEOptions" $ \o ->
-    CraCheckReportGSEOptions
-      <$> (o .:  "report_types")
-
--- | ToJSON CraCheckReportGSEOptions
-instance A.ToJSON CraCheckReportGSEOptions where
-  toJSON CraCheckReportGSEOptions {..} =
-   _omitNulls
-      [ "report_types" .= craCheckReportGSEOptionsReportTypes
-      ]
-
-
--- | Construct a value of type 'CraCheckReportGSEOptions' (by applying it's required fields, if any)
-mkCraCheckReportGSEOptions
-  :: [GSEReportType] -- ^ 'craCheckReportGSEOptionsReportTypes': Specifies which types of reports should be made available to GSEs.
-  -> CraCheckReportGSEOptions
-mkCraCheckReportGSEOptions craCheckReportGSEOptionsReportTypes =
-  CraCheckReportGSEOptions
-  { craCheckReportGSEOptionsReportTypes
-  }
-
--- ** CraCheckReportHomeLendingReportOptions
--- | CraCheckReportHomeLendingReportOptions
--- CraCheckReportHomeLendingReportOptions
--- 
--- Options for configuring Home Lending Report (Verification Report) generation.
-data CraCheckReportHomeLendingReportOptions = CraCheckReportHomeLendingReportOptions
-  { craCheckReportHomeLendingReportOptionsEmploymentRefreshOptions :: !(Maybe CraCheckReportCreateEmploymentRefreshOptions) -- ^ "employment_refresh_options"
-  , craCheckReportHomeLendingReportOptionsReportsRequested :: !([CraCheckReportVerificationGetReportType]) -- ^ /Required/ "reports_requested" - Specifies which types of home lending reports to generate.
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON CraCheckReportHomeLendingReportOptions
-instance A.FromJSON CraCheckReportHomeLendingReportOptions where
-  parseJSON = A.withObject "CraCheckReportHomeLendingReportOptions" $ \o ->
-    CraCheckReportHomeLendingReportOptions
-      <$> (o .:? "employment_refresh_options")
-      <*> (o .:  "reports_requested")
-
--- | ToJSON CraCheckReportHomeLendingReportOptions
-instance A.ToJSON CraCheckReportHomeLendingReportOptions where
-  toJSON CraCheckReportHomeLendingReportOptions {..} =
-   _omitNulls
-      [ "employment_refresh_options" .= craCheckReportHomeLendingReportOptionsEmploymentRefreshOptions
-      , "reports_requested" .= craCheckReportHomeLendingReportOptionsReportsRequested
-      ]
-
-
--- | Construct a value of type 'CraCheckReportHomeLendingReportOptions' (by applying it's required fields, if any)
-mkCraCheckReportHomeLendingReportOptions
-  :: [CraCheckReportVerificationGetReportType] -- ^ 'craCheckReportHomeLendingReportOptionsReportsRequested': Specifies which types of home lending reports to generate.
-  -> CraCheckReportHomeLendingReportOptions
-mkCraCheckReportHomeLendingReportOptions craCheckReportHomeLendingReportOptionsReportsRequested =
-  CraCheckReportHomeLendingReportOptions
-  { craCheckReportHomeLendingReportOptionsEmploymentRefreshOptions = Nothing
-  , craCheckReportHomeLendingReportOptionsReportsRequested
-  }
-
--- ** CraCheckReportIncomeInsightsGetOptions
--- | CraCheckReportIncomeInsightsGetOptions
--- CraCheckReportIncomeInsightsGetOptions
--- 
--- Deprecated. This field is no longer accepted for new clients (created on or after 2026-07-01). New clients should specify required products when creating the Consumer Report. Existing integrations may continue to pass `options`.
-data CraCheckReportIncomeInsightsGetOptions = CraCheckReportIncomeInsightsGetOptions
-  { craCheckReportIncomeInsightsGetOptionsIncomeInsightsFilter :: !(Maybe IncomeInsightsFilter) -- ^ "income_insights_filter"
-  , craCheckReportIncomeInsightsGetOptionsIncomeInsightsVersion :: !(IncomeInsightsVersion) -- ^ /Required/ "income_insights_version"
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON CraCheckReportIncomeInsightsGetOptions
-instance A.FromJSON CraCheckReportIncomeInsightsGetOptions where
-  parseJSON = A.withObject "CraCheckReportIncomeInsightsGetOptions" $ \o ->
-    CraCheckReportIncomeInsightsGetOptions
-      <$> (o .:? "income_insights_filter")
-      <*> (o .:  "income_insights_version")
-
--- | ToJSON CraCheckReportIncomeInsightsGetOptions
-instance A.ToJSON CraCheckReportIncomeInsightsGetOptions where
-  toJSON CraCheckReportIncomeInsightsGetOptions {..} =
-   _omitNulls
-      [ "income_insights_filter" .= craCheckReportIncomeInsightsGetOptionsIncomeInsightsFilter
-      , "income_insights_version" .= craCheckReportIncomeInsightsGetOptionsIncomeInsightsVersion
-      ]
-
-
--- | Construct a value of type 'CraCheckReportIncomeInsightsGetOptions' (by applying it's required fields, if any)
-mkCraCheckReportIncomeInsightsGetOptions
-  :: IncomeInsightsVersion -- ^ 'craCheckReportIncomeInsightsGetOptionsIncomeInsightsVersion' 
-  -> CraCheckReportIncomeInsightsGetOptions
-mkCraCheckReportIncomeInsightsGetOptions craCheckReportIncomeInsightsGetOptionsIncomeInsightsVersion =
-  CraCheckReportIncomeInsightsGetOptions
-  { craCheckReportIncomeInsightsGetOptionsIncomeInsightsFilter = Nothing
-  , craCheckReportIncomeInsightsGetOptionsIncomeInsightsVersion
-  }
-
--- ** CraCheckReportIncomeInsightsGetRequest
--- | CraCheckReportIncomeInsightsGetRequest
--- CraCheckReportIncomeInsightsGetRequest
--- 
--- Defines the request schema for `/cra/check_report/income_insights/get`.
-data CraCheckReportIncomeInsightsGetRequest = CraCheckReportIncomeInsightsGetRequest
-  { craCheckReportIncomeInsightsGetRequestClientId :: !(Maybe Text) -- ^ "client_id" - Your Plaid API &#x60;client_id&#x60;.
-  , craCheckReportIncomeInsightsGetRequestConsumerReportPermissiblePurpose :: !(Maybe CraCheckReportPermissiblePurpose) -- ^ "consumer_report_permissible_purpose" - The permissible purpose under which the consumer report is being retrieved.
-  , craCheckReportIncomeInsightsGetRequestOptions :: !(Maybe CraCheckReportIncomeInsightsGetOptions) -- ^ "options"
-  , craCheckReportIncomeInsightsGetRequestReportId :: !(Maybe Text) -- ^ "report_id" - The CRA report token (formatted &#x60;cra-report-&lt;env&gt;-&lt;uuid&gt;&#x60;) identifying a specific consumer report. When provided alongside &#x60;consumer_report_permissible_purpose&#x60;, pins retrieval to that report and stamps its permissible purpose. If omitted, the most recently generated report for the user is returned.
-  , craCheckReportIncomeInsightsGetRequestSecret :: !(Maybe Text) -- ^ "secret" - Your Plaid API &#x60;secret&#x60;.
-  , craCheckReportIncomeInsightsGetRequestThirdPartyUserToken :: !(Maybe Text) -- ^ "third_party_user_token" - The third-party user token associated with the requested User data.
-  , craCheckReportIncomeInsightsGetRequestUserId :: !(Maybe Text) -- ^ "user_id" - A unique user identifier, created by &#x60;/user/create&#x60;. Integrations that began using &#x60;/user/create&#x60; after December 10, 2025 use this field to identify a user instead of the &#x60;user_token&#x60;. For more details, see [New User APIs](https://plaid.com/docs/api/users/user-apis).
-  , craCheckReportIncomeInsightsGetRequestUserToken :: !(Maybe Text) -- ^ "user_token" - The user token associated with the user for which data is being requested. This field is used only by customers with pre-existing integrations that already use the &#x60;user_token&#x60; field. All other customers should use the &#x60;user_id&#x60; instead. For more details, see [New User APIs](https://plaid.com/docs/api/users/user-apis).
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON CraCheckReportIncomeInsightsGetRequest
-instance A.FromJSON CraCheckReportIncomeInsightsGetRequest where
-  parseJSON = A.withObject "CraCheckReportIncomeInsightsGetRequest" $ \o ->
-    CraCheckReportIncomeInsightsGetRequest
-      <$> (o .:? "client_id")
-      <*> (o .:? "consumer_report_permissible_purpose")
-      <*> (o .:? "options")
-      <*> (o .:? "report_id")
-      <*> (o .:? "secret")
-      <*> (o .:? "third_party_user_token")
-      <*> (o .:? "user_id")
-      <*> (o .:? "user_token")
-
--- | ToJSON CraCheckReportIncomeInsightsGetRequest
-instance A.ToJSON CraCheckReportIncomeInsightsGetRequest where
-  toJSON CraCheckReportIncomeInsightsGetRequest {..} =
-   _omitNulls
-      [ "client_id" .= craCheckReportIncomeInsightsGetRequestClientId
-      , "consumer_report_permissible_purpose" .= craCheckReportIncomeInsightsGetRequestConsumerReportPermissiblePurpose
-      , "options" .= craCheckReportIncomeInsightsGetRequestOptions
-      , "report_id" .= craCheckReportIncomeInsightsGetRequestReportId
-      , "secret" .= craCheckReportIncomeInsightsGetRequestSecret
-      , "third_party_user_token" .= craCheckReportIncomeInsightsGetRequestThirdPartyUserToken
-      , "user_id" .= craCheckReportIncomeInsightsGetRequestUserId
-      , "user_token" .= craCheckReportIncomeInsightsGetRequestUserToken
-      ]
-
-
--- | Construct a value of type 'CraCheckReportIncomeInsightsGetRequest' (by applying it's required fields, if any)
-mkCraCheckReportIncomeInsightsGetRequest
-  :: CraCheckReportIncomeInsightsGetRequest
-mkCraCheckReportIncomeInsightsGetRequest =
-  CraCheckReportIncomeInsightsGetRequest
-  { craCheckReportIncomeInsightsGetRequestClientId = Nothing
-  , craCheckReportIncomeInsightsGetRequestConsumerReportPermissiblePurpose = Nothing
-  , craCheckReportIncomeInsightsGetRequestOptions = Nothing
-  , craCheckReportIncomeInsightsGetRequestReportId = Nothing
-  , craCheckReportIncomeInsightsGetRequestSecret = Nothing
-  , craCheckReportIncomeInsightsGetRequestThirdPartyUserToken = Nothing
-  , craCheckReportIncomeInsightsGetRequestUserId = Nothing
-  , craCheckReportIncomeInsightsGetRequestUserToken = Nothing
-  }
-
--- ** CraCheckReportIncomeInsightsGetResponse
--- | CraCheckReportIncomeInsightsGetResponse
--- CraCheckReportIncomeInsightsGetResponse
--- 
--- CraCheckReportIncomeInsightsGetResponse defines the response schema for `/cra/check_report/income_insights/get`.
-data CraCheckReportIncomeInsightsGetResponse = CraCheckReportIncomeInsightsGetResponse
-  { craCheckReportIncomeInsightsGetResponseReport :: !(Maybe CraIncomeInsights) -- ^ "report"
-  , craCheckReportIncomeInsightsGetResponseRequestId :: !(Text) -- ^ /Required/ "request_id" - A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive.
-  , craCheckReportIncomeInsightsGetResponseWarnings :: !(Maybe [CheckReportWarning]) -- ^ "warnings" - If the Income Insights generation was successful but a subset of data could not be retrieved, this array will contain information about the errors causing information to be missing
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON CraCheckReportIncomeInsightsGetResponse
-instance A.FromJSON CraCheckReportIncomeInsightsGetResponse where
-  parseJSON = A.withObject "CraCheckReportIncomeInsightsGetResponse" $ \o ->
-    CraCheckReportIncomeInsightsGetResponse
-      <$> (o .:? "report")
-      <*> (o .:  "request_id")
-      <*> (o .:? "warnings")
-
--- | ToJSON CraCheckReportIncomeInsightsGetResponse
-instance A.ToJSON CraCheckReportIncomeInsightsGetResponse where
-  toJSON CraCheckReportIncomeInsightsGetResponse {..} =
-   _omitNulls
-      [ "report" .= craCheckReportIncomeInsightsGetResponseReport
-      , "request_id" .= craCheckReportIncomeInsightsGetResponseRequestId
-      , "warnings" .= craCheckReportIncomeInsightsGetResponseWarnings
-      ]
-
-
--- | Construct a value of type 'CraCheckReportIncomeInsightsGetResponse' (by applying it's required fields, if any)
-mkCraCheckReportIncomeInsightsGetResponse
-  :: Text -- ^ 'craCheckReportIncomeInsightsGetResponseRequestId': A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive.
-  -> CraCheckReportIncomeInsightsGetResponse
-mkCraCheckReportIncomeInsightsGetResponse craCheckReportIncomeInsightsGetResponseRequestId =
-  CraCheckReportIncomeInsightsGetResponse
-  { craCheckReportIncomeInsightsGetResponseReport = Nothing
-  , craCheckReportIncomeInsightsGetResponseRequestId
-  , craCheckReportIncomeInsightsGetResponseWarnings = Nothing
   }
 
 -- ** CraCheckReportPDFGetRequest
@@ -16542,171 +14348,6 @@ mkCraCheckReportPDFGetRequest =
   , craCheckReportPDFGetRequestThirdPartyUserToken = Nothing
   , craCheckReportPDFGetRequestUserId = Nothing
   , craCheckReportPDFGetRequestUserToken = Nothing
-  }
-
--- ** CraCheckReportPartnerInsightsGetOptions
--- | CraCheckReportPartnerInsightsGetOptions
--- CraCheckReportPartnerInsightsGetOptions
--- 
--- Deprecated, specify `partner_insights.prism_versions` instead.
-data CraCheckReportPartnerInsightsGetOptions = CraCheckReportPartnerInsightsGetOptions
-  { craCheckReportPartnerInsightsGetOptionsPrismVersions :: !(Maybe PrismVersionsDeprecated) -- ^ "prism_versions"
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON CraCheckReportPartnerInsightsGetOptions
-instance A.FromJSON CraCheckReportPartnerInsightsGetOptions where
-  parseJSON = A.withObject "CraCheckReportPartnerInsightsGetOptions" $ \o ->
-    CraCheckReportPartnerInsightsGetOptions
-      <$> (o .:? "prism_versions")
-
--- | ToJSON CraCheckReportPartnerInsightsGetOptions
-instance A.ToJSON CraCheckReportPartnerInsightsGetOptions where
-  toJSON CraCheckReportPartnerInsightsGetOptions {..} =
-   _omitNulls
-      [ "prism_versions" .= craCheckReportPartnerInsightsGetOptionsPrismVersions
-      ]
-
-
--- | Construct a value of type 'CraCheckReportPartnerInsightsGetOptions' (by applying it's required fields, if any)
-mkCraCheckReportPartnerInsightsGetOptions
-  :: CraCheckReportPartnerInsightsGetOptions
-mkCraCheckReportPartnerInsightsGetOptions =
-  CraCheckReportPartnerInsightsGetOptions
-  { craCheckReportPartnerInsightsGetOptionsPrismVersions = Nothing
-  }
-
--- ** CraCheckReportPartnerInsightsGetPartnerInsights
--- | CraCheckReportPartnerInsightsGetPartnerInsights
--- CraCheckReportPartnerInsightsGetPartnerInsights
--- 
--- Deprecated. This field is no longer accepted for new clients (created on or after 2026-07-01). New clients should specify required products when creating the Consumer Report. Existing integrations may continue to pass `partner_insights`.
-data CraCheckReportPartnerInsightsGetPartnerInsights = CraCheckReportPartnerInsightsGetPartnerInsights
-  { craCheckReportPartnerInsightsGetPartnerInsightsFico :: !(Maybe CraPartnerInsightsFicoInput) -- ^ "fico"
-  , craCheckReportPartnerInsightsGetPartnerInsightsPrismVersions :: !(Maybe PrismVersions) -- ^ "prism_versions"
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON CraCheckReportPartnerInsightsGetPartnerInsights
-instance A.FromJSON CraCheckReportPartnerInsightsGetPartnerInsights where
-  parseJSON = A.withObject "CraCheckReportPartnerInsightsGetPartnerInsights" $ \o ->
-    CraCheckReportPartnerInsightsGetPartnerInsights
-      <$> (o .:? "fico")
-      <*> (o .:? "prism_versions")
-
--- | ToJSON CraCheckReportPartnerInsightsGetPartnerInsights
-instance A.ToJSON CraCheckReportPartnerInsightsGetPartnerInsights where
-  toJSON CraCheckReportPartnerInsightsGetPartnerInsights {..} =
-   _omitNulls
-      [ "fico" .= craCheckReportPartnerInsightsGetPartnerInsightsFico
-      , "prism_versions" .= craCheckReportPartnerInsightsGetPartnerInsightsPrismVersions
-      ]
-
-
--- | Construct a value of type 'CraCheckReportPartnerInsightsGetPartnerInsights' (by applying it's required fields, if any)
-mkCraCheckReportPartnerInsightsGetPartnerInsights
-  :: CraCheckReportPartnerInsightsGetPartnerInsights
-mkCraCheckReportPartnerInsightsGetPartnerInsights =
-  CraCheckReportPartnerInsightsGetPartnerInsights
-  { craCheckReportPartnerInsightsGetPartnerInsightsFico = Nothing
-  , craCheckReportPartnerInsightsGetPartnerInsightsPrismVersions = Nothing
-  }
-
--- ** CraCheckReportPartnerInsightsGetRequest
--- | CraCheckReportPartnerInsightsGetRequest
--- CraCheckReportPartnerInsightsGetRequest
--- 
--- CraCheckReportPartnerInsightsGetRequest defines the request schema for `/cra/check_report/partner_insights/get`.
-data CraCheckReportPartnerInsightsGetRequest = CraCheckReportPartnerInsightsGetRequest
-  { craCheckReportPartnerInsightsGetRequestClientId :: !(Maybe Text) -- ^ "client_id" - Your Plaid API &#x60;client_id&#x60;.
-  , craCheckReportPartnerInsightsGetRequestOptions :: !(Maybe CraCheckReportPartnerInsightsGetOptions) -- ^ "options"
-  , craCheckReportPartnerInsightsGetRequestPartnerInsights :: !(Maybe CraCheckReportPartnerInsightsGetPartnerInsights) -- ^ "partner_insights"
-  , craCheckReportPartnerInsightsGetRequestSecret :: !(Maybe Text) -- ^ "secret" - Your Plaid API &#x60;secret&#x60;.
-  , craCheckReportPartnerInsightsGetRequestThirdPartyUserToken :: !(Maybe Text) -- ^ "third_party_user_token" - The third-party user token associated with the requested User data.
-  , craCheckReportPartnerInsightsGetRequestUserId :: !(Maybe Text) -- ^ "user_id" - A unique user identifier, created by &#x60;/user/create&#x60;. Integrations that began using &#x60;/user/create&#x60; after December 10, 2025 use this field to identify a user instead of the &#x60;user_token&#x60;. For more details, see [New User APIs](https://plaid.com/docs/api/users/user-apis).
-  , craCheckReportPartnerInsightsGetRequestUserTier :: !(Maybe CraUserTier) -- ^ "user_tier"
-  , craCheckReportPartnerInsightsGetRequestUserToken :: !(Maybe Text) -- ^ "user_token" - The user token associated with the user for which data is being requested. This field is used only by customers with pre-existing integrations that already use the &#x60;user_token&#x60; field. All other customers should use the &#x60;user_id&#x60; instead. For more details, see [New User APIs](https://plaid.com/docs/api/users/user-apis).
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON CraCheckReportPartnerInsightsGetRequest
-instance A.FromJSON CraCheckReportPartnerInsightsGetRequest where
-  parseJSON = A.withObject "CraCheckReportPartnerInsightsGetRequest" $ \o ->
-    CraCheckReportPartnerInsightsGetRequest
-      <$> (o .:? "client_id")
-      <*> (o .:? "options")
-      <*> (o .:? "partner_insights")
-      <*> (o .:? "secret")
-      <*> (o .:? "third_party_user_token")
-      <*> (o .:? "user_id")
-      <*> (o .:? "user_tier")
-      <*> (o .:? "user_token")
-
--- | ToJSON CraCheckReportPartnerInsightsGetRequest
-instance A.ToJSON CraCheckReportPartnerInsightsGetRequest where
-  toJSON CraCheckReportPartnerInsightsGetRequest {..} =
-   _omitNulls
-      [ "client_id" .= craCheckReportPartnerInsightsGetRequestClientId
-      , "options" .= craCheckReportPartnerInsightsGetRequestOptions
-      , "partner_insights" .= craCheckReportPartnerInsightsGetRequestPartnerInsights
-      , "secret" .= craCheckReportPartnerInsightsGetRequestSecret
-      , "third_party_user_token" .= craCheckReportPartnerInsightsGetRequestThirdPartyUserToken
-      , "user_id" .= craCheckReportPartnerInsightsGetRequestUserId
-      , "user_tier" .= craCheckReportPartnerInsightsGetRequestUserTier
-      , "user_token" .= craCheckReportPartnerInsightsGetRequestUserToken
-      ]
-
-
--- | Construct a value of type 'CraCheckReportPartnerInsightsGetRequest' (by applying it's required fields, if any)
-mkCraCheckReportPartnerInsightsGetRequest
-  :: CraCheckReportPartnerInsightsGetRequest
-mkCraCheckReportPartnerInsightsGetRequest =
-  CraCheckReportPartnerInsightsGetRequest
-  { craCheckReportPartnerInsightsGetRequestClientId = Nothing
-  , craCheckReportPartnerInsightsGetRequestOptions = Nothing
-  , craCheckReportPartnerInsightsGetRequestPartnerInsights = Nothing
-  , craCheckReportPartnerInsightsGetRequestSecret = Nothing
-  , craCheckReportPartnerInsightsGetRequestThirdPartyUserToken = Nothing
-  , craCheckReportPartnerInsightsGetRequestUserId = Nothing
-  , craCheckReportPartnerInsightsGetRequestUserTier = Nothing
-  , craCheckReportPartnerInsightsGetRequestUserToken = Nothing
-  }
-
--- ** CraCheckReportPartnerInsightsGetResponse
--- | CraCheckReportPartnerInsightsGetResponse
--- CraCheckReportPartnerInsightsGetResponse
--- 
--- CraCheckReportPartnerInsightsGetResponse defines the response schema for `/cra/check_report/partner_insights/get`.
-data CraCheckReportPartnerInsightsGetResponse = CraCheckReportPartnerInsightsGetResponse
-  { craCheckReportPartnerInsightsGetResponseReport :: !(Maybe CraPartnerInsights) -- ^ "report"
-  , craCheckReportPartnerInsightsGetResponseRequestId :: !(Text) -- ^ /Required/ "request_id" - A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive.
-  , craCheckReportPartnerInsightsGetResponseWarnings :: !(Maybe [CheckReportWarning]) -- ^ "warnings" - If the Partner Insights generation was successful but a subset of data could not be retrieved, this array will contain information about the errors causing information to be missing
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON CraCheckReportPartnerInsightsGetResponse
-instance A.FromJSON CraCheckReportPartnerInsightsGetResponse where
-  parseJSON = A.withObject "CraCheckReportPartnerInsightsGetResponse" $ \o ->
-    CraCheckReportPartnerInsightsGetResponse
-      <$> (o .:? "report")
-      <*> (o .:  "request_id")
-      <*> (o .:? "warnings")
-
--- | ToJSON CraCheckReportPartnerInsightsGetResponse
-instance A.ToJSON CraCheckReportPartnerInsightsGetResponse where
-  toJSON CraCheckReportPartnerInsightsGetResponse {..} =
-   _omitNulls
-      [ "report" .= craCheckReportPartnerInsightsGetResponseReport
-      , "request_id" .= craCheckReportPartnerInsightsGetResponseRequestId
-      , "warnings" .= craCheckReportPartnerInsightsGetResponseWarnings
-      ]
-
-
--- | Construct a value of type 'CraCheckReportPartnerInsightsGetResponse' (by applying it's required fields, if any)
-mkCraCheckReportPartnerInsightsGetResponse
-  :: Text -- ^ 'craCheckReportPartnerInsightsGetResponseRequestId': A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive.
-  -> CraCheckReportPartnerInsightsGetResponse
-mkCraCheckReportPartnerInsightsGetResponse craCheckReportPartnerInsightsGetResponseRequestId =
-  CraCheckReportPartnerInsightsGetResponse
-  { craCheckReportPartnerInsightsGetResponseReport = Nothing
-  , craCheckReportPartnerInsightsGetResponseRequestId
-  , craCheckReportPartnerInsightsGetResponseWarnings = Nothing
   }
 
 -- ** CraCurrentModeledIncome
@@ -16781,68 +14422,6 @@ mkCraIncomeCategory craIncomeCategoryPrimary craIncomeCategorySecondary =
   CraIncomeCategory
   { craIncomeCategoryPrimary
   , craIncomeCategorySecondary
-  }
-
--- ** CraIncomeInsights
--- | CraIncomeInsights
--- The Check Income Insights Report for an end user.
-data CraIncomeInsights = CraIncomeInsights
-  { craIncomeInsightsBankIncomeSummary :: !(Maybe CraBankIncomeSummary) -- ^ "bank_income_summary"
-  , craIncomeInsightsClientReportId :: !(Maybe Text) -- ^ "client_report_id" - Client-generated identifier, which can be used by lenders to track loan applications.
-  , craIncomeInsightsDaysRequested :: !(Maybe Int) -- ^ "days_requested" - The number of days requested by the customer for the Check Income Insights Report.
-  , craIncomeInsightsGeneratedTime :: !(Maybe DateTime) -- ^ "generated_time" - The time when the Check Income Insights Report was generated.
-  , craIncomeInsightsIncomeStreams :: !([CraIncomeStream]) -- ^ /Required/ "income_streams" - The list of income streams for this user.
-  , craIncomeInsightsItems :: !(Maybe [CraBankIncomeItem]) -- ^ "items" - The list of Items in the report along with the associated metadata about the Item.
-  , craIncomeInsightsReportId :: !(Maybe Text) -- ^ "report_id" - The unique identifier associated with the Check Income Insights Report.
-  , craIncomeInsightsUserSummary :: !(Maybe CraIncomeInsightsUserSummary) -- ^ "user_summary"
-  , craIncomeInsightsWarnings :: !(Maybe [CraBankIncomeWarning]) -- ^ "warnings" - If data from the report was unable to be retrieved, the warnings object will contain information about the error that caused the data to be incomplete.
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON CraIncomeInsights
-instance A.FromJSON CraIncomeInsights where
-  parseJSON = A.withObject "CraIncomeInsights" $ \o ->
-    CraIncomeInsights
-      <$> (o .:? "bank_income_summary")
-      <*> (o .:? "client_report_id")
-      <*> (o .:? "days_requested")
-      <*> (o .:? "generated_time")
-      <*> (o .:  "income_streams")
-      <*> (o .:? "items")
-      <*> (o .:? "report_id")
-      <*> (o .:? "user_summary")
-      <*> (o .:? "warnings")
-
--- | ToJSON CraIncomeInsights
-instance A.ToJSON CraIncomeInsights where
-  toJSON CraIncomeInsights {..} =
-   _omitNulls
-      [ "bank_income_summary" .= craIncomeInsightsBankIncomeSummary
-      , "client_report_id" .= craIncomeInsightsClientReportId
-      , "days_requested" .= craIncomeInsightsDaysRequested
-      , "generated_time" .= craIncomeInsightsGeneratedTime
-      , "income_streams" .= craIncomeInsightsIncomeStreams
-      , "items" .= craIncomeInsightsItems
-      , "report_id" .= craIncomeInsightsReportId
-      , "user_summary" .= craIncomeInsightsUserSummary
-      , "warnings" .= craIncomeInsightsWarnings
-      ]
-
-
--- | Construct a value of type 'CraIncomeInsights' (by applying it's required fields, if any)
-mkCraIncomeInsights
-  :: [CraIncomeStream] -- ^ 'craIncomeInsightsIncomeStreams': The list of income streams for this user.
-  -> CraIncomeInsights
-mkCraIncomeInsights craIncomeInsightsIncomeStreams =
-  CraIncomeInsights
-  { craIncomeInsightsBankIncomeSummary = Nothing
-  , craIncomeInsightsClientReportId = Nothing
-  , craIncomeInsightsDaysRequested = Nothing
-  , craIncomeInsightsGeneratedTime = Nothing
-  , craIncomeInsightsIncomeStreams
-  , craIncomeInsightsItems = Nothing
-  , craIncomeInsightsReportId = Nothing
-  , craIncomeInsightsUserSummary = Nothing
-  , craIncomeInsightsWarnings = Nothing
   }
 
 -- ** CraIncomeInsightsUserSummary
@@ -16956,68 +14535,6 @@ mkCraIncomeNextPayment craIncomeNextPaymentDate =
   { craIncomeNextPaymentDate
   }
 
--- ** CraIncomeStream
--- | CraIncomeStream
--- CraIncomeStream
--- 
--- An income stream detected for the user.
-data CraIncomeStream = CraIncomeStream
-  { craIncomeStreamDescription :: !(Text) -- ^ /Required/ "description" - The most common name or original description for the underlying income transactions.
-  , craIncomeStreamEndDate :: !(Date) -- ^ /Required/ "end_date" - Maximum of all dates within the specific income stream for days requested by the client. The date will be returned in an ISO 8601 format (YYYY-MM-DD).
-  , craIncomeStreamIncomeMetrics :: !(CraIncomeMetrics) -- ^ /Required/ "income_metrics"
-  , craIncomeStreamIncomeStreamId :: !(Text) -- ^ /Required/ "income_stream_id" - A unique identifier for an income stream. If the report is regenerated and a new &#x60;report_id&#x60; is created, the new report will have a new set of &#x60;income_stream_id&#x60;s.
-  , craIncomeStreamInsights :: !(CraIncomeStreamInsights) -- ^ /Required/ "insights"
-  , craIncomeStreamStartDate :: !(Date) -- ^ /Required/ "start_date" - Minimum of all dates within the specific income stream for days requested by the client. The date will be returned in an ISO 8601 format (YYYY-MM-DD).
-  , craIncomeStreamTransactions :: !([CraIncomeTransaction]) -- ^ /Required/ "transactions" - The transactions data for the income stream ordered by ascending date.
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON CraIncomeStream
-instance A.FromJSON CraIncomeStream where
-  parseJSON = A.withObject "CraIncomeStream" $ \o ->
-    CraIncomeStream
-      <$> (o .:  "description")
-      <*> (o .:  "end_date")
-      <*> (o .:  "income_metrics")
-      <*> (o .:  "income_stream_id")
-      <*> (o .:  "insights")
-      <*> (o .:  "start_date")
-      <*> (o .:  "transactions")
-
--- | ToJSON CraIncomeStream
-instance A.ToJSON CraIncomeStream where
-  toJSON CraIncomeStream {..} =
-   _omitNulls
-      [ "description" .= craIncomeStreamDescription
-      , "end_date" .= craIncomeStreamEndDate
-      , "income_metrics" .= craIncomeStreamIncomeMetrics
-      , "income_stream_id" .= craIncomeStreamIncomeStreamId
-      , "insights" .= craIncomeStreamInsights
-      , "start_date" .= craIncomeStreamStartDate
-      , "transactions" .= craIncomeStreamTransactions
-      ]
-
-
--- | Construct a value of type 'CraIncomeStream' (by applying it's required fields, if any)
-mkCraIncomeStream
-  :: Text -- ^ 'craIncomeStreamDescription': The most common name or original description for the underlying income transactions.
-  -> Date -- ^ 'craIncomeStreamEndDate': Maximum of all dates within the specific income stream for days requested by the client. The date will be returned in an ISO 8601 format (YYYY-MM-DD).
-  -> CraIncomeMetrics -- ^ 'craIncomeStreamIncomeMetrics' 
-  -> Text -- ^ 'craIncomeStreamIncomeStreamId': A unique identifier for an income stream. If the report is regenerated and a new `report_id` is created, the new report will have a new set of `income_stream_id`s.
-  -> CraIncomeStreamInsights -- ^ 'craIncomeStreamInsights' 
-  -> Date -- ^ 'craIncomeStreamStartDate': Minimum of all dates within the specific income stream for days requested by the client. The date will be returned in an ISO 8601 format (YYYY-MM-DD).
-  -> [CraIncomeTransaction] -- ^ 'craIncomeStreamTransactions': The transactions data for the income stream ordered by ascending date.
-  -> CraIncomeStream
-mkCraIncomeStream craIncomeStreamDescription craIncomeStreamEndDate craIncomeStreamIncomeMetrics craIncomeStreamIncomeStreamId craIncomeStreamInsights craIncomeStreamStartDate craIncomeStreamTransactions =
-  CraIncomeStream
-  { craIncomeStreamDescription
-  , craIncomeStreamEndDate
-  , craIncomeStreamIncomeMetrics
-  , craIncomeStreamIncomeStreamId
-  , craIncomeStreamInsights
-  , craIncomeStreamStartDate
-  , craIncomeStreamTransactions
-  }
-
 -- ** CraIncomeStreamInsights
 -- | CraIncomeStreamInsights
 -- CraIncomeStreamInsights
@@ -17070,114 +14587,6 @@ mkCraIncomeStreamInsights craIncomeStreamInsightsIncomeCategory craIncomeStreamI
   , craIncomeStreamInsightsStatus
   }
 
--- ** CraIncomeTransaction
--- | CraIncomeTransaction
--- CraIncomeTransaction
--- 
--- The transaction data for an income stream.
-data CraIncomeTransaction = CraIncomeTransaction
-  { craIncomeTransactionAccountId :: !(Text) -- ^ /Required/ "account_id" - Plaid&#39;s unique identifier for the account. This value will not change unless Plaid can&#39;t reconcile the account with the data returned by the financial institution. This may occur, for example, when the name of the account changes. If this happens a new &#x60;account_id&#x60; will be assigned to the account.  If an account with a specific &#x60;account_id&#x60; disappears instead of changing, the account is likely closed. Closed accounts are not returned by the Plaid API.  Like all Plaid identifiers, the &#x60;account_id&#x60; is case sensitive.
-  , craIncomeTransactionAmount :: !(Double) -- ^ /Required/ "amount" - The settled value of the transaction, denominated in the transaction&#39;s currency as stated in &#x60;iso_currency_code&#x60; or &#x60;unofficial_currency_code&#x60;. Positive values when money moves out of the account; negative values when money moves in. For example, credit card purchases are positive; credit card payment, direct deposits, and refunds are negative.
-  , craIncomeTransactionDate :: !(Date) -- ^ /Required/ "date" - For pending transactions, the date that the transaction occurred; for posted transactions, the date that the transaction posted. Both dates are returned in an ISO 8601 format (YYYY-MM-DD).
-  , craIncomeTransactionIsoCurrencyCode :: !(Text) -- ^ /Required/ "iso_currency_code" - The ISO 4217 currency code of the amount or balance.
-  , craIncomeTransactionItemId :: !(Text) -- ^ /Required/ "item_id" - The &#x60;item_id&#x60; of the Item associated with this webhook, warning, or error
-  , craIncomeTransactionOriginalDescription :: !(Text) -- ^ /Required/ "original_description" - The string returned by the financial institution to describe the transaction.
-  , craIncomeTransactionOutlier :: !(CraIncomeTransactionOutlier) -- ^ /Required/ "outlier"
-  , craIncomeTransactionTransactionId :: !(Text) -- ^ /Required/ "transaction_id" - The unique ID of the transaction. Like all Plaid identifiers, the &#x60;transaction_id&#x60; is case sensitive.
-  , craIncomeTransactionUnofficialCurrencyCode :: !(Text) -- ^ /Required/ "unofficial_currency_code" - The unofficial currency code associated with the amount or balance. Always &#x60;null&#x60; if &#x60;iso_currency_code&#x60; is non-null. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries.
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON CraIncomeTransaction
-instance A.FromJSON CraIncomeTransaction where
-  parseJSON = A.withObject "CraIncomeTransaction" $ \o ->
-    CraIncomeTransaction
-      <$> (o .:  "account_id")
-      <*> (o .:  "amount")
-      <*> (o .:  "date")
-      <*> (o .:  "iso_currency_code")
-      <*> (o .:  "item_id")
-      <*> (o .:  "original_description")
-      <*> (o .:  "outlier")
-      <*> (o .:  "transaction_id")
-      <*> (o .:  "unofficial_currency_code")
-
--- | ToJSON CraIncomeTransaction
-instance A.ToJSON CraIncomeTransaction where
-  toJSON CraIncomeTransaction {..} =
-   _omitNulls
-      [ "account_id" .= craIncomeTransactionAccountId
-      , "amount" .= craIncomeTransactionAmount
-      , "date" .= craIncomeTransactionDate
-      , "iso_currency_code" .= craIncomeTransactionIsoCurrencyCode
-      , "item_id" .= craIncomeTransactionItemId
-      , "original_description" .= craIncomeTransactionOriginalDescription
-      , "outlier" .= craIncomeTransactionOutlier
-      , "transaction_id" .= craIncomeTransactionTransactionId
-      , "unofficial_currency_code" .= craIncomeTransactionUnofficialCurrencyCode
-      ]
-
-
--- | Construct a value of type 'CraIncomeTransaction' (by applying it's required fields, if any)
-mkCraIncomeTransaction
-  :: Text -- ^ 'craIncomeTransactionAccountId': Plaid's unique identifier for the account. This value will not change unless Plaid can't reconcile the account with the data returned by the financial institution. This may occur, for example, when the name of the account changes. If this happens a new `account_id` will be assigned to the account.  If an account with a specific `account_id` disappears instead of changing, the account is likely closed. Closed accounts are not returned by the Plaid API.  Like all Plaid identifiers, the `account_id` is case sensitive.
-  -> Double -- ^ 'craIncomeTransactionAmount': The settled value of the transaction, denominated in the transaction's currency as stated in `iso_currency_code` or `unofficial_currency_code`. Positive values when money moves out of the account; negative values when money moves in. For example, credit card purchases are positive; credit card payment, direct deposits, and refunds are negative.
-  -> Date -- ^ 'craIncomeTransactionDate': For pending transactions, the date that the transaction occurred; for posted transactions, the date that the transaction posted. Both dates are returned in an ISO 8601 format (YYYY-MM-DD).
-  -> Text -- ^ 'craIncomeTransactionIsoCurrencyCode': The ISO 4217 currency code of the amount or balance.
-  -> Text -- ^ 'craIncomeTransactionItemId': The `item_id` of the Item associated with this webhook, warning, or error
-  -> Text -- ^ 'craIncomeTransactionOriginalDescription': The string returned by the financial institution to describe the transaction.
-  -> CraIncomeTransactionOutlier -- ^ 'craIncomeTransactionOutlier' 
-  -> Text -- ^ 'craIncomeTransactionTransactionId': The unique ID of the transaction. Like all Plaid identifiers, the `transaction_id` is case sensitive.
-  -> Text -- ^ 'craIncomeTransactionUnofficialCurrencyCode': The unofficial currency code associated with the amount or balance. Always `null` if `iso_currency_code` is non-null. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries.
-  -> CraIncomeTransaction
-mkCraIncomeTransaction craIncomeTransactionAccountId craIncomeTransactionAmount craIncomeTransactionDate craIncomeTransactionIsoCurrencyCode craIncomeTransactionItemId craIncomeTransactionOriginalDescription craIncomeTransactionOutlier craIncomeTransactionTransactionId craIncomeTransactionUnofficialCurrencyCode =
-  CraIncomeTransaction
-  { craIncomeTransactionAccountId
-  , craIncomeTransactionAmount
-  , craIncomeTransactionDate
-  , craIncomeTransactionIsoCurrencyCode
-  , craIncomeTransactionItemId
-  , craIncomeTransactionOriginalDescription
-  , craIncomeTransactionOutlier
-  , craIncomeTransactionTransactionId
-  , craIncomeTransactionUnofficialCurrencyCode
-  }
-
--- ** CraIncomeTransactionOutlier
--- | CraIncomeTransactionOutlier
--- CraIncomeTransactionOutlier
--- 
--- Metadata on whether this income transaction is an outlier.
-data CraIncomeTransactionOutlier = CraIncomeTransactionOutlier
-  { craIncomeTransactionOutlierAmount :: !(Maybe Double) -- ^ "amount" - The amount that the transaction differs from the stream average transaction amount.
-  , craIncomeTransactionOutlierIsOutlier :: !(Bool) -- ^ /Required/ "is_outlier" - Indicates whether an income transaction amount is unusually high compared to the amounts for that stream.
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON CraIncomeTransactionOutlier
-instance A.FromJSON CraIncomeTransactionOutlier where
-  parseJSON = A.withObject "CraIncomeTransactionOutlier" $ \o ->
-    CraIncomeTransactionOutlier
-      <$> (o .:? "amount")
-      <*> (o .:  "is_outlier")
-
--- | ToJSON CraIncomeTransactionOutlier
-instance A.ToJSON CraIncomeTransactionOutlier where
-  toJSON CraIncomeTransactionOutlier {..} =
-   _omitNulls
-      [ "amount" .= craIncomeTransactionOutlierAmount
-      , "is_outlier" .= craIncomeTransactionOutlierIsOutlier
-      ]
-
-
--- | Construct a value of type 'CraIncomeTransactionOutlier' (by applying it's required fields, if any)
-mkCraIncomeTransactionOutlier
-  :: Bool -- ^ 'craIncomeTransactionOutlierIsOutlier': Indicates whether an income transaction amount is unusually high compared to the amounts for that stream.
-  -> CraIncomeTransactionOutlier
-mkCraIncomeTransactionOutlier craIncomeTransactionOutlierIsOutlier =
-  CraIncomeTransactionOutlier
-  { craIncomeTransactionOutlierAmount = Nothing
-  , craIncomeTransactionOutlierIsOutlier
-  }
-
 -- ** CraMonthlyIncomeValues
 -- | CraMonthlyIncomeValues
 -- CraMonthlyIncomeValues
@@ -17215,717 +14624,6 @@ mkCraMonthlyIncomeValues craMonthlyIncomeValuesGrossIncome craMonthlyIncomeValue
   , craMonthlyIncomeValuesNetIncome
   }
 
--- ** CraPartnerInsights
--- | CraPartnerInsights
--- The Partner Insights report of the bank data for an end user.
-data CraPartnerInsights = CraPartnerInsights
-  { craPartnerInsightsClientReportId :: !(Maybe Text) -- ^ "client_report_id" - Client-generated identifier, which can be used by lenders to track loan applications.
-  , craPartnerInsightsFico :: !(Maybe CraPartnerInsightsFicoResults) -- ^ "fico"
-  , craPartnerInsightsGeneratedTime :: !(Maybe DateTime) -- ^ "generated_time" - The time when the Partner Insights report was generated.
-  , craPartnerInsightsItems :: !(Maybe [CraPartnerInsightsItem]) -- ^ "items" - The list of Items used in the report along with the associated metadata about the Item.
-  , craPartnerInsightsPrism :: !(Maybe CraPartnerInsightsPrism) -- ^ "prism"
-  , craPartnerInsightsReportId :: !(Maybe Text) -- ^ "report_id" - A unique identifier associated with the Partner Insights object.
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON CraPartnerInsights
-instance A.FromJSON CraPartnerInsights where
-  parseJSON = A.withObject "CraPartnerInsights" $ \o ->
-    CraPartnerInsights
-      <$> (o .:? "client_report_id")
-      <*> (o .:? "fico")
-      <*> (o .:? "generated_time")
-      <*> (o .:? "items")
-      <*> (o .:? "prism")
-      <*> (o .:? "report_id")
-
--- | ToJSON CraPartnerInsights
-instance A.ToJSON CraPartnerInsights where
-  toJSON CraPartnerInsights {..} =
-   _omitNulls
-      [ "client_report_id" .= craPartnerInsightsClientReportId
-      , "fico" .= craPartnerInsightsFico
-      , "generated_time" .= craPartnerInsightsGeneratedTime
-      , "items" .= craPartnerInsightsItems
-      , "prism" .= craPartnerInsightsPrism
-      , "report_id" .= craPartnerInsightsReportId
-      ]
-
-
--- | Construct a value of type 'CraPartnerInsights' (by applying it's required fields, if any)
-mkCraPartnerInsights
-  :: CraPartnerInsights
-mkCraPartnerInsights =
-  CraPartnerInsights
-  { craPartnerInsightsClientReportId = Nothing
-  , craPartnerInsightsFico = Nothing
-  , craPartnerInsightsGeneratedTime = Nothing
-  , craPartnerInsightsItems = Nothing
-  , craPartnerInsightsPrism = Nothing
-  , craPartnerInsightsReportId = Nothing
-  }
-
--- ** CraPartnerInsightsBaseFicoScore
--- | CraPartnerInsightsBaseFicoScore
--- CraPartnerInsightsBaseFicoScore
--- 
--- Details about the base FICO score associated with an UltraFICO® scoring request.
-data CraPartnerInsightsBaseFicoScore = CraPartnerInsightsBaseFicoScore
-  { craPartnerInsightsBaseFicoScoreBaseFicoScoreVersion :: !(CraPartnerInsightsBaseFicoScoreVersion) -- ^ /Required/ "base_fico_score_version"
-  , craPartnerInsightsBaseFicoScoreBureau :: !(CraPartnerInsightsBureau) -- ^ /Required/ "bureau"
-  , craPartnerInsightsBaseFicoScoreDidInquiriesAdverselyAffectScore :: !(Maybe Bool) -- ^ "did_inquiries_adversely_affect_score" - Whether inquiries adversely affected the score but were not represented in one of the four reason codes. Sometimes referred to as the FACTA Flag.
-  , craPartnerInsightsBaseFicoScoreReasonCode1 :: !(Maybe Text) -- ^ "reason_code_1" - Deprecated. Use &#x60;reason_codes&#x60; instead. The first reason code associated with the score.
-  , craPartnerInsightsBaseFicoScoreReasonCode2 :: !(Maybe Text) -- ^ "reason_code_2" - Deprecated. Use &#x60;reason_codes&#x60; instead. The second reason code associated with the score.
-  , craPartnerInsightsBaseFicoScoreReasonCode3 :: !(Maybe Text) -- ^ "reason_code_3" - Deprecated. Use &#x60;reason_codes&#x60; instead. The third reason code associated with the score.
-  , craPartnerInsightsBaseFicoScoreReasonCode4 :: !(Maybe Text) -- ^ "reason_code_4" - Deprecated. Use &#x60;reason_codes&#x60; instead. The fourth reason code associated with the score.
-  , craPartnerInsightsBaseFicoScoreReasonCodes :: !(Maybe [Text]) -- ^ "reason_codes" - Reason codes associated with the score, in priority order. May contain up to 4 items.
-  , craPartnerInsightsBaseFicoScoreScore :: !(Int) -- ^ /Required/ "score" - Numeric value of the base FICO score.
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON CraPartnerInsightsBaseFicoScore
-instance A.FromJSON CraPartnerInsightsBaseFicoScore where
-  parseJSON = A.withObject "CraPartnerInsightsBaseFicoScore" $ \o ->
-    CraPartnerInsightsBaseFicoScore
-      <$> (o .:  "base_fico_score_version")
-      <*> (o .:  "bureau")
-      <*> (o .:? "did_inquiries_adversely_affect_score")
-      <*> (o .:? "reason_code_1")
-      <*> (o .:? "reason_code_2")
-      <*> (o .:? "reason_code_3")
-      <*> (o .:? "reason_code_4")
-      <*> (o .:? "reason_codes")
-      <*> (o .:  "score")
-
--- | ToJSON CraPartnerInsightsBaseFicoScore
-instance A.ToJSON CraPartnerInsightsBaseFicoScore where
-  toJSON CraPartnerInsightsBaseFicoScore {..} =
-   _omitNulls
-      [ "base_fico_score_version" .= craPartnerInsightsBaseFicoScoreBaseFicoScoreVersion
-      , "bureau" .= craPartnerInsightsBaseFicoScoreBureau
-      , "did_inquiries_adversely_affect_score" .= craPartnerInsightsBaseFicoScoreDidInquiriesAdverselyAffectScore
-      , "reason_code_1" .= craPartnerInsightsBaseFicoScoreReasonCode1
-      , "reason_code_2" .= craPartnerInsightsBaseFicoScoreReasonCode2
-      , "reason_code_3" .= craPartnerInsightsBaseFicoScoreReasonCode3
-      , "reason_code_4" .= craPartnerInsightsBaseFicoScoreReasonCode4
-      , "reason_codes" .= craPartnerInsightsBaseFicoScoreReasonCodes
-      , "score" .= craPartnerInsightsBaseFicoScoreScore
-      ]
-
-
--- | Construct a value of type 'CraPartnerInsightsBaseFicoScore' (by applying it's required fields, if any)
-mkCraPartnerInsightsBaseFicoScore
-  :: CraPartnerInsightsBaseFicoScoreVersion -- ^ 'craPartnerInsightsBaseFicoScoreBaseFicoScoreVersion' 
-  -> CraPartnerInsightsBureau -- ^ 'craPartnerInsightsBaseFicoScoreBureau' 
-  -> Int -- ^ 'craPartnerInsightsBaseFicoScoreScore': Numeric value of the base FICO score.
-  -> CraPartnerInsightsBaseFicoScore
-mkCraPartnerInsightsBaseFicoScore craPartnerInsightsBaseFicoScoreBaseFicoScoreVersion craPartnerInsightsBaseFicoScoreBureau craPartnerInsightsBaseFicoScoreScore =
-  CraPartnerInsightsBaseFicoScore
-  { craPartnerInsightsBaseFicoScoreBaseFicoScoreVersion
-  , craPartnerInsightsBaseFicoScoreBureau
-  , craPartnerInsightsBaseFicoScoreDidInquiriesAdverselyAffectScore = Nothing
-  , craPartnerInsightsBaseFicoScoreReasonCode1 = Nothing
-  , craPartnerInsightsBaseFicoScoreReasonCode2 = Nothing
-  , craPartnerInsightsBaseFicoScoreReasonCode3 = Nothing
-  , craPartnerInsightsBaseFicoScoreReasonCode4 = Nothing
-  , craPartnerInsightsBaseFicoScoreReasonCodes = Nothing
-  , craPartnerInsightsBaseFicoScoreScore
-  }
-
--- ** CraPartnerInsightsFicoInput
--- | CraPartnerInsightsFicoInput
--- CraPartnerInsightsFicoInput
--- 
--- Configuration for the FICO products used in the Partner Insights product.
-data CraPartnerInsightsFicoInput = CraPartnerInsightsFicoInput
-  { craPartnerInsightsFicoInputFicoLenderId :: !(Text) -- ^ /Required/ "fico_lender_id" - ID provided by FICO that uniquely identifies the lender. Required for UltraFICO® score generation. Sometimes referred to as Lender Org ID.
-  , craPartnerInsightsFicoInputLenderApplicationId :: !(Text) -- ^ /Required/ "lender_application_id" - Client-generated identifier that uniquely identifies the FICO Application across FICO systems.
-  , craPartnerInsightsFicoInputUltraficoScoreRequests :: !([CraPartnerInsightsUltraFicoScoreRequest]) -- ^ /Required/ "ultrafico_score_requests" - A list of UltraFICO® scoring requests. Each request contains all configuration required to generate an UltraFICO score.
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON CraPartnerInsightsFicoInput
-instance A.FromJSON CraPartnerInsightsFicoInput where
-  parseJSON = A.withObject "CraPartnerInsightsFicoInput" $ \o ->
-    CraPartnerInsightsFicoInput
-      <$> (o .:  "fico_lender_id")
-      <*> (o .:  "lender_application_id")
-      <*> (o .:  "ultrafico_score_requests")
-
--- | ToJSON CraPartnerInsightsFicoInput
-instance A.ToJSON CraPartnerInsightsFicoInput where
-  toJSON CraPartnerInsightsFicoInput {..} =
-   _omitNulls
-      [ "fico_lender_id" .= craPartnerInsightsFicoInputFicoLenderId
-      , "lender_application_id" .= craPartnerInsightsFicoInputLenderApplicationId
-      , "ultrafico_score_requests" .= craPartnerInsightsFicoInputUltraficoScoreRequests
-      ]
-
-
--- | Construct a value of type 'CraPartnerInsightsFicoInput' (by applying it's required fields, if any)
-mkCraPartnerInsightsFicoInput
-  :: Text -- ^ 'craPartnerInsightsFicoInputFicoLenderId': ID provided by FICO that uniquely identifies the lender. Required for UltraFICO® score generation. Sometimes referred to as Lender Org ID.
-  -> Text -- ^ 'craPartnerInsightsFicoInputLenderApplicationId': Client-generated identifier that uniquely identifies the FICO Application across FICO systems.
-  -> [CraPartnerInsightsUltraFicoScoreRequest] -- ^ 'craPartnerInsightsFicoInputUltraficoScoreRequests': A list of UltraFICO® scoring requests. Each request contains all configuration required to generate an UltraFICO score.
-  -> CraPartnerInsightsFicoInput
-mkCraPartnerInsightsFicoInput craPartnerInsightsFicoInputFicoLenderId craPartnerInsightsFicoInputLenderApplicationId craPartnerInsightsFicoInputUltraficoScoreRequests =
-  CraPartnerInsightsFicoInput
-  { craPartnerInsightsFicoInputFicoLenderId
-  , craPartnerInsightsFicoInputLenderApplicationId
-  , craPartnerInsightsFicoInputUltraficoScoreRequests
-  }
-
--- ** CraPartnerInsightsFicoReportCharacteristics
--- | CraPartnerInsightsFicoReportCharacteristics
--- CraPartnerInsightsFicoReportCharacteristics
--- 
--- Report characteristics returned by FICO describing the banking data used to generate the UltraFICO® score.
-data CraPartnerInsightsFicoReportCharacteristics = CraPartnerInsightsFicoReportCharacteristics
-  { craPartnerInsightsFicoReportCharacteristicsAvgDailyBalanceOver12Months :: !(Maybe Double) -- ^ "avg_daily_balance_over_12_months" - Average daily balance over the past 12 months.
-  , craPartnerInsightsFicoReportCharacteristicsAvgDailyBalanceOver1Month :: !(Maybe Double) -- ^ "avg_daily_balance_over_1_month" - Average daily balance over the past 1 month.
-  , craPartnerInsightsFicoReportCharacteristicsAvgDailyBalanceOver3Months :: !(Maybe Double) -- ^ "avg_daily_balance_over_3_months" - Average daily balance over the past 3 months.
-  , craPartnerInsightsFicoReportCharacteristicsAvgDailyBalanceOver6Months :: !(Maybe Double) -- ^ "avg_daily_balance_over_6_months" - Average daily balance over the past 6 months.
-  , craPartnerInsightsFicoReportCharacteristicsDaysSinceEarliestTx :: !(Maybe Int) -- ^ "days_since_earliest_tx" - Number of days since the earliest transaction in the report.
-  , craPartnerInsightsFicoReportCharacteristicsDaysSinceMostRecentInsufficientFundsFeeDebitTx :: !(Maybe Int) -- ^ "days_since_most_recent_insufficient_funds_fee_debit_tx" - Number of days since the most recent insufficient funds fee debit transaction.
-  , craPartnerInsightsFicoReportCharacteristicsDaysSinceMostRecentNegativeEndingBalance :: !(Maybe Int) -- ^ "days_since_most_recent_negative_ending_balance" - Number of days since the most recent day with a negative ending balance.
-  , craPartnerInsightsFicoReportCharacteristicsDaysSinceMostRecentTx :: !(Maybe Int) -- ^ "days_since_most_recent_tx" - Number of days since the most recent transaction.
-  , craPartnerInsightsFicoReportCharacteristicsDaysWithTxOver12Months :: !(Maybe Int) -- ^ "days_with_tx_over_12_months" - Number of days with at least one transaction over the past 12 months.
-  , craPartnerInsightsFicoReportCharacteristicsDaysWithTxOver1Month :: !(Maybe Int) -- ^ "days_with_tx_over_1_month" - Number of days with at least one transaction over the past 1 month.
-  , craPartnerInsightsFicoReportCharacteristicsDaysWithTxOver3Months :: !(Maybe Int) -- ^ "days_with_tx_over_3_months" - Number of days with at least one transaction over the past 3 months.
-  , craPartnerInsightsFicoReportCharacteristicsDaysWithTxOver6Months :: !(Maybe Int) -- ^ "days_with_tx_over_6_months" - Number of days with at least one transaction over the past 6 months.
-  , craPartnerInsightsFicoReportCharacteristicsNumAccounts :: !(Maybe Int) -- ^ "num_accounts" - Total number of accounts included in the report. Limited to checking, savings, and money market accounts.
-  , craPartnerInsightsFicoReportCharacteristicsNumCheckingAccounts :: !(Maybe Int) -- ^ "num_checking_accounts" - Number of checking accounts included in the report.
-  , craPartnerInsightsFicoReportCharacteristicsNumMoneyMarketAccounts :: !(Maybe Int) -- ^ "num_money_market_accounts" - Number of money market accounts included in the report.
-  , craPartnerInsightsFicoReportCharacteristicsNumSavingsAccounts :: !(Maybe Int) -- ^ "num_savings_accounts" - Number of savings accounts included in the report.
-  , craPartnerInsightsFicoReportCharacteristicsTotCurrentBalances :: !(Maybe Double) -- ^ "tot_current_balances" - Sum of current balances across all accounts in the report.
-  , craPartnerInsightsFicoReportCharacteristicsTotNumberDaysWithNegativeBalanceOver12Months :: !(Maybe Int) -- ^ "tot_number_days_with_negative_balance_over_12_months" - Total number of days with a negative balance over the past 12 months.
-  , craPartnerInsightsFicoReportCharacteristicsTotNumberDaysWithNegativeBalanceOver1Month :: !(Maybe Int) -- ^ "tot_number_days_with_negative_balance_over_1_month" - Total number of days with a negative balance over the past 1 month.
-  , craPartnerInsightsFicoReportCharacteristicsTotNumberDaysWithNegativeBalanceOver3Months :: !(Maybe Int) -- ^ "tot_number_days_with_negative_balance_over_3_months" - Total number of days with a negative balance over the past 3 months.
-  , craPartnerInsightsFicoReportCharacteristicsTotNumberDaysWithNegativeBalanceOver6Months :: !(Maybe Int) -- ^ "tot_number_days_with_negative_balance_over_6_months" - Total number of days with a negative balance over the past 6 months.
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON CraPartnerInsightsFicoReportCharacteristics
-instance A.FromJSON CraPartnerInsightsFicoReportCharacteristics where
-  parseJSON = A.withObject "CraPartnerInsightsFicoReportCharacteristics" $ \o ->
-    CraPartnerInsightsFicoReportCharacteristics
-      <$> (o .:? "avg_daily_balance_over_12_months")
-      <*> (o .:? "avg_daily_balance_over_1_month")
-      <*> (o .:? "avg_daily_balance_over_3_months")
-      <*> (o .:? "avg_daily_balance_over_6_months")
-      <*> (o .:? "days_since_earliest_tx")
-      <*> (o .:? "days_since_most_recent_insufficient_funds_fee_debit_tx")
-      <*> (o .:? "days_since_most_recent_negative_ending_balance")
-      <*> (o .:? "days_since_most_recent_tx")
-      <*> (o .:? "days_with_tx_over_12_months")
-      <*> (o .:? "days_with_tx_over_1_month")
-      <*> (o .:? "days_with_tx_over_3_months")
-      <*> (o .:? "days_with_tx_over_6_months")
-      <*> (o .:? "num_accounts")
-      <*> (o .:? "num_checking_accounts")
-      <*> (o .:? "num_money_market_accounts")
-      <*> (o .:? "num_savings_accounts")
-      <*> (o .:? "tot_current_balances")
-      <*> (o .:? "tot_number_days_with_negative_balance_over_12_months")
-      <*> (o .:? "tot_number_days_with_negative_balance_over_1_month")
-      <*> (o .:? "tot_number_days_with_negative_balance_over_3_months")
-      <*> (o .:? "tot_number_days_with_negative_balance_over_6_months")
-
--- | ToJSON CraPartnerInsightsFicoReportCharacteristics
-instance A.ToJSON CraPartnerInsightsFicoReportCharacteristics where
-  toJSON CraPartnerInsightsFicoReportCharacteristics {..} =
-   _omitNulls
-      [ "avg_daily_balance_over_12_months" .= craPartnerInsightsFicoReportCharacteristicsAvgDailyBalanceOver12Months
-      , "avg_daily_balance_over_1_month" .= craPartnerInsightsFicoReportCharacteristicsAvgDailyBalanceOver1Month
-      , "avg_daily_balance_over_3_months" .= craPartnerInsightsFicoReportCharacteristicsAvgDailyBalanceOver3Months
-      , "avg_daily_balance_over_6_months" .= craPartnerInsightsFicoReportCharacteristicsAvgDailyBalanceOver6Months
-      , "days_since_earliest_tx" .= craPartnerInsightsFicoReportCharacteristicsDaysSinceEarliestTx
-      , "days_since_most_recent_insufficient_funds_fee_debit_tx" .= craPartnerInsightsFicoReportCharacteristicsDaysSinceMostRecentInsufficientFundsFeeDebitTx
-      , "days_since_most_recent_negative_ending_balance" .= craPartnerInsightsFicoReportCharacteristicsDaysSinceMostRecentNegativeEndingBalance
-      , "days_since_most_recent_tx" .= craPartnerInsightsFicoReportCharacteristicsDaysSinceMostRecentTx
-      , "days_with_tx_over_12_months" .= craPartnerInsightsFicoReportCharacteristicsDaysWithTxOver12Months
-      , "days_with_tx_over_1_month" .= craPartnerInsightsFicoReportCharacteristicsDaysWithTxOver1Month
-      , "days_with_tx_over_3_months" .= craPartnerInsightsFicoReportCharacteristicsDaysWithTxOver3Months
-      , "days_with_tx_over_6_months" .= craPartnerInsightsFicoReportCharacteristicsDaysWithTxOver6Months
-      , "num_accounts" .= craPartnerInsightsFicoReportCharacteristicsNumAccounts
-      , "num_checking_accounts" .= craPartnerInsightsFicoReportCharacteristicsNumCheckingAccounts
-      , "num_money_market_accounts" .= craPartnerInsightsFicoReportCharacteristicsNumMoneyMarketAccounts
-      , "num_savings_accounts" .= craPartnerInsightsFicoReportCharacteristicsNumSavingsAccounts
-      , "tot_current_balances" .= craPartnerInsightsFicoReportCharacteristicsTotCurrentBalances
-      , "tot_number_days_with_negative_balance_over_12_months" .= craPartnerInsightsFicoReportCharacteristicsTotNumberDaysWithNegativeBalanceOver12Months
-      , "tot_number_days_with_negative_balance_over_1_month" .= craPartnerInsightsFicoReportCharacteristicsTotNumberDaysWithNegativeBalanceOver1Month
-      , "tot_number_days_with_negative_balance_over_3_months" .= craPartnerInsightsFicoReportCharacteristicsTotNumberDaysWithNegativeBalanceOver3Months
-      , "tot_number_days_with_negative_balance_over_6_months" .= craPartnerInsightsFicoReportCharacteristicsTotNumberDaysWithNegativeBalanceOver6Months
-      ]
-
-
--- | Construct a value of type 'CraPartnerInsightsFicoReportCharacteristics' (by applying it's required fields, if any)
-mkCraPartnerInsightsFicoReportCharacteristics
-  :: CraPartnerInsightsFicoReportCharacteristics
-mkCraPartnerInsightsFicoReportCharacteristics =
-  CraPartnerInsightsFicoReportCharacteristics
-  { craPartnerInsightsFicoReportCharacteristicsAvgDailyBalanceOver12Months = Nothing
-  , craPartnerInsightsFicoReportCharacteristicsAvgDailyBalanceOver1Month = Nothing
-  , craPartnerInsightsFicoReportCharacteristicsAvgDailyBalanceOver3Months = Nothing
-  , craPartnerInsightsFicoReportCharacteristicsAvgDailyBalanceOver6Months = Nothing
-  , craPartnerInsightsFicoReportCharacteristicsDaysSinceEarliestTx = Nothing
-  , craPartnerInsightsFicoReportCharacteristicsDaysSinceMostRecentInsufficientFundsFeeDebitTx = Nothing
-  , craPartnerInsightsFicoReportCharacteristicsDaysSinceMostRecentNegativeEndingBalance = Nothing
-  , craPartnerInsightsFicoReportCharacteristicsDaysSinceMostRecentTx = Nothing
-  , craPartnerInsightsFicoReportCharacteristicsDaysWithTxOver12Months = Nothing
-  , craPartnerInsightsFicoReportCharacteristicsDaysWithTxOver1Month = Nothing
-  , craPartnerInsightsFicoReportCharacteristicsDaysWithTxOver3Months = Nothing
-  , craPartnerInsightsFicoReportCharacteristicsDaysWithTxOver6Months = Nothing
-  , craPartnerInsightsFicoReportCharacteristicsNumAccounts = Nothing
-  , craPartnerInsightsFicoReportCharacteristicsNumCheckingAccounts = Nothing
-  , craPartnerInsightsFicoReportCharacteristicsNumMoneyMarketAccounts = Nothing
-  , craPartnerInsightsFicoReportCharacteristicsNumSavingsAccounts = Nothing
-  , craPartnerInsightsFicoReportCharacteristicsTotCurrentBalances = Nothing
-  , craPartnerInsightsFicoReportCharacteristicsTotNumberDaysWithNegativeBalanceOver12Months = Nothing
-  , craPartnerInsightsFicoReportCharacteristicsTotNumberDaysWithNegativeBalanceOver1Month = Nothing
-  , craPartnerInsightsFicoReportCharacteristicsTotNumberDaysWithNegativeBalanceOver3Months = Nothing
-  , craPartnerInsightsFicoReportCharacteristicsTotNumberDaysWithNegativeBalanceOver6Months = Nothing
-  }
-
--- ** CraPartnerInsightsFicoResults
--- | CraPartnerInsightsFicoResults
--- CraPartnerInsightsFicoResults
--- 
--- The calculated UltraFICO® scores returned as part of the Partner Insights report.
-data CraPartnerInsightsFicoResults = CraPartnerInsightsFicoResults
-  { craPartnerInsightsFicoResultsLenderApplicationId :: !(Text) -- ^ /Required/ "lender_application_id" - Client-generated identifier that uniquely identifies the FICO Application across FICO systems.
-  , craPartnerInsightsFicoResultsReportCharacteristics :: !(Maybe CraPartnerInsightsFicoReportCharacteristics) -- ^ "report_characteristics"
-  , craPartnerInsightsFicoResultsUltraficoScoreResults :: !([CraPartnerInsightsUltraFicoScoreResult]) -- ^ /Required/ "ultrafico_score_results" - UltraFICO® scoring results, one per provided UltraFICO scoring request.
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON CraPartnerInsightsFicoResults
-instance A.FromJSON CraPartnerInsightsFicoResults where
-  parseJSON = A.withObject "CraPartnerInsightsFicoResults" $ \o ->
-    CraPartnerInsightsFicoResults
-      <$> (o .:  "lender_application_id")
-      <*> (o .:? "report_characteristics")
-      <*> (o .:  "ultrafico_score_results")
-
--- | ToJSON CraPartnerInsightsFicoResults
-instance A.ToJSON CraPartnerInsightsFicoResults where
-  toJSON CraPartnerInsightsFicoResults {..} =
-   _omitNulls
-      [ "lender_application_id" .= craPartnerInsightsFicoResultsLenderApplicationId
-      , "report_characteristics" .= craPartnerInsightsFicoResultsReportCharacteristics
-      , "ultrafico_score_results" .= craPartnerInsightsFicoResultsUltraficoScoreResults
-      ]
-
-
--- | Construct a value of type 'CraPartnerInsightsFicoResults' (by applying it's required fields, if any)
-mkCraPartnerInsightsFicoResults
-  :: Text -- ^ 'craPartnerInsightsFicoResultsLenderApplicationId': Client-generated identifier that uniquely identifies the FICO Application across FICO systems.
-  -> [CraPartnerInsightsUltraFicoScoreResult] -- ^ 'craPartnerInsightsFicoResultsUltraficoScoreResults': UltraFICO® scoring results, one per provided UltraFICO scoring request.
-  -> CraPartnerInsightsFicoResults
-mkCraPartnerInsightsFicoResults craPartnerInsightsFicoResultsLenderApplicationId craPartnerInsightsFicoResultsUltraficoScoreResults =
-  CraPartnerInsightsFicoResults
-  { craPartnerInsightsFicoResultsLenderApplicationId
-  , craPartnerInsightsFicoResultsReportCharacteristics = Nothing
-  , craPartnerInsightsFicoResultsUltraficoScoreResults
-  }
-
--- ** CraPartnerInsightsItem
--- | CraPartnerInsightsItem
--- The details and metadata for an end user's Item.
-data CraPartnerInsightsItem = CraPartnerInsightsItem
-  { craPartnerInsightsItemAccounts :: !(Maybe [CraPartnerInsightsItemAccount]) -- ^ "accounts" - A list of accounts in the Item.
-  , craPartnerInsightsItemInstitutionId :: !(Maybe Text) -- ^ "institution_id" - The ID for the institution that the user linked.
-  , craPartnerInsightsItemInstitutionName :: !(Maybe Text) -- ^ "institution_name" - The name of the institution the user linked.
-  , craPartnerInsightsItemItemId :: !(Maybe Text) -- ^ "item_id" - The identifier for the Item.
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON CraPartnerInsightsItem
-instance A.FromJSON CraPartnerInsightsItem where
-  parseJSON = A.withObject "CraPartnerInsightsItem" $ \o ->
-    CraPartnerInsightsItem
-      <$> (o .:? "accounts")
-      <*> (o .:? "institution_id")
-      <*> (o .:? "institution_name")
-      <*> (o .:? "item_id")
-
--- | ToJSON CraPartnerInsightsItem
-instance A.ToJSON CraPartnerInsightsItem where
-  toJSON CraPartnerInsightsItem {..} =
-   _omitNulls
-      [ "accounts" .= craPartnerInsightsItemAccounts
-      , "institution_id" .= craPartnerInsightsItemInstitutionId
-      , "institution_name" .= craPartnerInsightsItemInstitutionName
-      , "item_id" .= craPartnerInsightsItemItemId
-      ]
-
-
--- | Construct a value of type 'CraPartnerInsightsItem' (by applying it's required fields, if any)
-mkCraPartnerInsightsItem
-  :: CraPartnerInsightsItem
-mkCraPartnerInsightsItem =
-  CraPartnerInsightsItem
-  { craPartnerInsightsItemAccounts = Nothing
-  , craPartnerInsightsItemInstitutionId = Nothing
-  , craPartnerInsightsItemInstitutionName = Nothing
-  , craPartnerInsightsItemItemId = Nothing
-  }
-
--- ** CraPartnerInsightsItemAccount
--- | CraPartnerInsightsItemAccount
--- Account data corresponding to the Item from which Partner Insights were generated.
-data CraPartnerInsightsItemAccount = CraPartnerInsightsItemAccount
-  { craPartnerInsightsItemAccountAccountId :: !(Maybe Text) -- ^ "account_id" - Plaid&#39;s unique identifier for the account. This value will not change unless Plaid can&#39;t reconcile the account with the data returned by the financial institution. This may occur, for example, when the name of the account changes. If this happens a new &#x60;account_id&#x60; will be assigned to the account.  If an account with a specific &#x60;account_id&#x60; disappears instead of changing, the account is likely closed. Closed accounts are not returned by the Plaid API.  Like all Plaid identifiers, the &#x60;account_id&#x60; is case sensitive.
-  , craPartnerInsightsItemAccountMask :: !(Text) -- ^ /Required/ "mask" - The last 2-4 alphanumeric characters of an account&#39;s official account number. Note that the mask may be non-unique between an Item&#39;s accounts, and it may also not match the mask that the bank displays to the user.
-  , craPartnerInsightsItemAccountMetadata :: !(CraPartnerInsightsItemAccountMetadata) -- ^ /Required/ "metadata"
-  , craPartnerInsightsItemAccountName :: !(Text) -- ^ /Required/ "name" - The name of the account
-  , craPartnerInsightsItemAccountOfficialName :: !(Text) -- ^ /Required/ "official_name" - The official name of the bank account.
-  , craPartnerInsightsItemAccountOwners :: !([Owner]) -- ^ /Required/ "owners" - Data returned by the financial institution about the account owner or owners. Identity information is optional, so field may return an empty array.
-  , craPartnerInsightsItemAccountSubtype :: !(DepositoryAccountSubtype) -- ^ /Required/ "subtype"
-  , craPartnerInsightsItemAccountType :: !(CreditBankIncomeAccountType) -- ^ /Required/ "type"
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON CraPartnerInsightsItemAccount
-instance A.FromJSON CraPartnerInsightsItemAccount where
-  parseJSON = A.withObject "CraPartnerInsightsItemAccount" $ \o ->
-    CraPartnerInsightsItemAccount
-      <$> (o .:? "account_id")
-      <*> (o .:  "mask")
-      <*> (o .:  "metadata")
-      <*> (o .:  "name")
-      <*> (o .:  "official_name")
-      <*> (o .:  "owners")
-      <*> (o .:  "subtype")
-      <*> (o .:  "type")
-
--- | ToJSON CraPartnerInsightsItemAccount
-instance A.ToJSON CraPartnerInsightsItemAccount where
-  toJSON CraPartnerInsightsItemAccount {..} =
-   _omitNulls
-      [ "account_id" .= craPartnerInsightsItemAccountAccountId
-      , "mask" .= craPartnerInsightsItemAccountMask
-      , "metadata" .= craPartnerInsightsItemAccountMetadata
-      , "name" .= craPartnerInsightsItemAccountName
-      , "official_name" .= craPartnerInsightsItemAccountOfficialName
-      , "owners" .= craPartnerInsightsItemAccountOwners
-      , "subtype" .= craPartnerInsightsItemAccountSubtype
-      , "type" .= craPartnerInsightsItemAccountType
-      ]
-
-
--- | Construct a value of type 'CraPartnerInsightsItemAccount' (by applying it's required fields, if any)
-mkCraPartnerInsightsItemAccount
-  :: Text -- ^ 'craPartnerInsightsItemAccountMask': The last 2-4 alphanumeric characters of an account's official account number. Note that the mask may be non-unique between an Item's accounts, and it may also not match the mask that the bank displays to the user.
-  -> CraPartnerInsightsItemAccountMetadata -- ^ 'craPartnerInsightsItemAccountMetadata' 
-  -> Text -- ^ 'craPartnerInsightsItemAccountName': The name of the account
-  -> Text -- ^ 'craPartnerInsightsItemAccountOfficialName': The official name of the bank account.
-  -> [Owner] -- ^ 'craPartnerInsightsItemAccountOwners': Data returned by the financial institution about the account owner or owners. Identity information is optional, so field may return an empty array.
-  -> DepositoryAccountSubtype -- ^ 'craPartnerInsightsItemAccountSubtype' 
-  -> CreditBankIncomeAccountType -- ^ 'craPartnerInsightsItemAccountType' 
-  -> CraPartnerInsightsItemAccount
-mkCraPartnerInsightsItemAccount craPartnerInsightsItemAccountMask craPartnerInsightsItemAccountMetadata craPartnerInsightsItemAccountName craPartnerInsightsItemAccountOfficialName craPartnerInsightsItemAccountOwners craPartnerInsightsItemAccountSubtype craPartnerInsightsItemAccountType =
-  CraPartnerInsightsItemAccount
-  { craPartnerInsightsItemAccountAccountId = Nothing
-  , craPartnerInsightsItemAccountMask
-  , craPartnerInsightsItemAccountMetadata
-  , craPartnerInsightsItemAccountName
-  , craPartnerInsightsItemAccountOfficialName
-  , craPartnerInsightsItemAccountOwners
-  , craPartnerInsightsItemAccountSubtype
-  , craPartnerInsightsItemAccountType
-  }
-
--- ** CraPartnerInsightsItemAccountMetadata
--- | CraPartnerInsightsItemAccountMetadata
--- CraPartnerInsightsItemAccountMetadata
--- 
--- An object containing metadata about the extracted account.
-data CraPartnerInsightsItemAccountMetadata = CraPartnerInsightsItemAccountMetadata
-  { craPartnerInsightsItemAccountMetadataEndDate :: !(Date) -- ^ /Required/ "end_date" - The date of the most recent extracted transaction, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format (\&quot;yyyy-mm-dd\&quot;).
-  , craPartnerInsightsItemAccountMetadataStartDate :: !(Date) -- ^ /Required/ "start_date" - The date of the earliest extracted transaction, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format (\&quot;yyyy-mm-dd\&quot;).
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON CraPartnerInsightsItemAccountMetadata
-instance A.FromJSON CraPartnerInsightsItemAccountMetadata where
-  parseJSON = A.withObject "CraPartnerInsightsItemAccountMetadata" $ \o ->
-    CraPartnerInsightsItemAccountMetadata
-      <$> (o .:  "end_date")
-      <*> (o .:  "start_date")
-
--- | ToJSON CraPartnerInsightsItemAccountMetadata
-instance A.ToJSON CraPartnerInsightsItemAccountMetadata where
-  toJSON CraPartnerInsightsItemAccountMetadata {..} =
-   _omitNulls
-      [ "end_date" .= craPartnerInsightsItemAccountMetadataEndDate
-      , "start_date" .= craPartnerInsightsItemAccountMetadataStartDate
-      ]
-
-
--- | Construct a value of type 'CraPartnerInsightsItemAccountMetadata' (by applying it's required fields, if any)
-mkCraPartnerInsightsItemAccountMetadata
-  :: Date -- ^ 'craPartnerInsightsItemAccountMetadataEndDate': The date of the most recent extracted transaction, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format (\"yyyy-mm-dd\").
-  -> Date -- ^ 'craPartnerInsightsItemAccountMetadataStartDate': The date of the earliest extracted transaction, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format (\"yyyy-mm-dd\").
-  -> CraPartnerInsightsItemAccountMetadata
-mkCraPartnerInsightsItemAccountMetadata craPartnerInsightsItemAccountMetadataEndDate craPartnerInsightsItemAccountMetadataStartDate =
-  CraPartnerInsightsItemAccountMetadata
-  { craPartnerInsightsItemAccountMetadataEndDate
-  , craPartnerInsightsItemAccountMetadataStartDate
-  }
-
--- ** CraPartnerInsightsPrism
--- | CraPartnerInsightsPrism
--- The Prism Data insights for the user.
-data CraPartnerInsightsPrism = CraPartnerInsightsPrism
-  { craPartnerInsightsPrismCashScore :: !(Maybe PrismCashScore) -- ^ "cash_score"
-  , craPartnerInsightsPrismDetect :: !(Maybe PrismDetect) -- ^ "detect"
-  , craPartnerInsightsPrismExtend :: !(Maybe PrismExtend) -- ^ "extend"
-  , craPartnerInsightsPrismFirstDetect :: !(Maybe PrismFirstDetect) -- ^ "first_detect"
-  , craPartnerInsightsPrismInsights :: !(Maybe PrismInsights) -- ^ "insights"
-  , craPartnerInsightsPrismStatus :: !(Text) -- ^ /Required/ "status" - Details on whether the Prism Data attributes succeeded or failed to be generated.
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON CraPartnerInsightsPrism
-instance A.FromJSON CraPartnerInsightsPrism where
-  parseJSON = A.withObject "CraPartnerInsightsPrism" $ \o ->
-    CraPartnerInsightsPrism
-      <$> (o .:? "cash_score")
-      <*> (o .:? "detect")
-      <*> (o .:? "extend")
-      <*> (o .:? "first_detect")
-      <*> (o .:? "insights")
-      <*> (o .:  "status")
-
--- | ToJSON CraPartnerInsightsPrism
-instance A.ToJSON CraPartnerInsightsPrism where
-  toJSON CraPartnerInsightsPrism {..} =
-   _omitNulls
-      [ "cash_score" .= craPartnerInsightsPrismCashScore
-      , "detect" .= craPartnerInsightsPrismDetect
-      , "extend" .= craPartnerInsightsPrismExtend
-      , "first_detect" .= craPartnerInsightsPrismFirstDetect
-      , "insights" .= craPartnerInsightsPrismInsights
-      , "status" .= craPartnerInsightsPrismStatus
-      ]
-
-
--- | Construct a value of type 'CraPartnerInsightsPrism' (by applying it's required fields, if any)
-mkCraPartnerInsightsPrism
-  :: Text -- ^ 'craPartnerInsightsPrismStatus': Details on whether the Prism Data attributes succeeded or failed to be generated.
-  -> CraPartnerInsightsPrism
-mkCraPartnerInsightsPrism craPartnerInsightsPrismStatus =
-  CraPartnerInsightsPrism
-  { craPartnerInsightsPrismCashScore = Nothing
-  , craPartnerInsightsPrismDetect = Nothing
-  , craPartnerInsightsPrismExtend = Nothing
-  , craPartnerInsightsPrismFirstDetect = Nothing
-  , craPartnerInsightsPrismInsights = Nothing
-  , craPartnerInsightsPrismStatus
-  }
-
--- ** CraPartnerInsightsUltraFicoScore
--- | CraPartnerInsightsUltraFicoScore
--- CraPartnerInsightsUltraFicoScore
--- 
--- The calculated UltraFICO® score.
-data CraPartnerInsightsUltraFicoScore = CraPartnerInsightsUltraFicoScore
-  { craPartnerInsightsUltraFicoScoreDidInquiriesAdverselyAffectScore :: !(Maybe Bool) -- ^ "did_inquiries_adversely_affect_score" - Whether inquiries adversely affected the score but were not represented in one of the four reason codes. Sometimes referred to as the FACTA Flag.
-  , craPartnerInsightsUltraFicoScoreNegativeReasonCodes :: !(Maybe [Text]) -- ^ "negative_reason_codes" - Negative reason codes associated with the score (reasons the score moved downward), in priority order. May contain up to 4 items.
-  , craPartnerInsightsUltraFicoScorePositiveReasonCode1 :: !(Maybe Text) -- ^ "positive_reason_code_1" - Deprecated. Use &#x60;positive_reason_codes&#x60; instead. The first positive reason code associated with the score.
-  , craPartnerInsightsUltraFicoScorePositiveReasonCode2 :: !(Maybe Text) -- ^ "positive_reason_code_2" - Deprecated. Use &#x60;positive_reason_codes&#x60; instead. The second positive reason code associated with the score.
-  , craPartnerInsightsUltraFicoScorePositiveReasonCode3 :: !(Maybe Text) -- ^ "positive_reason_code_3" - Deprecated. Use &#x60;positive_reason_codes&#x60; instead. The third positive reason code associated with the score.
-  , craPartnerInsightsUltraFicoScorePositiveReasonCode4 :: !(Maybe Text) -- ^ "positive_reason_code_4" - Deprecated. Use &#x60;positive_reason_codes&#x60; instead. The fourth positive reason code associated with the score.
-  , craPartnerInsightsUltraFicoScorePositiveReasonCodes :: !(Maybe [Text]) -- ^ "positive_reason_codes" - Positive reason codes associated with the score (reasons the score moved upward), in priority order. May contain up to 4 items.
-  , craPartnerInsightsUltraFicoScoreReasonCode1 :: !(Maybe Text) -- ^ "reason_code_1" - Deprecated. Use &#x60;negative_reason_codes&#x60; instead. The first reason code associated with the score.
-  , craPartnerInsightsUltraFicoScoreReasonCode2 :: !(Maybe Text) -- ^ "reason_code_2" - Deprecated. Use &#x60;negative_reason_codes&#x60; instead. The second reason code associated with the score.
-  , craPartnerInsightsUltraFicoScoreReasonCode3 :: !(Maybe Text) -- ^ "reason_code_3" - Deprecated. Use &#x60;negative_reason_codes&#x60; instead. The third reason code associated with the score.
-  , craPartnerInsightsUltraFicoScoreReasonCode4 :: !(Maybe Text) -- ^ "reason_code_4" - Deprecated. Use &#x60;negative_reason_codes&#x60; instead. The fourth reason code associated with the score.
-  , craPartnerInsightsUltraFicoScoreScore :: !(Int) -- ^ /Required/ "score" - Numeric value of the UltraFICO® score.
-  , craPartnerInsightsUltraFicoScoreUltraficoScoreVersion :: !(CraPartnerInsightsUltraFicoScoreVersion) -- ^ /Required/ "ultrafico_score_version"
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON CraPartnerInsightsUltraFicoScore
-instance A.FromJSON CraPartnerInsightsUltraFicoScore where
-  parseJSON = A.withObject "CraPartnerInsightsUltraFicoScore" $ \o ->
-    CraPartnerInsightsUltraFicoScore
-      <$> (o .:? "did_inquiries_adversely_affect_score")
-      <*> (o .:? "negative_reason_codes")
-      <*> (o .:? "positive_reason_code_1")
-      <*> (o .:? "positive_reason_code_2")
-      <*> (o .:? "positive_reason_code_3")
-      <*> (o .:? "positive_reason_code_4")
-      <*> (o .:? "positive_reason_codes")
-      <*> (o .:? "reason_code_1")
-      <*> (o .:? "reason_code_2")
-      <*> (o .:? "reason_code_3")
-      <*> (o .:? "reason_code_4")
-      <*> (o .:  "score")
-      <*> (o .:  "ultrafico_score_version")
-
--- | ToJSON CraPartnerInsightsUltraFicoScore
-instance A.ToJSON CraPartnerInsightsUltraFicoScore where
-  toJSON CraPartnerInsightsUltraFicoScore {..} =
-   _omitNulls
-      [ "did_inquiries_adversely_affect_score" .= craPartnerInsightsUltraFicoScoreDidInquiriesAdverselyAffectScore
-      , "negative_reason_codes" .= craPartnerInsightsUltraFicoScoreNegativeReasonCodes
-      , "positive_reason_code_1" .= craPartnerInsightsUltraFicoScorePositiveReasonCode1
-      , "positive_reason_code_2" .= craPartnerInsightsUltraFicoScorePositiveReasonCode2
-      , "positive_reason_code_3" .= craPartnerInsightsUltraFicoScorePositiveReasonCode3
-      , "positive_reason_code_4" .= craPartnerInsightsUltraFicoScorePositiveReasonCode4
-      , "positive_reason_codes" .= craPartnerInsightsUltraFicoScorePositiveReasonCodes
-      , "reason_code_1" .= craPartnerInsightsUltraFicoScoreReasonCode1
-      , "reason_code_2" .= craPartnerInsightsUltraFicoScoreReasonCode2
-      , "reason_code_3" .= craPartnerInsightsUltraFicoScoreReasonCode3
-      , "reason_code_4" .= craPartnerInsightsUltraFicoScoreReasonCode4
-      , "score" .= craPartnerInsightsUltraFicoScoreScore
-      , "ultrafico_score_version" .= craPartnerInsightsUltraFicoScoreUltraficoScoreVersion
-      ]
-
-
--- | Construct a value of type 'CraPartnerInsightsUltraFicoScore' (by applying it's required fields, if any)
-mkCraPartnerInsightsUltraFicoScore
-  :: Int -- ^ 'craPartnerInsightsUltraFicoScoreScore': Numeric value of the UltraFICO® score.
-  -> CraPartnerInsightsUltraFicoScoreVersion -- ^ 'craPartnerInsightsUltraFicoScoreUltraficoScoreVersion' 
-  -> CraPartnerInsightsUltraFicoScore
-mkCraPartnerInsightsUltraFicoScore craPartnerInsightsUltraFicoScoreScore craPartnerInsightsUltraFicoScoreUltraficoScoreVersion =
-  CraPartnerInsightsUltraFicoScore
-  { craPartnerInsightsUltraFicoScoreDidInquiriesAdverselyAffectScore = Nothing
-  , craPartnerInsightsUltraFicoScoreNegativeReasonCodes = Nothing
-  , craPartnerInsightsUltraFicoScorePositiveReasonCode1 = Nothing
-  , craPartnerInsightsUltraFicoScorePositiveReasonCode2 = Nothing
-  , craPartnerInsightsUltraFicoScorePositiveReasonCode3 = Nothing
-  , craPartnerInsightsUltraFicoScorePositiveReasonCode4 = Nothing
-  , craPartnerInsightsUltraFicoScorePositiveReasonCodes = Nothing
-  , craPartnerInsightsUltraFicoScoreReasonCode1 = Nothing
-  , craPartnerInsightsUltraFicoScoreReasonCode2 = Nothing
-  , craPartnerInsightsUltraFicoScoreReasonCode3 = Nothing
-  , craPartnerInsightsUltraFicoScoreReasonCode4 = Nothing
-  , craPartnerInsightsUltraFicoScoreScore
-  , craPartnerInsightsUltraFicoScoreUltraficoScoreVersion
-  }
-
--- ** CraPartnerInsightsUltraFicoScoreRequest
--- | CraPartnerInsightsUltraFicoScoreRequest
--- CraPartnerInsightsUltraFicoScoreRequest
--- 
--- Configuration required to generate a single UltraFICO® score.
-data CraPartnerInsightsUltraFicoScoreRequest = CraPartnerInsightsUltraFicoScoreRequest
-  { craPartnerInsightsUltraFicoScoreRequestBaseFicoScore :: !(CraPartnerInsightsBaseFicoScore) -- ^ /Required/ "base_fico_score"
-  , craPartnerInsightsUltraFicoScoreRequestFicoScoringRequestId :: !(Maybe Text) -- ^ "fico_scoring_request_id" - FICO identifier for a particular scoring request. Should only be provided by FICO as part of the FICO-led flow.
-  , craPartnerInsightsUltraFicoScoreRequestRequestCorrelationId :: !(Maybe Text) -- ^ "request_correlation_id" - Client-generated identifier that can be used to correlate scoring requests with their scoring results.
-  , craPartnerInsightsUltraFicoScoreRequestUltraficoScoreVersion :: !(CraPartnerInsightsUltraFicoScoreVersion) -- ^ /Required/ "ultrafico_score_version"
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON CraPartnerInsightsUltraFicoScoreRequest
-instance A.FromJSON CraPartnerInsightsUltraFicoScoreRequest where
-  parseJSON = A.withObject "CraPartnerInsightsUltraFicoScoreRequest" $ \o ->
-    CraPartnerInsightsUltraFicoScoreRequest
-      <$> (o .:  "base_fico_score")
-      <*> (o .:? "fico_scoring_request_id")
-      <*> (o .:? "request_correlation_id")
-      <*> (o .:  "ultrafico_score_version")
-
--- | ToJSON CraPartnerInsightsUltraFicoScoreRequest
-instance A.ToJSON CraPartnerInsightsUltraFicoScoreRequest where
-  toJSON CraPartnerInsightsUltraFicoScoreRequest {..} =
-   _omitNulls
-      [ "base_fico_score" .= craPartnerInsightsUltraFicoScoreRequestBaseFicoScore
-      , "fico_scoring_request_id" .= craPartnerInsightsUltraFicoScoreRequestFicoScoringRequestId
-      , "request_correlation_id" .= craPartnerInsightsUltraFicoScoreRequestRequestCorrelationId
-      , "ultrafico_score_version" .= craPartnerInsightsUltraFicoScoreRequestUltraficoScoreVersion
-      ]
-
-
--- | Construct a value of type 'CraPartnerInsightsUltraFicoScoreRequest' (by applying it's required fields, if any)
-mkCraPartnerInsightsUltraFicoScoreRequest
-  :: CraPartnerInsightsBaseFicoScore -- ^ 'craPartnerInsightsUltraFicoScoreRequestBaseFicoScore' 
-  -> CraPartnerInsightsUltraFicoScoreVersion -- ^ 'craPartnerInsightsUltraFicoScoreRequestUltraficoScoreVersion' 
-  -> CraPartnerInsightsUltraFicoScoreRequest
-mkCraPartnerInsightsUltraFicoScoreRequest craPartnerInsightsUltraFicoScoreRequestBaseFicoScore craPartnerInsightsUltraFicoScoreRequestUltraficoScoreVersion =
-  CraPartnerInsightsUltraFicoScoreRequest
-  { craPartnerInsightsUltraFicoScoreRequestBaseFicoScore
-  , craPartnerInsightsUltraFicoScoreRequestFicoScoringRequestId = Nothing
-  , craPartnerInsightsUltraFicoScoreRequestRequestCorrelationId = Nothing
-  , craPartnerInsightsUltraFicoScoreRequestUltraficoScoreVersion
-  }
-
--- ** CraPartnerInsightsUltraFicoScoreResult
--- | CraPartnerInsightsUltraFicoScoreResult
--- CraPartnerInsightsUltraFicoScoreResult
--- 
--- The result of a single UltraFICO® score generation request.
-data CraPartnerInsightsUltraFicoScoreResult = CraPartnerInsightsUltraFicoScoreResult
-  { craPartnerInsightsUltraFicoScoreResultErrorReason :: !(Maybe Text) -- ^ "error_reason" - Human-readable description of why the UltraFICO® score could not be computed.
-  , craPartnerInsightsUltraFicoScoreResultExclusionCode :: !(Maybe Text) -- ^ "exclusion_code" - FICO exclusion code indicating why an UltraFICO® score could not be computed due to consumer-data conditions (e.g. insufficient account history). &#x60;null&#x60; when the exclusion code is not set; \&quot;0\&quot; when a score was produced.
-  , craPartnerInsightsUltraFicoScoreResultFicoScoringRequestId :: !(Maybe Text) -- ^ "fico_scoring_request_id" - FICO-provided identifier that uniquely identifies this score generation request.
-  , craPartnerInsightsUltraFicoScoreResultRequestCorrelationId :: !(Maybe Text) -- ^ "request_correlation_id" - Client-generated identifier that can be used to correlate scoring requests with their scoring results.
-  , craPartnerInsightsUltraFicoScoreResultUltraficoScore :: !(Maybe CraPartnerInsightsUltraFicoScore) -- ^ "ultrafico_score"
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON CraPartnerInsightsUltraFicoScoreResult
-instance A.FromJSON CraPartnerInsightsUltraFicoScoreResult where
-  parseJSON = A.withObject "CraPartnerInsightsUltraFicoScoreResult" $ \o ->
-    CraPartnerInsightsUltraFicoScoreResult
-      <$> (o .:? "error_reason")
-      <*> (o .:? "exclusion_code")
-      <*> (o .:? "fico_scoring_request_id")
-      <*> (o .:? "request_correlation_id")
-      <*> (o .:? "ultrafico_score")
-
--- | ToJSON CraPartnerInsightsUltraFicoScoreResult
-instance A.ToJSON CraPartnerInsightsUltraFicoScoreResult where
-  toJSON CraPartnerInsightsUltraFicoScoreResult {..} =
-   _omitNulls
-      [ "error_reason" .= craPartnerInsightsUltraFicoScoreResultErrorReason
-      , "exclusion_code" .= craPartnerInsightsUltraFicoScoreResultExclusionCode
-      , "fico_scoring_request_id" .= craPartnerInsightsUltraFicoScoreResultFicoScoringRequestId
-      , "request_correlation_id" .= craPartnerInsightsUltraFicoScoreResultRequestCorrelationId
-      , "ultrafico_score" .= craPartnerInsightsUltraFicoScoreResultUltraficoScore
-      ]
-
-
--- | Construct a value of type 'CraPartnerInsightsUltraFicoScoreResult' (by applying it's required fields, if any)
-mkCraPartnerInsightsUltraFicoScoreResult
-  :: CraPartnerInsightsUltraFicoScoreResult
-mkCraPartnerInsightsUltraFicoScoreResult =
-  CraPartnerInsightsUltraFicoScoreResult
-  { craPartnerInsightsUltraFicoScoreResultErrorReason = Nothing
-  , craPartnerInsightsUltraFicoScoreResultExclusionCode = Nothing
-  , craPartnerInsightsUltraFicoScoreResultFicoScoringRequestId = Nothing
-  , craPartnerInsightsUltraFicoScoreResultRequestCorrelationId = Nothing
-  , craPartnerInsightsUltraFicoScoreResultUltraficoScore = Nothing
-  }
-
--- ** CraPredictionInterval
--- | CraPredictionInterval
--- The object containing prediction interval data.
-data CraPredictionInterval = CraPredictionInterval
-  { craPredictionIntervalLowerBound :: !(Maybe Double) -- ^ "lower_bound" - The lower bound of the predicted attribute for the given probability.
-  , craPredictionIntervalProbability :: !(Maybe Double) -- ^ "probability" - The probability of the actual value of the attribute falling within the upper and lower bound. This is a percentage represented as a value between 0 and 1.
-  , craPredictionIntervalUpperBound :: !(Maybe Double) -- ^ "upper_bound" - The upper bound of the predicted attribute for the given probability.
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON CraPredictionInterval
-instance A.FromJSON CraPredictionInterval where
-  parseJSON = A.withObject "CraPredictionInterval" $ \o ->
-    CraPredictionInterval
-      <$> (o .:? "lower_bound")
-      <*> (o .:? "probability")
-      <*> (o .:? "upper_bound")
-
--- | ToJSON CraPredictionInterval
-instance A.ToJSON CraPredictionInterval where
-  toJSON CraPredictionInterval {..} =
-   _omitNulls
-      [ "lower_bound" .= craPredictionIntervalLowerBound
-      , "probability" .= craPredictionIntervalProbability
-      , "upper_bound" .= craPredictionIntervalUpperBound
-      ]
-
-
--- | Construct a value of type 'CraPredictionInterval' (by applying it's required fields, if any)
-mkCraPredictionInterval
-  :: CraPredictionInterval
-mkCraPredictionInterval =
-  CraPredictionInterval
-  { craPredictionIntervalLowerBound = Nothing
-  , craPredictionIntervalProbability = Nothing
-  , craPredictionIntervalUpperBound = Nothing
-  }
-
 -- ** CraProjectedModeledIncome
 -- | CraProjectedModeledIncome
 -- CraProjectedModeledIncome
@@ -17961,83 +14659,6 @@ mkCraProjectedModeledIncome craProjectedModeledIncomeAnnual craProjectedModeledI
   CraProjectedModeledIncome
   { craProjectedModeledIncomeAnnual
   , craProjectedModeledIncomeMonthly
-  }
-
--- ** CreditAmountWithCurrency
--- | CreditAmountWithCurrency
--- This contains an amount, denominated in the currency specified by either `iso_currency_code` or `unofficial_currency_code`
-data CreditAmountWithCurrency = CreditAmountWithCurrency
-  { creditAmountWithCurrencyAmount :: !(Double) -- ^ /Required/ "amount" - Value of amount with up to 2 decimal places.
-  , creditAmountWithCurrencyIsoCurrencyCode :: !(Text) -- ^ /Required/ "iso_currency_code" - The ISO 4217 currency code of the amount or balance.
-  , creditAmountWithCurrencyUnofficialCurrencyCode :: !(Text) -- ^ /Required/ "unofficial_currency_code" - The unofficial currency code associated with the amount or balance. Always &#x60;null&#x60; if &#x60;iso_currency_code&#x60; is non-null. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries.
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON CreditAmountWithCurrency
-instance A.FromJSON CreditAmountWithCurrency where
-  parseJSON = A.withObject "CreditAmountWithCurrency" $ \o ->
-    CreditAmountWithCurrency
-      <$> (o .:  "amount")
-      <*> (o .:  "iso_currency_code")
-      <*> (o .:  "unofficial_currency_code")
-
--- | ToJSON CreditAmountWithCurrency
-instance A.ToJSON CreditAmountWithCurrency where
-  toJSON CreditAmountWithCurrency {..} =
-   _omitNulls
-      [ "amount" .= creditAmountWithCurrencyAmount
-      , "iso_currency_code" .= creditAmountWithCurrencyIsoCurrencyCode
-      , "unofficial_currency_code" .= creditAmountWithCurrencyUnofficialCurrencyCode
-      ]
-
-
--- | Construct a value of type 'CreditAmountWithCurrency' (by applying it's required fields, if any)
-mkCreditAmountWithCurrency
-  :: Double -- ^ 'creditAmountWithCurrencyAmount': Value of amount with up to 2 decimal places.
-  -> Text -- ^ 'creditAmountWithCurrencyIsoCurrencyCode': The ISO 4217 currency code of the amount or balance.
-  -> Text -- ^ 'creditAmountWithCurrencyUnofficialCurrencyCode': The unofficial currency code associated with the amount or balance. Always `null` if `iso_currency_code` is non-null. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries.
-  -> CreditAmountWithCurrency
-mkCreditAmountWithCurrency creditAmountWithCurrencyAmount creditAmountWithCurrencyIsoCurrencyCode creditAmountWithCurrencyUnofficialCurrencyCode =
-  CreditAmountWithCurrency
-  { creditAmountWithCurrencyAmount
-  , creditAmountWithCurrencyIsoCurrencyCode
-  , creditAmountWithCurrencyUnofficialCurrencyCode
-  }
-
--- ** CreditCategory
--- | CreditCategory
--- CreditCategory
--- 
--- Information describing the intent of the transaction. Most relevant for credit use cases, but not limited to such use cases.  See the [`taxonomy csv file`](https://plaid.com/documents/credit-category-taxonomy.csv) for a full list of credit categories.
-data CreditCategory = CreditCategory
-  { creditCategoryDetailed :: !(Text) -- ^ /Required/ "detailed" - A granular category conveying the transaction&#39;s intent. This field can also be used as a unique identifier for the category.
-  , creditCategoryPrimary :: !(Text) -- ^ /Required/ "primary" - A high level category that communicates the broad category of the transaction.
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON CreditCategory
-instance A.FromJSON CreditCategory where
-  parseJSON = A.withObject "CreditCategory" $ \o ->
-    CreditCategory
-      <$> (o .:  "detailed")
-      <*> (o .:  "primary")
-
--- | ToJSON CreditCategory
-instance A.ToJSON CreditCategory where
-  toJSON CreditCategory {..} =
-   _omitNulls
-      [ "detailed" .= creditCategoryDetailed
-      , "primary" .= creditCategoryPrimary
-      ]
-
-
--- | Construct a value of type 'CreditCategory' (by applying it's required fields, if any)
-mkCreditCategory
-  :: Text -- ^ 'creditCategoryDetailed': A granular category conveying the transaction's intent. This field can also be used as a unique identifier for the category.
-  -> Text -- ^ 'creditCategoryPrimary': A high level category that communicates the broad category of the transaction.
-  -> CreditCategory
-mkCreditCategory creditCategoryDetailed creditCategoryPrimary =
-  CreditCategory
-  { creditCategoryDetailed
-  , creditCategoryPrimary
   }
 
 -- ** CustomerInitiatedReturnRisk
@@ -18190,413 +14811,6 @@ mkPlaidError plaidErrorDisplayMessage plaidErrorErrorCode plaidErrorErrorMessage
   , plaidErrorRequiredAccountSubtypes = Nothing
   , plaidErrorStatus = Nothing
   , plaidErrorSuggestedAction = Nothing
-  }
-
--- ** PrismCashScore
--- | PrismCashScore
--- The data from the CashScore® product returned by Prism Data.
-data PrismCashScore = PrismCashScore
-  { prismCashScoreErrorReason :: !(Maybe Text) -- ^ "error_reason" - The error returned by Prism for this product.
-  , prismCashScoreMetadata :: !(Maybe PrismCashScoreMetadata) -- ^ "metadata"
-  , prismCashScoreModelVersion :: !(Maybe Text) -- ^ "model_version" - The version of Prism Data&#39;s cash score model used.
-  , prismCashScoreReasonCodes :: !(Maybe [Text]) -- ^ "reason_codes" - The reasons for an individual having risk according to the cash score.
-  , prismCashScoreScore :: !(Int) -- ^ /Required/ "score" - The score returned by Prism Data. Ranges from 1-999, with higher score indicating lower risk.
-  , prismCashScoreVersion :: !(Int) -- ^ /Required/ "version" - The version of Prism Data&#39;s cash score model used. This field is deprecated in favor of &#x60;model_version&#x60;.
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON PrismCashScore
-instance A.FromJSON PrismCashScore where
-  parseJSON = A.withObject "PrismCashScore" $ \o ->
-    PrismCashScore
-      <$> (o .:? "error_reason")
-      <*> (o .:? "metadata")
-      <*> (o .:? "model_version")
-      <*> (o .:? "reason_codes")
-      <*> (o .:  "score")
-      <*> (o .:  "version")
-
--- | ToJSON PrismCashScore
-instance A.ToJSON PrismCashScore where
-  toJSON PrismCashScore {..} =
-   _omitNulls
-      [ "error_reason" .= prismCashScoreErrorReason
-      , "metadata" .= prismCashScoreMetadata
-      , "model_version" .= prismCashScoreModelVersion
-      , "reason_codes" .= prismCashScoreReasonCodes
-      , "score" .= prismCashScoreScore
-      , "version" .= prismCashScoreVersion
-      ]
-
-
--- | Construct a value of type 'PrismCashScore' (by applying it's required fields, if any)
-mkPrismCashScore
-  :: Int -- ^ 'prismCashScoreScore': The score returned by Prism Data. Ranges from 1-999, with higher score indicating lower risk.
-  -> Int -- ^ 'prismCashScoreVersion': The version of Prism Data's cash score model used. This field is deprecated in favor of `model_version`.
-  -> PrismCashScore
-mkPrismCashScore prismCashScoreScore prismCashScoreVersion =
-  PrismCashScore
-  { prismCashScoreErrorReason = Nothing
-  , prismCashScoreMetadata = Nothing
-  , prismCashScoreModelVersion = Nothing
-  , prismCashScoreReasonCodes = Nothing
-  , prismCashScoreScore
-  , prismCashScoreVersion
-  }
-
--- ** PrismCashScoreMetadata
--- | PrismCashScoreMetadata
--- An object containing metadata about the provided transactions.
-data PrismCashScoreMetadata = PrismCashScoreMetadata
-  { prismCashScoreMetadataL1mCreditValueCnt :: !(Int) -- ^ /Required/ "l1m_credit_value_cnt" - Number of credit transactions in the last 30 days.
-  , prismCashScoreMetadataL1mDebitValueCnt :: !(Int) -- ^ /Required/ "l1m_debit_value_cnt" - Number of debit transactions in the last 30 days.
-  , prismCashScoreMetadataMaxAge :: !(Int) -- ^ /Required/ "max_age" - Number of days since the oldest transaction.
-  , prismCashScoreMetadataMaxAgeCredit :: !(Int) -- ^ /Required/ "max_age_credit" - Number of days since the oldest credit transaction.
-  , prismCashScoreMetadataMaxAgeDebit :: !(Int) -- ^ /Required/ "max_age_debit" - Number of days since the oldest debit transaction.
-  , prismCashScoreMetadataMinAge :: !(Int) -- ^ /Required/ "min_age" - Number of days since the latest transaction.
-  , prismCashScoreMetadataMinAgeCredit :: !(Int) -- ^ /Required/ "min_age_credit" - Number of days since the latest credit transaction.
-  , prismCashScoreMetadataMinAgeDebit :: !(Int) -- ^ /Required/ "min_age_debit" - Number of days since the latest debit transaction.
-  , prismCashScoreMetadataNumTrxnCredit :: !(Int) -- ^ /Required/ "num_trxn_credit" - Number of credit transactions.
-  , prismCashScoreMetadataNumTrxnDebit :: !(Int) -- ^ /Required/ "num_trxn_debit" - Number of debit transactions.
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON PrismCashScoreMetadata
-instance A.FromJSON PrismCashScoreMetadata where
-  parseJSON = A.withObject "PrismCashScoreMetadata" $ \o ->
-    PrismCashScoreMetadata
-      <$> (o .:  "l1m_credit_value_cnt")
-      <*> (o .:  "l1m_debit_value_cnt")
-      <*> (o .:  "max_age")
-      <*> (o .:  "max_age_credit")
-      <*> (o .:  "max_age_debit")
-      <*> (o .:  "min_age")
-      <*> (o .:  "min_age_credit")
-      <*> (o .:  "min_age_debit")
-      <*> (o .:  "num_trxn_credit")
-      <*> (o .:  "num_trxn_debit")
-
--- | ToJSON PrismCashScoreMetadata
-instance A.ToJSON PrismCashScoreMetadata where
-  toJSON PrismCashScoreMetadata {..} =
-   _omitNulls
-      [ "l1m_credit_value_cnt" .= prismCashScoreMetadataL1mCreditValueCnt
-      , "l1m_debit_value_cnt" .= prismCashScoreMetadataL1mDebitValueCnt
-      , "max_age" .= prismCashScoreMetadataMaxAge
-      , "max_age_credit" .= prismCashScoreMetadataMaxAgeCredit
-      , "max_age_debit" .= prismCashScoreMetadataMaxAgeDebit
-      , "min_age" .= prismCashScoreMetadataMinAge
-      , "min_age_credit" .= prismCashScoreMetadataMinAgeCredit
-      , "min_age_debit" .= prismCashScoreMetadataMinAgeDebit
-      , "num_trxn_credit" .= prismCashScoreMetadataNumTrxnCredit
-      , "num_trxn_debit" .= prismCashScoreMetadataNumTrxnDebit
-      ]
-
-
--- | Construct a value of type 'PrismCashScoreMetadata' (by applying it's required fields, if any)
-mkPrismCashScoreMetadata
-  :: Int -- ^ 'prismCashScoreMetadataL1mCreditValueCnt': Number of credit transactions in the last 30 days.
-  -> Int -- ^ 'prismCashScoreMetadataL1mDebitValueCnt': Number of debit transactions in the last 30 days.
-  -> Int -- ^ 'prismCashScoreMetadataMaxAge': Number of days since the oldest transaction.
-  -> Int -- ^ 'prismCashScoreMetadataMaxAgeCredit': Number of days since the oldest credit transaction.
-  -> Int -- ^ 'prismCashScoreMetadataMaxAgeDebit': Number of days since the oldest debit transaction.
-  -> Int -- ^ 'prismCashScoreMetadataMinAge': Number of days since the latest transaction.
-  -> Int -- ^ 'prismCashScoreMetadataMinAgeCredit': Number of days since the latest credit transaction.
-  -> Int -- ^ 'prismCashScoreMetadataMinAgeDebit': Number of days since the latest debit transaction.
-  -> Int -- ^ 'prismCashScoreMetadataNumTrxnCredit': Number of credit transactions.
-  -> Int -- ^ 'prismCashScoreMetadataNumTrxnDebit': Number of debit transactions.
-  -> PrismCashScoreMetadata
-mkPrismCashScoreMetadata prismCashScoreMetadataL1mCreditValueCnt prismCashScoreMetadataL1mDebitValueCnt prismCashScoreMetadataMaxAge prismCashScoreMetadataMaxAgeCredit prismCashScoreMetadataMaxAgeDebit prismCashScoreMetadataMinAge prismCashScoreMetadataMinAgeCredit prismCashScoreMetadataMinAgeDebit prismCashScoreMetadataNumTrxnCredit prismCashScoreMetadataNumTrxnDebit =
-  PrismCashScoreMetadata
-  { prismCashScoreMetadataL1mCreditValueCnt
-  , prismCashScoreMetadataL1mDebitValueCnt
-  , prismCashScoreMetadataMaxAge
-  , prismCashScoreMetadataMaxAgeCredit
-  , prismCashScoreMetadataMaxAgeDebit
-  , prismCashScoreMetadataMinAge
-  , prismCashScoreMetadataMinAgeCredit
-  , prismCashScoreMetadataMinAgeDebit
-  , prismCashScoreMetadataNumTrxnCredit
-  , prismCashScoreMetadataNumTrxnDebit
-  }
-
--- ** PrismDetect
--- | PrismDetect
--- The data from the CashScore® Detect product returned by Prism Data.
-data PrismDetect = PrismDetect
-  { prismDetectErrorReason :: !(Maybe Text) -- ^ "error_reason" - The error returned by Prism for this product.
-  , prismDetectMetadata :: !(Maybe PrismCashScoreMetadata) -- ^ "metadata"
-  , prismDetectModelVersion :: !(Text) -- ^ /Required/ "model_version" - The version of Prism Data&#39;s CashScore® Detect model used.
-  , prismDetectReasonCodes :: !(Maybe [Text]) -- ^ "reason_codes" - The reasons for an individual having risk according to the CashScore® Detect score.
-  , prismDetectScore :: !(Int) -- ^ /Required/ "score" - The score returned by Prism Data. Ranges from 1-999, with higher score indicating lower risk.
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON PrismDetect
-instance A.FromJSON PrismDetect where
-  parseJSON = A.withObject "PrismDetect" $ \o ->
-    PrismDetect
-      <$> (o .:? "error_reason")
-      <*> (o .:? "metadata")
-      <*> (o .:  "model_version")
-      <*> (o .:? "reason_codes")
-      <*> (o .:  "score")
-
--- | ToJSON PrismDetect
-instance A.ToJSON PrismDetect where
-  toJSON PrismDetect {..} =
-   _omitNulls
-      [ "error_reason" .= prismDetectErrorReason
-      , "metadata" .= prismDetectMetadata
-      , "model_version" .= prismDetectModelVersion
-      , "reason_codes" .= prismDetectReasonCodes
-      , "score" .= prismDetectScore
-      ]
-
-
--- | Construct a value of type 'PrismDetect' (by applying it's required fields, if any)
-mkPrismDetect
-  :: Text -- ^ 'prismDetectModelVersion': The version of Prism Data's CashScore® Detect model used.
-  -> Int -- ^ 'prismDetectScore': The score returned by Prism Data. Ranges from 1-999, with higher score indicating lower risk.
-  -> PrismDetect
-mkPrismDetect prismDetectModelVersion prismDetectScore =
-  PrismDetect
-  { prismDetectErrorReason = Nothing
-  , prismDetectMetadata = Nothing
-  , prismDetectModelVersion
-  , prismDetectReasonCodes = Nothing
-  , prismDetectScore
-  }
-
--- ** PrismExtend
--- | PrismExtend
--- The data from the CashScore® Extend product returned by Prism Data.
-data PrismExtend = PrismExtend
-  { prismExtendErrorReason :: !(Maybe Text) -- ^ "error_reason" - The error returned by Prism for this product.
-  , prismExtendMetadata :: !(Maybe PrismCashScoreMetadata) -- ^ "metadata"
-  , prismExtendModelVersion :: !(Text) -- ^ /Required/ "model_version" - The version of Prism Data&#39;s CashScore® Extend model used.
-  , prismExtendReasonCodes :: !(Maybe [Text]) -- ^ "reason_codes" - The reasons for an individual having risk according to the CashScore® Extend score.
-  , prismExtendScore :: !(Int) -- ^ /Required/ "score" - The score returned by Prism Data. Ranges from 1-999, with higher score indicating lower risk.
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON PrismExtend
-instance A.FromJSON PrismExtend where
-  parseJSON = A.withObject "PrismExtend" $ \o ->
-    PrismExtend
-      <$> (o .:? "error_reason")
-      <*> (o .:? "metadata")
-      <*> (o .:  "model_version")
-      <*> (o .:? "reason_codes")
-      <*> (o .:  "score")
-
--- | ToJSON PrismExtend
-instance A.ToJSON PrismExtend where
-  toJSON PrismExtend {..} =
-   _omitNulls
-      [ "error_reason" .= prismExtendErrorReason
-      , "metadata" .= prismExtendMetadata
-      , "model_version" .= prismExtendModelVersion
-      , "reason_codes" .= prismExtendReasonCodes
-      , "score" .= prismExtendScore
-      ]
-
-
--- | Construct a value of type 'PrismExtend' (by applying it's required fields, if any)
-mkPrismExtend
-  :: Text -- ^ 'prismExtendModelVersion': The version of Prism Data's CashScore® Extend model used.
-  -> Int -- ^ 'prismExtendScore': The score returned by Prism Data. Ranges from 1-999, with higher score indicating lower risk.
-  -> PrismExtend
-mkPrismExtend prismExtendModelVersion prismExtendScore =
-  PrismExtend
-  { prismExtendErrorReason = Nothing
-  , prismExtendMetadata = Nothing
-  , prismExtendModelVersion
-  , prismExtendReasonCodes = Nothing
-  , prismExtendScore
-  }
-
--- ** PrismFirstDetect
--- | PrismFirstDetect
--- The data from the FirstDetect product returned by Prism Data.
-data PrismFirstDetect = PrismFirstDetect
-  { prismFirstDetectErrorReason :: !(Maybe Text) -- ^ "error_reason" - The error returned by Prism for this product.
-  , prismFirstDetectMetadata :: !(Maybe PrismCashScoreMetadata) -- ^ "metadata"
-  , prismFirstDetectModelVersion :: !(Maybe Text) -- ^ "model_version" - The version of Prism Data&#39;s FirstDetect model used.
-  , prismFirstDetectReasonCodes :: !(Maybe [Text]) -- ^ "reason_codes" - The reasons for an individual having risk according to the FirstDetect score.
-  , prismFirstDetectScore :: !(Int) -- ^ /Required/ "score" - The score returned by Prism Data. Ranges from 1-999, with higher score indicating lower risk.
-  , prismFirstDetectVersion :: !(Int) -- ^ /Required/ "version" - The version of Prism Data&#39;s FirstDetect model used. This field is deprecated in favor of &#x60;model_version&#x60;.
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON PrismFirstDetect
-instance A.FromJSON PrismFirstDetect where
-  parseJSON = A.withObject "PrismFirstDetect" $ \o ->
-    PrismFirstDetect
-      <$> (o .:? "error_reason")
-      <*> (o .:? "metadata")
-      <*> (o .:? "model_version")
-      <*> (o .:? "reason_codes")
-      <*> (o .:  "score")
-      <*> (o .:  "version")
-
--- | ToJSON PrismFirstDetect
-instance A.ToJSON PrismFirstDetect where
-  toJSON PrismFirstDetect {..} =
-   _omitNulls
-      [ "error_reason" .= prismFirstDetectErrorReason
-      , "metadata" .= prismFirstDetectMetadata
-      , "model_version" .= prismFirstDetectModelVersion
-      , "reason_codes" .= prismFirstDetectReasonCodes
-      , "score" .= prismFirstDetectScore
-      , "version" .= prismFirstDetectVersion
-      ]
-
-
--- | Construct a value of type 'PrismFirstDetect' (by applying it's required fields, if any)
-mkPrismFirstDetect
-  :: Int -- ^ 'prismFirstDetectScore': The score returned by Prism Data. Ranges from 1-999, with higher score indicating lower risk.
-  -> Int -- ^ 'prismFirstDetectVersion': The version of Prism Data's FirstDetect model used. This field is deprecated in favor of `model_version`.
-  -> PrismFirstDetect
-mkPrismFirstDetect prismFirstDetectScore prismFirstDetectVersion =
-  PrismFirstDetect
-  { prismFirstDetectErrorReason = Nothing
-  , prismFirstDetectMetadata = Nothing
-  , prismFirstDetectModelVersion = Nothing
-  , prismFirstDetectReasonCodes = Nothing
-  , prismFirstDetectScore
-  , prismFirstDetectVersion
-  }
-
--- ** PrismInsights
--- | PrismInsights
--- The data from the Insights product returned by Prism Data.
-data PrismInsights = PrismInsights
-  { prismInsightsErrorReason :: !(Maybe Text) -- ^ "error_reason" - The error returned by Prism for this product.
-  , prismInsightsModelVersion :: !(Maybe Text) -- ^ "model_version" - The version of Prism Data&#39;s insights model used.
-  , prismInsightsResult :: !(Maybe A.Value) -- ^ "result" - The Insights Result object is a map of cash flow attributes, where the key is a string, and the value is a float or string. For a full list of all ~2,000 attributes, contact your account manager. The attributes may vary depending on the Prism version used.
-  , prismInsightsVersion :: !(Int) -- ^ /Required/ "version" - The version of Prism Data&#39;s insights model used. This field is deprecated in favor of &#x60;model_version&#x60;.
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON PrismInsights
-instance A.FromJSON PrismInsights where
-  parseJSON = A.withObject "PrismInsights" $ \o ->
-    PrismInsights
-      <$> (o .:? "error_reason")
-      <*> (o .:? "model_version")
-      <*> (o .:? "result")
-      <*> (o .:  "version")
-
--- | ToJSON PrismInsights
-instance A.ToJSON PrismInsights where
-  toJSON PrismInsights {..} =
-   _omitNulls
-      [ "error_reason" .= prismInsightsErrorReason
-      , "model_version" .= prismInsightsModelVersion
-      , "result" .= prismInsightsResult
-      , "version" .= prismInsightsVersion
-      ]
-
-
--- | Construct a value of type 'PrismInsights' (by applying it's required fields, if any)
-mkPrismInsights
-  :: Int -- ^ 'prismInsightsVersion': The version of Prism Data's insights model used. This field is deprecated in favor of `model_version`.
-  -> PrismInsights
-mkPrismInsights prismInsightsVersion =
-  PrismInsights
-  { prismInsightsErrorReason = Nothing
-  , prismInsightsModelVersion = Nothing
-  , prismInsightsResult = Nothing
-  , prismInsightsVersion
-  }
-
--- ** PrismVersions
--- | PrismVersions
--- PrismVersions
--- 
--- The versions of Prism products to evaluate
-data PrismVersions = PrismVersions
-  { prismVersionsCashscore :: !(Maybe PrismCashScoreVersion) -- ^ "cashscore"
-  , prismVersionsDetect :: !(Maybe PrismDetectVersion) -- ^ "detect"
-  , prismVersionsExtend :: !(Maybe PrismExtendVersion) -- ^ "extend"
-  , prismVersionsFirstdetect :: !(Maybe PrismFirstDetectVersion) -- ^ "firstdetect"
-  , prismVersionsInsights :: !(Maybe PrismInsightsVersion) -- ^ "insights"
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON PrismVersions
-instance A.FromJSON PrismVersions where
-  parseJSON = A.withObject "PrismVersions" $ \o ->
-    PrismVersions
-      <$> (o .:? "cashscore")
-      <*> (o .:? "detect")
-      <*> (o .:? "extend")
-      <*> (o .:? "firstdetect")
-      <*> (o .:? "insights")
-
--- | ToJSON PrismVersions
-instance A.ToJSON PrismVersions where
-  toJSON PrismVersions {..} =
-   _omitNulls
-      [ "cashscore" .= prismVersionsCashscore
-      , "detect" .= prismVersionsDetect
-      , "extend" .= prismVersionsExtend
-      , "firstdetect" .= prismVersionsFirstdetect
-      , "insights" .= prismVersionsInsights
-      ]
-
-
--- | Construct a value of type 'PrismVersions' (by applying it's required fields, if any)
-mkPrismVersions
-  :: PrismVersions
-mkPrismVersions =
-  PrismVersions
-  { prismVersionsCashscore = Nothing
-  , prismVersionsDetect = Nothing
-  , prismVersionsExtend = Nothing
-  , prismVersionsFirstdetect = Nothing
-  , prismVersionsInsights = Nothing
-  }
-
--- ** PrismVersionsDeprecated
--- | PrismVersionsDeprecated
--- PrismVersions
--- 
--- Deprecated, use `partner_insights.prism_versions` instead.
-data PrismVersionsDeprecated = PrismVersionsDeprecated
-  { prismVersionsDeprecatedCashscore :: !(Maybe PrismCashScoreVersion) -- ^ "cashscore"
-  , prismVersionsDeprecatedDetect :: !(Maybe PrismDetectVersion) -- ^ "detect"
-  , prismVersionsDeprecatedExtend :: !(Maybe PrismExtendVersion) -- ^ "extend"
-  , prismVersionsDeprecatedFirstdetect :: !(Maybe PrismFirstDetectVersion) -- ^ "firstdetect"
-  , prismVersionsDeprecatedInsights :: !(Maybe PrismInsightsVersion) -- ^ "insights"
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON PrismVersionsDeprecated
-instance A.FromJSON PrismVersionsDeprecated where
-  parseJSON = A.withObject "PrismVersionsDeprecated" $ \o ->
-    PrismVersionsDeprecated
-      <$> (o .:? "cashscore")
-      <*> (o .:? "detect")
-      <*> (o .:? "extend")
-      <*> (o .:? "firstdetect")
-      <*> (o .:? "insights")
-
--- | ToJSON PrismVersionsDeprecated
-instance A.ToJSON PrismVersionsDeprecated where
-  toJSON PrismVersionsDeprecated {..} =
-   _omitNulls
-      [ "cashscore" .= prismVersionsDeprecatedCashscore
-      , "detect" .= prismVersionsDeprecatedDetect
-      , "extend" .= prismVersionsDeprecatedExtend
-      , "firstdetect" .= prismVersionsDeprecatedFirstdetect
-      , "insights" .= prismVersionsDeprecatedInsights
-      ]
-
-
--- | Construct a value of type 'PrismVersionsDeprecated' (by applying it's required fields, if any)
-mkPrismVersionsDeprecated
-  :: PrismVersionsDeprecated
-mkPrismVersionsDeprecated =
-  PrismVersionsDeprecated
-  { prismVersionsDeprecatedCashscore = Nothing
-  , prismVersionsDeprecatedDetect = Nothing
-  , prismVersionsDeprecatedExtend = Nothing
-  , prismVersionsDeprecatedFirstdetect = Nothing
-  , prismVersionsDeprecatedInsights = Nothing
   }
 
 -- ** RiskProfile
@@ -19627,646 +15841,6 @@ mkSignalWarning =
   { signalWarningWarningCode = Nothing
   , signalWarningWarningMessage = Nothing
   , signalWarningWarningType = Nothing
-  }
-
--- ** TotalInflowAmount
--- | TotalInflowAmount
--- Total amount of debit transactions into the account in the time period of the report. This field will be empty for non-depository accounts. This field only takes into account USD transactions from the account.
-data TotalInflowAmount = TotalInflowAmount
-  { totalInflowAmountAmount :: !(Double) -- ^ /Required/ "amount" - Value of amount with up to 2 decimal places.
-  , totalInflowAmountIsoCurrencyCode :: !(Text) -- ^ /Required/ "iso_currency_code" - The ISO 4217 currency code of the amount or balance.
-  , totalInflowAmountUnofficialCurrencyCode :: !(Text) -- ^ /Required/ "unofficial_currency_code" - The unofficial currency code associated with the amount or balance. Always &#x60;null&#x60; if &#x60;iso_currency_code&#x60; is non-null. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries.
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON TotalInflowAmount
-instance A.FromJSON TotalInflowAmount where
-  parseJSON = A.withObject "TotalInflowAmount" $ \o ->
-    TotalInflowAmount
-      <$> (o .:  "amount")
-      <*> (o .:  "iso_currency_code")
-      <*> (o .:  "unofficial_currency_code")
-
--- | ToJSON TotalInflowAmount
-instance A.ToJSON TotalInflowAmount where
-  toJSON TotalInflowAmount {..} =
-   _omitNulls
-      [ "amount" .= totalInflowAmountAmount
-      , "iso_currency_code" .= totalInflowAmountIsoCurrencyCode
-      , "unofficial_currency_code" .= totalInflowAmountUnofficialCurrencyCode
-      ]
-
-
--- | Construct a value of type 'TotalInflowAmount' (by applying it's required fields, if any)
-mkTotalInflowAmount
-  :: Double -- ^ 'totalInflowAmountAmount': Value of amount with up to 2 decimal places.
-  -> Text -- ^ 'totalInflowAmountIsoCurrencyCode': The ISO 4217 currency code of the amount or balance.
-  -> Text -- ^ 'totalInflowAmountUnofficialCurrencyCode': The unofficial currency code associated with the amount or balance. Always `null` if `iso_currency_code` is non-null. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries.
-  -> TotalInflowAmount
-mkTotalInflowAmount totalInflowAmountAmount totalInflowAmountIsoCurrencyCode totalInflowAmountUnofficialCurrencyCode =
-  TotalInflowAmount
-  { totalInflowAmountAmount
-  , totalInflowAmountIsoCurrencyCode
-  , totalInflowAmountUnofficialCurrencyCode
-  }
-
--- ** TotalInflowAmount30d
--- | TotalInflowAmount30d
--- Total amount of debit transactions into the account in the last 30 days. This field will be empty for non-depository accounts. This field only takes into account USD transactions from the account.
-data TotalInflowAmount30d = TotalInflowAmount30d
-  { totalInflowAmount30dAmount :: !(Double) -- ^ /Required/ "amount" - Value of amount with up to 2 decimal places.
-  , totalInflowAmount30dIsoCurrencyCode :: !(Text) -- ^ /Required/ "iso_currency_code" - The ISO 4217 currency code of the amount or balance.
-  , totalInflowAmount30dUnofficialCurrencyCode :: !(Text) -- ^ /Required/ "unofficial_currency_code" - The unofficial currency code associated with the amount or balance. Always &#x60;null&#x60; if &#x60;iso_currency_code&#x60; is non-null. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries.
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON TotalInflowAmount30d
-instance A.FromJSON TotalInflowAmount30d where
-  parseJSON = A.withObject "TotalInflowAmount30d" $ \o ->
-    TotalInflowAmount30d
-      <$> (o .:  "amount")
-      <*> (o .:  "iso_currency_code")
-      <*> (o .:  "unofficial_currency_code")
-
--- | ToJSON TotalInflowAmount30d
-instance A.ToJSON TotalInflowAmount30d where
-  toJSON TotalInflowAmount30d {..} =
-   _omitNulls
-      [ "amount" .= totalInflowAmount30dAmount
-      , "iso_currency_code" .= totalInflowAmount30dIsoCurrencyCode
-      , "unofficial_currency_code" .= totalInflowAmount30dUnofficialCurrencyCode
-      ]
-
-
--- | Construct a value of type 'TotalInflowAmount30d' (by applying it's required fields, if any)
-mkTotalInflowAmount30d
-  :: Double -- ^ 'totalInflowAmount30dAmount': Value of amount with up to 2 decimal places.
-  -> Text -- ^ 'totalInflowAmount30dIsoCurrencyCode': The ISO 4217 currency code of the amount or balance.
-  -> Text -- ^ 'totalInflowAmount30dUnofficialCurrencyCode': The unofficial currency code associated with the amount or balance. Always `null` if `iso_currency_code` is non-null. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries.
-  -> TotalInflowAmount30d
-mkTotalInflowAmount30d totalInflowAmount30dAmount totalInflowAmount30dIsoCurrencyCode totalInflowAmount30dUnofficialCurrencyCode =
-  TotalInflowAmount30d
-  { totalInflowAmount30dAmount
-  , totalInflowAmount30dIsoCurrencyCode
-  , totalInflowAmount30dUnofficialCurrencyCode
-  }
-
--- ** TotalInflowAmount60d
--- | TotalInflowAmount60d
--- Total amount of debit transactions into the account in the last 60 days. This field will be empty for non-depository accounts. This field only takes into account USD transactions from the account.
-data TotalInflowAmount60d = TotalInflowAmount60d
-  { totalInflowAmount60dAmount :: !(Double) -- ^ /Required/ "amount" - Value of amount with up to 2 decimal places.
-  , totalInflowAmount60dIsoCurrencyCode :: !(Text) -- ^ /Required/ "iso_currency_code" - The ISO 4217 currency code of the amount or balance.
-  , totalInflowAmount60dUnofficialCurrencyCode :: !(Text) -- ^ /Required/ "unofficial_currency_code" - The unofficial currency code associated with the amount or balance. Always &#x60;null&#x60; if &#x60;iso_currency_code&#x60; is non-null. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries.
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON TotalInflowAmount60d
-instance A.FromJSON TotalInflowAmount60d where
-  parseJSON = A.withObject "TotalInflowAmount60d" $ \o ->
-    TotalInflowAmount60d
-      <$> (o .:  "amount")
-      <*> (o .:  "iso_currency_code")
-      <*> (o .:  "unofficial_currency_code")
-
--- | ToJSON TotalInflowAmount60d
-instance A.ToJSON TotalInflowAmount60d where
-  toJSON TotalInflowAmount60d {..} =
-   _omitNulls
-      [ "amount" .= totalInflowAmount60dAmount
-      , "iso_currency_code" .= totalInflowAmount60dIsoCurrencyCode
-      , "unofficial_currency_code" .= totalInflowAmount60dUnofficialCurrencyCode
-      ]
-
-
--- | Construct a value of type 'TotalInflowAmount60d' (by applying it's required fields, if any)
-mkTotalInflowAmount60d
-  :: Double -- ^ 'totalInflowAmount60dAmount': Value of amount with up to 2 decimal places.
-  -> Text -- ^ 'totalInflowAmount60dIsoCurrencyCode': The ISO 4217 currency code of the amount or balance.
-  -> Text -- ^ 'totalInflowAmount60dUnofficialCurrencyCode': The unofficial currency code associated with the amount or balance. Always `null` if `iso_currency_code` is non-null. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries.
-  -> TotalInflowAmount60d
-mkTotalInflowAmount60d totalInflowAmount60dAmount totalInflowAmount60dIsoCurrencyCode totalInflowAmount60dUnofficialCurrencyCode =
-  TotalInflowAmount60d
-  { totalInflowAmount60dAmount
-  , totalInflowAmount60dIsoCurrencyCode
-  , totalInflowAmount60dUnofficialCurrencyCode
-  }
-
--- ** TotalInflowAmount90d
--- | TotalInflowAmount90d
--- Total amount of debit transactions into the account in the last 90 days. This field will be empty for non-depository accounts. This field only takes into account USD transactions from the account.
-data TotalInflowAmount90d = TotalInflowAmount90d
-  { totalInflowAmount90dAmount :: !(Double) -- ^ /Required/ "amount" - Value of amount with up to 2 decimal places.
-  , totalInflowAmount90dIsoCurrencyCode :: !(Text) -- ^ /Required/ "iso_currency_code" - The ISO 4217 currency code of the amount or balance.
-  , totalInflowAmount90dUnofficialCurrencyCode :: !(Text) -- ^ /Required/ "unofficial_currency_code" - The unofficial currency code associated with the amount or balance. Always &#x60;null&#x60; if &#x60;iso_currency_code&#x60; is non-null. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries.
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON TotalInflowAmount90d
-instance A.FromJSON TotalInflowAmount90d where
-  parseJSON = A.withObject "TotalInflowAmount90d" $ \o ->
-    TotalInflowAmount90d
-      <$> (o .:  "amount")
-      <*> (o .:  "iso_currency_code")
-      <*> (o .:  "unofficial_currency_code")
-
--- | ToJSON TotalInflowAmount90d
-instance A.ToJSON TotalInflowAmount90d where
-  toJSON TotalInflowAmount90d {..} =
-   _omitNulls
-      [ "amount" .= totalInflowAmount90dAmount
-      , "iso_currency_code" .= totalInflowAmount90dIsoCurrencyCode
-      , "unofficial_currency_code" .= totalInflowAmount90dUnofficialCurrencyCode
-      ]
-
-
--- | Construct a value of type 'TotalInflowAmount90d' (by applying it's required fields, if any)
-mkTotalInflowAmount90d
-  :: Double -- ^ 'totalInflowAmount90dAmount': Value of amount with up to 2 decimal places.
-  -> Text -- ^ 'totalInflowAmount90dIsoCurrencyCode': The ISO 4217 currency code of the amount or balance.
-  -> Text -- ^ 'totalInflowAmount90dUnofficialCurrencyCode': The unofficial currency code associated with the amount or balance. Always `null` if `iso_currency_code` is non-null. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries.
-  -> TotalInflowAmount90d
-mkTotalInflowAmount90d totalInflowAmount90dAmount totalInflowAmount90dIsoCurrencyCode totalInflowAmount90dUnofficialCurrencyCode =
-  TotalInflowAmount90d
-  { totalInflowAmount90dAmount
-  , totalInflowAmount90dIsoCurrencyCode
-  , totalInflowAmount90dUnofficialCurrencyCode
-  }
-
--- ** TotalOutflowAmount
--- | TotalOutflowAmount
--- Total amount of credit transactions out of the account in the time period of the report. This field will be empty for non-depository accounts. This field only takes into account USD transactions from the account.
-data TotalOutflowAmount = TotalOutflowAmount
-  { totalOutflowAmountAmount :: !(Double) -- ^ /Required/ "amount" - Value of amount with up to 2 decimal places.
-  , totalOutflowAmountIsoCurrencyCode :: !(Text) -- ^ /Required/ "iso_currency_code" - The ISO 4217 currency code of the amount or balance.
-  , totalOutflowAmountUnofficialCurrencyCode :: !(Text) -- ^ /Required/ "unofficial_currency_code" - The unofficial currency code associated with the amount or balance. Always &#x60;null&#x60; if &#x60;iso_currency_code&#x60; is non-null. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries.
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON TotalOutflowAmount
-instance A.FromJSON TotalOutflowAmount where
-  parseJSON = A.withObject "TotalOutflowAmount" $ \o ->
-    TotalOutflowAmount
-      <$> (o .:  "amount")
-      <*> (o .:  "iso_currency_code")
-      <*> (o .:  "unofficial_currency_code")
-
--- | ToJSON TotalOutflowAmount
-instance A.ToJSON TotalOutflowAmount where
-  toJSON TotalOutflowAmount {..} =
-   _omitNulls
-      [ "amount" .= totalOutflowAmountAmount
-      , "iso_currency_code" .= totalOutflowAmountIsoCurrencyCode
-      , "unofficial_currency_code" .= totalOutflowAmountUnofficialCurrencyCode
-      ]
-
-
--- | Construct a value of type 'TotalOutflowAmount' (by applying it's required fields, if any)
-mkTotalOutflowAmount
-  :: Double -- ^ 'totalOutflowAmountAmount': Value of amount with up to 2 decimal places.
-  -> Text -- ^ 'totalOutflowAmountIsoCurrencyCode': The ISO 4217 currency code of the amount or balance.
-  -> Text -- ^ 'totalOutflowAmountUnofficialCurrencyCode': The unofficial currency code associated with the amount or balance. Always `null` if `iso_currency_code` is non-null. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries.
-  -> TotalOutflowAmount
-mkTotalOutflowAmount totalOutflowAmountAmount totalOutflowAmountIsoCurrencyCode totalOutflowAmountUnofficialCurrencyCode =
-  TotalOutflowAmount
-  { totalOutflowAmountAmount
-  , totalOutflowAmountIsoCurrencyCode
-  , totalOutflowAmountUnofficialCurrencyCode
-  }
-
--- ** TotalOutflowAmount30d
--- | TotalOutflowAmount30d
--- Total amount of credit transactions out of the account in the last 30 days. This field will be empty for non-depository accounts. This field only takes into account USD transactions from the account.
-data TotalOutflowAmount30d = TotalOutflowAmount30d
-  { totalOutflowAmount30dAmount :: !(Double) -- ^ /Required/ "amount" - Value of amount with up to 2 decimal places.
-  , totalOutflowAmount30dIsoCurrencyCode :: !(Text) -- ^ /Required/ "iso_currency_code" - The ISO 4217 currency code of the amount or balance.
-  , totalOutflowAmount30dUnofficialCurrencyCode :: !(Text) -- ^ /Required/ "unofficial_currency_code" - The unofficial currency code associated with the amount or balance. Always &#x60;null&#x60; if &#x60;iso_currency_code&#x60; is non-null. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries.
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON TotalOutflowAmount30d
-instance A.FromJSON TotalOutflowAmount30d where
-  parseJSON = A.withObject "TotalOutflowAmount30d" $ \o ->
-    TotalOutflowAmount30d
-      <$> (o .:  "amount")
-      <*> (o .:  "iso_currency_code")
-      <*> (o .:  "unofficial_currency_code")
-
--- | ToJSON TotalOutflowAmount30d
-instance A.ToJSON TotalOutflowAmount30d where
-  toJSON TotalOutflowAmount30d {..} =
-   _omitNulls
-      [ "amount" .= totalOutflowAmount30dAmount
-      , "iso_currency_code" .= totalOutflowAmount30dIsoCurrencyCode
-      , "unofficial_currency_code" .= totalOutflowAmount30dUnofficialCurrencyCode
-      ]
-
-
--- | Construct a value of type 'TotalOutflowAmount30d' (by applying it's required fields, if any)
-mkTotalOutflowAmount30d
-  :: Double -- ^ 'totalOutflowAmount30dAmount': Value of amount with up to 2 decimal places.
-  -> Text -- ^ 'totalOutflowAmount30dIsoCurrencyCode': The ISO 4217 currency code of the amount or balance.
-  -> Text -- ^ 'totalOutflowAmount30dUnofficialCurrencyCode': The unofficial currency code associated with the amount or balance. Always `null` if `iso_currency_code` is non-null. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries.
-  -> TotalOutflowAmount30d
-mkTotalOutflowAmount30d totalOutflowAmount30dAmount totalOutflowAmount30dIsoCurrencyCode totalOutflowAmount30dUnofficialCurrencyCode =
-  TotalOutflowAmount30d
-  { totalOutflowAmount30dAmount
-  , totalOutflowAmount30dIsoCurrencyCode
-  , totalOutflowAmount30dUnofficialCurrencyCode
-  }
-
--- ** TotalOutflowAmount60d
--- | TotalOutflowAmount60d
--- Total amount of credit transactions out of the account in the last 60 days. This field will be empty for non-depository accounts. This field only takes into account USD transactions from the account.
-data TotalOutflowAmount60d = TotalOutflowAmount60d
-  { totalOutflowAmount60dAmount :: !(Double) -- ^ /Required/ "amount" - Value of amount with up to 2 decimal places.
-  , totalOutflowAmount60dIsoCurrencyCode :: !(Text) -- ^ /Required/ "iso_currency_code" - The ISO 4217 currency code of the amount or balance.
-  , totalOutflowAmount60dUnofficialCurrencyCode :: !(Text) -- ^ /Required/ "unofficial_currency_code" - The unofficial currency code associated with the amount or balance. Always &#x60;null&#x60; if &#x60;iso_currency_code&#x60; is non-null. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries.
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON TotalOutflowAmount60d
-instance A.FromJSON TotalOutflowAmount60d where
-  parseJSON = A.withObject "TotalOutflowAmount60d" $ \o ->
-    TotalOutflowAmount60d
-      <$> (o .:  "amount")
-      <*> (o .:  "iso_currency_code")
-      <*> (o .:  "unofficial_currency_code")
-
--- | ToJSON TotalOutflowAmount60d
-instance A.ToJSON TotalOutflowAmount60d where
-  toJSON TotalOutflowAmount60d {..} =
-   _omitNulls
-      [ "amount" .= totalOutflowAmount60dAmount
-      , "iso_currency_code" .= totalOutflowAmount60dIsoCurrencyCode
-      , "unofficial_currency_code" .= totalOutflowAmount60dUnofficialCurrencyCode
-      ]
-
-
--- | Construct a value of type 'TotalOutflowAmount60d' (by applying it's required fields, if any)
-mkTotalOutflowAmount60d
-  :: Double -- ^ 'totalOutflowAmount60dAmount': Value of amount with up to 2 decimal places.
-  -> Text -- ^ 'totalOutflowAmount60dIsoCurrencyCode': The ISO 4217 currency code of the amount or balance.
-  -> Text -- ^ 'totalOutflowAmount60dUnofficialCurrencyCode': The unofficial currency code associated with the amount or balance. Always `null` if `iso_currency_code` is non-null. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries.
-  -> TotalOutflowAmount60d
-mkTotalOutflowAmount60d totalOutflowAmount60dAmount totalOutflowAmount60dIsoCurrencyCode totalOutflowAmount60dUnofficialCurrencyCode =
-  TotalOutflowAmount60d
-  { totalOutflowAmount60dAmount
-  , totalOutflowAmount60dIsoCurrencyCode
-  , totalOutflowAmount60dUnofficialCurrencyCode
-  }
-
--- ** TotalOutflowAmount90d
--- | TotalOutflowAmount90d
--- Total amount of credit transactions out of the account in the last 90 days. This field will be empty for non-depository accounts. This field only takes into account USD transactions from the account.
-data TotalOutflowAmount90d = TotalOutflowAmount90d
-  { totalOutflowAmount90dAmount :: !(Double) -- ^ /Required/ "amount" - Value of amount with up to 2 decimal places.
-  , totalOutflowAmount90dIsoCurrencyCode :: !(Text) -- ^ /Required/ "iso_currency_code" - The ISO 4217 currency code of the amount or balance.
-  , totalOutflowAmount90dUnofficialCurrencyCode :: !(Text) -- ^ /Required/ "unofficial_currency_code" - The unofficial currency code associated with the amount or balance. Always &#x60;null&#x60; if &#x60;iso_currency_code&#x60; is non-null. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries.
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON TotalOutflowAmount90d
-instance A.FromJSON TotalOutflowAmount90d where
-  parseJSON = A.withObject "TotalOutflowAmount90d" $ \o ->
-    TotalOutflowAmount90d
-      <$> (o .:  "amount")
-      <*> (o .:  "iso_currency_code")
-      <*> (o .:  "unofficial_currency_code")
-
--- | ToJSON TotalOutflowAmount90d
-instance A.ToJSON TotalOutflowAmount90d where
-  toJSON TotalOutflowAmount90d {..} =
-   _omitNulls
-      [ "amount" .= totalOutflowAmount90dAmount
-      , "iso_currency_code" .= totalOutflowAmount90dIsoCurrencyCode
-      , "unofficial_currency_code" .= totalOutflowAmount90dUnofficialCurrencyCode
-      ]
-
-
--- | Construct a value of type 'TotalOutflowAmount90d' (by applying it's required fields, if any)
-mkTotalOutflowAmount90d
-  :: Double -- ^ 'totalOutflowAmount90dAmount': Value of amount with up to 2 decimal places.
-  -> Text -- ^ 'totalOutflowAmount90dIsoCurrencyCode': The ISO 4217 currency code of the amount or balance.
-  -> Text -- ^ 'totalOutflowAmount90dUnofficialCurrencyCode': The unofficial currency code associated with the amount or balance. Always `null` if `iso_currency_code` is non-null. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries.
-  -> TotalOutflowAmount90d
-mkTotalOutflowAmount90d totalOutflowAmount90dAmount totalOutflowAmount90dIsoCurrencyCode totalOutflowAmount90dUnofficialCurrencyCode =
-  TotalOutflowAmount90d
-  { totalOutflowAmount90dAmount
-  , totalOutflowAmount90dIsoCurrencyCode
-  , totalOutflowAmount90dUnofficialCurrencyCode
-  }
-
--- ** TotalReportInflowAmount
--- | TotalReportInflowAmount
--- Total amount of debit transactions into the report's accounts in the time period of the report. This field only takes into account USD transactions from the accounts.
-data TotalReportInflowAmount = TotalReportInflowAmount
-  { totalReportInflowAmountAmount :: !(Double) -- ^ /Required/ "amount" - Value of amount with up to 2 decimal places.
-  , totalReportInflowAmountIsoCurrencyCode :: !(Text) -- ^ /Required/ "iso_currency_code" - The ISO 4217 currency code of the amount or balance.
-  , totalReportInflowAmountUnofficialCurrencyCode :: !(Text) -- ^ /Required/ "unofficial_currency_code" - The unofficial currency code associated with the amount or balance. Always &#x60;null&#x60; if &#x60;iso_currency_code&#x60; is non-null. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries.
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON TotalReportInflowAmount
-instance A.FromJSON TotalReportInflowAmount where
-  parseJSON = A.withObject "TotalReportInflowAmount" $ \o ->
-    TotalReportInflowAmount
-      <$> (o .:  "amount")
-      <*> (o .:  "iso_currency_code")
-      <*> (o .:  "unofficial_currency_code")
-
--- | ToJSON TotalReportInflowAmount
-instance A.ToJSON TotalReportInflowAmount where
-  toJSON TotalReportInflowAmount {..} =
-   _omitNulls
-      [ "amount" .= totalReportInflowAmountAmount
-      , "iso_currency_code" .= totalReportInflowAmountIsoCurrencyCode
-      , "unofficial_currency_code" .= totalReportInflowAmountUnofficialCurrencyCode
-      ]
-
-
--- | Construct a value of type 'TotalReportInflowAmount' (by applying it's required fields, if any)
-mkTotalReportInflowAmount
-  :: Double -- ^ 'totalReportInflowAmountAmount': Value of amount with up to 2 decimal places.
-  -> Text -- ^ 'totalReportInflowAmountIsoCurrencyCode': The ISO 4217 currency code of the amount or balance.
-  -> Text -- ^ 'totalReportInflowAmountUnofficialCurrencyCode': The unofficial currency code associated with the amount or balance. Always `null` if `iso_currency_code` is non-null. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries.
-  -> TotalReportInflowAmount
-mkTotalReportInflowAmount totalReportInflowAmountAmount totalReportInflowAmountIsoCurrencyCode totalReportInflowAmountUnofficialCurrencyCode =
-  TotalReportInflowAmount
-  { totalReportInflowAmountAmount
-  , totalReportInflowAmountIsoCurrencyCode
-  , totalReportInflowAmountUnofficialCurrencyCode
-  }
-
--- ** TotalReportInflowAmount30d
--- | TotalReportInflowAmount30d
--- Total amount of debit transactions into the report's accounts in the last 30 days. This field only takes into account USD transactions from the accounts.
-data TotalReportInflowAmount30d = TotalReportInflowAmount30d
-  { totalReportInflowAmount30dAmount :: !(Double) -- ^ /Required/ "amount" - Value of amount with up to 2 decimal places.
-  , totalReportInflowAmount30dIsoCurrencyCode :: !(Text) -- ^ /Required/ "iso_currency_code" - The ISO 4217 currency code of the amount or balance.
-  , totalReportInflowAmount30dUnofficialCurrencyCode :: !(Text) -- ^ /Required/ "unofficial_currency_code" - The unofficial currency code associated with the amount or balance. Always &#x60;null&#x60; if &#x60;iso_currency_code&#x60; is non-null. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries.
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON TotalReportInflowAmount30d
-instance A.FromJSON TotalReportInflowAmount30d where
-  parseJSON = A.withObject "TotalReportInflowAmount30d" $ \o ->
-    TotalReportInflowAmount30d
-      <$> (o .:  "amount")
-      <*> (o .:  "iso_currency_code")
-      <*> (o .:  "unofficial_currency_code")
-
--- | ToJSON TotalReportInflowAmount30d
-instance A.ToJSON TotalReportInflowAmount30d where
-  toJSON TotalReportInflowAmount30d {..} =
-   _omitNulls
-      [ "amount" .= totalReportInflowAmount30dAmount
-      , "iso_currency_code" .= totalReportInflowAmount30dIsoCurrencyCode
-      , "unofficial_currency_code" .= totalReportInflowAmount30dUnofficialCurrencyCode
-      ]
-
-
--- | Construct a value of type 'TotalReportInflowAmount30d' (by applying it's required fields, if any)
-mkTotalReportInflowAmount30d
-  :: Double -- ^ 'totalReportInflowAmount30dAmount': Value of amount with up to 2 decimal places.
-  -> Text -- ^ 'totalReportInflowAmount30dIsoCurrencyCode': The ISO 4217 currency code of the amount or balance.
-  -> Text -- ^ 'totalReportInflowAmount30dUnofficialCurrencyCode': The unofficial currency code associated with the amount or balance. Always `null` if `iso_currency_code` is non-null. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries.
-  -> TotalReportInflowAmount30d
-mkTotalReportInflowAmount30d totalReportInflowAmount30dAmount totalReportInflowAmount30dIsoCurrencyCode totalReportInflowAmount30dUnofficialCurrencyCode =
-  TotalReportInflowAmount30d
-  { totalReportInflowAmount30dAmount
-  , totalReportInflowAmount30dIsoCurrencyCode
-  , totalReportInflowAmount30dUnofficialCurrencyCode
-  }
-
--- ** TotalReportInflowAmount60d
--- | TotalReportInflowAmount60d
--- Total amount of debit transactions into the report's accounts in the last 60 days. This field only takes into account USD transactions from the accounts.
-data TotalReportInflowAmount60d = TotalReportInflowAmount60d
-  { totalReportInflowAmount60dAmount :: !(Double) -- ^ /Required/ "amount" - Value of amount with up to 2 decimal places.
-  , totalReportInflowAmount60dIsoCurrencyCode :: !(Text) -- ^ /Required/ "iso_currency_code" - The ISO 4217 currency code of the amount or balance.
-  , totalReportInflowAmount60dUnofficialCurrencyCode :: !(Text) -- ^ /Required/ "unofficial_currency_code" - The unofficial currency code associated with the amount or balance. Always &#x60;null&#x60; if &#x60;iso_currency_code&#x60; is non-null. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries.
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON TotalReportInflowAmount60d
-instance A.FromJSON TotalReportInflowAmount60d where
-  parseJSON = A.withObject "TotalReportInflowAmount60d" $ \o ->
-    TotalReportInflowAmount60d
-      <$> (o .:  "amount")
-      <*> (o .:  "iso_currency_code")
-      <*> (o .:  "unofficial_currency_code")
-
--- | ToJSON TotalReportInflowAmount60d
-instance A.ToJSON TotalReportInflowAmount60d where
-  toJSON TotalReportInflowAmount60d {..} =
-   _omitNulls
-      [ "amount" .= totalReportInflowAmount60dAmount
-      , "iso_currency_code" .= totalReportInflowAmount60dIsoCurrencyCode
-      , "unofficial_currency_code" .= totalReportInflowAmount60dUnofficialCurrencyCode
-      ]
-
-
--- | Construct a value of type 'TotalReportInflowAmount60d' (by applying it's required fields, if any)
-mkTotalReportInflowAmount60d
-  :: Double -- ^ 'totalReportInflowAmount60dAmount': Value of amount with up to 2 decimal places.
-  -> Text -- ^ 'totalReportInflowAmount60dIsoCurrencyCode': The ISO 4217 currency code of the amount or balance.
-  -> Text -- ^ 'totalReportInflowAmount60dUnofficialCurrencyCode': The unofficial currency code associated with the amount or balance. Always `null` if `iso_currency_code` is non-null. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries.
-  -> TotalReportInflowAmount60d
-mkTotalReportInflowAmount60d totalReportInflowAmount60dAmount totalReportInflowAmount60dIsoCurrencyCode totalReportInflowAmount60dUnofficialCurrencyCode =
-  TotalReportInflowAmount60d
-  { totalReportInflowAmount60dAmount
-  , totalReportInflowAmount60dIsoCurrencyCode
-  , totalReportInflowAmount60dUnofficialCurrencyCode
-  }
-
--- ** TotalReportInflowAmount90d
--- | TotalReportInflowAmount90d
--- Total amount of debit transactions into the report's accounts in the last 90 days. This field only takes into account USD transactions from the accounts.
-data TotalReportInflowAmount90d = TotalReportInflowAmount90d
-  { totalReportInflowAmount90dAmount :: !(Double) -- ^ /Required/ "amount" - Value of amount with up to 2 decimal places.
-  , totalReportInflowAmount90dIsoCurrencyCode :: !(Text) -- ^ /Required/ "iso_currency_code" - The ISO 4217 currency code of the amount or balance.
-  , totalReportInflowAmount90dUnofficialCurrencyCode :: !(Text) -- ^ /Required/ "unofficial_currency_code" - The unofficial currency code associated with the amount or balance. Always &#x60;null&#x60; if &#x60;iso_currency_code&#x60; is non-null. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries.
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON TotalReportInflowAmount90d
-instance A.FromJSON TotalReportInflowAmount90d where
-  parseJSON = A.withObject "TotalReportInflowAmount90d" $ \o ->
-    TotalReportInflowAmount90d
-      <$> (o .:  "amount")
-      <*> (o .:  "iso_currency_code")
-      <*> (o .:  "unofficial_currency_code")
-
--- | ToJSON TotalReportInflowAmount90d
-instance A.ToJSON TotalReportInflowAmount90d where
-  toJSON TotalReportInflowAmount90d {..} =
-   _omitNulls
-      [ "amount" .= totalReportInflowAmount90dAmount
-      , "iso_currency_code" .= totalReportInflowAmount90dIsoCurrencyCode
-      , "unofficial_currency_code" .= totalReportInflowAmount90dUnofficialCurrencyCode
-      ]
-
-
--- | Construct a value of type 'TotalReportInflowAmount90d' (by applying it's required fields, if any)
-mkTotalReportInflowAmount90d
-  :: Double -- ^ 'totalReportInflowAmount90dAmount': Value of amount with up to 2 decimal places.
-  -> Text -- ^ 'totalReportInflowAmount90dIsoCurrencyCode': The ISO 4217 currency code of the amount or balance.
-  -> Text -- ^ 'totalReportInflowAmount90dUnofficialCurrencyCode': The unofficial currency code associated with the amount or balance. Always `null` if `iso_currency_code` is non-null. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries.
-  -> TotalReportInflowAmount90d
-mkTotalReportInflowAmount90d totalReportInflowAmount90dAmount totalReportInflowAmount90dIsoCurrencyCode totalReportInflowAmount90dUnofficialCurrencyCode =
-  TotalReportInflowAmount90d
-  { totalReportInflowAmount90dAmount
-  , totalReportInflowAmount90dIsoCurrencyCode
-  , totalReportInflowAmount90dUnofficialCurrencyCode
-  }
-
--- ** TotalReportOutflowAmount
--- | TotalReportOutflowAmount
--- Total amount of credit transactions out of the report's accounts in the time period of the report. This field only takes into account USD transactions from the accounts.
-data TotalReportOutflowAmount = TotalReportOutflowAmount
-  { totalReportOutflowAmountAmount :: !(Double) -- ^ /Required/ "amount" - Value of amount with up to 2 decimal places.
-  , totalReportOutflowAmountIsoCurrencyCode :: !(Text) -- ^ /Required/ "iso_currency_code" - The ISO 4217 currency code of the amount or balance.
-  , totalReportOutflowAmountUnofficialCurrencyCode :: !(Text) -- ^ /Required/ "unofficial_currency_code" - The unofficial currency code associated with the amount or balance. Always &#x60;null&#x60; if &#x60;iso_currency_code&#x60; is non-null. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries.
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON TotalReportOutflowAmount
-instance A.FromJSON TotalReportOutflowAmount where
-  parseJSON = A.withObject "TotalReportOutflowAmount" $ \o ->
-    TotalReportOutflowAmount
-      <$> (o .:  "amount")
-      <*> (o .:  "iso_currency_code")
-      <*> (o .:  "unofficial_currency_code")
-
--- | ToJSON TotalReportOutflowAmount
-instance A.ToJSON TotalReportOutflowAmount where
-  toJSON TotalReportOutflowAmount {..} =
-   _omitNulls
-      [ "amount" .= totalReportOutflowAmountAmount
-      , "iso_currency_code" .= totalReportOutflowAmountIsoCurrencyCode
-      , "unofficial_currency_code" .= totalReportOutflowAmountUnofficialCurrencyCode
-      ]
-
-
--- | Construct a value of type 'TotalReportOutflowAmount' (by applying it's required fields, if any)
-mkTotalReportOutflowAmount
-  :: Double -- ^ 'totalReportOutflowAmountAmount': Value of amount with up to 2 decimal places.
-  -> Text -- ^ 'totalReportOutflowAmountIsoCurrencyCode': The ISO 4217 currency code of the amount or balance.
-  -> Text -- ^ 'totalReportOutflowAmountUnofficialCurrencyCode': The unofficial currency code associated with the amount or balance. Always `null` if `iso_currency_code` is non-null. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries.
-  -> TotalReportOutflowAmount
-mkTotalReportOutflowAmount totalReportOutflowAmountAmount totalReportOutflowAmountIsoCurrencyCode totalReportOutflowAmountUnofficialCurrencyCode =
-  TotalReportOutflowAmount
-  { totalReportOutflowAmountAmount
-  , totalReportOutflowAmountIsoCurrencyCode
-  , totalReportOutflowAmountUnofficialCurrencyCode
-  }
-
--- ** TotalReportOutflowAmount30d
--- | TotalReportOutflowAmount30d
--- Total amount of credit transactions out of the report's accounts in the last 30 days. This field only takes into account USD transactions from the accounts.
-data TotalReportOutflowAmount30d = TotalReportOutflowAmount30d
-  { totalReportOutflowAmount30dAmount :: !(Double) -- ^ /Required/ "amount" - Value of amount with up to 2 decimal places.
-  , totalReportOutflowAmount30dIsoCurrencyCode :: !(Text) -- ^ /Required/ "iso_currency_code" - The ISO 4217 currency code of the amount or balance.
-  , totalReportOutflowAmount30dUnofficialCurrencyCode :: !(Text) -- ^ /Required/ "unofficial_currency_code" - The unofficial currency code associated with the amount or balance. Always &#x60;null&#x60; if &#x60;iso_currency_code&#x60; is non-null. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries.
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON TotalReportOutflowAmount30d
-instance A.FromJSON TotalReportOutflowAmount30d where
-  parseJSON = A.withObject "TotalReportOutflowAmount30d" $ \o ->
-    TotalReportOutflowAmount30d
-      <$> (o .:  "amount")
-      <*> (o .:  "iso_currency_code")
-      <*> (o .:  "unofficial_currency_code")
-
--- | ToJSON TotalReportOutflowAmount30d
-instance A.ToJSON TotalReportOutflowAmount30d where
-  toJSON TotalReportOutflowAmount30d {..} =
-   _omitNulls
-      [ "amount" .= totalReportOutflowAmount30dAmount
-      , "iso_currency_code" .= totalReportOutflowAmount30dIsoCurrencyCode
-      , "unofficial_currency_code" .= totalReportOutflowAmount30dUnofficialCurrencyCode
-      ]
-
-
--- | Construct a value of type 'TotalReportOutflowAmount30d' (by applying it's required fields, if any)
-mkTotalReportOutflowAmount30d
-  :: Double -- ^ 'totalReportOutflowAmount30dAmount': Value of amount with up to 2 decimal places.
-  -> Text -- ^ 'totalReportOutflowAmount30dIsoCurrencyCode': The ISO 4217 currency code of the amount or balance.
-  -> Text -- ^ 'totalReportOutflowAmount30dUnofficialCurrencyCode': The unofficial currency code associated with the amount or balance. Always `null` if `iso_currency_code` is non-null. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries.
-  -> TotalReportOutflowAmount30d
-mkTotalReportOutflowAmount30d totalReportOutflowAmount30dAmount totalReportOutflowAmount30dIsoCurrencyCode totalReportOutflowAmount30dUnofficialCurrencyCode =
-  TotalReportOutflowAmount30d
-  { totalReportOutflowAmount30dAmount
-  , totalReportOutflowAmount30dIsoCurrencyCode
-  , totalReportOutflowAmount30dUnofficialCurrencyCode
-  }
-
--- ** TotalReportOutflowAmount60d
--- | TotalReportOutflowAmount60d
--- Total amount of credit transactions out of the report's accounts in the last 60 days. This field only takes into account USD transactions from the accounts.
-data TotalReportOutflowAmount60d = TotalReportOutflowAmount60d
-  { totalReportOutflowAmount60dAmount :: !(Double) -- ^ /Required/ "amount" - Value of amount with up to 2 decimal places.
-  , totalReportOutflowAmount60dIsoCurrencyCode :: !(Text) -- ^ /Required/ "iso_currency_code" - The ISO 4217 currency code of the amount or balance.
-  , totalReportOutflowAmount60dUnofficialCurrencyCode :: !(Text) -- ^ /Required/ "unofficial_currency_code" - The unofficial currency code associated with the amount or balance. Always &#x60;null&#x60; if &#x60;iso_currency_code&#x60; is non-null. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries.
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON TotalReportOutflowAmount60d
-instance A.FromJSON TotalReportOutflowAmount60d where
-  parseJSON = A.withObject "TotalReportOutflowAmount60d" $ \o ->
-    TotalReportOutflowAmount60d
-      <$> (o .:  "amount")
-      <*> (o .:  "iso_currency_code")
-      <*> (o .:  "unofficial_currency_code")
-
--- | ToJSON TotalReportOutflowAmount60d
-instance A.ToJSON TotalReportOutflowAmount60d where
-  toJSON TotalReportOutflowAmount60d {..} =
-   _omitNulls
-      [ "amount" .= totalReportOutflowAmount60dAmount
-      , "iso_currency_code" .= totalReportOutflowAmount60dIsoCurrencyCode
-      , "unofficial_currency_code" .= totalReportOutflowAmount60dUnofficialCurrencyCode
-      ]
-
-
--- | Construct a value of type 'TotalReportOutflowAmount60d' (by applying it's required fields, if any)
-mkTotalReportOutflowAmount60d
-  :: Double -- ^ 'totalReportOutflowAmount60dAmount': Value of amount with up to 2 decimal places.
-  -> Text -- ^ 'totalReportOutflowAmount60dIsoCurrencyCode': The ISO 4217 currency code of the amount or balance.
-  -> Text -- ^ 'totalReportOutflowAmount60dUnofficialCurrencyCode': The unofficial currency code associated with the amount or balance. Always `null` if `iso_currency_code` is non-null. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries.
-  -> TotalReportOutflowAmount60d
-mkTotalReportOutflowAmount60d totalReportOutflowAmount60dAmount totalReportOutflowAmount60dIsoCurrencyCode totalReportOutflowAmount60dUnofficialCurrencyCode =
-  TotalReportOutflowAmount60d
-  { totalReportOutflowAmount60dAmount
-  , totalReportOutflowAmount60dIsoCurrencyCode
-  , totalReportOutflowAmount60dUnofficialCurrencyCode
-  }
-
--- ** TotalReportOutflowAmount90d
--- | TotalReportOutflowAmount90d
--- Total amount of credit transactions out of the report's accounts in the last 90 days. This field only takes into account USD transactions from the accounts.
-data TotalReportOutflowAmount90d = TotalReportOutflowAmount90d
-  { totalReportOutflowAmount90dAmount :: !(Double) -- ^ /Required/ "amount" - Value of amount with up to 2 decimal places.
-  , totalReportOutflowAmount90dIsoCurrencyCode :: !(Text) -- ^ /Required/ "iso_currency_code" - The ISO 4217 currency code of the amount or balance.
-  , totalReportOutflowAmount90dUnofficialCurrencyCode :: !(Text) -- ^ /Required/ "unofficial_currency_code" - The unofficial currency code associated with the amount or balance. Always &#x60;null&#x60; if &#x60;iso_currency_code&#x60; is non-null. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries.
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON TotalReportOutflowAmount90d
-instance A.FromJSON TotalReportOutflowAmount90d where
-  parseJSON = A.withObject "TotalReportOutflowAmount90d" $ \o ->
-    TotalReportOutflowAmount90d
-      <$> (o .:  "amount")
-      <*> (o .:  "iso_currency_code")
-      <*> (o .:  "unofficial_currency_code")
-
--- | ToJSON TotalReportOutflowAmount90d
-instance A.ToJSON TotalReportOutflowAmount90d where
-  toJSON TotalReportOutflowAmount90d {..} =
-   _omitNulls
-      [ "amount" .= totalReportOutflowAmount90dAmount
-      , "iso_currency_code" .= totalReportOutflowAmount90dIsoCurrencyCode
-      , "unofficial_currency_code" .= totalReportOutflowAmount90dUnofficialCurrencyCode
-      ]
-
-
--- | Construct a value of type 'TotalReportOutflowAmount90d' (by applying it's required fields, if any)
-mkTotalReportOutflowAmount90d
-  :: Double -- ^ 'totalReportOutflowAmount90dAmount': Value of amount with up to 2 decimal places.
-  -> Text -- ^ 'totalReportOutflowAmount90dIsoCurrencyCode': The ISO 4217 currency code of the amount or balance.
-  -> Text -- ^ 'totalReportOutflowAmount90dUnofficialCurrencyCode': The unofficial currency code associated with the amount or balance. Always `null` if `iso_currency_code` is non-null. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries.
-  -> TotalReportOutflowAmount90d
-mkTotalReportOutflowAmount90d totalReportOutflowAmount90dAmount totalReportOutflowAmount90dIsoCurrencyCode totalReportOutflowAmount90dUnofficialCurrencyCode =
-  TotalReportOutflowAmount90d
-  { totalReportOutflowAmount90dAmount
-  , totalReportOutflowAmount90dIsoCurrencyCode
-  , totalReportOutflowAmount90dUnofficialCurrencyCode
   }
 
 -- ** UserCreateRequest
@@ -23348,105 +18922,6 @@ toVerificationStatus = \case
 
 
 
--- ** BaseReportTransactionType
-
--- | Enum of 'Text' .
--- `digital:` transactions that took place online.  `place:` transactions that were made at a physical location.  `special:` transactions that relate to banks, e.g. fees or deposits.  `unresolved:` transactions that do not fit into the other types. 
-data BaseReportTransactionType
-  = BaseReportTransactionType'Digital -- ^ @"digital"@
-  | BaseReportTransactionType'Place -- ^ @"place"@
-  | BaseReportTransactionType'Special -- ^ @"special"@
-  | BaseReportTransactionType'Unresolved -- ^ @"unresolved"@
-  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
-
-instance A.ToJSON BaseReportTransactionType where toJSON = A.toJSON . fromBaseReportTransactionType
-instance A.FromJSON BaseReportTransactionType where parseJSON o = P.either P.fail (pure . P.id) . toBaseReportTransactionType =<< A.parseJSON o
-instance WH.ToHttpApiData BaseReportTransactionType where toQueryParam = WH.toQueryParam . fromBaseReportTransactionType
-instance WH.FromHttpApiData BaseReportTransactionType where parseQueryParam o = WH.parseQueryParam o >>= P.left T.pack . toBaseReportTransactionType
-instance MimeRender MimeMultipartFormData BaseReportTransactionType where mimeRender _ = mimeRenderDefaultMultipartFormData
-
--- | unwrap 'BaseReportTransactionType' enum
-fromBaseReportTransactionType :: BaseReportTransactionType -> Text
-fromBaseReportTransactionType = \case
-  BaseReportTransactionType'Digital -> "digital"
-  BaseReportTransactionType'Place -> "place"
-  BaseReportTransactionType'Special -> "special"
-  BaseReportTransactionType'Unresolved -> "unresolved"
-
--- | parse 'BaseReportTransactionType' enum
-toBaseReportTransactionType :: Text -> P.Either String BaseReportTransactionType
-toBaseReportTransactionType = \case
-  "digital" -> P.Right BaseReportTransactionType'Digital
-  "place" -> P.Right BaseReportTransactionType'Place
-  "special" -> P.Right BaseReportTransactionType'Special
-  "unresolved" -> P.Right BaseReportTransactionType'Unresolved
-  s -> P.Left $ "toBaseReportTransactionType: enum parse failure: " P.++ P.show s
-
-
--- ** BaseReportWarningCode
-
--- | Enum of 'Text' .
--- The warning code identifies a specific kind of warning.  `IDENTITY_UNAVAILABLE`: Account-owner information is not available.  `TRANSACTIONS_UNAVAILABLE`: Transactions information associated with Credit and Depository accounts are unavailable.  `USER_FRAUD_ALERT`: The User has placed a fraud alert on their Plaid Check consumer report due to suspected fraud. Note: when a fraud alert is in place, the recipient of the consumer report has an obligation to verify the consumer's identity.
-data BaseReportWarningCode
-  = BaseReportWarningCode'IDENTITY_UNAVAILABLE -- ^ @"IDENTITY_UNAVAILABLE"@
-  | BaseReportWarningCode'TRANSACTIONS_UNAVAILABLE -- ^ @"TRANSACTIONS_UNAVAILABLE"@
-  | BaseReportWarningCode'USER_FRAUD_ALERT -- ^ @"USER_FRAUD_ALERT"@
-  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
-
-instance A.ToJSON BaseReportWarningCode where toJSON = A.toJSON . fromBaseReportWarningCode
-instance A.FromJSON BaseReportWarningCode where parseJSON o = P.either P.fail (pure . P.id) . toBaseReportWarningCode =<< A.parseJSON o
-instance WH.ToHttpApiData BaseReportWarningCode where toQueryParam = WH.toQueryParam . fromBaseReportWarningCode
-instance WH.FromHttpApiData BaseReportWarningCode where parseQueryParam o = WH.parseQueryParam o >>= P.left T.pack . toBaseReportWarningCode
-instance MimeRender MimeMultipartFormData BaseReportWarningCode where mimeRender _ = mimeRenderDefaultMultipartFormData
-
--- | unwrap 'BaseReportWarningCode' enum
-fromBaseReportWarningCode :: BaseReportWarningCode -> Text
-fromBaseReportWarningCode = \case
-  BaseReportWarningCode'IDENTITY_UNAVAILABLE -> "IDENTITY_UNAVAILABLE"
-  BaseReportWarningCode'TRANSACTIONS_UNAVAILABLE -> "TRANSACTIONS_UNAVAILABLE"
-  BaseReportWarningCode'USER_FRAUD_ALERT -> "USER_FRAUD_ALERT"
-
--- | parse 'BaseReportWarningCode' enum
-toBaseReportWarningCode :: Text -> P.Either String BaseReportWarningCode
-toBaseReportWarningCode = \case
-  "IDENTITY_UNAVAILABLE" -> P.Right BaseReportWarningCode'IDENTITY_UNAVAILABLE
-  "TRANSACTIONS_UNAVAILABLE" -> P.Right BaseReportWarningCode'TRANSACTIONS_UNAVAILABLE
-  "USER_FRAUD_ALERT" -> P.Right BaseReportWarningCode'USER_FRAUD_ALERT
-  s -> P.Left $ "toBaseReportWarningCode: enum parse failure: " P.++ P.show s
-
-
--- ** CashflowAttributesVersion
-
--- | Enum of 'Text' .
--- The version of cashflow attributes. Required if using Cash Flow Insights.
-data CashflowAttributesVersion
-  = CashflowAttributesVersion'V1_0 -- ^ @"v1.0"@
-  | CashflowAttributesVersion'V2_0 -- ^ @"v2.0"@
-  | CashflowAttributesVersion'CFI1 -- ^ @"CFI1"@
-  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
-
-instance A.ToJSON CashflowAttributesVersion where toJSON = A.toJSON . fromCashflowAttributesVersion
-instance A.FromJSON CashflowAttributesVersion where parseJSON o = P.either P.fail (pure . P.id) . toCashflowAttributesVersion =<< A.parseJSON o
-instance WH.ToHttpApiData CashflowAttributesVersion where toQueryParam = WH.toQueryParam . fromCashflowAttributesVersion
-instance WH.FromHttpApiData CashflowAttributesVersion where parseQueryParam o = WH.parseQueryParam o >>= P.left T.pack . toCashflowAttributesVersion
-instance MimeRender MimeMultipartFormData CashflowAttributesVersion where mimeRender _ = mimeRenderDefaultMultipartFormData
-
--- | unwrap 'CashflowAttributesVersion' enum
-fromCashflowAttributesVersion :: CashflowAttributesVersion -> Text
-fromCashflowAttributesVersion = \case
-  CashflowAttributesVersion'V1_0 -> "v1.0"
-  CashflowAttributesVersion'V2_0 -> "v2.0"
-  CashflowAttributesVersion'CFI1 -> "CFI1"
-
--- | parse 'CashflowAttributesVersion' enum
-toCashflowAttributesVersion :: Text -> P.Either String CashflowAttributesVersion
-toCashflowAttributesVersion = \case
-  "v1.0" -> P.Right CashflowAttributesVersion'V1_0
-  "v2.0" -> P.Right CashflowAttributesVersion'V2_0
-  "CFI1" -> P.Right CashflowAttributesVersion'CFI1
-  s -> P.Left $ "toCashflowAttributesVersion: enum parse failure: " P.++ P.show s
-
-
 -- ** CheckReportWarningCode
 
 -- | Enum of 'Text' .
@@ -23477,41 +18952,6 @@ toCheckReportWarningCode = \case
   "TRANSACTIONS_UNAVAILABLE" -> P.Right CheckReportWarningCode'TRANSACTIONS_UNAVAILABLE
   "USER_FRAUD_ALERT" -> P.Right CheckReportWarningCode'USER_FRAUD_ALERT
   s -> P.Left $ "toCheckReportWarningCode: enum parse failure: " P.++ P.show s
-
-
--- ** ConsumerDisputeCategory
-
--- | Enum of 'Text' .
--- Type of data being disputed by the consumer
-data ConsumerDisputeCategory
-  = ConsumerDisputeCategory'TRANSACTION -- ^ @"TRANSACTION"@
-  | ConsumerDisputeCategory'BALANCE -- ^ @"BALANCE"@
-  | ConsumerDisputeCategory'IDENTITY -- ^ @"IDENTITY"@
-  | ConsumerDisputeCategory'OTHER -- ^ @"OTHER"@
-  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
-
-instance A.ToJSON ConsumerDisputeCategory where toJSON = A.toJSON . fromConsumerDisputeCategory
-instance A.FromJSON ConsumerDisputeCategory where parseJSON o = P.either P.fail (pure . P.id) . toConsumerDisputeCategory =<< A.parseJSON o
-instance WH.ToHttpApiData ConsumerDisputeCategory where toQueryParam = WH.toQueryParam . fromConsumerDisputeCategory
-instance WH.FromHttpApiData ConsumerDisputeCategory where parseQueryParam o = WH.parseQueryParam o >>= P.left T.pack . toConsumerDisputeCategory
-instance MimeRender MimeMultipartFormData ConsumerDisputeCategory where mimeRender _ = mimeRenderDefaultMultipartFormData
-
--- | unwrap 'ConsumerDisputeCategory' enum
-fromConsumerDisputeCategory :: ConsumerDisputeCategory -> Text
-fromConsumerDisputeCategory = \case
-  ConsumerDisputeCategory'TRANSACTION -> "TRANSACTION"
-  ConsumerDisputeCategory'BALANCE -> "BALANCE"
-  ConsumerDisputeCategory'IDENTITY -> "IDENTITY"
-  ConsumerDisputeCategory'OTHER -> "OTHER"
-
--- | parse 'ConsumerDisputeCategory' enum
-toConsumerDisputeCategory :: Text -> P.Either String ConsumerDisputeCategory
-toConsumerDisputeCategory = \case
-  "TRANSACTION" -> P.Right ConsumerDisputeCategory'TRANSACTION
-  "BALANCE" -> P.Right ConsumerDisputeCategory'BALANCE
-  "IDENTITY" -> P.Right ConsumerDisputeCategory'IDENTITY
-  "OTHER" -> P.Right ConsumerDisputeCategory'OTHER
-  s -> P.Left $ "toConsumerDisputeCategory: enum parse failure: " P.++ P.show s
 
 
 -- ** ConsumerReportPermissiblePurpose
@@ -23561,35 +19001,6 @@ toConsumerReportPermissiblePurpose = \case
   s -> P.Left $ "toConsumerReportPermissiblePurpose: enum parse failure: " P.++ P.show s
 
 
--- ** CraBankIncomeBonusType
-
--- | Enum of 'Text' .
--- The type of bonus that this transaction represents, if it is a bonus.  `BONUS_INCLUDED`: Bonus is included in this transaction along with the normal pay  `BONUS_ONLY`: This transaction is a standalone bonus
-data CraBankIncomeBonusType
-  = CraBankIncomeBonusType'BONUS_INCLUDED -- ^ @"BONUS_INCLUDED"@
-  | CraBankIncomeBonusType'BONUS_ONLY -- ^ @"BONUS_ONLY"@
-  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
-
-instance A.ToJSON CraBankIncomeBonusType where toJSON = A.toJSON . fromCraBankIncomeBonusType
-instance A.FromJSON CraBankIncomeBonusType where parseJSON o = P.either P.fail (pure . P.id) . toCraBankIncomeBonusType =<< A.parseJSON o
-instance WH.ToHttpApiData CraBankIncomeBonusType where toQueryParam = WH.toQueryParam . fromCraBankIncomeBonusType
-instance WH.FromHttpApiData CraBankIncomeBonusType where parseQueryParam o = WH.parseQueryParam o >>= P.left T.pack . toCraBankIncomeBonusType
-instance MimeRender MimeMultipartFormData CraBankIncomeBonusType where mimeRender _ = mimeRenderDefaultMultipartFormData
-
--- | unwrap 'CraBankIncomeBonusType' enum
-fromCraBankIncomeBonusType :: CraBankIncomeBonusType -> Text
-fromCraBankIncomeBonusType = \case
-  CraBankIncomeBonusType'BONUS_INCLUDED -> "BONUS_INCLUDED"
-  CraBankIncomeBonusType'BONUS_ONLY -> "BONUS_ONLY"
-
--- | parse 'CraBankIncomeBonusType' enum
-toCraBankIncomeBonusType :: Text -> P.Either String CraBankIncomeBonusType
-toCraBankIncomeBonusType = \case
-  "BONUS_INCLUDED" -> P.Right CraBankIncomeBonusType'BONUS_INCLUDED
-  "BONUS_ONLY" -> P.Right CraBankIncomeBonusType'BONUS_ONLY
-  s -> P.Left $ "toCraBankIncomeBonusType: enum parse failure: " P.++ P.show s
-
-
 -- ** CraBankIncomeStatus
 
 -- | Enum of 'Text' .
@@ -23622,102 +19033,6 @@ toCraBankIncomeStatus = \case
   s -> P.Left $ "toCraBankIncomeStatus: enum parse failure: " P.++ P.show s
 
 
--- ** CraBankIncomeWarningCode
-
--- | Enum of 'Text' .
--- The warning code identifies a specific kind of warning.  `IDENTITY_UNAVAILABLE`: Unable to extract identity for the Item  `TRANSACTIONS_UNAVAILABLE`: Unable to extract transactions for the Item  `REPORT_DELETED`: Report deleted due to customer or consumer request  `DATA_UNAVAILABLE`: No relevant data was found for the Item
-data CraBankIncomeWarningCode
-  = CraBankIncomeWarningCode'IDENTITY_UNAVAILABLE -- ^ @"IDENTITY_UNAVAILABLE"@
-  | CraBankIncomeWarningCode'TRANSACTIONS_UNAVAILABLE -- ^ @"TRANSACTIONS_UNAVAILABLE"@
-  | CraBankIncomeWarningCode'REPORT_DELETED -- ^ @"REPORT_DELETED"@
-  | CraBankIncomeWarningCode'DATA_UNAVAILABLE -- ^ @"DATA_UNAVAILABLE"@
-  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
-
-instance A.ToJSON CraBankIncomeWarningCode where toJSON = A.toJSON . fromCraBankIncomeWarningCode
-instance A.FromJSON CraBankIncomeWarningCode where parseJSON o = P.either P.fail (pure . P.id) . toCraBankIncomeWarningCode =<< A.parseJSON o
-instance WH.ToHttpApiData CraBankIncomeWarningCode where toQueryParam = WH.toQueryParam . fromCraBankIncomeWarningCode
-instance WH.FromHttpApiData CraBankIncomeWarningCode where parseQueryParam o = WH.parseQueryParam o >>= P.left T.pack . toCraBankIncomeWarningCode
-instance MimeRender MimeMultipartFormData CraBankIncomeWarningCode where mimeRender _ = mimeRenderDefaultMultipartFormData
-
--- | unwrap 'CraBankIncomeWarningCode' enum
-fromCraBankIncomeWarningCode :: CraBankIncomeWarningCode -> Text
-fromCraBankIncomeWarningCode = \case
-  CraBankIncomeWarningCode'IDENTITY_UNAVAILABLE -> "IDENTITY_UNAVAILABLE"
-  CraBankIncomeWarningCode'TRANSACTIONS_UNAVAILABLE -> "TRANSACTIONS_UNAVAILABLE"
-  CraBankIncomeWarningCode'REPORT_DELETED -> "REPORT_DELETED"
-  CraBankIncomeWarningCode'DATA_UNAVAILABLE -> "DATA_UNAVAILABLE"
-
--- | parse 'CraBankIncomeWarningCode' enum
-toCraBankIncomeWarningCode :: Text -> P.Either String CraBankIncomeWarningCode
-toCraBankIncomeWarningCode = \case
-  "IDENTITY_UNAVAILABLE" -> P.Right CraBankIncomeWarningCode'IDENTITY_UNAVAILABLE
-  "TRANSACTIONS_UNAVAILABLE" -> P.Right CraBankIncomeWarningCode'TRANSACTIONS_UNAVAILABLE
-  "REPORT_DELETED" -> P.Right CraBankIncomeWarningCode'REPORT_DELETED
-  "DATA_UNAVAILABLE" -> P.Right CraBankIncomeWarningCode'DATA_UNAVAILABLE
-  s -> P.Left $ "toCraBankIncomeWarningCode: enum parse failure: " P.++ P.show s
-
-
--- ** CraCheckReportPermissiblePurpose
-
--- | Enum of 'Text' .
--- The permissible purpose under the FCRA for retrieving this consumer report. Restricted to permissible purposes related to loan servicing only. Required when `report_id` is provided.
-data CraCheckReportPermissiblePurpose
-  = CraCheckReportPermissiblePurpose'ACCOUNT_REVIEW_CREDIT -- ^ @"ACCOUNT_REVIEW_CREDIT"@
-  | CraCheckReportPermissiblePurpose'WRITTEN_INSTRUCTION_OTHER -- ^ @"WRITTEN_INSTRUCTION_OTHER"@
-  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
-
-instance A.ToJSON CraCheckReportPermissiblePurpose where toJSON = A.toJSON . fromCraCheckReportPermissiblePurpose
-instance A.FromJSON CraCheckReportPermissiblePurpose where parseJSON o = P.either P.fail (pure . P.id) . toCraCheckReportPermissiblePurpose =<< A.parseJSON o
-instance WH.ToHttpApiData CraCheckReportPermissiblePurpose where toQueryParam = WH.toQueryParam . fromCraCheckReportPermissiblePurpose
-instance WH.FromHttpApiData CraCheckReportPermissiblePurpose where parseQueryParam o = WH.parseQueryParam o >>= P.left T.pack . toCraCheckReportPermissiblePurpose
-instance MimeRender MimeMultipartFormData CraCheckReportPermissiblePurpose where mimeRender _ = mimeRenderDefaultMultipartFormData
-
--- | unwrap 'CraCheckReportPermissiblePurpose' enum
-fromCraCheckReportPermissiblePurpose :: CraCheckReportPermissiblePurpose -> Text
-fromCraCheckReportPermissiblePurpose = \case
-  CraCheckReportPermissiblePurpose'ACCOUNT_REVIEW_CREDIT -> "ACCOUNT_REVIEW_CREDIT"
-  CraCheckReportPermissiblePurpose'WRITTEN_INSTRUCTION_OTHER -> "WRITTEN_INSTRUCTION_OTHER"
-
--- | parse 'CraCheckReportPermissiblePurpose' enum
-toCraCheckReportPermissiblePurpose :: Text -> P.Either String CraCheckReportPermissiblePurpose
-toCraCheckReportPermissiblePurpose = \case
-  "ACCOUNT_REVIEW_CREDIT" -> P.Right CraCheckReportPermissiblePurpose'ACCOUNT_REVIEW_CREDIT
-  "WRITTEN_INSTRUCTION_OTHER" -> P.Right CraCheckReportPermissiblePurpose'WRITTEN_INSTRUCTION_OTHER
-  s -> P.Left $ "toCraCheckReportPermissiblePurpose: enum parse failure: " P.++ P.show s
-
-
--- ** CraCheckReportVerificationGetReportType
-
--- | Enum of 'Text' .
--- Type of home lending report.
-data CraCheckReportVerificationGetReportType
-  = CraCheckReportVerificationGetReportType'VOA -- ^ @"VOA"@
-  | CraCheckReportVerificationGetReportType'EMPLOYMENT_REFRESH -- ^ @"EMPLOYMENT_REFRESH"@
-  | CraCheckReportVerificationGetReportType'INCOME -- ^ @"INCOME"@
-  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
-
-instance A.ToJSON CraCheckReportVerificationGetReportType where toJSON = A.toJSON . fromCraCheckReportVerificationGetReportType
-instance A.FromJSON CraCheckReportVerificationGetReportType where parseJSON o = P.either P.fail (pure . P.id) . toCraCheckReportVerificationGetReportType =<< A.parseJSON o
-instance WH.ToHttpApiData CraCheckReportVerificationGetReportType where toQueryParam = WH.toQueryParam . fromCraCheckReportVerificationGetReportType
-instance WH.FromHttpApiData CraCheckReportVerificationGetReportType where parseQueryParam o = WH.parseQueryParam o >>= P.left T.pack . toCraCheckReportVerificationGetReportType
-instance MimeRender MimeMultipartFormData CraCheckReportVerificationGetReportType where mimeRender _ = mimeRenderDefaultMultipartFormData
-
--- | unwrap 'CraCheckReportVerificationGetReportType' enum
-fromCraCheckReportVerificationGetReportType :: CraCheckReportVerificationGetReportType -> Text
-fromCraCheckReportVerificationGetReportType = \case
-  CraCheckReportVerificationGetReportType'VOA -> "VOA"
-  CraCheckReportVerificationGetReportType'EMPLOYMENT_REFRESH -> "EMPLOYMENT_REFRESH"
-  CraCheckReportVerificationGetReportType'INCOME -> "INCOME"
-
--- | parse 'CraCheckReportVerificationGetReportType' enum
-toCraCheckReportVerificationGetReportType :: Text -> P.Either String CraCheckReportVerificationGetReportType
-toCraCheckReportVerificationGetReportType = \case
-  "VOA" -> P.Right CraCheckReportVerificationGetReportType'VOA
-  "EMPLOYMENT_REFRESH" -> P.Right CraCheckReportVerificationGetReportType'EMPLOYMENT_REFRESH
-  "INCOME" -> P.Right CraCheckReportVerificationGetReportType'INCOME
-  s -> P.Left $ "toCraCheckReportVerificationGetReportType: enum parse failure: " P.++ P.show s
-
-
 -- ** CraPDFAddOns
 
 -- | Enum of 'Text' .
@@ -23748,293 +19063,6 @@ toCraPDFAddOns = \case
   "cra_partner_insights" -> P.Right CraPDFAddOns'Cra_partner_insights
   "cra_lend_score" -> P.Right CraPDFAddOns'Cra_lend_score
   s -> P.Left $ "toCraPDFAddOns: enum parse failure: " P.++ P.show s
-
-
--- ** CraPartnerInsightsBaseFicoScoreVersion
-
--- | Enum of 'Text' .
--- The version of the base FICO score model.
-data CraPartnerInsightsBaseFicoScoreVersion
-  = CraPartnerInsightsBaseFicoScoreVersion'8 -- ^ @"8"@
-  | CraPartnerInsightsBaseFicoScoreVersion'9 -- ^ @"9"@
-  | CraPartnerInsightsBaseFicoScoreVersion'10 -- ^ @"10"@
-  | CraPartnerInsightsBaseFicoScoreVersion'10T -- ^ @"10T"@
-  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
-
-instance A.ToJSON CraPartnerInsightsBaseFicoScoreVersion where toJSON = A.toJSON . fromCraPartnerInsightsBaseFicoScoreVersion
-instance A.FromJSON CraPartnerInsightsBaseFicoScoreVersion where parseJSON o = P.either P.fail (pure . P.id) . toCraPartnerInsightsBaseFicoScoreVersion =<< A.parseJSON o
-instance WH.ToHttpApiData CraPartnerInsightsBaseFicoScoreVersion where toQueryParam = WH.toQueryParam . fromCraPartnerInsightsBaseFicoScoreVersion
-instance WH.FromHttpApiData CraPartnerInsightsBaseFicoScoreVersion where parseQueryParam o = WH.parseQueryParam o >>= P.left T.pack . toCraPartnerInsightsBaseFicoScoreVersion
-instance MimeRender MimeMultipartFormData CraPartnerInsightsBaseFicoScoreVersion where mimeRender _ = mimeRenderDefaultMultipartFormData
-
--- | unwrap 'CraPartnerInsightsBaseFicoScoreVersion' enum
-fromCraPartnerInsightsBaseFicoScoreVersion :: CraPartnerInsightsBaseFicoScoreVersion -> Text
-fromCraPartnerInsightsBaseFicoScoreVersion = \case
-  CraPartnerInsightsBaseFicoScoreVersion'8 -> "8"
-  CraPartnerInsightsBaseFicoScoreVersion'9 -> "9"
-  CraPartnerInsightsBaseFicoScoreVersion'10 -> "10"
-  CraPartnerInsightsBaseFicoScoreVersion'10T -> "10T"
-
--- | parse 'CraPartnerInsightsBaseFicoScoreVersion' enum
-toCraPartnerInsightsBaseFicoScoreVersion :: Text -> P.Either String CraPartnerInsightsBaseFicoScoreVersion
-toCraPartnerInsightsBaseFicoScoreVersion = \case
-  "8" -> P.Right CraPartnerInsightsBaseFicoScoreVersion'8
-  "9" -> P.Right CraPartnerInsightsBaseFicoScoreVersion'9
-  "10" -> P.Right CraPartnerInsightsBaseFicoScoreVersion'10
-  "10T" -> P.Right CraPartnerInsightsBaseFicoScoreVersion'10T
-  s -> P.Left $ "toCraPartnerInsightsBaseFicoScoreVersion: enum parse failure: " P.++ P.show s
-
-
--- ** CraPartnerInsightsBureau
-
--- | Enum of 'Text' .
--- The credit bureau that provided the base FICO score.
-data CraPartnerInsightsBureau
-  = CraPartnerInsightsBureau'EQUIFAX -- ^ @"EQUIFAX"@
-  | CraPartnerInsightsBureau'EXPERIAN -- ^ @"EXPERIAN"@
-  | CraPartnerInsightsBureau'TRANSUNION -- ^ @"TRANSUNION"@
-  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
-
-instance A.ToJSON CraPartnerInsightsBureau where toJSON = A.toJSON . fromCraPartnerInsightsBureau
-instance A.FromJSON CraPartnerInsightsBureau where parseJSON o = P.either P.fail (pure . P.id) . toCraPartnerInsightsBureau =<< A.parseJSON o
-instance WH.ToHttpApiData CraPartnerInsightsBureau where toQueryParam = WH.toQueryParam . fromCraPartnerInsightsBureau
-instance WH.FromHttpApiData CraPartnerInsightsBureau where parseQueryParam o = WH.parseQueryParam o >>= P.left T.pack . toCraPartnerInsightsBureau
-instance MimeRender MimeMultipartFormData CraPartnerInsightsBureau where mimeRender _ = mimeRenderDefaultMultipartFormData
-
--- | unwrap 'CraPartnerInsightsBureau' enum
-fromCraPartnerInsightsBureau :: CraPartnerInsightsBureau -> Text
-fromCraPartnerInsightsBureau = \case
-  CraPartnerInsightsBureau'EQUIFAX -> "EQUIFAX"
-  CraPartnerInsightsBureau'EXPERIAN -> "EXPERIAN"
-  CraPartnerInsightsBureau'TRANSUNION -> "TRANSUNION"
-
--- | parse 'CraPartnerInsightsBureau' enum
-toCraPartnerInsightsBureau :: Text -> P.Either String CraPartnerInsightsBureau
-toCraPartnerInsightsBureau = \case
-  "EQUIFAX" -> P.Right CraPartnerInsightsBureau'EQUIFAX
-  "EXPERIAN" -> P.Right CraPartnerInsightsBureau'EXPERIAN
-  "TRANSUNION" -> P.Right CraPartnerInsightsBureau'TRANSUNION
-  s -> P.Left $ "toCraPartnerInsightsBureau: enum parse failure: " P.++ P.show s
-
-
--- ** CraPartnerInsightsUltraFicoScoreVersion
-
--- | Enum of 'Text' .
--- The version of the UltraFICO® score.
-data CraPartnerInsightsUltraFicoScoreVersion
-  = CraPartnerInsightsUltraFicoScoreVersion'1_0 -- ^ @"1.0"@
-  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
-
-instance A.ToJSON CraPartnerInsightsUltraFicoScoreVersion where toJSON = A.toJSON . fromCraPartnerInsightsUltraFicoScoreVersion
-instance A.FromJSON CraPartnerInsightsUltraFicoScoreVersion where parseJSON o = P.either P.fail (pure . P.id) . toCraPartnerInsightsUltraFicoScoreVersion =<< A.parseJSON o
-instance WH.ToHttpApiData CraPartnerInsightsUltraFicoScoreVersion where toQueryParam = WH.toQueryParam . fromCraPartnerInsightsUltraFicoScoreVersion
-instance WH.FromHttpApiData CraPartnerInsightsUltraFicoScoreVersion where parseQueryParam o = WH.parseQueryParam o >>= P.left T.pack . toCraPartnerInsightsUltraFicoScoreVersion
-instance MimeRender MimeMultipartFormData CraPartnerInsightsUltraFicoScoreVersion where mimeRender _ = mimeRenderDefaultMultipartFormData
-
--- | unwrap 'CraPartnerInsightsUltraFicoScoreVersion' enum
-fromCraPartnerInsightsUltraFicoScoreVersion :: CraPartnerInsightsUltraFicoScoreVersion -> Text
-fromCraPartnerInsightsUltraFicoScoreVersion = \case
-  CraPartnerInsightsUltraFicoScoreVersion'1_0 -> "1.0"
-
--- | parse 'CraPartnerInsightsUltraFicoScoreVersion' enum
-toCraPartnerInsightsUltraFicoScoreVersion :: Text -> P.Either String CraPartnerInsightsUltraFicoScoreVersion
-toCraPartnerInsightsUltraFicoScoreVersion = \case
-  "1.0" -> P.Right CraPartnerInsightsUltraFicoScoreVersion'1_0
-  s -> P.Left $ "toCraPartnerInsightsUltraFicoScoreVersion: enum parse failure: " P.++ P.show s
-
-
--- ** CraUserTier
-
--- | Enum of 'Text' .
--- The tier of the user.
-data CraUserTier
-  = CraUserTier'Free -- ^ @"free"@
-  | CraUserTier'Paid -- ^ @"paid"@
-  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
-
-instance A.ToJSON CraUserTier where toJSON = A.toJSON . fromCraUserTier
-instance A.FromJSON CraUserTier where parseJSON o = P.either P.fail (pure . P.id) . toCraUserTier =<< A.parseJSON o
-instance WH.ToHttpApiData CraUserTier where toQueryParam = WH.toQueryParam . fromCraUserTier
-instance WH.FromHttpApiData CraUserTier where parseQueryParam o = WH.parseQueryParam o >>= P.left T.pack . toCraUserTier
-instance MimeRender MimeMultipartFormData CraUserTier where mimeRender _ = mimeRenderDefaultMultipartFormData
-
--- | unwrap 'CraUserTier' enum
-fromCraUserTier :: CraUserTier -> Text
-fromCraUserTier = \case
-  CraUserTier'Free -> "free"
-  CraUserTier'Paid -> "paid"
-
--- | parse 'CraUserTier' enum
-toCraUserTier :: Text -> P.Either String CraUserTier
-toCraUserTier = \case
-  "free" -> P.Right CraUserTier'Free
-  "paid" -> P.Right CraUserTier'Paid
-  s -> P.Left $ "toCraUserTier: enum parse failure: " P.++ P.show s
-
-
--- ** CreditBankIncomeAccountType
-
--- | Enum of 'Text' .
--- The account type. This will always be `depository`.
-data CreditBankIncomeAccountType
-  = CreditBankIncomeAccountType'Depository -- ^ @"depository"@
-  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
-
-instance A.ToJSON CreditBankIncomeAccountType where toJSON = A.toJSON . fromCreditBankIncomeAccountType
-instance A.FromJSON CreditBankIncomeAccountType where parseJSON o = P.either P.fail (pure . P.id) . toCreditBankIncomeAccountType =<< A.parseJSON o
-instance WH.ToHttpApiData CreditBankIncomeAccountType where toQueryParam = WH.toQueryParam . fromCreditBankIncomeAccountType
-instance WH.FromHttpApiData CreditBankIncomeAccountType where parseQueryParam o = WH.parseQueryParam o >>= P.left T.pack . toCreditBankIncomeAccountType
-instance MimeRender MimeMultipartFormData CreditBankIncomeAccountType where mimeRender _ = mimeRenderDefaultMultipartFormData
-
--- | unwrap 'CreditBankIncomeAccountType' enum
-fromCreditBankIncomeAccountType :: CreditBankIncomeAccountType -> Text
-fromCreditBankIncomeAccountType = \case
-  CreditBankIncomeAccountType'Depository -> "depository"
-
--- | parse 'CreditBankIncomeAccountType' enum
-toCreditBankIncomeAccountType :: Text -> P.Either String CreditBankIncomeAccountType
-toCreditBankIncomeAccountType = \case
-  "depository" -> P.Right CreditBankIncomeAccountType'Depository
-  s -> P.Left $ "toCreditBankIncomeAccountType: enum parse failure: " P.++ P.show s
-
-
--- ** CreditBankIncomeCategory
-
--- | Enum of 'Text' .
--- The income category.  `BANK_INTEREST`: Interest earned from a bank account.  `BENEFIT_OTHER`: Government benefits other than retirement, unemployment, child support, or disability. Currently used only in the UK, to represent benefits such as Cost of Living Payments.  `CASH`: Deprecated and used only for existing legacy implementations. Has been replaced by `CASH_DEPOSIT` and `TRANSFER_FROM_APPLICATION`.  `CASH_DEPOSIT`: A cash or check deposit.  `CHILD_SUPPORT`: Child support payments received.  `GIG_ECONOMY`: Income earned as a gig economy worker, e.g. driving for Uber, Lyft, Postmates, DoorDash, etc.  `LONG_TERM_DISABILITY`: Disability payments, including Social Security disability benefits.  `OTHER`: Income that could not be categorized as any other income category.  `MILITARY`: Veterans benefits. Income earned as salary for serving in the military (e.g. through DFAS) will be classified as `SALARY` rather than `MILITARY`.  `RENTAL`: Income earned from a rental property. Income may be identified as rental when the payment is received through a rental platform, e.g. Airbnb; rent paid directly by the tenant to the property owner (e.g. via cash, check, or ACH) will typically not be classified as rental income.  `RETIREMENT`: Payments from private retirement systems, pensions, and government retirement programs, including Social Security retirement benefits.  `SALARY`: Payment from an employer to an earner or other form of permanent employment.  `TAX_REFUND`: A tax refund.  `TRANSFER_FROM_APPLICATION`: Deposits from a money transfer app, such as Venmo, Cash App, or Zelle.  `UNEMPLOYMENT`: Unemployment benefits. In the UK, includes certain low-income benefits such as the Universal Credit.
-data CreditBankIncomeCategory
-  = CreditBankIncomeCategory'SALARY -- ^ @"SALARY"@
-  | CreditBankIncomeCategory'UNEMPLOYMENT -- ^ @"UNEMPLOYMENT"@
-  | CreditBankIncomeCategory'CASH -- ^ @"CASH"@
-  | CreditBankIncomeCategory'GIG_ECONOMY -- ^ @"GIG_ECONOMY"@
-  | CreditBankIncomeCategory'RENTAL -- ^ @"RENTAL"@
-  | CreditBankIncomeCategory'CHILD_SUPPORT -- ^ @"CHILD_SUPPORT"@
-  | CreditBankIncomeCategory'MILITARY -- ^ @"MILITARY"@
-  | CreditBankIncomeCategory'RETIREMENT -- ^ @"RETIREMENT"@
-  | CreditBankIncomeCategory'LONG_TERM_DISABILITY -- ^ @"LONG_TERM_DISABILITY"@
-  | CreditBankIncomeCategory'BANK_INTEREST -- ^ @"BANK_INTEREST"@
-  | CreditBankIncomeCategory'CASH_DEPOSIT -- ^ @"CASH_DEPOSIT"@
-  | CreditBankIncomeCategory'TRANSFER_FROM_APPLICATION -- ^ @"TRANSFER_FROM_APPLICATION"@
-  | CreditBankIncomeCategory'TAX_REFUND -- ^ @"TAX_REFUND"@
-  | CreditBankIncomeCategory'BENEFIT_OTHER -- ^ @"BENEFIT_OTHER"@
-  | CreditBankIncomeCategory'OTHER -- ^ @"OTHER"@
-  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
-
-instance A.ToJSON CreditBankIncomeCategory where toJSON = A.toJSON . fromCreditBankIncomeCategory
-instance A.FromJSON CreditBankIncomeCategory where parseJSON o = P.either P.fail (pure . P.id) . toCreditBankIncomeCategory =<< A.parseJSON o
-instance WH.ToHttpApiData CreditBankIncomeCategory where toQueryParam = WH.toQueryParam . fromCreditBankIncomeCategory
-instance WH.FromHttpApiData CreditBankIncomeCategory where parseQueryParam o = WH.parseQueryParam o >>= P.left T.pack . toCreditBankIncomeCategory
-instance MimeRender MimeMultipartFormData CreditBankIncomeCategory where mimeRender _ = mimeRenderDefaultMultipartFormData
-
--- | unwrap 'CreditBankIncomeCategory' enum
-fromCreditBankIncomeCategory :: CreditBankIncomeCategory -> Text
-fromCreditBankIncomeCategory = \case
-  CreditBankIncomeCategory'SALARY -> "SALARY"
-  CreditBankIncomeCategory'UNEMPLOYMENT -> "UNEMPLOYMENT"
-  CreditBankIncomeCategory'CASH -> "CASH"
-  CreditBankIncomeCategory'GIG_ECONOMY -> "GIG_ECONOMY"
-  CreditBankIncomeCategory'RENTAL -> "RENTAL"
-  CreditBankIncomeCategory'CHILD_SUPPORT -> "CHILD_SUPPORT"
-  CreditBankIncomeCategory'MILITARY -> "MILITARY"
-  CreditBankIncomeCategory'RETIREMENT -> "RETIREMENT"
-  CreditBankIncomeCategory'LONG_TERM_DISABILITY -> "LONG_TERM_DISABILITY"
-  CreditBankIncomeCategory'BANK_INTEREST -> "BANK_INTEREST"
-  CreditBankIncomeCategory'CASH_DEPOSIT -> "CASH_DEPOSIT"
-  CreditBankIncomeCategory'TRANSFER_FROM_APPLICATION -> "TRANSFER_FROM_APPLICATION"
-  CreditBankIncomeCategory'TAX_REFUND -> "TAX_REFUND"
-  CreditBankIncomeCategory'BENEFIT_OTHER -> "BENEFIT_OTHER"
-  CreditBankIncomeCategory'OTHER -> "OTHER"
-
--- | parse 'CreditBankIncomeCategory' enum
-toCreditBankIncomeCategory :: Text -> P.Either String CreditBankIncomeCategory
-toCreditBankIncomeCategory = \case
-  "SALARY" -> P.Right CreditBankIncomeCategory'SALARY
-  "UNEMPLOYMENT" -> P.Right CreditBankIncomeCategory'UNEMPLOYMENT
-  "CASH" -> P.Right CreditBankIncomeCategory'CASH
-  "GIG_ECONOMY" -> P.Right CreditBankIncomeCategory'GIG_ECONOMY
-  "RENTAL" -> P.Right CreditBankIncomeCategory'RENTAL
-  "CHILD_SUPPORT" -> P.Right CreditBankIncomeCategory'CHILD_SUPPORT
-  "MILITARY" -> P.Right CreditBankIncomeCategory'MILITARY
-  "RETIREMENT" -> P.Right CreditBankIncomeCategory'RETIREMENT
-  "LONG_TERM_DISABILITY" -> P.Right CreditBankIncomeCategory'LONG_TERM_DISABILITY
-  "BANK_INTEREST" -> P.Right CreditBankIncomeCategory'BANK_INTEREST
-  "CASH_DEPOSIT" -> P.Right CreditBankIncomeCategory'CASH_DEPOSIT
-  "TRANSFER_FROM_APPLICATION" -> P.Right CreditBankIncomeCategory'TRANSFER_FROM_APPLICATION
-  "TAX_REFUND" -> P.Right CreditBankIncomeCategory'TAX_REFUND
-  "BENEFIT_OTHER" -> P.Right CreditBankIncomeCategory'BENEFIT_OTHER
-  "OTHER" -> P.Right CreditBankIncomeCategory'OTHER
-  s -> P.Left $ "toCreditBankIncomeCategory: enum parse failure: " P.++ P.show s
-
-
--- ** CreditBankIncomeErrorType
-
--- | Enum of 'Text' .
--- A broad categorization of the error. Safe for programmatic use.
-data CreditBankIncomeErrorType
-  = CreditBankIncomeErrorType'INTERNAL_SERVER_ERROR -- ^ @"INTERNAL_SERVER_ERROR"@
-  | CreditBankIncomeErrorType'INSUFFICIENT_CREDENTIALS -- ^ @"INSUFFICIENT_CREDENTIALS"@
-  | CreditBankIncomeErrorType'ITEM_LOCKED -- ^ @"ITEM_LOCKED"@
-  | CreditBankIncomeErrorType'USER_SETUP_REQUIRED -- ^ @"USER_SETUP_REQUIRED"@
-  | CreditBankIncomeErrorType'COUNTRY_NOT_SUPPORTED -- ^ @"COUNTRY_NOT_SUPPORTED"@
-  | CreditBankIncomeErrorType'INSTITUTION_DOWN -- ^ @"INSTITUTION_DOWN"@
-  | CreditBankIncomeErrorType'INSTITUTION_NO_LONGER_SUPPORTED -- ^ @"INSTITUTION_NO_LONGER_SUPPORTED"@
-  | CreditBankIncomeErrorType'INSTITUTION_NOT_RESPONDING -- ^ @"INSTITUTION_NOT_RESPONDING"@
-  | CreditBankIncomeErrorType'INVALID_CREDENTIALS -- ^ @"INVALID_CREDENTIALS"@
-  | CreditBankIncomeErrorType'INVALID_MFA -- ^ @"INVALID_MFA"@
-  | CreditBankIncomeErrorType'INVALID_SEND_METHOD -- ^ @"INVALID_SEND_METHOD"@
-  | CreditBankIncomeErrorType'ITEM_LOGIN_REQUIRED -- ^ @"ITEM_LOGIN_REQUIRED"@
-  | CreditBankIncomeErrorType'MFA_NOT_SUPPORTED -- ^ @"MFA_NOT_SUPPORTED"@
-  | CreditBankIncomeErrorType'NO_ACCOUNTS -- ^ @"NO_ACCOUNTS"@
-  | CreditBankIncomeErrorType'ITEM_NOT_SUPPORTED -- ^ @"ITEM_NOT_SUPPORTED"@
-  | CreditBankIncomeErrorType'ACCESS_NOT_GRANTED -- ^ @"ACCESS_NOT_GRANTED"@
-  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
-
-instance A.ToJSON CreditBankIncomeErrorType where toJSON = A.toJSON . fromCreditBankIncomeErrorType
-instance A.FromJSON CreditBankIncomeErrorType where parseJSON o = P.either P.fail (pure . P.id) . toCreditBankIncomeErrorType =<< A.parseJSON o
-instance WH.ToHttpApiData CreditBankIncomeErrorType where toQueryParam = WH.toQueryParam . fromCreditBankIncomeErrorType
-instance WH.FromHttpApiData CreditBankIncomeErrorType where parseQueryParam o = WH.parseQueryParam o >>= P.left T.pack . toCreditBankIncomeErrorType
-instance MimeRender MimeMultipartFormData CreditBankIncomeErrorType where mimeRender _ = mimeRenderDefaultMultipartFormData
-
--- | unwrap 'CreditBankIncomeErrorType' enum
-fromCreditBankIncomeErrorType :: CreditBankIncomeErrorType -> Text
-fromCreditBankIncomeErrorType = \case
-  CreditBankIncomeErrorType'INTERNAL_SERVER_ERROR -> "INTERNAL_SERVER_ERROR"
-  CreditBankIncomeErrorType'INSUFFICIENT_CREDENTIALS -> "INSUFFICIENT_CREDENTIALS"
-  CreditBankIncomeErrorType'ITEM_LOCKED -> "ITEM_LOCKED"
-  CreditBankIncomeErrorType'USER_SETUP_REQUIRED -> "USER_SETUP_REQUIRED"
-  CreditBankIncomeErrorType'COUNTRY_NOT_SUPPORTED -> "COUNTRY_NOT_SUPPORTED"
-  CreditBankIncomeErrorType'INSTITUTION_DOWN -> "INSTITUTION_DOWN"
-  CreditBankIncomeErrorType'INSTITUTION_NO_LONGER_SUPPORTED -> "INSTITUTION_NO_LONGER_SUPPORTED"
-  CreditBankIncomeErrorType'INSTITUTION_NOT_RESPONDING -> "INSTITUTION_NOT_RESPONDING"
-  CreditBankIncomeErrorType'INVALID_CREDENTIALS -> "INVALID_CREDENTIALS"
-  CreditBankIncomeErrorType'INVALID_MFA -> "INVALID_MFA"
-  CreditBankIncomeErrorType'INVALID_SEND_METHOD -> "INVALID_SEND_METHOD"
-  CreditBankIncomeErrorType'ITEM_LOGIN_REQUIRED -> "ITEM_LOGIN_REQUIRED"
-  CreditBankIncomeErrorType'MFA_NOT_SUPPORTED -> "MFA_NOT_SUPPORTED"
-  CreditBankIncomeErrorType'NO_ACCOUNTS -> "NO_ACCOUNTS"
-  CreditBankIncomeErrorType'ITEM_NOT_SUPPORTED -> "ITEM_NOT_SUPPORTED"
-  CreditBankIncomeErrorType'ACCESS_NOT_GRANTED -> "ACCESS_NOT_GRANTED"
-
--- | parse 'CreditBankIncomeErrorType' enum
-toCreditBankIncomeErrorType :: Text -> P.Either String CreditBankIncomeErrorType
-toCreditBankIncomeErrorType = \case
-  "INTERNAL_SERVER_ERROR" -> P.Right CreditBankIncomeErrorType'INTERNAL_SERVER_ERROR
-  "INSUFFICIENT_CREDENTIALS" -> P.Right CreditBankIncomeErrorType'INSUFFICIENT_CREDENTIALS
-  "ITEM_LOCKED" -> P.Right CreditBankIncomeErrorType'ITEM_LOCKED
-  "USER_SETUP_REQUIRED" -> P.Right CreditBankIncomeErrorType'USER_SETUP_REQUIRED
-  "COUNTRY_NOT_SUPPORTED" -> P.Right CreditBankIncomeErrorType'COUNTRY_NOT_SUPPORTED
-  "INSTITUTION_DOWN" -> P.Right CreditBankIncomeErrorType'INSTITUTION_DOWN
-  "INSTITUTION_NO_LONGER_SUPPORTED" -> P.Right CreditBankIncomeErrorType'INSTITUTION_NO_LONGER_SUPPORTED
-  "INSTITUTION_NOT_RESPONDING" -> P.Right CreditBankIncomeErrorType'INSTITUTION_NOT_RESPONDING
-  "INVALID_CREDENTIALS" -> P.Right CreditBankIncomeErrorType'INVALID_CREDENTIALS
-  "INVALID_MFA" -> P.Right CreditBankIncomeErrorType'INVALID_MFA
-  "INVALID_SEND_METHOD" -> P.Right CreditBankIncomeErrorType'INVALID_SEND_METHOD
-  "ITEM_LOGIN_REQUIRED" -> P.Right CreditBankIncomeErrorType'ITEM_LOGIN_REQUIRED
-  "MFA_NOT_SUPPORTED" -> P.Right CreditBankIncomeErrorType'MFA_NOT_SUPPORTED
-  "NO_ACCOUNTS" -> P.Right CreditBankIncomeErrorType'NO_ACCOUNTS
-  "ITEM_NOT_SUPPORTED" -> P.Right CreditBankIncomeErrorType'ITEM_NOT_SUPPORTED
-  "ACCESS_NOT_GRANTED" -> P.Right CreditBankIncomeErrorType'ACCESS_NOT_GRANTED
-  s -> P.Left $ "toCreditBankIncomeErrorType: enum parse failure: " P.++ P.show s
 
 
 -- ** CreditBankIncomePayFrequency
@@ -24076,117 +19104,6 @@ toCreditBankIncomePayFrequency = \case
   "DAILY" -> P.Right CreditBankIncomePayFrequency'DAILY
   "UNKNOWN" -> P.Right CreditBankIncomePayFrequency'UNKNOWN
   s -> P.Left $ "toCreditBankIncomePayFrequency: enum parse failure: " P.++ P.show s
-
-
--- ** CreditBankIncomeWarningType
-
--- | Enum of 'Text' .
--- The warning type which will always be `BANK_INCOME_WARNING`.
-data CreditBankIncomeWarningType
-  = CreditBankIncomeWarningType'BANK_INCOME_WARNING -- ^ @"BANK_INCOME_WARNING"@
-  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
-
-instance A.ToJSON CreditBankIncomeWarningType where toJSON = A.toJSON . fromCreditBankIncomeWarningType
-instance A.FromJSON CreditBankIncomeWarningType where parseJSON o = P.either P.fail (pure . P.id) . toCreditBankIncomeWarningType =<< A.parseJSON o
-instance WH.ToHttpApiData CreditBankIncomeWarningType where toQueryParam = WH.toQueryParam . fromCreditBankIncomeWarningType
-instance WH.FromHttpApiData CreditBankIncomeWarningType where parseQueryParam o = WH.parseQueryParam o >>= P.left T.pack . toCreditBankIncomeWarningType
-instance MimeRender MimeMultipartFormData CreditBankIncomeWarningType where mimeRender _ = mimeRenderDefaultMultipartFormData
-
--- | unwrap 'CreditBankIncomeWarningType' enum
-fromCreditBankIncomeWarningType :: CreditBankIncomeWarningType -> Text
-fromCreditBankIncomeWarningType = \case
-  CreditBankIncomeWarningType'BANK_INCOME_WARNING -> "BANK_INCOME_WARNING"
-
--- | parse 'CreditBankIncomeWarningType' enum
-toCreditBankIncomeWarningType :: Text -> P.Either String CreditBankIncomeWarningType
-toCreditBankIncomeWarningType = \case
-  "BANK_INCOME_WARNING" -> P.Right CreditBankIncomeWarningType'BANK_INCOME_WARNING
-  s -> P.Left $ "toCreditBankIncomeWarningType: enum parse failure: " P.++ P.show s
-
-
--- ** DepositoryAccountSubtype
-
--- | Enum of 'Text' .
--- Valid account subtypes for depository accounts. For a list containing descriptions of each subtype, see [Account schemas](https://plaid.com/docs/api/accounts/#StandaloneAccountType-depository).
-data DepositoryAccountSubtype
-  = DepositoryAccountSubtype'Checking -- ^ @"checking"@
-  | DepositoryAccountSubtype'Savings -- ^ @"savings"@
-  | DepositoryAccountSubtype'Hsa -- ^ @"hsa"@
-  | DepositoryAccountSubtype'Cd -- ^ @"cd"@
-  | DepositoryAccountSubtype'Money_market -- ^ @"money market"@
-  | DepositoryAccountSubtype'Paypal -- ^ @"paypal"@
-  | DepositoryAccountSubtype'Prepaid -- ^ @"prepaid"@
-  | DepositoryAccountSubtype'Cash_management -- ^ @"cash management"@
-  | DepositoryAccountSubtype'Ebt -- ^ @"ebt"@
-  | DepositoryAccountSubtype'Limited_purpose_checking -- ^ @"limited purpose checking"@
-  | DepositoryAccountSubtype'All -- ^ @"all"@
-  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
-
-instance A.ToJSON DepositoryAccountSubtype where toJSON = A.toJSON . fromDepositoryAccountSubtype
-instance A.FromJSON DepositoryAccountSubtype where parseJSON o = P.either P.fail (pure . P.id) . toDepositoryAccountSubtype =<< A.parseJSON o
-instance WH.ToHttpApiData DepositoryAccountSubtype where toQueryParam = WH.toQueryParam . fromDepositoryAccountSubtype
-instance WH.FromHttpApiData DepositoryAccountSubtype where parseQueryParam o = WH.parseQueryParam o >>= P.left T.pack . toDepositoryAccountSubtype
-instance MimeRender MimeMultipartFormData DepositoryAccountSubtype where mimeRender _ = mimeRenderDefaultMultipartFormData
-
--- | unwrap 'DepositoryAccountSubtype' enum
-fromDepositoryAccountSubtype :: DepositoryAccountSubtype -> Text
-fromDepositoryAccountSubtype = \case
-  DepositoryAccountSubtype'Checking -> "checking"
-  DepositoryAccountSubtype'Savings -> "savings"
-  DepositoryAccountSubtype'Hsa -> "hsa"
-  DepositoryAccountSubtype'Cd -> "cd"
-  DepositoryAccountSubtype'Money_market -> "money market"
-  DepositoryAccountSubtype'Paypal -> "paypal"
-  DepositoryAccountSubtype'Prepaid -> "prepaid"
-  DepositoryAccountSubtype'Cash_management -> "cash management"
-  DepositoryAccountSubtype'Ebt -> "ebt"
-  DepositoryAccountSubtype'Limited_purpose_checking -> "limited purpose checking"
-  DepositoryAccountSubtype'All -> "all"
-
--- | parse 'DepositoryAccountSubtype' enum
-toDepositoryAccountSubtype :: Text -> P.Either String DepositoryAccountSubtype
-toDepositoryAccountSubtype = \case
-  "checking" -> P.Right DepositoryAccountSubtype'Checking
-  "savings" -> P.Right DepositoryAccountSubtype'Savings
-  "hsa" -> P.Right DepositoryAccountSubtype'Hsa
-  "cd" -> P.Right DepositoryAccountSubtype'Cd
-  "money market" -> P.Right DepositoryAccountSubtype'Money_market
-  "paypal" -> P.Right DepositoryAccountSubtype'Paypal
-  "prepaid" -> P.Right DepositoryAccountSubtype'Prepaid
-  "cash management" -> P.Right DepositoryAccountSubtype'Cash_management
-  "ebt" -> P.Right DepositoryAccountSubtype'Ebt
-  "limited purpose checking" -> P.Right DepositoryAccountSubtype'Limited_purpose_checking
-  "all" -> P.Right DepositoryAccountSubtype'All
-  s -> P.Left $ "toDepositoryAccountSubtype: enum parse failure: " P.++ P.show s
-
-
--- ** GSEReportType
-
--- | Enum of 'Text' .
--- The types of GSE Reports supported by the Plaid API
-data GSEReportType
-  = GSEReportType'VOA -- ^ @"VOA"@
-  | GSEReportType'EMPLOYMENT_REFRESH -- ^ @"EMPLOYMENT_REFRESH"@
-  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
-
-instance A.ToJSON GSEReportType where toJSON = A.toJSON . fromGSEReportType
-instance A.FromJSON GSEReportType where parseJSON o = P.either P.fail (pure . P.id) . toGSEReportType =<< A.parseJSON o
-instance WH.ToHttpApiData GSEReportType where toQueryParam = WH.toQueryParam . fromGSEReportType
-instance WH.FromHttpApiData GSEReportType where parseQueryParam o = WH.parseQueryParam o >>= P.left T.pack . toGSEReportType
-instance MimeRender MimeMultipartFormData GSEReportType where mimeRender _ = mimeRenderDefaultMultipartFormData
-
--- | unwrap 'GSEReportType' enum
-fromGSEReportType :: GSEReportType -> Text
-fromGSEReportType = \case
-  GSEReportType'VOA -> "VOA"
-  GSEReportType'EMPLOYMENT_REFRESH -> "EMPLOYMENT_REFRESH"
-
--- | parse 'GSEReportType' enum
-toGSEReportType :: Text -> P.Either String GSEReportType
-toGSEReportType = \case
-  "VOA" -> P.Right GSEReportType'VOA
-  "EMPLOYMENT_REFRESH" -> P.Right GSEReportType'EMPLOYMENT_REFRESH
-  s -> P.Left $ "toGSEReportType: enum parse failure: " P.++ P.show s
 
 
 -- ** IDNumberType
@@ -24318,122 +19235,6 @@ toIDNumberType = \case
   "us_ssn_last_4" -> P.Right IDNumberType'Us_ssn_last_4
   "za_smart_id" -> P.Right IDNumberType'Za_smart_id
   s -> P.Left $ "toIDNumberType: enum parse failure: " P.++ P.show s
-
-
--- ** IncomeInsightsVersion
-
--- | Enum of 'Text' .
--- The version of Income Insights to use. This value is not shared across API calls for the same resource. If it is omitted from a request, the default version is used, even if a version was set in an earlier call such as `/link/token/create` or `/cra/check_report/create`.
-data IncomeInsightsVersion
-  = IncomeInsightsVersion'II2 -- ^ @"II2"@
-  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
-
-instance A.ToJSON IncomeInsightsVersion where toJSON = A.toJSON . fromIncomeInsightsVersion
-instance A.FromJSON IncomeInsightsVersion where parseJSON o = P.either P.fail (pure . P.id) . toIncomeInsightsVersion =<< A.parseJSON o
-instance WH.ToHttpApiData IncomeInsightsVersion where toQueryParam = WH.toQueryParam . fromIncomeInsightsVersion
-instance WH.FromHttpApiData IncomeInsightsVersion where parseQueryParam o = WH.parseQueryParam o >>= P.left T.pack . toIncomeInsightsVersion
-instance MimeRender MimeMultipartFormData IncomeInsightsVersion where mimeRender _ = mimeRenderDefaultMultipartFormData
-
--- | unwrap 'IncomeInsightsVersion' enum
-fromIncomeInsightsVersion :: IncomeInsightsVersion -> Text
-fromIncomeInsightsVersion = \case
-  IncomeInsightsVersion'II2 -> "II2"
-
--- | parse 'IncomeInsightsVersion' enum
-toIncomeInsightsVersion :: Text -> P.Either String IncomeInsightsVersion
-toIncomeInsightsVersion = \case
-  "II2" -> P.Right IncomeInsightsVersion'II2
-  s -> P.Left $ "toIncomeInsightsVersion: enum parse failure: " P.++ P.show s
-
-
--- ** NetworkInsightsVersion
-
--- | Enum of 'Text' .
--- The version of Network Insights. Required if using Network Insights.
-data NetworkInsightsVersion
-  = NetworkInsightsVersion'NI1 -- ^ @"NI1"@
-  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
-
-instance A.ToJSON NetworkInsightsVersion where toJSON = A.toJSON . fromNetworkInsightsVersion
-instance A.FromJSON NetworkInsightsVersion where parseJSON o = P.either P.fail (pure . P.id) . toNetworkInsightsVersion =<< A.parseJSON o
-instance WH.ToHttpApiData NetworkInsightsVersion where toQueryParam = WH.toQueryParam . fromNetworkInsightsVersion
-instance WH.FromHttpApiData NetworkInsightsVersion where parseQueryParam o = WH.parseQueryParam o >>= P.left T.pack . toNetworkInsightsVersion
-instance MimeRender MimeMultipartFormData NetworkInsightsVersion where mimeRender _ = mimeRenderDefaultMultipartFormData
-
--- | unwrap 'NetworkInsightsVersion' enum
-fromNetworkInsightsVersion :: NetworkInsightsVersion -> Text
-fromNetworkInsightsVersion = \case
-  NetworkInsightsVersion'NI1 -> "NI1"
-
--- | parse 'NetworkInsightsVersion' enum
-toNetworkInsightsVersion :: Text -> P.Either String NetworkInsightsVersion
-toNetworkInsightsVersion = \case
-  "NI1" -> P.Right NetworkInsightsVersion'NI1
-  s -> P.Left $ "toNetworkInsightsVersion: enum parse failure: " P.++ P.show s
-
-
--- ** OwnershipType
-
--- | Enum of 'Text' .
--- How an asset is owned.  `association`: Ownership by a corporation, partnership, or unincorporated association, including for-profit and not-for-profit organizations.  `individual`: Ownership by an individual.  `joint`: Joint ownership by multiple parties.  `trust`: Ownership by a revocable or irrevocable trust.
-data OwnershipType
-  = OwnershipType'Individual -- ^ @"individual"@
-  | OwnershipType'Joint -- ^ @"joint"@
-  | OwnershipType'Association -- ^ @"association"@
-  | OwnershipType'Trust -- ^ @"trust"@
-  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
-
-instance A.ToJSON OwnershipType where toJSON = A.toJSON . fromOwnershipType
-instance A.FromJSON OwnershipType where parseJSON o = P.either P.fail (pure . P.id) . toOwnershipType =<< A.parseJSON o
-instance WH.ToHttpApiData OwnershipType where toQueryParam = WH.toQueryParam . fromOwnershipType
-instance WH.FromHttpApiData OwnershipType where parseQueryParam o = WH.parseQueryParam o >>= P.left T.pack . toOwnershipType
-instance MimeRender MimeMultipartFormData OwnershipType where mimeRender _ = mimeRenderDefaultMultipartFormData
-
--- | unwrap 'OwnershipType' enum
-fromOwnershipType :: OwnershipType -> Text
-fromOwnershipType = \case
-  OwnershipType'Individual -> "individual"
-  OwnershipType'Joint -> "joint"
-  OwnershipType'Association -> "association"
-  OwnershipType'Trust -> "trust"
-
--- | parse 'OwnershipType' enum
-toOwnershipType :: Text -> P.Either String OwnershipType
-toOwnershipType = \case
-  "individual" -> P.Right OwnershipType'Individual
-  "joint" -> P.Right OwnershipType'Joint
-  "association" -> P.Right OwnershipType'Association
-  "trust" -> P.Right OwnershipType'Trust
-  s -> P.Left $ "toOwnershipType: enum parse failure: " P.++ P.show s
-
-
--- ** PersonalFinanceCategoryVersion
-
--- | Enum of 'Text' .
--- Indicates which version of the personal finance category taxonomy is being used. [View PFCv2 and PFCv1 taxonomies](https://plaid.com/documents/pfc-taxonomy-all.csv).  If you enabled Transactions or Enrich before December 3, 2025 you will receive the `v1` taxonomy by default and may request `v2` by explicitly setting this field to `v2` in the request.  If you enabled Transactions or Enrich on or after December 3, 2025, you may only receive the `v2` taxonomy. 
-data PersonalFinanceCategoryVersion
-  = PersonalFinanceCategoryVersion'V1 -- ^ @"v1"@
-  | PersonalFinanceCategoryVersion'V2 -- ^ @"v2"@
-  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
-
-instance A.ToJSON PersonalFinanceCategoryVersion where toJSON = A.toJSON . fromPersonalFinanceCategoryVersion
-instance A.FromJSON PersonalFinanceCategoryVersion where parseJSON o = P.either P.fail (pure . P.id) . toPersonalFinanceCategoryVersion =<< A.parseJSON o
-instance WH.ToHttpApiData PersonalFinanceCategoryVersion where toQueryParam = WH.toQueryParam . fromPersonalFinanceCategoryVersion
-instance WH.FromHttpApiData PersonalFinanceCategoryVersion where parseQueryParam o = WH.parseQueryParam o >>= P.left T.pack . toPersonalFinanceCategoryVersion
-instance MimeRender MimeMultipartFormData PersonalFinanceCategoryVersion where mimeRender _ = mimeRenderDefaultMultipartFormData
-
--- | unwrap 'PersonalFinanceCategoryVersion' enum
-fromPersonalFinanceCategoryVersion :: PersonalFinanceCategoryVersion -> Text
-fromPersonalFinanceCategoryVersion = \case
-  PersonalFinanceCategoryVersion'V1 -> "v1"
-  PersonalFinanceCategoryVersion'V2 -> "v2"
-
--- | parse 'PersonalFinanceCategoryVersion' enum
-toPersonalFinanceCategoryVersion :: Text -> P.Either String PersonalFinanceCategoryVersion
-toPersonalFinanceCategoryVersion = \case
-  "v1" -> P.Right PersonalFinanceCategoryVersion'V1
-  "v2" -> P.Right PersonalFinanceCategoryVersion'V2
-  s -> P.Left $ "toPersonalFinanceCategoryVersion: enum parse failure: " P.++ P.show s
 
 
 -- ** PlaidErrorType
@@ -24571,189 +19372,6 @@ toPlaidErrorType = \case
   "TRANSFER_RECURRING_ERROR" -> P.Right PlaidErrorType'TRANSFER_RECURRING_ERROR
   "TRANSFER_REFUND_ERROR" -> P.Right PlaidErrorType'TRANSFER_REFUND_ERROR
   s -> P.Left $ "toPlaidErrorType: enum parse failure: " P.++ P.show s
-
-
--- ** PlaidLendScoreVersion
-
--- | Enum of 'Text' .
--- The version of the LendScore to use. Required if using LendScore.
-data PlaidLendScoreVersion
-  = PlaidLendScoreVersion'V1_0 -- ^ @"v1.0"@
-  | PlaidLendScoreVersion'V2_0 -- ^ @"v2.0"@
-  | PlaidLendScoreVersion'LS1 -- ^ @"LS1"@
-  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
-
-instance A.ToJSON PlaidLendScoreVersion where toJSON = A.toJSON . fromPlaidLendScoreVersion
-instance A.FromJSON PlaidLendScoreVersion where parseJSON o = P.either P.fail (pure . P.id) . toPlaidLendScoreVersion =<< A.parseJSON o
-instance WH.ToHttpApiData PlaidLendScoreVersion where toQueryParam = WH.toQueryParam . fromPlaidLendScoreVersion
-instance WH.FromHttpApiData PlaidLendScoreVersion where parseQueryParam o = WH.parseQueryParam o >>= P.left T.pack . toPlaidLendScoreVersion
-instance MimeRender MimeMultipartFormData PlaidLendScoreVersion where mimeRender _ = mimeRenderDefaultMultipartFormData
-
--- | unwrap 'PlaidLendScoreVersion' enum
-fromPlaidLendScoreVersion :: PlaidLendScoreVersion -> Text
-fromPlaidLendScoreVersion = \case
-  PlaidLendScoreVersion'V1_0 -> "v1.0"
-  PlaidLendScoreVersion'V2_0 -> "v2.0"
-  PlaidLendScoreVersion'LS1 -> "LS1"
-
--- | parse 'PlaidLendScoreVersion' enum
-toPlaidLendScoreVersion :: Text -> P.Either String PlaidLendScoreVersion
-toPlaidLendScoreVersion = \case
-  "v1.0" -> P.Right PlaidLendScoreVersion'V1_0
-  "v2.0" -> P.Right PlaidLendScoreVersion'V2_0
-  "LS1" -> P.Right PlaidLendScoreVersion'LS1
-  s -> P.Left $ "toPlaidLendScoreVersion: enum parse failure: " P.++ P.show s
-
-
--- ** PrismCashScoreVersion
-
--- | Enum of 'Text' .
--- The version of Prism CashScore. If not specified, will default to v3.
-data PrismCashScoreVersion
-  = PrismCashScoreVersion'4_1 -- ^ @"4.1"@
-  | PrismCashScoreVersion'4 -- ^ @"4"@
-  | PrismCashScoreVersion'3_lite -- ^ @"3_lite"@
-  | PrismCashScoreVersion'3 -- ^ @"3"@
-  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
-
-instance A.ToJSON PrismCashScoreVersion where toJSON = A.toJSON . fromPrismCashScoreVersion
-instance A.FromJSON PrismCashScoreVersion where parseJSON o = P.either P.fail (pure . P.id) . toPrismCashScoreVersion =<< A.parseJSON o
-instance WH.ToHttpApiData PrismCashScoreVersion where toQueryParam = WH.toQueryParam . fromPrismCashScoreVersion
-instance WH.FromHttpApiData PrismCashScoreVersion where parseQueryParam o = WH.parseQueryParam o >>= P.left T.pack . toPrismCashScoreVersion
-instance MimeRender MimeMultipartFormData PrismCashScoreVersion where mimeRender _ = mimeRenderDefaultMultipartFormData
-
--- | unwrap 'PrismCashScoreVersion' enum
-fromPrismCashScoreVersion :: PrismCashScoreVersion -> Text
-fromPrismCashScoreVersion = \case
-  PrismCashScoreVersion'4_1 -> "4.1"
-  PrismCashScoreVersion'4 -> "4"
-  PrismCashScoreVersion'3_lite -> "3_lite"
-  PrismCashScoreVersion'3 -> "3"
-
--- | parse 'PrismCashScoreVersion' enum
-toPrismCashScoreVersion :: Text -> P.Either String PrismCashScoreVersion
-toPrismCashScoreVersion = \case
-  "4.1" -> P.Right PrismCashScoreVersion'4_1
-  "4" -> P.Right PrismCashScoreVersion'4
-  "3_lite" -> P.Right PrismCashScoreVersion'3_lite
-  "3" -> P.Right PrismCashScoreVersion'3
-  s -> P.Left $ "toPrismCashScoreVersion: enum parse failure: " P.++ P.show s
-
-
--- ** PrismDetectVersion
-
--- | Enum of 'Text' .
--- The version of Prism Detect
-data PrismDetectVersion
-  = PrismDetectVersion'4_1 -- ^ @"4.1"@
-  | PrismDetectVersion'4 -- ^ @"4"@
-  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
-
-instance A.ToJSON PrismDetectVersion where toJSON = A.toJSON . fromPrismDetectVersion
-instance A.FromJSON PrismDetectVersion where parseJSON o = P.either P.fail (pure . P.id) . toPrismDetectVersion =<< A.parseJSON o
-instance WH.ToHttpApiData PrismDetectVersion where toQueryParam = WH.toQueryParam . fromPrismDetectVersion
-instance WH.FromHttpApiData PrismDetectVersion where parseQueryParam o = WH.parseQueryParam o >>= P.left T.pack . toPrismDetectVersion
-instance MimeRender MimeMultipartFormData PrismDetectVersion where mimeRender _ = mimeRenderDefaultMultipartFormData
-
--- | unwrap 'PrismDetectVersion' enum
-fromPrismDetectVersion :: PrismDetectVersion -> Text
-fromPrismDetectVersion = \case
-  PrismDetectVersion'4_1 -> "4.1"
-  PrismDetectVersion'4 -> "4"
-
--- | parse 'PrismDetectVersion' enum
-toPrismDetectVersion :: Text -> P.Either String PrismDetectVersion
-toPrismDetectVersion = \case
-  "4.1" -> P.Right PrismDetectVersion'4_1
-  "4" -> P.Right PrismDetectVersion'4
-  s -> P.Left $ "toPrismDetectVersion: enum parse failure: " P.++ P.show s
-
-
--- ** PrismExtendVersion
-
--- | Enum of 'Text' .
--- The version of Prism Extend
-data PrismExtendVersion
-  = PrismExtendVersion'4_1 -- ^ @"4.1"@
-  | PrismExtendVersion'4 -- ^ @"4"@
-  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
-
-instance A.ToJSON PrismExtendVersion where toJSON = A.toJSON . fromPrismExtendVersion
-instance A.FromJSON PrismExtendVersion where parseJSON o = P.either P.fail (pure . P.id) . toPrismExtendVersion =<< A.parseJSON o
-instance WH.ToHttpApiData PrismExtendVersion where toQueryParam = WH.toQueryParam . fromPrismExtendVersion
-instance WH.FromHttpApiData PrismExtendVersion where parseQueryParam o = WH.parseQueryParam o >>= P.left T.pack . toPrismExtendVersion
-instance MimeRender MimeMultipartFormData PrismExtendVersion where mimeRender _ = mimeRenderDefaultMultipartFormData
-
--- | unwrap 'PrismExtendVersion' enum
-fromPrismExtendVersion :: PrismExtendVersion -> Text
-fromPrismExtendVersion = \case
-  PrismExtendVersion'4_1 -> "4.1"
-  PrismExtendVersion'4 -> "4"
-
--- | parse 'PrismExtendVersion' enum
-toPrismExtendVersion :: Text -> P.Either String PrismExtendVersion
-toPrismExtendVersion = \case
-  "4.1" -> P.Right PrismExtendVersion'4_1
-  "4" -> P.Right PrismExtendVersion'4
-  s -> P.Left $ "toPrismExtendVersion: enum parse failure: " P.++ P.show s
-
-
--- ** PrismFirstDetectVersion
-
--- | Enum of 'Text' .
--- The version of Prism FirstDetect. If not specified, will default to v3.
-data PrismFirstDetectVersion
-  = PrismFirstDetectVersion'3 -- ^ @"3"@
-  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
-
-instance A.ToJSON PrismFirstDetectVersion where toJSON = A.toJSON . fromPrismFirstDetectVersion
-instance A.FromJSON PrismFirstDetectVersion where parseJSON o = P.either P.fail (pure . P.id) . toPrismFirstDetectVersion =<< A.parseJSON o
-instance WH.ToHttpApiData PrismFirstDetectVersion where toQueryParam = WH.toQueryParam . fromPrismFirstDetectVersion
-instance WH.FromHttpApiData PrismFirstDetectVersion where parseQueryParam o = WH.parseQueryParam o >>= P.left T.pack . toPrismFirstDetectVersion
-instance MimeRender MimeMultipartFormData PrismFirstDetectVersion where mimeRender _ = mimeRenderDefaultMultipartFormData
-
--- | unwrap 'PrismFirstDetectVersion' enum
-fromPrismFirstDetectVersion :: PrismFirstDetectVersion -> Text
-fromPrismFirstDetectVersion = \case
-  PrismFirstDetectVersion'3 -> "3"
-
--- | parse 'PrismFirstDetectVersion' enum
-toPrismFirstDetectVersion :: Text -> P.Either String PrismFirstDetectVersion
-toPrismFirstDetectVersion = \case
-  "3" -> P.Right PrismFirstDetectVersion'3
-  s -> P.Left $ "toPrismFirstDetectVersion: enum parse failure: " P.++ P.show s
-
-
--- ** PrismInsightsVersion
-
--- | Enum of 'Text' .
--- The version of Prism Insights. If not specified, will default to v3.
-data PrismInsightsVersion
-  = PrismInsightsVersion'4_1 -- ^ @"4.1"@
-  | PrismInsightsVersion'4 -- ^ @"4"@
-  | PrismInsightsVersion'3 -- ^ @"3"@
-  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
-
-instance A.ToJSON PrismInsightsVersion where toJSON = A.toJSON . fromPrismInsightsVersion
-instance A.FromJSON PrismInsightsVersion where parseJSON o = P.either P.fail (pure . P.id) . toPrismInsightsVersion =<< A.parseJSON o
-instance WH.ToHttpApiData PrismInsightsVersion where toQueryParam = WH.toQueryParam . fromPrismInsightsVersion
-instance WH.FromHttpApiData PrismInsightsVersion where parseQueryParam o = WH.parseQueryParam o >>= P.left T.pack . toPrismInsightsVersion
-instance MimeRender MimeMultipartFormData PrismInsightsVersion where mimeRender _ = mimeRenderDefaultMultipartFormData
-
--- | unwrap 'PrismInsightsVersion' enum
-fromPrismInsightsVersion :: PrismInsightsVersion -> Text
-fromPrismInsightsVersion = \case
-  PrismInsightsVersion'4_1 -> "4.1"
-  PrismInsightsVersion'4 -> "4"
-  PrismInsightsVersion'3 -> "3"
-
--- | parse 'PrismInsightsVersion' enum
-toPrismInsightsVersion :: Text -> P.Either String PrismInsightsVersion
-toPrismInsightsVersion = \case
-  "4.1" -> P.Right PrismInsightsVersion'4_1
-  "4" -> P.Right PrismInsightsVersion'4
-  "3" -> P.Right PrismInsightsVersion'3
-  s -> P.Left $ "toPrismInsightsVersion: enum parse failure: " P.++ P.show s
 
 
 -- ** RuleResult
@@ -24901,5 +19519,2227 @@ instance AuthMethod AuthApiKeySecret where
       then req `setHeader` toHeader ("PLAID-SECRET", secret)
            & L.over rAuthTypesL (P.filter (/= P.typeOf a))
       else req
+
+
+
+-- ** CraBaseReportProduct
+-- | CraBaseReportProduct
+-- CraBaseReportProduct
+-- 
+-- Names the Base Report product at a given version.
+data CraBaseReportProduct = CraBaseReportProduct
+  { craBaseReportProductProduct :: !(E'Product) -- ^ /Required/ "product" - The Base Report product discriminator.
+  , craBaseReportProductVersion :: !(Text) -- ^ /Required/ "version" - A string that specifies a particular version of a CRA product.
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON CraBaseReportProduct
+instance A.FromJSON CraBaseReportProduct where
+  parseJSON = A.withObject "CraBaseReportProduct" $ \o ->
+    CraBaseReportProduct
+      <$> (o .:  "product")
+      <*> (o .:  "version")
+
+-- | ToJSON CraBaseReportProduct
+instance A.ToJSON CraBaseReportProduct where
+  toJSON CraBaseReportProduct {..} =
+   _omitNulls
+      [ "product" .= craBaseReportProductProduct
+      , "version" .= craBaseReportProductVersion
+      ]
+
+
+-- | Construct a value of type 'CraBaseReportProduct' (by applying it's required fields, if any)
+mkCraBaseReportProduct
+  :: E'Product -- ^ 'craBaseReportProductProduct': The Base Report product discriminator.
+  -> Text -- ^ 'craBaseReportProductVersion': A string that specifies a particular version of a CRA product.
+  -> CraBaseReportProduct
+mkCraBaseReportProduct craBaseReportProductProduct craBaseReportProductVersion =
+  CraBaseReportProduct
+  { craBaseReportProductProduct
+  , craBaseReportProductVersion
+  }
+
+-- ** CraCashflowInsightsProduct
+-- | CraCashflowInsightsProduct
+-- CraCashflowInsightsProduct
+-- 
+-- Names the Cashflow Insights product at a given version.
+data CraCashflowInsightsProduct = CraCashflowInsightsProduct
+  { craCashflowInsightsProductProduct :: !(E'Product2) -- ^ /Required/ "product" - The Cashflow Insights product discriminator.
+  , craCashflowInsightsProductVersion :: !(Text) -- ^ /Required/ "version" - A string that specifies a particular version of a CRA product.
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON CraCashflowInsightsProduct
+instance A.FromJSON CraCashflowInsightsProduct where
+  parseJSON = A.withObject "CraCashflowInsightsProduct" $ \o ->
+    CraCashflowInsightsProduct
+      <$> (o .:  "product")
+      <*> (o .:  "version")
+
+-- | ToJSON CraCashflowInsightsProduct
+instance A.ToJSON CraCashflowInsightsProduct where
+  toJSON CraCashflowInsightsProduct {..} =
+   _omitNulls
+      [ "product" .= craCashflowInsightsProductProduct
+      , "version" .= craCashflowInsightsProductVersion
+      ]
+
+
+-- | Construct a value of type 'CraCashflowInsightsProduct' (by applying it's required fields, if any)
+mkCraCashflowInsightsProduct
+  :: E'Product2 -- ^ 'craCashflowInsightsProductProduct': The Cashflow Insights product discriminator.
+  -> Text -- ^ 'craCashflowInsightsProductVersion': A string that specifies a particular version of a CRA product.
+  -> CraCashflowInsightsProduct
+mkCraCashflowInsightsProduct craCashflowInsightsProductProduct craCashflowInsightsProductVersion =
+  CraCashflowInsightsProduct
+  { craCashflowInsightsProductProduct
+  , craCashflowInsightsProductVersion
+  }
+
+-- ** CraHomeLendingProduct
+-- | CraHomeLendingProduct
+-- CraHomeLendingProduct
+-- 
+-- Names the Home Lending product at a given version.
+data CraHomeLendingProduct = CraHomeLendingProduct
+  { craHomeLendingProductProduct :: !(E'Product3) -- ^ /Required/ "product" - The Home Lending product discriminator.
+  , craHomeLendingProductVersion :: !(Text) -- ^ /Required/ "version" - A string that specifies a particular version of a CRA product.
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON CraHomeLendingProduct
+instance A.FromJSON CraHomeLendingProduct where
+  parseJSON = A.withObject "CraHomeLendingProduct" $ \o ->
+    CraHomeLendingProduct
+      <$> (o .:  "product")
+      <*> (o .:  "version")
+
+-- | ToJSON CraHomeLendingProduct
+instance A.ToJSON CraHomeLendingProduct where
+  toJSON CraHomeLendingProduct {..} =
+   _omitNulls
+      [ "product" .= craHomeLendingProductProduct
+      , "version" .= craHomeLendingProductVersion
+      ]
+
+
+-- | Construct a value of type 'CraHomeLendingProduct' (by applying it's required fields, if any)
+mkCraHomeLendingProduct
+  :: E'Product3 -- ^ 'craHomeLendingProductProduct': The Home Lending product discriminator.
+  -> Text -- ^ 'craHomeLendingProductVersion': A string that specifies a particular version of a CRA product.
+  -> CraHomeLendingProduct
+mkCraHomeLendingProduct craHomeLendingProductProduct craHomeLendingProductVersion =
+  CraHomeLendingProduct
+  { craHomeLendingProductProduct
+  , craHomeLendingProductVersion
+  }
+
+-- ** CraIncomeInsightsProduct
+-- | CraIncomeInsightsProduct
+-- CraIncomeInsightsProduct
+-- 
+-- Names the Income Insights product at a given version.
+data CraIncomeInsightsProduct = CraIncomeInsightsProduct
+  { craIncomeInsightsProductProduct :: !(E'Product4) -- ^ /Required/ "product" - The Income Insights product discriminator.
+  , craIncomeInsightsProductVersion :: !(Text) -- ^ /Required/ "version" - A string that specifies a particular version of a CRA product.
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON CraIncomeInsightsProduct
+instance A.FromJSON CraIncomeInsightsProduct where
+  parseJSON = A.withObject "CraIncomeInsightsProduct" $ \o ->
+    CraIncomeInsightsProduct
+      <$> (o .:  "product")
+      <*> (o .:  "version")
+
+-- | ToJSON CraIncomeInsightsProduct
+instance A.ToJSON CraIncomeInsightsProduct where
+  toJSON CraIncomeInsightsProduct {..} =
+   _omitNulls
+      [ "product" .= craIncomeInsightsProductProduct
+      , "version" .= craIncomeInsightsProductVersion
+      ]
+
+
+-- | Construct a value of type 'CraIncomeInsightsProduct' (by applying it's required fields, if any)
+mkCraIncomeInsightsProduct
+  :: E'Product4 -- ^ 'craIncomeInsightsProductProduct': The Income Insights product discriminator.
+  -> Text -- ^ 'craIncomeInsightsProductVersion': A string that specifies a particular version of a CRA product.
+  -> CraIncomeInsightsProduct
+mkCraIncomeInsightsProduct craIncomeInsightsProductProduct craIncomeInsightsProductVersion =
+  CraIncomeInsightsProduct
+  { craIncomeInsightsProductProduct
+  , craIncomeInsightsProductVersion
+  }
+
+-- ** CraLendScoreProduct
+-- | CraLendScoreProduct
+-- CraLendScoreProduct
+-- 
+-- Names the LendScore product at a given version.
+data CraLendScoreProduct = CraLendScoreProduct
+  { craLendScoreProductProduct :: !(E'Product5) -- ^ /Required/ "product" - The LendScore product discriminator.
+  , craLendScoreProductVersion :: !(Text) -- ^ /Required/ "version" - A string that specifies a particular version of a CRA product.
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON CraLendScoreProduct
+instance A.FromJSON CraLendScoreProduct where
+  parseJSON = A.withObject "CraLendScoreProduct" $ \o ->
+    CraLendScoreProduct
+      <$> (o .:  "product")
+      <*> (o .:  "version")
+
+-- | ToJSON CraLendScoreProduct
+instance A.ToJSON CraLendScoreProduct where
+  toJSON CraLendScoreProduct {..} =
+   _omitNulls
+      [ "product" .= craLendScoreProductProduct
+      , "version" .= craLendScoreProductVersion
+      ]
+
+
+-- | Construct a value of type 'CraLendScoreProduct' (by applying it's required fields, if any)
+mkCraLendScoreProduct
+  :: E'Product5 -- ^ 'craLendScoreProductProduct': The LendScore product discriminator.
+  -> Text -- ^ 'craLendScoreProductVersion': A string that specifies a particular version of a CRA product.
+  -> CraLendScoreProduct
+mkCraLendScoreProduct craLendScoreProductProduct craLendScoreProductVersion =
+  CraLendScoreProduct
+  { craLendScoreProductProduct
+  , craLendScoreProductVersion
+  }
+
+-- ** CraNetworkInsightsProduct
+-- | CraNetworkInsightsProduct
+-- CraNetworkInsightsProduct
+-- 
+-- Names the Network Insights product at a given version.
+data CraNetworkInsightsProduct = CraNetworkInsightsProduct
+  { craNetworkInsightsProductProduct :: !(E'Product6) -- ^ /Required/ "product" - The Network Insights product discriminator.
+  , craNetworkInsightsProductVersion :: !(Text) -- ^ /Required/ "version" - A string that specifies a particular version of a CRA product.
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON CraNetworkInsightsProduct
+instance A.FromJSON CraNetworkInsightsProduct where
+  parseJSON = A.withObject "CraNetworkInsightsProduct" $ \o ->
+    CraNetworkInsightsProduct
+      <$> (o .:  "product")
+      <*> (o .:  "version")
+
+-- | ToJSON CraNetworkInsightsProduct
+instance A.ToJSON CraNetworkInsightsProduct where
+  toJSON CraNetworkInsightsProduct {..} =
+   _omitNulls
+      [ "product" .= craNetworkInsightsProductProduct
+      , "version" .= craNetworkInsightsProductVersion
+      ]
+
+
+-- | Construct a value of type 'CraNetworkInsightsProduct' (by applying it's required fields, if any)
+mkCraNetworkInsightsProduct
+  :: E'Product6 -- ^ 'craNetworkInsightsProductProduct': The Network Insights product discriminator.
+  -> Text -- ^ 'craNetworkInsightsProductVersion': A string that specifies a particular version of a CRA product.
+  -> CraNetworkInsightsProduct
+mkCraNetworkInsightsProduct craNetworkInsightsProductProduct craNetworkInsightsProductVersion =
+  CraNetworkInsightsProduct
+  { craNetworkInsightsProductProduct
+  , craNetworkInsightsProductVersion
+  }
+
+-- ** CraQualifyProduct
+-- | CraQualifyProduct
+-- CraQualifyProduct
+-- 
+-- Names the Qualify product at a given version.
+data CraQualifyProduct = CraQualifyProduct
+  { craQualifyProductProduct :: !(E'Product7) -- ^ /Required/ "product" - The Qualify product discriminator.
+  , craQualifyProductVersion :: !(Text) -- ^ /Required/ "version" - A string that specifies a particular version of a CRA product.
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON CraQualifyProduct
+instance A.FromJSON CraQualifyProduct where
+  parseJSON = A.withObject "CraQualifyProduct" $ \o ->
+    CraQualifyProduct
+      <$> (o .:  "product")
+      <*> (o .:  "version")
+
+-- | ToJSON CraQualifyProduct
+instance A.ToJSON CraQualifyProduct where
+  toJSON CraQualifyProduct {..} =
+   _omitNulls
+      [ "product" .= craQualifyProductProduct
+      , "version" .= craQualifyProductVersion
+      ]
+
+
+-- | Construct a value of type 'CraQualifyProduct' (by applying it's required fields, if any)
+mkCraQualifyProduct
+  :: E'Product7 -- ^ 'craQualifyProductProduct': The Qualify product discriminator.
+  -> Text -- ^ 'craQualifyProductVersion': A string that specifies a particular version of a CRA product.
+  -> CraQualifyProduct
+mkCraQualifyProduct craQualifyProductProduct craQualifyProductVersion =
+  CraQualifyProduct
+  { craQualifyProductProduct
+  , craQualifyProductVersion
+  }
+
+-- ** CraReportCreateBaseReportOptions
+-- | CraReportCreateBaseReportOptions
+-- CraReportCreateBaseReportOptions
+-- 
+-- Configures how the Base Report product is generated.
+data CraReportCreateBaseReportOptions = CraReportCreateBaseReportOptions
+  { craReportCreateBaseReportOptionsRequireIdentity :: !(Maybe Bool) -- ^ "require_identity" - Require the report to include identity information. If identity information is not available, report generation fails.
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON CraReportCreateBaseReportOptions
+instance A.FromJSON CraReportCreateBaseReportOptions where
+  parseJSON = A.withObject "CraReportCreateBaseReportOptions" $ \o ->
+    CraReportCreateBaseReportOptions
+      <$> (o .:? "require_identity")
+
+-- | ToJSON CraReportCreateBaseReportOptions
+instance A.ToJSON CraReportCreateBaseReportOptions where
+  toJSON CraReportCreateBaseReportOptions {..} =
+   _omitNulls
+      [ "require_identity" .= craReportCreateBaseReportOptionsRequireIdentity
+      ]
+
+
+-- | Construct a value of type 'CraReportCreateBaseReportOptions' (by applying it's required fields, if any)
+mkCraReportCreateBaseReportOptions
+  :: CraReportCreateBaseReportOptions
+mkCraReportCreateBaseReportOptions =
+  CraReportCreateBaseReportOptions
+  { craReportCreateBaseReportOptionsRequireIdentity = Nothing
+  }
+
+-- ** CraReportCreateBaseReportProductConfig
+-- | CraReportCreateBaseReportProductConfig
+-- CraReportCreateBaseReportProductConfig
+-- 
+-- Requests the given version of the Base Report product, optionally configuring how it is generated.
+data CraReportCreateBaseReportProductConfig = CraReportCreateBaseReportProductConfig
+  { craReportCreateBaseReportProductConfigOptions :: !(Maybe CraReportCreateBaseReportOptions) -- ^ "options"
+  , craReportCreateBaseReportProductConfigProduct :: !(E'Product) -- ^ /Required/ "product" - Set to &#x60;cra_base_report&#x60; to request the Base Report product.
+  , craReportCreateBaseReportProductConfigVersion :: !(Text) -- ^ /Required/ "version" - A string that specifies a particular version of a CRA product.
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON CraReportCreateBaseReportProductConfig
+instance A.FromJSON CraReportCreateBaseReportProductConfig where
+  parseJSON = A.withObject "CraReportCreateBaseReportProductConfig" $ \o ->
+    CraReportCreateBaseReportProductConfig
+      <$> (o .:? "options")
+      <*> (o .:  "product")
+      <*> (o .:  "version")
+
+-- | ToJSON CraReportCreateBaseReportProductConfig
+instance A.ToJSON CraReportCreateBaseReportProductConfig where
+  toJSON CraReportCreateBaseReportProductConfig {..} =
+   _omitNulls
+      [ "options" .= craReportCreateBaseReportProductConfigOptions
+      , "product" .= craReportCreateBaseReportProductConfigProduct
+      , "version" .= craReportCreateBaseReportProductConfigVersion
+      ]
+
+
+-- | Construct a value of type 'CraReportCreateBaseReportProductConfig' (by applying it's required fields, if any)
+mkCraReportCreateBaseReportProductConfig
+  :: E'Product -- ^ 'craReportCreateBaseReportProductConfigProduct': Set to `cra_base_report` to request the Base Report product.
+  -> Text -- ^ 'craReportCreateBaseReportProductConfigVersion': A string that specifies a particular version of a CRA product.
+  -> CraReportCreateBaseReportProductConfig
+mkCraReportCreateBaseReportProductConfig craReportCreateBaseReportProductConfigProduct craReportCreateBaseReportProductConfigVersion =
+  CraReportCreateBaseReportProductConfig
+  { craReportCreateBaseReportProductConfigOptions = Nothing
+  , craReportCreateBaseReportProductConfigProduct
+  , craReportCreateBaseReportProductConfigVersion
+  }
+
+-- ** CraReportCreateCashflowInsightsProductConfig
+-- | CraReportCreateCashflowInsightsProductConfig
+-- CraReportCreateCashflowInsightsProductConfig
+-- 
+-- Requests the given version of the Cashflow Insights product. Cashflow Insights accepts no additional configuration today.
+data CraReportCreateCashflowInsightsProductConfig = CraReportCreateCashflowInsightsProductConfig
+  { craReportCreateCashflowInsightsProductConfigProduct :: !(E'Product2) -- ^ /Required/ "product" - Set to &#x60;cra_cashflow_insights&#x60; to request the Cashflow Insights product.
+  , craReportCreateCashflowInsightsProductConfigVersion :: !(Text) -- ^ /Required/ "version" - A string that specifies a particular version of a CRA product.
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON CraReportCreateCashflowInsightsProductConfig
+instance A.FromJSON CraReportCreateCashflowInsightsProductConfig where
+  parseJSON = A.withObject "CraReportCreateCashflowInsightsProductConfig" $ \o ->
+    CraReportCreateCashflowInsightsProductConfig
+      <$> (o .:  "product")
+      <*> (o .:  "version")
+
+-- | ToJSON CraReportCreateCashflowInsightsProductConfig
+instance A.ToJSON CraReportCreateCashflowInsightsProductConfig where
+  toJSON CraReportCreateCashflowInsightsProductConfig {..} =
+   _omitNulls
+      [ "product" .= craReportCreateCashflowInsightsProductConfigProduct
+      , "version" .= craReportCreateCashflowInsightsProductConfigVersion
+      ]
+
+
+-- | Construct a value of type 'CraReportCreateCashflowInsightsProductConfig' (by applying it's required fields, if any)
+mkCraReportCreateCashflowInsightsProductConfig
+  :: E'Product2 -- ^ 'craReportCreateCashflowInsightsProductConfigProduct': Set to `cra_cashflow_insights` to request the Cashflow Insights product.
+  -> Text -- ^ 'craReportCreateCashflowInsightsProductConfigVersion': A string that specifies a particular version of a CRA product.
+  -> CraReportCreateCashflowInsightsProductConfig
+mkCraReportCreateCashflowInsightsProductConfig craReportCreateCashflowInsightsProductConfigProduct craReportCreateCashflowInsightsProductConfigVersion =
+  CraReportCreateCashflowInsightsProductConfig
+  { craReportCreateCashflowInsightsProductConfigProduct
+  , craReportCreateCashflowInsightsProductConfigVersion
+  }
+
+-- ** CraReportCreateEmploymentRefreshOptions
+-- | CraReportCreateEmploymentRefreshOptions
+-- CraReportCreateEmploymentRefreshOptions
+-- 
+-- Configures the Employment Refresh report.
+data CraReportCreateEmploymentRefreshOptions = CraReportCreateEmploymentRefreshOptions
+  { craReportCreateEmploymentRefreshOptionsDaysRequested :: !(Int) -- ^ /Required/ "days_requested" - The number of days of data to request for the Employment Refresh report. Maximum is 731.
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON CraReportCreateEmploymentRefreshOptions
+instance A.FromJSON CraReportCreateEmploymentRefreshOptions where
+  parseJSON = A.withObject "CraReportCreateEmploymentRefreshOptions" $ \o ->
+    CraReportCreateEmploymentRefreshOptions
+      <$> (o .:  "days_requested")
+
+-- | ToJSON CraReportCreateEmploymentRefreshOptions
+instance A.ToJSON CraReportCreateEmploymentRefreshOptions where
+  toJSON CraReportCreateEmploymentRefreshOptions {..} =
+   _omitNulls
+      [ "days_requested" .= craReportCreateEmploymentRefreshOptionsDaysRequested
+      ]
+
+
+-- | Construct a value of type 'CraReportCreateEmploymentRefreshOptions' (by applying it's required fields, if any)
+mkCraReportCreateEmploymentRefreshOptions
+  :: Int -- ^ 'craReportCreateEmploymentRefreshOptionsDaysRequested': The number of days of data to request for the Employment Refresh report. Maximum is 731.
+  -> CraReportCreateEmploymentRefreshOptions
+mkCraReportCreateEmploymentRefreshOptions craReportCreateEmploymentRefreshOptionsDaysRequested =
+  CraReportCreateEmploymentRefreshOptions
+  { craReportCreateEmploymentRefreshOptionsDaysRequested
+  }
+
+-- ** CraReportCreateHomeLendingOptions
+-- | CraReportCreateHomeLendingOptions
+-- CraReportCreateHomeLendingOptions
+-- 
+-- Configures how the Home Lending product is generated.
+data CraReportCreateHomeLendingOptions = CraReportCreateHomeLendingOptions
+  { craReportCreateHomeLendingOptionsEmploymentRefreshOptions :: !(Maybe CraReportCreateEmploymentRefreshOptions) -- ^ "employment_refresh_options"
+  , craReportCreateHomeLendingOptionsReportsRequested :: !([CraReportCreateHomeLendingReportType]) -- ^ /Required/ "reports_requested" - The home lending reports to generate.
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON CraReportCreateHomeLendingOptions
+instance A.FromJSON CraReportCreateHomeLendingOptions where
+  parseJSON = A.withObject "CraReportCreateHomeLendingOptions" $ \o ->
+    CraReportCreateHomeLendingOptions
+      <$> (o .:? "employment_refresh_options")
+      <*> (o .:  "reports_requested")
+
+-- | ToJSON CraReportCreateHomeLendingOptions
+instance A.ToJSON CraReportCreateHomeLendingOptions where
+  toJSON CraReportCreateHomeLendingOptions {..} =
+   _omitNulls
+      [ "employment_refresh_options" .= craReportCreateHomeLendingOptionsEmploymentRefreshOptions
+      , "reports_requested" .= craReportCreateHomeLendingOptionsReportsRequested
+      ]
+
+
+-- | Construct a value of type 'CraReportCreateHomeLendingOptions' (by applying it's required fields, if any)
+mkCraReportCreateHomeLendingOptions
+  :: [CraReportCreateHomeLendingReportType] -- ^ 'craReportCreateHomeLendingOptionsReportsRequested': The home lending reports to generate.
+  -> CraReportCreateHomeLendingOptions
+mkCraReportCreateHomeLendingOptions craReportCreateHomeLendingOptionsReportsRequested =
+  CraReportCreateHomeLendingOptions
+  { craReportCreateHomeLendingOptionsEmploymentRefreshOptions = Nothing
+  , craReportCreateHomeLendingOptionsReportsRequested
+  }
+
+-- ** CraReportCreateHomeLendingProductConfig
+-- | CraReportCreateHomeLendingProductConfig
+-- CraReportCreateHomeLendingProductConfig
+-- 
+-- Requests the given version of the Home Lending product, optionally configuring how it is generated.
+data CraReportCreateHomeLendingProductConfig = CraReportCreateHomeLendingProductConfig
+  { craReportCreateHomeLendingProductConfigOptions :: !(Maybe CraReportCreateHomeLendingOptions) -- ^ "options"
+  , craReportCreateHomeLendingProductConfigProduct :: !(E'Product3) -- ^ /Required/ "product" - Set to &#x60;cra_home_lending&#x60; to request the Home Lending product.
+  , craReportCreateHomeLendingProductConfigVersion :: !(Text) -- ^ /Required/ "version" - A string that specifies a particular version of a CRA product.
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON CraReportCreateHomeLendingProductConfig
+instance A.FromJSON CraReportCreateHomeLendingProductConfig where
+  parseJSON = A.withObject "CraReportCreateHomeLendingProductConfig" $ \o ->
+    CraReportCreateHomeLendingProductConfig
+      <$> (o .:? "options")
+      <*> (o .:  "product")
+      <*> (o .:  "version")
+
+-- | ToJSON CraReportCreateHomeLendingProductConfig
+instance A.ToJSON CraReportCreateHomeLendingProductConfig where
+  toJSON CraReportCreateHomeLendingProductConfig {..} =
+   _omitNulls
+      [ "options" .= craReportCreateHomeLendingProductConfigOptions
+      , "product" .= craReportCreateHomeLendingProductConfigProduct
+      , "version" .= craReportCreateHomeLendingProductConfigVersion
+      ]
+
+
+-- | Construct a value of type 'CraReportCreateHomeLendingProductConfig' (by applying it's required fields, if any)
+mkCraReportCreateHomeLendingProductConfig
+  :: E'Product3 -- ^ 'craReportCreateHomeLendingProductConfigProduct': Set to `cra_home_lending` to request the Home Lending product.
+  -> Text -- ^ 'craReportCreateHomeLendingProductConfigVersion': A string that specifies a particular version of a CRA product.
+  -> CraReportCreateHomeLendingProductConfig
+mkCraReportCreateHomeLendingProductConfig craReportCreateHomeLendingProductConfigProduct craReportCreateHomeLendingProductConfigVersion =
+  CraReportCreateHomeLendingProductConfig
+  { craReportCreateHomeLendingProductConfigOptions = Nothing
+  , craReportCreateHomeLendingProductConfigProduct
+  , craReportCreateHomeLendingProductConfigVersion
+  }
+
+-- ** CraReportCreateHomeLendingReportType
+
+-- | Enum of 'Text' .
+-- A type of home lending report.
+data CraReportCreateHomeLendingReportType
+  = CraReportCreateHomeLendingReportType'VOA -- ^ @"VOA"@
+  | CraReportCreateHomeLendingReportType'EMPLOYMENT_REFRESH -- ^ @"EMPLOYMENT_REFRESH"@
+  | CraReportCreateHomeLendingReportType'INCOME -- ^ @"INCOME"@
+  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
+
+instance A.ToJSON CraReportCreateHomeLendingReportType where toJSON = A.toJSON . fromCraReportCreateHomeLendingReportType
+instance A.FromJSON CraReportCreateHomeLendingReportType where parseJSON o = P.either P.fail (pure . P.id) . toCraReportCreateHomeLendingReportType =<< A.parseJSON o
+instance WH.ToHttpApiData CraReportCreateHomeLendingReportType where toQueryParam = WH.toQueryParam . fromCraReportCreateHomeLendingReportType
+instance WH.FromHttpApiData CraReportCreateHomeLendingReportType where parseQueryParam o = WH.parseQueryParam o >>= P.left T.pack . toCraReportCreateHomeLendingReportType
+instance MimeRender MimeMultipartFormData CraReportCreateHomeLendingReportType where mimeRender _ = mimeRenderDefaultMultipartFormData
+
+-- | unwrap 'CraReportCreateHomeLendingReportType' enum
+fromCraReportCreateHomeLendingReportType :: CraReportCreateHomeLendingReportType -> Text
+fromCraReportCreateHomeLendingReportType = \case
+  CraReportCreateHomeLendingReportType'VOA -> "VOA"
+  CraReportCreateHomeLendingReportType'EMPLOYMENT_REFRESH -> "EMPLOYMENT_REFRESH"
+  CraReportCreateHomeLendingReportType'INCOME -> "INCOME"
+
+-- | parse 'CraReportCreateHomeLendingReportType' enum
+toCraReportCreateHomeLendingReportType :: Text -> P.Either String CraReportCreateHomeLendingReportType
+toCraReportCreateHomeLendingReportType = \case
+  "VOA" -> P.Right CraReportCreateHomeLendingReportType'VOA
+  "EMPLOYMENT_REFRESH" -> P.Right CraReportCreateHomeLendingReportType'EMPLOYMENT_REFRESH
+  "INCOME" -> P.Right CraReportCreateHomeLendingReportType'INCOME
+  s -> P.Left $ "toCraReportCreateHomeLendingReportType: enum parse failure: " P.++ P.show s
+
+
+-- ** CraReportCreateIncomeInsightsOptions
+-- | CraReportCreateIncomeInsightsOptions
+-- CraReportCreateIncomeInsightsOptions
+-- 
+-- Configures how the Income Insights product is generated.
+data CraReportCreateIncomeInsightsOptions = CraReportCreateIncomeInsightsOptions
+  { craReportCreateIncomeInsightsOptionsIncomeInsightsFilter :: !(Maybe IncomeInsightsFilter) -- ^ "income_insights_filter"
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON CraReportCreateIncomeInsightsOptions
+instance A.FromJSON CraReportCreateIncomeInsightsOptions where
+  parseJSON = A.withObject "CraReportCreateIncomeInsightsOptions" $ \o ->
+    CraReportCreateIncomeInsightsOptions
+      <$> (o .:? "income_insights_filter")
+
+-- | ToJSON CraReportCreateIncomeInsightsOptions
+instance A.ToJSON CraReportCreateIncomeInsightsOptions where
+  toJSON CraReportCreateIncomeInsightsOptions {..} =
+   _omitNulls
+      [ "income_insights_filter" .= craReportCreateIncomeInsightsOptionsIncomeInsightsFilter
+      ]
+
+
+-- | Construct a value of type 'CraReportCreateIncomeInsightsOptions' (by applying it's required fields, if any)
+mkCraReportCreateIncomeInsightsOptions
+  :: CraReportCreateIncomeInsightsOptions
+mkCraReportCreateIncomeInsightsOptions =
+  CraReportCreateIncomeInsightsOptions
+  { craReportCreateIncomeInsightsOptionsIncomeInsightsFilter = Nothing
+  }
+
+-- ** CraReportCreateIncomeInsightsProductConfig
+-- | CraReportCreateIncomeInsightsProductConfig
+-- CraReportCreateIncomeInsightsProductConfig
+-- 
+-- Requests the given version of the Income Insights product, optionally configuring how it is generated.
+data CraReportCreateIncomeInsightsProductConfig = CraReportCreateIncomeInsightsProductConfig
+  { craReportCreateIncomeInsightsProductConfigOptions :: !(Maybe CraReportCreateIncomeInsightsOptions) -- ^ "options"
+  , craReportCreateIncomeInsightsProductConfigProduct :: !(E'Product4) -- ^ /Required/ "product" - Set to &#x60;cra_income_insights&#x60; to request the Income Insights product.
+  , craReportCreateIncomeInsightsProductConfigVersion :: !(Text) -- ^ /Required/ "version" - A string that specifies a particular version of a CRA product.
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON CraReportCreateIncomeInsightsProductConfig
+instance A.FromJSON CraReportCreateIncomeInsightsProductConfig where
+  parseJSON = A.withObject "CraReportCreateIncomeInsightsProductConfig" $ \o ->
+    CraReportCreateIncomeInsightsProductConfig
+      <$> (o .:? "options")
+      <*> (o .:  "product")
+      <*> (o .:  "version")
+
+-- | ToJSON CraReportCreateIncomeInsightsProductConfig
+instance A.ToJSON CraReportCreateIncomeInsightsProductConfig where
+  toJSON CraReportCreateIncomeInsightsProductConfig {..} =
+   _omitNulls
+      [ "options" .= craReportCreateIncomeInsightsProductConfigOptions
+      , "product" .= craReportCreateIncomeInsightsProductConfigProduct
+      , "version" .= craReportCreateIncomeInsightsProductConfigVersion
+      ]
+
+
+-- | Construct a value of type 'CraReportCreateIncomeInsightsProductConfig' (by applying it's required fields, if any)
+mkCraReportCreateIncomeInsightsProductConfig
+  :: E'Product4 -- ^ 'craReportCreateIncomeInsightsProductConfigProduct': Set to `cra_income_insights` to request the Income Insights product.
+  -> Text -- ^ 'craReportCreateIncomeInsightsProductConfigVersion': A string that specifies a particular version of a CRA product.
+  -> CraReportCreateIncomeInsightsProductConfig
+mkCraReportCreateIncomeInsightsProductConfig craReportCreateIncomeInsightsProductConfigProduct craReportCreateIncomeInsightsProductConfigVersion =
+  CraReportCreateIncomeInsightsProductConfig
+  { craReportCreateIncomeInsightsProductConfigOptions = Nothing
+  , craReportCreateIncomeInsightsProductConfigProduct
+  , craReportCreateIncomeInsightsProductConfigVersion
+  }
+
+-- ** CraReportCreateLendScoreProductConfig
+-- | CraReportCreateLendScoreProductConfig
+-- CraReportCreateLendScoreProductConfig
+-- 
+-- Requests the given version of the LendScore product. LendScore accepts no additional configuration today.
+data CraReportCreateLendScoreProductConfig = CraReportCreateLendScoreProductConfig
+  { craReportCreateLendScoreProductConfigProduct :: !(E'Product5) -- ^ /Required/ "product" - Set to &#x60;cra_lend_score&#x60; to request the LendScore product.
+  , craReportCreateLendScoreProductConfigVersion :: !(Text) -- ^ /Required/ "version" - A string that specifies a particular version of a CRA product.
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON CraReportCreateLendScoreProductConfig
+instance A.FromJSON CraReportCreateLendScoreProductConfig where
+  parseJSON = A.withObject "CraReportCreateLendScoreProductConfig" $ \o ->
+    CraReportCreateLendScoreProductConfig
+      <$> (o .:  "product")
+      <*> (o .:  "version")
+
+-- | ToJSON CraReportCreateLendScoreProductConfig
+instance A.ToJSON CraReportCreateLendScoreProductConfig where
+  toJSON CraReportCreateLendScoreProductConfig {..} =
+   _omitNulls
+      [ "product" .= craReportCreateLendScoreProductConfigProduct
+      , "version" .= craReportCreateLendScoreProductConfigVersion
+      ]
+
+
+-- | Construct a value of type 'CraReportCreateLendScoreProductConfig' (by applying it's required fields, if any)
+mkCraReportCreateLendScoreProductConfig
+  :: E'Product5 -- ^ 'craReportCreateLendScoreProductConfigProduct': Set to `cra_lend_score` to request the LendScore product.
+  -> Text -- ^ 'craReportCreateLendScoreProductConfigVersion': A string that specifies a particular version of a CRA product.
+  -> CraReportCreateLendScoreProductConfig
+mkCraReportCreateLendScoreProductConfig craReportCreateLendScoreProductConfigProduct craReportCreateLendScoreProductConfigVersion =
+  CraReportCreateLendScoreProductConfig
+  { craReportCreateLendScoreProductConfigProduct
+  , craReportCreateLendScoreProductConfigVersion
+  }
+
+-- ** CraReportCreateNetworkInsightsProductConfig
+-- | CraReportCreateNetworkInsightsProductConfig
+-- CraReportCreateNetworkInsightsProductConfig
+-- 
+-- Requests the given version of the Network Insights product. Network Insights accepts no additional configuration today.
+data CraReportCreateNetworkInsightsProductConfig = CraReportCreateNetworkInsightsProductConfig
+  { craReportCreateNetworkInsightsProductConfigProduct :: !(E'Product6) -- ^ /Required/ "product" - Set to &#x60;cra_network_insights&#x60; to request the Network Insights product.
+  , craReportCreateNetworkInsightsProductConfigVersion :: !(Text) -- ^ /Required/ "version" - A string that specifies a particular version of a CRA product.
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON CraReportCreateNetworkInsightsProductConfig
+instance A.FromJSON CraReportCreateNetworkInsightsProductConfig where
+  parseJSON = A.withObject "CraReportCreateNetworkInsightsProductConfig" $ \o ->
+    CraReportCreateNetworkInsightsProductConfig
+      <$> (o .:  "product")
+      <*> (o .:  "version")
+
+-- | ToJSON CraReportCreateNetworkInsightsProductConfig
+instance A.ToJSON CraReportCreateNetworkInsightsProductConfig where
+  toJSON CraReportCreateNetworkInsightsProductConfig {..} =
+   _omitNulls
+      [ "product" .= craReportCreateNetworkInsightsProductConfigProduct
+      , "version" .= craReportCreateNetworkInsightsProductConfigVersion
+      ]
+
+
+-- | Construct a value of type 'CraReportCreateNetworkInsightsProductConfig' (by applying it's required fields, if any)
+mkCraReportCreateNetworkInsightsProductConfig
+  :: E'Product6 -- ^ 'craReportCreateNetworkInsightsProductConfigProduct': Set to `cra_network_insights` to request the Network Insights product.
+  -> Text -- ^ 'craReportCreateNetworkInsightsProductConfigVersion': A string that specifies a particular version of a CRA product.
+  -> CraReportCreateNetworkInsightsProductConfig
+mkCraReportCreateNetworkInsightsProductConfig craReportCreateNetworkInsightsProductConfigProduct craReportCreateNetworkInsightsProductConfigVersion =
+  CraReportCreateNetworkInsightsProductConfig
+  { craReportCreateNetworkInsightsProductConfigProduct
+  , craReportCreateNetworkInsightsProductConfigVersion
+  }
+
+-- ** CraReportCreateQualifyProductConfig
+-- | CraReportCreateQualifyProductConfig
+-- CraReportCreateQualifyProductConfig
+-- 
+-- Requests the given version of the Qualify product. Qualify accepts no additional configuration today.
+data CraReportCreateQualifyProductConfig = CraReportCreateQualifyProductConfig
+  { craReportCreateQualifyProductConfigProduct :: !(E'Product7) -- ^ /Required/ "product" - Set to &#x60;cra_qualify&#x60; to request the Qualify product.
+  , craReportCreateQualifyProductConfigVersion :: !(Text) -- ^ /Required/ "version" - A string that specifies a particular version of a CRA product.
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON CraReportCreateQualifyProductConfig
+instance A.FromJSON CraReportCreateQualifyProductConfig where
+  parseJSON = A.withObject "CraReportCreateQualifyProductConfig" $ \o ->
+    CraReportCreateQualifyProductConfig
+      <$> (o .:  "product")
+      <*> (o .:  "version")
+
+-- | ToJSON CraReportCreateQualifyProductConfig
+instance A.ToJSON CraReportCreateQualifyProductConfig where
+  toJSON CraReportCreateQualifyProductConfig {..} =
+   _omitNulls
+      [ "product" .= craReportCreateQualifyProductConfigProduct
+      , "version" .= craReportCreateQualifyProductConfigVersion
+      ]
+
+
+-- | Construct a value of type 'CraReportCreateQualifyProductConfig' (by applying it's required fields, if any)
+mkCraReportCreateQualifyProductConfig
+  :: E'Product7 -- ^ 'craReportCreateQualifyProductConfigProduct': Set to `cra_qualify` to request the Qualify product.
+  -> Text -- ^ 'craReportCreateQualifyProductConfigVersion': A string that specifies a particular version of a CRA product.
+  -> CraReportCreateQualifyProductConfig
+mkCraReportCreateQualifyProductConfig craReportCreateQualifyProductConfigProduct craReportCreateQualifyProductConfigVersion =
+  CraReportCreateQualifyProductConfig
+  { craReportCreateQualifyProductConfigProduct
+  , craReportCreateQualifyProductConfigVersion
+  }
+
+-- ** CraReportCreateRequest
+-- | CraReportCreateRequest
+-- CraReportCreateRequest
+-- 
+-- CraReportCreateRequest defines the request schema for `/cra/report/create`.
+data CraReportCreateRequest = CraReportCreateRequest
+  { craReportCreateRequestClientId :: !(Maybe Text) -- ^ "client_id" - Your Plaid API &#x60;client_id&#x60;.
+  , craReportCreateRequestClientReportId :: !(Maybe Text) -- ^ "client_report_id" - Client-generated identifier, which can be used by lenders to track loan applications.
+  , craReportCreateRequestConsumerReportPermissiblePurpose :: !(ConsumerReportPermissiblePurpose) -- ^ /Required/ "consumer_report_permissible_purpose"
+  , craReportCreateRequestDaysRequested :: !(Maybe Int) -- ^ "days_requested" - The number of days of history to include in Plaid Check products. Maximum is 731; minimum is 180. If a value lower than 180 is provided, a minimum of 180 days of history will be requested.
+  , craReportCreateRequestDaysRequired :: !(Maybe Int) -- ^ "days_required" - The minimum number of days of data required for the report to be successfully generated.
+  , craReportCreateRequestDecisionStage :: !(CraReportDecisionStage) -- ^ /Required/ "decision_stage"
+  , craReportCreateRequestIncludeInvestments :: !(Maybe Bool) -- ^ "include_investments" - Indicates that investment data should be extracted from the linked account(s).
+  , craReportCreateRequestProducts :: !([CraReportProduct]) -- ^ /Required/ "products" - The Plaid Check products, versions, and options to generate for the report.
+  , craReportCreateRequestScope :: !(Maybe CraReportScope) -- ^ "scope"
+  , craReportCreateRequestSecret :: !(Maybe Text) -- ^ "secret" - Your Plaid API &#x60;secret&#x60;.
+  , craReportCreateRequestUserId :: !(Text) -- ^ /Required/ "user_id" - A unique user identifier, created by &#x60;/user/create&#x60;. Integrations that began using &#x60;/user/create&#x60; after December 10, 2025 use this field to identify a user instead of the &#x60;user_token&#x60;. For more details, see [New User APIs](https://plaid.com/docs/api/users/user-apis).
+  , craReportCreateRequestWebhook :: !(Maybe Text) -- ^ "webhook" - The destination URL to which the report&#39;s webhooks will be sent.
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON CraReportCreateRequest
+instance A.FromJSON CraReportCreateRequest where
+  parseJSON = A.withObject "CraReportCreateRequest" $ \o ->
+    CraReportCreateRequest
+      <$> (o .:? "client_id")
+      <*> (o .:? "client_report_id")
+      <*> (o .:  "consumer_report_permissible_purpose")
+      <*> (o .:? "days_requested")
+      <*> (o .:? "days_required")
+      <*> (o .:  "decision_stage")
+      <*> (o .:? "include_investments")
+      <*> (o .:  "products")
+      <*> (o .:? "scope")
+      <*> (o .:? "secret")
+      <*> (o .:  "user_id")
+      <*> (o .:? "webhook")
+
+-- | ToJSON CraReportCreateRequest
+instance A.ToJSON CraReportCreateRequest where
+  toJSON CraReportCreateRequest {..} =
+   _omitNulls
+      [ "client_id" .= craReportCreateRequestClientId
+      , "client_report_id" .= craReportCreateRequestClientReportId
+      , "consumer_report_permissible_purpose" .= craReportCreateRequestConsumerReportPermissiblePurpose
+      , "days_requested" .= craReportCreateRequestDaysRequested
+      , "days_required" .= craReportCreateRequestDaysRequired
+      , "decision_stage" .= craReportCreateRequestDecisionStage
+      , "include_investments" .= craReportCreateRequestIncludeInvestments
+      , "products" .= craReportCreateRequestProducts
+      , "scope" .= craReportCreateRequestScope
+      , "secret" .= craReportCreateRequestSecret
+      , "user_id" .= craReportCreateRequestUserId
+      , "webhook" .= craReportCreateRequestWebhook
+      ]
+
+
+-- | Construct a value of type 'CraReportCreateRequest' (by applying it's required fields, if any)
+mkCraReportCreateRequest
+  :: ConsumerReportPermissiblePurpose -- ^ 'craReportCreateRequestConsumerReportPermissiblePurpose' 
+  -> CraReportDecisionStage -- ^ 'craReportCreateRequestDecisionStage' 
+  -> [CraReportProduct] -- ^ 'craReportCreateRequestProducts': The Plaid Check products, versions, and options to generate for the report.
+  -> Text -- ^ 'craReportCreateRequestUserId': A unique user identifier, created by `/user/create`. Integrations that began using `/user/create` after December 10, 2025 use this field to identify a user instead of the `user_token`. For more details, see [New User APIs](https://plaid.com/docs/api/users/user-apis).
+  -> CraReportCreateRequest
+mkCraReportCreateRequest craReportCreateRequestConsumerReportPermissiblePurpose craReportCreateRequestDecisionStage craReportCreateRequestProducts craReportCreateRequestUserId =
+  CraReportCreateRequest
+  { craReportCreateRequestClientId = Nothing
+  , craReportCreateRequestClientReportId = Nothing
+  , craReportCreateRequestConsumerReportPermissiblePurpose
+  , craReportCreateRequestDaysRequested = Nothing
+  , craReportCreateRequestDaysRequired = Nothing
+  , craReportCreateRequestDecisionStage
+  , craReportCreateRequestIncludeInvestments = Nothing
+  , craReportCreateRequestProducts
+  , craReportCreateRequestScope = Nothing
+  , craReportCreateRequestSecret = Nothing
+  , craReportCreateRequestUserId
+  , craReportCreateRequestWebhook = Nothing
+  }
+
+-- ** CraReportCreateResponse
+-- | CraReportCreateResponse
+-- CraReportCreateResponse
+-- 
+-- CraReportCreateResponse defines the response schema for `/cra/report/create`.
+data CraReportCreateResponse = CraReportCreateResponse
+  { craReportCreateResponseReportId :: !(Text) -- ^ /Required/ "report_id" - The identifier of the report being generated. Use it to retrieve the report once its products are ready.
+  , craReportCreateResponseRequestId :: !(Text) -- ^ /Required/ "request_id" - A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive.
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON CraReportCreateResponse
+instance A.FromJSON CraReportCreateResponse where
+  parseJSON = A.withObject "CraReportCreateResponse" $ \o ->
+    CraReportCreateResponse
+      <$> (o .:  "report_id")
+      <*> (o .:  "request_id")
+
+-- | ToJSON CraReportCreateResponse
+instance A.ToJSON CraReportCreateResponse where
+  toJSON CraReportCreateResponse {..} =
+   _omitNulls
+      [ "report_id" .= craReportCreateResponseReportId
+      , "request_id" .= craReportCreateResponseRequestId
+      ]
+
+
+-- | Construct a value of type 'CraReportCreateResponse' (by applying it's required fields, if any)
+mkCraReportCreateResponse
+  :: Text -- ^ 'craReportCreateResponseReportId': The identifier of the report being generated. Use it to retrieve the report once its products are ready.
+  -> Text -- ^ 'craReportCreateResponseRequestId': A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive.
+  -> CraReportCreateResponse
+mkCraReportCreateResponse craReportCreateResponseReportId craReportCreateResponseRequestId =
+  CraReportCreateResponse
+  { craReportCreateResponseReportId
+  , craReportCreateResponseRequestId
+  }
+
+-- ** CraReportDecisionStage
+
+-- | Enum of 'Text' .
+-- The stage in the lending lifecycle that the report is for.
+data CraReportDecisionStage
+  = CraReportDecisionStage'PREQUALIFICATION -- ^ @"PREQUALIFICATION"@
+  | CraReportDecisionStage'DECISIONING -- ^ @"DECISIONING"@
+  | CraReportDecisionStage'SERVICING -- ^ @"SERVICING"@
+  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
+
+instance A.ToJSON CraReportDecisionStage where toJSON = A.toJSON . fromCraReportDecisionStage
+instance A.FromJSON CraReportDecisionStage where parseJSON o = P.either P.fail (pure . P.id) . toCraReportDecisionStage =<< A.parseJSON o
+instance WH.ToHttpApiData CraReportDecisionStage where toQueryParam = WH.toQueryParam . fromCraReportDecisionStage
+instance WH.FromHttpApiData CraReportDecisionStage where parseQueryParam o = WH.parseQueryParam o >>= P.left T.pack . toCraReportDecisionStage
+instance MimeRender MimeMultipartFormData CraReportDecisionStage where mimeRender _ = mimeRenderDefaultMultipartFormData
+
+-- | unwrap 'CraReportDecisionStage' enum
+fromCraReportDecisionStage :: CraReportDecisionStage -> Text
+fromCraReportDecisionStage = \case
+  CraReportDecisionStage'PREQUALIFICATION -> "PREQUALIFICATION"
+  CraReportDecisionStage'DECISIONING -> "DECISIONING"
+  CraReportDecisionStage'SERVICING -> "SERVICING"
+
+-- | parse 'CraReportDecisionStage' enum
+toCraReportDecisionStage :: Text -> P.Either String CraReportDecisionStage
+toCraReportDecisionStage = \case
+  "PREQUALIFICATION" -> P.Right CraReportDecisionStage'PREQUALIFICATION
+  "DECISIONING" -> P.Right CraReportDecisionStage'DECISIONING
+  "SERVICING" -> P.Right CraReportDecisionStage'SERVICING
+  s -> P.Left $ "toCraReportDecisionStage: enum parse failure: " P.++ P.show s
+
+
+-- ** CraReportErrorCode
+
+-- | Enum of 'Text' .
+-- The reason every product in a CRA report failed to generate. `null` when at least one product succeeded.  `DATA_UNAVAILABLE`: Plaid could not retrieve enough data from the user's Items to generate any of the requested products. Sending the user through Link to add or repair Items may resolve this.  `INTERNAL_SERVER_ERROR`: Plaid encountered an unexpected error while generating the report.
+data CraReportErrorCode
+  = CraReportErrorCode'DATA_UNAVAILABLE -- ^ @"DATA_UNAVAILABLE"@
+  | CraReportErrorCode'INTERNAL_SERVER_ERROR -- ^ @"INTERNAL_SERVER_ERROR"@
+  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
+
+instance A.ToJSON CraReportErrorCode where toJSON = A.toJSON . fromCraReportErrorCode
+instance A.FromJSON CraReportErrorCode where parseJSON o = P.either P.fail (pure . P.id) . toCraReportErrorCode =<< A.parseJSON o
+instance WH.ToHttpApiData CraReportErrorCode where toQueryParam = WH.toQueryParam . fromCraReportErrorCode
+instance WH.FromHttpApiData CraReportErrorCode where parseQueryParam o = WH.parseQueryParam o >>= P.left T.pack . toCraReportErrorCode
+instance MimeRender MimeMultipartFormData CraReportErrorCode where mimeRender _ = mimeRenderDefaultMultipartFormData
+
+-- | unwrap 'CraReportErrorCode' enum
+fromCraReportErrorCode :: CraReportErrorCode -> Text
+fromCraReportErrorCode = \case
+  CraReportErrorCode'DATA_UNAVAILABLE -> "DATA_UNAVAILABLE"
+  CraReportErrorCode'INTERNAL_SERVER_ERROR -> "INTERNAL_SERVER_ERROR"
+
+-- | parse 'CraReportErrorCode' enum
+toCraReportErrorCode :: Text -> P.Either String CraReportErrorCode
+toCraReportErrorCode = \case
+  "DATA_UNAVAILABLE" -> P.Right CraReportErrorCode'DATA_UNAVAILABLE
+  "INTERNAL_SERVER_ERROR" -> P.Right CraReportErrorCode'INTERNAL_SERVER_ERROR
+  s -> P.Left $ "toCraReportErrorCode: enum parse failure: " P.++ P.show s
+
+
+-- ** CraReportGetHomeLendingAttributes
+-- | CraReportGetHomeLendingAttributes
+-- CraReportGetHomeLendingAttributes
+-- 
+-- Home Lending attribute data returned by `/cra/report/get`.
+data CraReportGetHomeLendingAttributes = CraReportGetHomeLendingAttributes
+  { craReportGetHomeLendingAttributesIncomeByCategories :: !([CraReportGetHomeLendingIncomeByCategories]) -- ^ /Required/ "income_by_categories" - Modeled income broken down by income category, one entry per currency observed across the user&#39;s income streams.
+  , craReportGetHomeLendingAttributesIncomeMetrics :: !([CraReportGetHomeLendingIncomeMetrics]) -- ^ /Required/ "income_metrics" - Modeled income metrics, one entry per currency observed across the user&#39;s income streams.
+  , craReportGetHomeLendingAttributesIncomeSources :: !(CraReportGetHomeLendingIncomeSources) -- ^ /Required/ "income_sources"
+  , craReportGetHomeLendingAttributesLoanPaymentsBnplCount90d :: !(Int) -- ^ /Required/ "loan_payments_bnpl_count_90d" - The number of buy-now-pay-later loan payments observed in the trailing 90 days.
+  , craReportGetHomeLendingAttributesLoanPaymentsCashAdvanceCount90d :: !(Int) -- ^ /Required/ "loan_payments_cash_advance_count_90d" - The number of cash advance loan payments observed in the trailing 90 days.
+  , craReportGetHomeLendingAttributesPaymentBehaviorNsfLateFeesFlag90d :: !(Int) -- ^ /Required/ "payment_behavior_nsf_late_fees_flag_90d" - A flag indicating whether non-sufficient-funds or late fees were observed in the trailing 90 days.
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON CraReportGetHomeLendingAttributes
+instance A.FromJSON CraReportGetHomeLendingAttributes where
+  parseJSON = A.withObject "CraReportGetHomeLendingAttributes" $ \o ->
+    CraReportGetHomeLendingAttributes
+      <$> (o .:  "income_by_categories")
+      <*> (o .:  "income_metrics")
+      <*> (o .:  "income_sources")
+      <*> (o .:  "loan_payments_bnpl_count_90d")
+      <*> (o .:  "loan_payments_cash_advance_count_90d")
+      <*> (o .:  "payment_behavior_nsf_late_fees_flag_90d")
+
+-- | ToJSON CraReportGetHomeLendingAttributes
+instance A.ToJSON CraReportGetHomeLendingAttributes where
+  toJSON CraReportGetHomeLendingAttributes {..} =
+   _omitNulls
+      [ "income_by_categories" .= craReportGetHomeLendingAttributesIncomeByCategories
+      , "income_metrics" .= craReportGetHomeLendingAttributesIncomeMetrics
+      , "income_sources" .= craReportGetHomeLendingAttributesIncomeSources
+      , "loan_payments_bnpl_count_90d" .= craReportGetHomeLendingAttributesLoanPaymentsBnplCount90d
+      , "loan_payments_cash_advance_count_90d" .= craReportGetHomeLendingAttributesLoanPaymentsCashAdvanceCount90d
+      , "payment_behavior_nsf_late_fees_flag_90d" .= craReportGetHomeLendingAttributesPaymentBehaviorNsfLateFeesFlag90d
+      ]
+
+
+-- | Construct a value of type 'CraReportGetHomeLendingAttributes' (by applying it's required fields, if any)
+mkCraReportGetHomeLendingAttributes
+  :: [CraReportGetHomeLendingIncomeByCategories] -- ^ 'craReportGetHomeLendingAttributesIncomeByCategories': Modeled income broken down by income category, one entry per currency observed across the user's income streams.
+  -> [CraReportGetHomeLendingIncomeMetrics] -- ^ 'craReportGetHomeLendingAttributesIncomeMetrics': Modeled income metrics, one entry per currency observed across the user's income streams.
+  -> CraReportGetHomeLendingIncomeSources -- ^ 'craReportGetHomeLendingAttributesIncomeSources' 
+  -> Int -- ^ 'craReportGetHomeLendingAttributesLoanPaymentsBnplCount90d': The number of buy-now-pay-later loan payments observed in the trailing 90 days.
+  -> Int -- ^ 'craReportGetHomeLendingAttributesLoanPaymentsCashAdvanceCount90d': The number of cash advance loan payments observed in the trailing 90 days.
+  -> Int -- ^ 'craReportGetHomeLendingAttributesPaymentBehaviorNsfLateFeesFlag90d': A flag indicating whether non-sufficient-funds or late fees were observed in the trailing 90 days.
+  -> CraReportGetHomeLendingAttributes
+mkCraReportGetHomeLendingAttributes craReportGetHomeLendingAttributesIncomeByCategories craReportGetHomeLendingAttributesIncomeMetrics craReportGetHomeLendingAttributesIncomeSources craReportGetHomeLendingAttributesLoanPaymentsBnplCount90d craReportGetHomeLendingAttributesLoanPaymentsCashAdvanceCount90d craReportGetHomeLendingAttributesPaymentBehaviorNsfLateFeesFlag90d =
+  CraReportGetHomeLendingAttributes
+  { craReportGetHomeLendingAttributesIncomeByCategories
+  , craReportGetHomeLendingAttributesIncomeMetrics
+  , craReportGetHomeLendingAttributesIncomeSources
+  , craReportGetHomeLendingAttributesLoanPaymentsBnplCount90d
+  , craReportGetHomeLendingAttributesLoanPaymentsCashAdvanceCount90d
+  , craReportGetHomeLendingAttributesPaymentBehaviorNsfLateFeesFlag90d
+  }
+
+-- ** CraReportGetHomeLendingCategoryIncome
+-- | CraReportGetHomeLendingCategoryIncome
+-- CraReportGetHomeLendingCategoryIncome
+-- 
+-- Modeled current income for a single income category.
+data CraReportGetHomeLendingCategoryIncome = CraReportGetHomeLendingCategoryIncome
+  { craReportGetHomeLendingCategoryIncomeCurrent :: !(CraCurrentModeledIncome) -- ^ /Required/ "current"
+  , craReportGetHomeLendingCategoryIncomeIncomeCategory :: !(CraIncomeCategory) -- ^ /Required/ "income_category"
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON CraReportGetHomeLendingCategoryIncome
+instance A.FromJSON CraReportGetHomeLendingCategoryIncome where
+  parseJSON = A.withObject "CraReportGetHomeLendingCategoryIncome" $ \o ->
+    CraReportGetHomeLendingCategoryIncome
+      <$> (o .:  "current")
+      <*> (o .:  "income_category")
+
+-- | ToJSON CraReportGetHomeLendingCategoryIncome
+instance A.ToJSON CraReportGetHomeLendingCategoryIncome where
+  toJSON CraReportGetHomeLendingCategoryIncome {..} =
+   _omitNulls
+      [ "current" .= craReportGetHomeLendingCategoryIncomeCurrent
+      , "income_category" .= craReportGetHomeLendingCategoryIncomeIncomeCategory
+      ]
+
+
+-- | Construct a value of type 'CraReportGetHomeLendingCategoryIncome' (by applying it's required fields, if any)
+mkCraReportGetHomeLendingCategoryIncome
+  :: CraCurrentModeledIncome -- ^ 'craReportGetHomeLendingCategoryIncomeCurrent' 
+  -> CraIncomeCategory -- ^ 'craReportGetHomeLendingCategoryIncomeIncomeCategory' 
+  -> CraReportGetHomeLendingCategoryIncome
+mkCraReportGetHomeLendingCategoryIncome craReportGetHomeLendingCategoryIncomeCurrent craReportGetHomeLendingCategoryIncomeIncomeCategory =
+  CraReportGetHomeLendingCategoryIncome
+  { craReportGetHomeLendingCategoryIncomeCurrent
+  , craReportGetHomeLendingCategoryIncomeIncomeCategory
+  }
+
+-- ** CraReportGetHomeLendingIncomeByCategories
+-- | CraReportGetHomeLendingIncomeByCategories
+-- CraReportGetHomeLendingIncomeByCategories
+-- 
+-- Modeled income for one currency, broken down by income category.
+data CraReportGetHomeLendingIncomeByCategories = CraReportGetHomeLendingIncomeByCategories
+  { craReportGetHomeLendingIncomeByCategoriesCategories :: !([CraReportGetHomeLendingCategoryIncome]) -- ^ /Required/ "categories" - The income categories observed for this currency, ordered by primary and then secondary category.
+  , craReportGetHomeLendingIncomeByCategoriesIsoCurrencyCode :: !(Text) -- ^ /Required/ "iso_currency_code" - The ISO 4217 currency code of the amount or balance.
+  , craReportGetHomeLendingIncomeByCategoriesUnofficialCurrencyCode :: !(Text) -- ^ /Required/ "unofficial_currency_code" - The unofficial currency code associated with the amount or balance. Always &#x60;null&#x60; if &#x60;iso_currency_code&#x60; is non-null. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries.
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON CraReportGetHomeLendingIncomeByCategories
+instance A.FromJSON CraReportGetHomeLendingIncomeByCategories where
+  parseJSON = A.withObject "CraReportGetHomeLendingIncomeByCategories" $ \o ->
+    CraReportGetHomeLendingIncomeByCategories
+      <$> (o .:  "categories")
+      <*> (o .:  "iso_currency_code")
+      <*> (o .:  "unofficial_currency_code")
+
+-- | ToJSON CraReportGetHomeLendingIncomeByCategories
+instance A.ToJSON CraReportGetHomeLendingIncomeByCategories where
+  toJSON CraReportGetHomeLendingIncomeByCategories {..} =
+   _omitNulls
+      [ "categories" .= craReportGetHomeLendingIncomeByCategoriesCategories
+      , "iso_currency_code" .= craReportGetHomeLendingIncomeByCategoriesIsoCurrencyCode
+      , "unofficial_currency_code" .= craReportGetHomeLendingIncomeByCategoriesUnofficialCurrencyCode
+      ]
+
+
+-- | Construct a value of type 'CraReportGetHomeLendingIncomeByCategories' (by applying it's required fields, if any)
+mkCraReportGetHomeLendingIncomeByCategories
+  :: [CraReportGetHomeLendingCategoryIncome] -- ^ 'craReportGetHomeLendingIncomeByCategoriesCategories': The income categories observed for this currency, ordered by primary and then secondary category.
+  -> Text -- ^ 'craReportGetHomeLendingIncomeByCategoriesIsoCurrencyCode': The ISO 4217 currency code of the amount or balance.
+  -> Text -- ^ 'craReportGetHomeLendingIncomeByCategoriesUnofficialCurrencyCode': The unofficial currency code associated with the amount or balance. Always `null` if `iso_currency_code` is non-null. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries.
+  -> CraReportGetHomeLendingIncomeByCategories
+mkCraReportGetHomeLendingIncomeByCategories craReportGetHomeLendingIncomeByCategoriesCategories craReportGetHomeLendingIncomeByCategoriesIsoCurrencyCode craReportGetHomeLendingIncomeByCategoriesUnofficialCurrencyCode =
+  CraReportGetHomeLendingIncomeByCategories
+  { craReportGetHomeLendingIncomeByCategoriesCategories
+  , craReportGetHomeLendingIncomeByCategoriesIsoCurrencyCode
+  , craReportGetHomeLendingIncomeByCategoriesUnofficialCurrencyCode
+  }
+
+-- ** CraReportGetHomeLendingIncomeMetrics
+-- | CraReportGetHomeLendingIncomeMetrics
+-- CraReportGetHomeLendingIncomeMetrics
+-- 
+-- Modeled current income for a given currency. Home Lending reports current income only; there is no projected income figure.
+data CraReportGetHomeLendingIncomeMetrics = CraReportGetHomeLendingIncomeMetrics
+  { craReportGetHomeLendingIncomeMetricsCurrent :: !(CraCurrentModeledIncome) -- ^ /Required/ "current"
+  , craReportGetHomeLendingIncomeMetricsIsoCurrencyCode :: !(Text) -- ^ /Required/ "iso_currency_code" - The ISO 4217 currency code of the amount or balance.
+  , craReportGetHomeLendingIncomeMetricsUnofficialCurrencyCode :: !(Text) -- ^ /Required/ "unofficial_currency_code" - The unofficial currency code associated with the amount or balance. Always &#x60;null&#x60; if &#x60;iso_currency_code&#x60; is non-null. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries.
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON CraReportGetHomeLendingIncomeMetrics
+instance A.FromJSON CraReportGetHomeLendingIncomeMetrics where
+  parseJSON = A.withObject "CraReportGetHomeLendingIncomeMetrics" $ \o ->
+    CraReportGetHomeLendingIncomeMetrics
+      <$> (o .:  "current")
+      <*> (o .:  "iso_currency_code")
+      <*> (o .:  "unofficial_currency_code")
+
+-- | ToJSON CraReportGetHomeLendingIncomeMetrics
+instance A.ToJSON CraReportGetHomeLendingIncomeMetrics where
+  toJSON CraReportGetHomeLendingIncomeMetrics {..} =
+   _omitNulls
+      [ "current" .= craReportGetHomeLendingIncomeMetricsCurrent
+      , "iso_currency_code" .= craReportGetHomeLendingIncomeMetricsIsoCurrencyCode
+      , "unofficial_currency_code" .= craReportGetHomeLendingIncomeMetricsUnofficialCurrencyCode
+      ]
+
+
+-- | Construct a value of type 'CraReportGetHomeLendingIncomeMetrics' (by applying it's required fields, if any)
+mkCraReportGetHomeLendingIncomeMetrics
+  :: CraCurrentModeledIncome -- ^ 'craReportGetHomeLendingIncomeMetricsCurrent' 
+  -> Text -- ^ 'craReportGetHomeLendingIncomeMetricsIsoCurrencyCode': The ISO 4217 currency code of the amount or balance.
+  -> Text -- ^ 'craReportGetHomeLendingIncomeMetricsUnofficialCurrencyCode': The unofficial currency code associated with the amount or balance. Always `null` if `iso_currency_code` is non-null. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries.
+  -> CraReportGetHomeLendingIncomeMetrics
+mkCraReportGetHomeLendingIncomeMetrics craReportGetHomeLendingIncomeMetricsCurrent craReportGetHomeLendingIncomeMetricsIsoCurrencyCode craReportGetHomeLendingIncomeMetricsUnofficialCurrencyCode =
+  CraReportGetHomeLendingIncomeMetrics
+  { craReportGetHomeLendingIncomeMetricsCurrent
+  , craReportGetHomeLendingIncomeMetricsIsoCurrencyCode
+  , craReportGetHomeLendingIncomeMetricsUnofficialCurrencyCode
+  }
+
+-- ** CraReportGetHomeLendingIncomeSources
+-- | CraReportGetHomeLendingIncomeSources
+-- CraReportGetHomeLendingIncomeSources
+-- 
+-- Summary of the income sources backing the Home Lending report.
+data CraReportGetHomeLendingIncomeSources = CraReportGetHomeLendingIncomeSources
+  { craReportGetHomeLendingIncomeSourcesIncomeProviders :: !([CraBankIncomeIncomeProvider]) -- ^ /Required/ "income_providers" - The income providers observed across the user&#39;s income streams, ordered by provider name.
+  , craReportGetHomeLendingIncomeSourcesIncomeStreamCount :: !(Int) -- ^ /Required/ "income_stream_count" - The number of income streams detected for the user.
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON CraReportGetHomeLendingIncomeSources
+instance A.FromJSON CraReportGetHomeLendingIncomeSources where
+  parseJSON = A.withObject "CraReportGetHomeLendingIncomeSources" $ \o ->
+    CraReportGetHomeLendingIncomeSources
+      <$> (o .:  "income_providers")
+      <*> (o .:  "income_stream_count")
+
+-- | ToJSON CraReportGetHomeLendingIncomeSources
+instance A.ToJSON CraReportGetHomeLendingIncomeSources where
+  toJSON CraReportGetHomeLendingIncomeSources {..} =
+   _omitNulls
+      [ "income_providers" .= craReportGetHomeLendingIncomeSourcesIncomeProviders
+      , "income_stream_count" .= craReportGetHomeLendingIncomeSourcesIncomeStreamCount
+      ]
+
+
+-- | Construct a value of type 'CraReportGetHomeLendingIncomeSources' (by applying it's required fields, if any)
+mkCraReportGetHomeLendingIncomeSources
+  :: [CraBankIncomeIncomeProvider] -- ^ 'craReportGetHomeLendingIncomeSourcesIncomeProviders': The income providers observed across the user's income streams, ordered by provider name.
+  -> Int -- ^ 'craReportGetHomeLendingIncomeSourcesIncomeStreamCount': The number of income streams detected for the user.
+  -> CraReportGetHomeLendingIncomeSources
+mkCraReportGetHomeLendingIncomeSources craReportGetHomeLendingIncomeSourcesIncomeProviders craReportGetHomeLendingIncomeSourcesIncomeStreamCount =
+  CraReportGetHomeLendingIncomeSources
+  { craReportGetHomeLendingIncomeSourcesIncomeProviders
+  , craReportGetHomeLendingIncomeSourcesIncomeStreamCount
+  }
+
+-- ** CraReportGetHomeLendingMetadata
+-- | CraReportGetHomeLendingMetadata
+-- CraReportGetHomeLendingMetadata
+-- 
+-- Home Lending report metadata returned by `/cra/report/get`.
+data CraReportGetHomeLendingMetadata = CraReportGetHomeLendingMetadata
+  { craReportGetHomeLendingMetadataAccountCount :: !(Int) -- ^ /Required/ "account_count" - The number of accounts used to generate the report.
+  , craReportGetHomeLendingMetadataGeneratedTime :: !(DateTime) -- ^ /Required/ "generated_time" - The time the report was generated. May be &#x60;null&#x60; if unavailable.
+  , craReportGetHomeLendingMetadataInstitutionIds :: !([Text]) -- ^ /Required/ "institution_ids" - The institution IDs of the Items used to generate the report.
+  , craReportGetHomeLendingMetadataItemCount :: !(Int) -- ^ /Required/ "item_count" - The number of Items used to generate the report.
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON CraReportGetHomeLendingMetadata
+instance A.FromJSON CraReportGetHomeLendingMetadata where
+  parseJSON = A.withObject "CraReportGetHomeLendingMetadata" $ \o ->
+    CraReportGetHomeLendingMetadata
+      <$> (o .:  "account_count")
+      <*> (o .:  "generated_time")
+      <*> (o .:  "institution_ids")
+      <*> (o .:  "item_count")
+
+-- | ToJSON CraReportGetHomeLendingMetadata
+instance A.ToJSON CraReportGetHomeLendingMetadata where
+  toJSON CraReportGetHomeLendingMetadata {..} =
+   _omitNulls
+      [ "account_count" .= craReportGetHomeLendingMetadataAccountCount
+      , "generated_time" .= craReportGetHomeLendingMetadataGeneratedTime
+      , "institution_ids" .= craReportGetHomeLendingMetadataInstitutionIds
+      , "item_count" .= craReportGetHomeLendingMetadataItemCount
+      ]
+
+
+-- | Construct a value of type 'CraReportGetHomeLendingMetadata' (by applying it's required fields, if any)
+mkCraReportGetHomeLendingMetadata
+  :: Int -- ^ 'craReportGetHomeLendingMetadataAccountCount': The number of accounts used to generate the report.
+  -> DateTime -- ^ 'craReportGetHomeLendingMetadataGeneratedTime': The time the report was generated. May be `null` if unavailable.
+  -> [Text] -- ^ 'craReportGetHomeLendingMetadataInstitutionIds': The institution IDs of the Items used to generate the report.
+  -> Int -- ^ 'craReportGetHomeLendingMetadataItemCount': The number of Items used to generate the report.
+  -> CraReportGetHomeLendingMetadata
+mkCraReportGetHomeLendingMetadata craReportGetHomeLendingMetadataAccountCount craReportGetHomeLendingMetadataGeneratedTime craReportGetHomeLendingMetadataInstitutionIds craReportGetHomeLendingMetadataItemCount =
+  CraReportGetHomeLendingMetadata
+  { craReportGetHomeLendingMetadataAccountCount
+  , craReportGetHomeLendingMetadataGeneratedTime
+  , craReportGetHomeLendingMetadataInstitutionIds
+  , craReportGetHomeLendingMetadataItemCount
+  }
+
+-- ** CraReportGetHomeLendingResponseProduct
+-- | CraReportGetHomeLendingResponseProduct
+-- CraReportGetHomeLendingResponseProduct
+-- 
+-- Home Lending data returned by `/cra/report/get`.
+data CraReportGetHomeLendingResponseProduct = CraReportGetHomeLendingResponseProduct
+  { craReportGetHomeLendingResponseProductAttributes :: !(CraReportGetHomeLendingAttributes) -- ^ /Required/ "attributes"
+  , craReportGetHomeLendingResponseProductErrors :: !([PlaidError]) -- ^ /Required/ "errors" - Product-level errors. Non-empty when this product failed to generate; empty on success.
+  , craReportGetHomeLendingResponseProductMetadata :: !(CraReportGetHomeLendingMetadata) -- ^ /Required/ "metadata"
+  , craReportGetHomeLendingResponseProductProduct :: !(E'Product3) -- ^ /Required/ "product" - The Home Lending product.
+  , craReportGetHomeLendingResponseProductVersion :: !(Text) -- ^ /Required/ "version" - A string that specifies a particular version of a CRA product.
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON CraReportGetHomeLendingResponseProduct
+instance A.FromJSON CraReportGetHomeLendingResponseProduct where
+  parseJSON = A.withObject "CraReportGetHomeLendingResponseProduct" $ \o ->
+    CraReportGetHomeLendingResponseProduct
+      <$> (o .:  "attributes")
+      <*> (o .:  "errors")
+      <*> (o .:  "metadata")
+      <*> (o .:  "product")
+      <*> (o .:  "version")
+
+-- | ToJSON CraReportGetHomeLendingResponseProduct
+instance A.ToJSON CraReportGetHomeLendingResponseProduct where
+  toJSON CraReportGetHomeLendingResponseProduct {..} =
+   _omitNulls
+      [ "attributes" .= craReportGetHomeLendingResponseProductAttributes
+      , "errors" .= craReportGetHomeLendingResponseProductErrors
+      , "metadata" .= craReportGetHomeLendingResponseProductMetadata
+      , "product" .= craReportGetHomeLendingResponseProductProduct
+      , "version" .= craReportGetHomeLendingResponseProductVersion
+      ]
+
+
+-- | Construct a value of type 'CraReportGetHomeLendingResponseProduct' (by applying it's required fields, if any)
+mkCraReportGetHomeLendingResponseProduct
+  :: CraReportGetHomeLendingAttributes -- ^ 'craReportGetHomeLendingResponseProductAttributes' 
+  -> [PlaidError] -- ^ 'craReportGetHomeLendingResponseProductErrors': Product-level errors. Non-empty when this product failed to generate; empty on success.
+  -> CraReportGetHomeLendingMetadata -- ^ 'craReportGetHomeLendingResponseProductMetadata' 
+  -> E'Product3 -- ^ 'craReportGetHomeLendingResponseProductProduct': The Home Lending product.
+  -> Text -- ^ 'craReportGetHomeLendingResponseProductVersion': A string that specifies a particular version of a CRA product.
+  -> CraReportGetHomeLendingResponseProduct
+mkCraReportGetHomeLendingResponseProduct craReportGetHomeLendingResponseProductAttributes craReportGetHomeLendingResponseProductErrors craReportGetHomeLendingResponseProductMetadata craReportGetHomeLendingResponseProductProduct craReportGetHomeLendingResponseProductVersion =
+  CraReportGetHomeLendingResponseProduct
+  { craReportGetHomeLendingResponseProductAttributes
+  , craReportGetHomeLendingResponseProductErrors
+  , craReportGetHomeLendingResponseProductMetadata
+  , craReportGetHomeLendingResponseProductProduct
+  , craReportGetHomeLendingResponseProductVersion
+  }
+
+-- ** CraReportGetIncomeInsightsAttributes
+-- | CraReportGetIncomeInsightsAttributes
+-- CraReportGetIncomeInsightsAttributes
+-- 
+-- Income Insights attribute data returned by `/cra/report/get`.
+data CraReportGetIncomeInsightsAttributes = CraReportGetIncomeInsightsAttributes
+  { craReportGetIncomeInsightsAttributesIncomeStreams :: !([CraReportGetIncomeInsightsStream]) -- ^ /Required/ "income_streams" - The income streams detected for the user.
+  , craReportGetIncomeInsightsAttributesUserSummary :: !(CraIncomeInsightsUserSummary) -- ^ /Required/ "user_summary"
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON CraReportGetIncomeInsightsAttributes
+instance A.FromJSON CraReportGetIncomeInsightsAttributes where
+  parseJSON = A.withObject "CraReportGetIncomeInsightsAttributes" $ \o ->
+    CraReportGetIncomeInsightsAttributes
+      <$> (o .:  "income_streams")
+      <*> (o .:  "user_summary")
+
+-- | ToJSON CraReportGetIncomeInsightsAttributes
+instance A.ToJSON CraReportGetIncomeInsightsAttributes where
+  toJSON CraReportGetIncomeInsightsAttributes {..} =
+   _omitNulls
+      [ "income_streams" .= craReportGetIncomeInsightsAttributesIncomeStreams
+      , "user_summary" .= craReportGetIncomeInsightsAttributesUserSummary
+      ]
+
+
+-- | Construct a value of type 'CraReportGetIncomeInsightsAttributes' (by applying it's required fields, if any)
+mkCraReportGetIncomeInsightsAttributes
+  :: [CraReportGetIncomeInsightsStream] -- ^ 'craReportGetIncomeInsightsAttributesIncomeStreams': The income streams detected for the user.
+  -> CraIncomeInsightsUserSummary -- ^ 'craReportGetIncomeInsightsAttributesUserSummary' 
+  -> CraReportGetIncomeInsightsAttributes
+mkCraReportGetIncomeInsightsAttributes craReportGetIncomeInsightsAttributesIncomeStreams craReportGetIncomeInsightsAttributesUserSummary =
+  CraReportGetIncomeInsightsAttributes
+  { craReportGetIncomeInsightsAttributesIncomeStreams
+  , craReportGetIncomeInsightsAttributesUserSummary
+  }
+
+-- ** CraReportGetIncomeInsightsMetadata
+-- | CraReportGetIncomeInsightsMetadata
+-- CraReportGetIncomeInsightsMetadata
+-- 
+-- Income Insights report metadata returned by `/cra/report/get`.
+data CraReportGetIncomeInsightsMetadata = CraReportGetIncomeInsightsMetadata
+  { craReportGetIncomeInsightsMetadataAccountCount :: !(Int) -- ^ /Required/ "account_count" - The number of accounts used to generate the report.
+  , craReportGetIncomeInsightsMetadataGeneratedTime :: !(DateTime) -- ^ /Required/ "generated_time" - The time the report was generated. May be &#x60;null&#x60; if unavailable.
+  , craReportGetIncomeInsightsMetadataInstitutionIds :: !([Text]) -- ^ /Required/ "institution_ids" - The institution IDs of the Items used to generate the report.
+  , craReportGetIncomeInsightsMetadataItemCount :: !(Int) -- ^ /Required/ "item_count" - The number of Items used to generate the report.
+  , craReportGetIncomeInsightsMetadataCreditAccountTypeCount :: !(Int) -- ^ /Required/ "credit_account_type_count" - The number of credit accounts used to generate the report.
+  , craReportGetIncomeInsightsMetadataDepositoryAccountTypeCount :: !(Int) -- ^ /Required/ "depository_account_type_count" - The number of depository accounts used to generate the report.
+  , craReportGetIncomeInsightsMetadataMostRecentTransactionDate :: !(Date) -- ^ /Required/ "most_recent_transaction_date" - The latest transaction date across the accounts the report was generated from. May be &#x60;null&#x60; if the producer could not compute a transaction range.
+  , craReportGetIncomeInsightsMetadataMultipleOwnerAccountCount :: !(Int) -- ^ /Required/ "multiple_owner_account_count" - The number of accounts with multiple owners.
+  , craReportGetIncomeInsightsMetadataOldestTransactionDate :: !(Date) -- ^ /Required/ "oldest_transaction_date" - The earliest transaction date across the accounts the report was generated from. May be &#x60;null&#x60; if the producer could not compute a transaction range.
+  , craReportGetIncomeInsightsMetadataOtherAccountTypeCount :: !(Int) -- ^ /Required/ "other_account_type_count" - The number of accounts that are neither depository nor credit.
+  , craReportGetIncomeInsightsMetadataPrimaryAccountCount :: !(Int) -- ^ /Required/ "primary_account_count" - The number of accounts carrying Plaid&#39;s primary account indicator.
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON CraReportGetIncomeInsightsMetadata
+instance A.FromJSON CraReportGetIncomeInsightsMetadata where
+  parseJSON = A.withObject "CraReportGetIncomeInsightsMetadata" $ \o ->
+    CraReportGetIncomeInsightsMetadata
+      <$> (o .:  "account_count")
+      <*> (o .:  "generated_time")
+      <*> (o .:  "institution_ids")
+      <*> (o .:  "item_count")
+      <*> (o .:  "credit_account_type_count")
+      <*> (o .:  "depository_account_type_count")
+      <*> (o .:  "most_recent_transaction_date")
+      <*> (o .:  "multiple_owner_account_count")
+      <*> (o .:  "oldest_transaction_date")
+      <*> (o .:  "other_account_type_count")
+      <*> (o .:  "primary_account_count")
+
+-- | ToJSON CraReportGetIncomeInsightsMetadata
+instance A.ToJSON CraReportGetIncomeInsightsMetadata where
+  toJSON CraReportGetIncomeInsightsMetadata {..} =
+   _omitNulls
+      [ "account_count" .= craReportGetIncomeInsightsMetadataAccountCount
+      , "generated_time" .= craReportGetIncomeInsightsMetadataGeneratedTime
+      , "institution_ids" .= craReportGetIncomeInsightsMetadataInstitutionIds
+      , "item_count" .= craReportGetIncomeInsightsMetadataItemCount
+      , "credit_account_type_count" .= craReportGetIncomeInsightsMetadataCreditAccountTypeCount
+      , "depository_account_type_count" .= craReportGetIncomeInsightsMetadataDepositoryAccountTypeCount
+      , "most_recent_transaction_date" .= craReportGetIncomeInsightsMetadataMostRecentTransactionDate
+      , "multiple_owner_account_count" .= craReportGetIncomeInsightsMetadataMultipleOwnerAccountCount
+      , "oldest_transaction_date" .= craReportGetIncomeInsightsMetadataOldestTransactionDate
+      , "other_account_type_count" .= craReportGetIncomeInsightsMetadataOtherAccountTypeCount
+      , "primary_account_count" .= craReportGetIncomeInsightsMetadataPrimaryAccountCount
+      ]
+
+
+-- | Construct a value of type 'CraReportGetIncomeInsightsMetadata' (by applying it's required fields, if any)
+mkCraReportGetIncomeInsightsMetadata
+  :: Int -- ^ 'craReportGetIncomeInsightsMetadataAccountCount': The number of accounts used to generate the report.
+  -> DateTime -- ^ 'craReportGetIncomeInsightsMetadataGeneratedTime': The time the report was generated. May be `null` if unavailable.
+  -> [Text] -- ^ 'craReportGetIncomeInsightsMetadataInstitutionIds': The institution IDs of the Items used to generate the report.
+  -> Int -- ^ 'craReportGetIncomeInsightsMetadataItemCount': The number of Items used to generate the report.
+  -> Int -- ^ 'craReportGetIncomeInsightsMetadataCreditAccountTypeCount': The number of credit accounts used to generate the report.
+  -> Int -- ^ 'craReportGetIncomeInsightsMetadataDepositoryAccountTypeCount': The number of depository accounts used to generate the report.
+  -> Date -- ^ 'craReportGetIncomeInsightsMetadataMostRecentTransactionDate': The latest transaction date across the accounts the report was generated from. May be `null` if the producer could not compute a transaction range.
+  -> Int -- ^ 'craReportGetIncomeInsightsMetadataMultipleOwnerAccountCount': The number of accounts with multiple owners.
+  -> Date -- ^ 'craReportGetIncomeInsightsMetadataOldestTransactionDate': The earliest transaction date across the accounts the report was generated from. May be `null` if the producer could not compute a transaction range.
+  -> Int -- ^ 'craReportGetIncomeInsightsMetadataOtherAccountTypeCount': The number of accounts that are neither depository nor credit.
+  -> Int -- ^ 'craReportGetIncomeInsightsMetadataPrimaryAccountCount': The number of accounts carrying Plaid's primary account indicator.
+  -> CraReportGetIncomeInsightsMetadata
+mkCraReportGetIncomeInsightsMetadata craReportGetIncomeInsightsMetadataAccountCount craReportGetIncomeInsightsMetadataGeneratedTime craReportGetIncomeInsightsMetadataInstitutionIds craReportGetIncomeInsightsMetadataItemCount craReportGetIncomeInsightsMetadataCreditAccountTypeCount craReportGetIncomeInsightsMetadataDepositoryAccountTypeCount craReportGetIncomeInsightsMetadataMostRecentTransactionDate craReportGetIncomeInsightsMetadataMultipleOwnerAccountCount craReportGetIncomeInsightsMetadataOldestTransactionDate craReportGetIncomeInsightsMetadataOtherAccountTypeCount craReportGetIncomeInsightsMetadataPrimaryAccountCount =
+  CraReportGetIncomeInsightsMetadata
+  { craReportGetIncomeInsightsMetadataAccountCount
+  , craReportGetIncomeInsightsMetadataGeneratedTime
+  , craReportGetIncomeInsightsMetadataInstitutionIds
+  , craReportGetIncomeInsightsMetadataItemCount
+  , craReportGetIncomeInsightsMetadataCreditAccountTypeCount
+  , craReportGetIncomeInsightsMetadataDepositoryAccountTypeCount
+  , craReportGetIncomeInsightsMetadataMostRecentTransactionDate
+  , craReportGetIncomeInsightsMetadataMultipleOwnerAccountCount
+  , craReportGetIncomeInsightsMetadataOldestTransactionDate
+  , craReportGetIncomeInsightsMetadataOtherAccountTypeCount
+  , craReportGetIncomeInsightsMetadataPrimaryAccountCount
+  }
+
+-- ** CraReportGetIncomeInsightsResponseProduct
+-- | CraReportGetIncomeInsightsResponseProduct
+-- CraReportGetIncomeInsightsResponseProduct
+-- 
+-- Income Insights data returned by `/cra/report/get`.
+data CraReportGetIncomeInsightsResponseProduct = CraReportGetIncomeInsightsResponseProduct
+  { craReportGetIncomeInsightsResponseProductAttributes :: !(CraReportGetIncomeInsightsAttributes) -- ^ /Required/ "attributes"
+  , craReportGetIncomeInsightsResponseProductErrors :: !([PlaidError]) -- ^ /Required/ "errors" - Product-level errors. Non-empty when this product failed to generate; empty on success.
+  , craReportGetIncomeInsightsResponseProductMetadata :: !(CraReportGetIncomeInsightsMetadata) -- ^ /Required/ "metadata"
+  , craReportGetIncomeInsightsResponseProductProduct :: !(E'Product4) -- ^ /Required/ "product" - The Income Insights product.
+  , craReportGetIncomeInsightsResponseProductVersion :: !(Text) -- ^ /Required/ "version" - A string that specifies a particular version of a CRA product.
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON CraReportGetIncomeInsightsResponseProduct
+instance A.FromJSON CraReportGetIncomeInsightsResponseProduct where
+  parseJSON = A.withObject "CraReportGetIncomeInsightsResponseProduct" $ \o ->
+    CraReportGetIncomeInsightsResponseProduct
+      <$> (o .:  "attributes")
+      <*> (o .:  "errors")
+      <*> (o .:  "metadata")
+      <*> (o .:  "product")
+      <*> (o .:  "version")
+
+-- | ToJSON CraReportGetIncomeInsightsResponseProduct
+instance A.ToJSON CraReportGetIncomeInsightsResponseProduct where
+  toJSON CraReportGetIncomeInsightsResponseProduct {..} =
+   _omitNulls
+      [ "attributes" .= craReportGetIncomeInsightsResponseProductAttributes
+      , "errors" .= craReportGetIncomeInsightsResponseProductErrors
+      , "metadata" .= craReportGetIncomeInsightsResponseProductMetadata
+      , "product" .= craReportGetIncomeInsightsResponseProductProduct
+      , "version" .= craReportGetIncomeInsightsResponseProductVersion
+      ]
+
+
+-- | Construct a value of type 'CraReportGetIncomeInsightsResponseProduct' (by applying it's required fields, if any)
+mkCraReportGetIncomeInsightsResponseProduct
+  :: CraReportGetIncomeInsightsAttributes -- ^ 'craReportGetIncomeInsightsResponseProductAttributes' 
+  -> [PlaidError] -- ^ 'craReportGetIncomeInsightsResponseProductErrors': Product-level errors. Non-empty when this product failed to generate; empty on success.
+  -> CraReportGetIncomeInsightsMetadata -- ^ 'craReportGetIncomeInsightsResponseProductMetadata' 
+  -> E'Product4 -- ^ 'craReportGetIncomeInsightsResponseProductProduct': The Income Insights product.
+  -> Text -- ^ 'craReportGetIncomeInsightsResponseProductVersion': A string that specifies a particular version of a CRA product.
+  -> CraReportGetIncomeInsightsResponseProduct
+mkCraReportGetIncomeInsightsResponseProduct craReportGetIncomeInsightsResponseProductAttributes craReportGetIncomeInsightsResponseProductErrors craReportGetIncomeInsightsResponseProductMetadata craReportGetIncomeInsightsResponseProductProduct craReportGetIncomeInsightsResponseProductVersion =
+  CraReportGetIncomeInsightsResponseProduct
+  { craReportGetIncomeInsightsResponseProductAttributes
+  , craReportGetIncomeInsightsResponseProductErrors
+  , craReportGetIncomeInsightsResponseProductMetadata
+  , craReportGetIncomeInsightsResponseProductProduct
+  , craReportGetIncomeInsightsResponseProductVersion
+  }
+
+-- ** CraReportGetIncomeInsightsStream
+-- | CraReportGetIncomeInsightsStream
+-- CraReportGetIncomeInsightsStream
+-- 
+-- An income stream detected for the user.
+data CraReportGetIncomeInsightsStream = CraReportGetIncomeInsightsStream
+  { craReportGetIncomeInsightsStreamEndDate :: !(Date) -- ^ /Required/ "end_date" - Maximum of all dates within the specific income stream. The date will be returned in an ISO 8601 format (YYYY-MM-DD). May be &#x60;null&#x60; if the producer could not compute a date range.
+  , craReportGetIncomeInsightsStreamIncomeMetrics :: !(CraIncomeMetrics) -- ^ /Required/ "income_metrics"
+  , craReportGetIncomeInsightsStreamIncomeStreamId :: !(Text) -- ^ /Required/ "income_stream_id" - A unique identifier for an income stream. If the report is regenerated and a new &#x60;report_id&#x60; is created, the new report will have a new set of &#x60;income_stream_id&#x60;s.
+  , craReportGetIncomeInsightsStreamInsights :: !(CraIncomeStreamInsights) -- ^ /Required/ "insights"
+  , craReportGetIncomeInsightsStreamStartDate :: !(Date) -- ^ /Required/ "start_date" - Minimum of all dates within the specific income stream. The date will be returned in an ISO 8601 format (YYYY-MM-DD). May be &#x60;null&#x60; if the producer could not compute a date range.
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON CraReportGetIncomeInsightsStream
+instance A.FromJSON CraReportGetIncomeInsightsStream where
+  parseJSON = A.withObject "CraReportGetIncomeInsightsStream" $ \o ->
+    CraReportGetIncomeInsightsStream
+      <$> (o .:  "end_date")
+      <*> (o .:  "income_metrics")
+      <*> (o .:  "income_stream_id")
+      <*> (o .:  "insights")
+      <*> (o .:  "start_date")
+
+-- | ToJSON CraReportGetIncomeInsightsStream
+instance A.ToJSON CraReportGetIncomeInsightsStream where
+  toJSON CraReportGetIncomeInsightsStream {..} =
+   _omitNulls
+      [ "end_date" .= craReportGetIncomeInsightsStreamEndDate
+      , "income_metrics" .= craReportGetIncomeInsightsStreamIncomeMetrics
+      , "income_stream_id" .= craReportGetIncomeInsightsStreamIncomeStreamId
+      , "insights" .= craReportGetIncomeInsightsStreamInsights
+      , "start_date" .= craReportGetIncomeInsightsStreamStartDate
+      ]
+
+
+-- | Construct a value of type 'CraReportGetIncomeInsightsStream' (by applying it's required fields, if any)
+mkCraReportGetIncomeInsightsStream
+  :: Date -- ^ 'craReportGetIncomeInsightsStreamEndDate': Maximum of all dates within the specific income stream. The date will be returned in an ISO 8601 format (YYYY-MM-DD). May be `null` if the producer could not compute a date range.
+  -> CraIncomeMetrics -- ^ 'craReportGetIncomeInsightsStreamIncomeMetrics' 
+  -> Text -- ^ 'craReportGetIncomeInsightsStreamIncomeStreamId': A unique identifier for an income stream. If the report is regenerated and a new `report_id` is created, the new report will have a new set of `income_stream_id`s.
+  -> CraIncomeStreamInsights -- ^ 'craReportGetIncomeInsightsStreamInsights' 
+  -> Date -- ^ 'craReportGetIncomeInsightsStreamStartDate': Minimum of all dates within the specific income stream. The date will be returned in an ISO 8601 format (YYYY-MM-DD). May be `null` if the producer could not compute a date range.
+  -> CraReportGetIncomeInsightsStream
+mkCraReportGetIncomeInsightsStream craReportGetIncomeInsightsStreamEndDate craReportGetIncomeInsightsStreamIncomeMetrics craReportGetIncomeInsightsStreamIncomeStreamId craReportGetIncomeInsightsStreamInsights craReportGetIncomeInsightsStreamStartDate =
+  CraReportGetIncomeInsightsStream
+  { craReportGetIncomeInsightsStreamEndDate
+  , craReportGetIncomeInsightsStreamIncomeMetrics
+  , craReportGetIncomeInsightsStreamIncomeStreamId
+  , craReportGetIncomeInsightsStreamInsights
+  , craReportGetIncomeInsightsStreamStartDate
+  }
+
+-- ** CraReportGetProductBaseMetadata
+-- | CraReportGetProductBaseMetadata
+-- CraReportGetProductBaseMetadata
+-- 
+-- Fields common to every /cra/report/get product's metadata.
+data CraReportGetProductBaseMetadata = CraReportGetProductBaseMetadata
+  { craReportGetProductBaseMetadataAccountCount :: !(Int) -- ^ /Required/ "account_count" - The number of accounts used to generate the report.
+  , craReportGetProductBaseMetadataGeneratedTime :: !(DateTime) -- ^ /Required/ "generated_time" - The time the report was generated. May be &#x60;null&#x60; if unavailable.
+  , craReportGetProductBaseMetadataInstitutionIds :: !([Text]) -- ^ /Required/ "institution_ids" - The institution IDs of the Items used to generate the report.
+  , craReportGetProductBaseMetadataItemCount :: !(Int) -- ^ /Required/ "item_count" - The number of Items used to generate the report.
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON CraReportGetProductBaseMetadata
+instance A.FromJSON CraReportGetProductBaseMetadata where
+  parseJSON = A.withObject "CraReportGetProductBaseMetadata" $ \o ->
+    CraReportGetProductBaseMetadata
+      <$> (o .:  "account_count")
+      <*> (o .:  "generated_time")
+      <*> (o .:  "institution_ids")
+      <*> (o .:  "item_count")
+
+-- | ToJSON CraReportGetProductBaseMetadata
+instance A.ToJSON CraReportGetProductBaseMetadata where
+  toJSON CraReportGetProductBaseMetadata {..} =
+   _omitNulls
+      [ "account_count" .= craReportGetProductBaseMetadataAccountCount
+      , "generated_time" .= craReportGetProductBaseMetadataGeneratedTime
+      , "institution_ids" .= craReportGetProductBaseMetadataInstitutionIds
+      , "item_count" .= craReportGetProductBaseMetadataItemCount
+      ]
+
+
+-- | Construct a value of type 'CraReportGetProductBaseMetadata' (by applying it's required fields, if any)
+mkCraReportGetProductBaseMetadata
+  :: Int -- ^ 'craReportGetProductBaseMetadataAccountCount': The number of accounts used to generate the report.
+  -> DateTime -- ^ 'craReportGetProductBaseMetadataGeneratedTime': The time the report was generated. May be `null` if unavailable.
+  -> [Text] -- ^ 'craReportGetProductBaseMetadataInstitutionIds': The institution IDs of the Items used to generate the report.
+  -> Int -- ^ 'craReportGetProductBaseMetadataItemCount': The number of Items used to generate the report.
+  -> CraReportGetProductBaseMetadata
+mkCraReportGetProductBaseMetadata craReportGetProductBaseMetadataAccountCount craReportGetProductBaseMetadataGeneratedTime craReportGetProductBaseMetadataInstitutionIds craReportGetProductBaseMetadataItemCount =
+  CraReportGetProductBaseMetadata
+  { craReportGetProductBaseMetadataAccountCount
+  , craReportGetProductBaseMetadataGeneratedTime
+  , craReportGetProductBaseMetadataInstitutionIds
+  , craReportGetProductBaseMetadataItemCount
+  }
+
+-- ** CraReportGetQualifyResponseProduct
+-- | CraReportGetQualifyResponseProduct
+-- CraReportGetQualifyResponseProduct
+-- 
+-- Qualify data returned by `/cra/report/get`.
+data CraReportGetQualifyResponseProduct = CraReportGetQualifyResponseProduct
+  { craReportGetQualifyResponseProductAttributes :: !((Map.Map String A.Value)) -- ^ /Required/ "attributes" - A map of product attributes, where the key is a string and the value can be any JSON value. The specific list of attributes depends on the product and version. For a full list, see the data dictionary. May be &#x60;null&#x60; if attributes were not available.
+  , craReportGetQualifyResponseProductErrors :: !([PlaidError]) -- ^ /Required/ "errors" - Product-level errors. Non-empty when this product failed to generate; empty on success.
+  , craReportGetQualifyResponseProductMetadata :: !((Map.Map String A.Value)) -- ^ /Required/ "metadata" - A map of product report metadata, where the key is a string and the value varies by product. For a full list of metadata fields per product, see the data dictionary. May be &#x60;null&#x60; if metadata was not available.
+  , craReportGetQualifyResponseProductProduct :: !(E'Product7) -- ^ /Required/ "product" - The Qualify product.
+  , craReportGetQualifyResponseProductVersion :: !(Text) -- ^ /Required/ "version" - A string that specifies a particular version of a CRA product.
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON CraReportGetQualifyResponseProduct
+instance A.FromJSON CraReportGetQualifyResponseProduct where
+  parseJSON = A.withObject "CraReportGetQualifyResponseProduct" $ \o ->
+    CraReportGetQualifyResponseProduct
+      <$> (o .:  "attributes")
+      <*> (o .:  "errors")
+      <*> (o .:  "metadata")
+      <*> (o .:  "product")
+      <*> (o .:  "version")
+
+-- | ToJSON CraReportGetQualifyResponseProduct
+instance A.ToJSON CraReportGetQualifyResponseProduct where
+  toJSON CraReportGetQualifyResponseProduct {..} =
+   _omitNulls
+      [ "attributes" .= craReportGetQualifyResponseProductAttributes
+      , "errors" .= craReportGetQualifyResponseProductErrors
+      , "metadata" .= craReportGetQualifyResponseProductMetadata
+      , "product" .= craReportGetQualifyResponseProductProduct
+      , "version" .= craReportGetQualifyResponseProductVersion
+      ]
+
+
+-- | Construct a value of type 'CraReportGetQualifyResponseProduct' (by applying it's required fields, if any)
+mkCraReportGetQualifyResponseProduct
+  :: (Map.Map String A.Value) -- ^ 'craReportGetQualifyResponseProductAttributes': A map of product attributes, where the key is a string and the value can be any JSON value. The specific list of attributes depends on the product and version. For a full list, see the data dictionary. May be `null` if attributes were not available.
+  -> [PlaidError] -- ^ 'craReportGetQualifyResponseProductErrors': Product-level errors. Non-empty when this product failed to generate; empty on success.
+  -> (Map.Map String A.Value) -- ^ 'craReportGetQualifyResponseProductMetadata': A map of product report metadata, where the key is a string and the value varies by product. For a full list of metadata fields per product, see the data dictionary. May be `null` if metadata was not available.
+  -> E'Product7 -- ^ 'craReportGetQualifyResponseProductProduct': The Qualify product.
+  -> Text -- ^ 'craReportGetQualifyResponseProductVersion': A string that specifies a particular version of a CRA product.
+  -> CraReportGetQualifyResponseProduct
+mkCraReportGetQualifyResponseProduct craReportGetQualifyResponseProductAttributes craReportGetQualifyResponseProductErrors craReportGetQualifyResponseProductMetadata craReportGetQualifyResponseProductProduct craReportGetQualifyResponseProductVersion =
+  CraReportGetQualifyResponseProduct
+  { craReportGetQualifyResponseProductAttributes
+  , craReportGetQualifyResponseProductErrors
+  , craReportGetQualifyResponseProductMetadata
+  , craReportGetQualifyResponseProductProduct
+  , craReportGetQualifyResponseProductVersion
+  }
+
+-- ** CraReportGetReport
+-- | CraReportGetReport
+-- CraReportGetReport
+-- 
+-- The CRA report returned by `/cra/report/get`.
+data CraReportGetReport = CraReportGetReport
+  { craReportGetReportConsumerReportPermissiblePurpose :: !(ConsumerReportPermissiblePurpose) -- ^ /Required/ "consumer_report_permissible_purpose"
+  , craReportGetReportDecisionStage :: !(CraReportDecisionStage) -- ^ /Required/ "decision_stage"
+  , craReportGetReportProducts :: !([CraReportGetResponseProduct]) -- ^ /Required/ "products" - Per-product report data. Each entry corresponds to one requested product.
+  , craReportGetReportRetrievedTime :: !(DateTime) -- ^ /Required/ "retrieved_time" - The date and time the report was retrieved.
+  , craReportGetReportScope :: !(CraReportScope) -- ^ /Required/ "scope"
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON CraReportGetReport
+instance A.FromJSON CraReportGetReport where
+  parseJSON = A.withObject "CraReportGetReport" $ \o ->
+    CraReportGetReport
+      <$> (o .:  "consumer_report_permissible_purpose")
+      <*> (o .:  "decision_stage")
+      <*> (o .:  "products")
+      <*> (o .:  "retrieved_time")
+      <*> (o .:  "scope")
+
+-- | ToJSON CraReportGetReport
+instance A.ToJSON CraReportGetReport where
+  toJSON CraReportGetReport {..} =
+   _omitNulls
+      [ "consumer_report_permissible_purpose" .= craReportGetReportConsumerReportPermissiblePurpose
+      , "decision_stage" .= craReportGetReportDecisionStage
+      , "products" .= craReportGetReportProducts
+      , "retrieved_time" .= craReportGetReportRetrievedTime
+      , "scope" .= craReportGetReportScope
+      ]
+
+
+-- | Construct a value of type 'CraReportGetReport' (by applying it's required fields, if any)
+mkCraReportGetReport
+  :: ConsumerReportPermissiblePurpose -- ^ 'craReportGetReportConsumerReportPermissiblePurpose' 
+  -> CraReportDecisionStage -- ^ 'craReportGetReportDecisionStage' 
+  -> [CraReportGetResponseProduct] -- ^ 'craReportGetReportProducts': Per-product report data. Each entry corresponds to one requested product.
+  -> DateTime -- ^ 'craReportGetReportRetrievedTime': The date and time the report was retrieved.
+  -> CraReportScope -- ^ 'craReportGetReportScope' 
+  -> CraReportGetReport
+mkCraReportGetReport craReportGetReportConsumerReportPermissiblePurpose craReportGetReportDecisionStage craReportGetReportProducts craReportGetReportRetrievedTime craReportGetReportScope =
+  CraReportGetReport
+  { craReportGetReportConsumerReportPermissiblePurpose
+  , craReportGetReportDecisionStage
+  , craReportGetReportProducts
+  , craReportGetReportRetrievedTime
+  , craReportGetReportScope
+  }
+
+-- ** CraReportGetRequest
+-- | CraReportGetRequest
+-- CraReportGetRequest
+-- 
+-- CraReportGetRequest defines the request schema for `/cra/report/get`.
+data CraReportGetRequest = CraReportGetRequest
+  { craReportGetRequestClientId :: !(Maybe Text) -- ^ "client_id" - Your Plaid API &#x60;client_id&#x60;.
+  , craReportGetRequestConsumerReportPermissiblePurpose :: !(ConsumerReportPermissiblePurpose) -- ^ /Required/ "consumer_report_permissible_purpose"
+  , craReportGetRequestDecisionStage :: !(CraReportDecisionStage) -- ^ /Required/ "decision_stage"
+  , craReportGetRequestProducts :: !([CraReportGetRequestProduct]) -- ^ /Required/ "products" - The requested products and their versions, e.g. &#x60;[{\&quot;product\&quot;:\&quot;cra_base_report\&quot;,\&quot;version\&quot;:\&quot;V1\&quot;}]&#x60;.
+  , craReportGetRequestReportId :: !(Maybe Text) -- ^ "report_id" - A unique ID identifying a CRA report. Like all Plaid identifiers, this ID is case sensitive. When provided, that specific report is returned; when omitted, the most recent report matching the request is returned.
+  , craReportGetRequestScope :: !(Maybe CraReportScope) -- ^ "scope"
+  , craReportGetRequestSecret :: !(Maybe Text) -- ^ "secret" - Your Plaid API &#x60;secret&#x60;.
+  , craReportGetRequestUserId :: !(Text) -- ^ /Required/ "user_id" - A unique user identifier, created by &#x60;/user/create&#x60;. Integrations that began using &#x60;/user/create&#x60; after December 10, 2025 use this field to identify a user instead of the &#x60;user_token&#x60;. For more details, see [New User APIs](https://plaid.com/docs/api/users/user-apis).
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON CraReportGetRequest
+instance A.FromJSON CraReportGetRequest where
+  parseJSON = A.withObject "CraReportGetRequest" $ \o ->
+    CraReportGetRequest
+      <$> (o .:? "client_id")
+      <*> (o .:  "consumer_report_permissible_purpose")
+      <*> (o .:  "decision_stage")
+      <*> (o .:  "products")
+      <*> (o .:? "report_id")
+      <*> (o .:? "scope")
+      <*> (o .:? "secret")
+      <*> (o .:  "user_id")
+
+-- | ToJSON CraReportGetRequest
+instance A.ToJSON CraReportGetRequest where
+  toJSON CraReportGetRequest {..} =
+   _omitNulls
+      [ "client_id" .= craReportGetRequestClientId
+      , "consumer_report_permissible_purpose" .= craReportGetRequestConsumerReportPermissiblePurpose
+      , "decision_stage" .= craReportGetRequestDecisionStage
+      , "products" .= craReportGetRequestProducts
+      , "report_id" .= craReportGetRequestReportId
+      , "scope" .= craReportGetRequestScope
+      , "secret" .= craReportGetRequestSecret
+      , "user_id" .= craReportGetRequestUserId
+      ]
+
+
+-- | Construct a value of type 'CraReportGetRequest' (by applying it's required fields, if any)
+mkCraReportGetRequest
+  :: ConsumerReportPermissiblePurpose -- ^ 'craReportGetRequestConsumerReportPermissiblePurpose' 
+  -> CraReportDecisionStage -- ^ 'craReportGetRequestDecisionStage' 
+  -> [CraReportGetRequestProduct] -- ^ 'craReportGetRequestProducts': The requested products and their versions, e.g. `[{\"product\":\"cra_base_report\",\"version\":\"V1\"}]`.
+  -> Text -- ^ 'craReportGetRequestUserId': A unique user identifier, created by `/user/create`. Integrations that began using `/user/create` after December 10, 2025 use this field to identify a user instead of the `user_token`. For more details, see [New User APIs](https://plaid.com/docs/api/users/user-apis).
+  -> CraReportGetRequest
+mkCraReportGetRequest craReportGetRequestConsumerReportPermissiblePurpose craReportGetRequestDecisionStage craReportGetRequestProducts craReportGetRequestUserId =
+  CraReportGetRequest
+  { craReportGetRequestClientId = Nothing
+  , craReportGetRequestConsumerReportPermissiblePurpose
+  , craReportGetRequestDecisionStage
+  , craReportGetRequestProducts
+  , craReportGetRequestReportId = Nothing
+  , craReportGetRequestScope = Nothing
+  , craReportGetRequestSecret = Nothing
+  , craReportGetRequestUserId
+  }
+
+-- ** CraReportGetRequestProduct
+-- | CraReportGetRequestProduct
+-- CraReportGetRequestProduct
+-- 
+-- CraReportGetRequestProduct specifies one product and version requested from `/cra/report/get`, selected by the `product` discriminator.
+data CraReportGetRequestProduct = CraReportGetRequestProduct
+  { craReportGetRequestProductProduct :: !(E'Product6) -- ^ /Required/ "product" - The Network Insights product discriminator.
+  , craReportGetRequestProductVersion :: !(Text) -- ^ /Required/ "version" - A string that specifies a particular version of a CRA product.
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON CraReportGetRequestProduct
+instance A.FromJSON CraReportGetRequestProduct where
+  parseJSON = A.withObject "CraReportGetRequestProduct" $ \o ->
+    CraReportGetRequestProduct
+      <$> (o .:  "product")
+      <*> (o .:  "version")
+
+-- | ToJSON CraReportGetRequestProduct
+instance A.ToJSON CraReportGetRequestProduct where
+  toJSON CraReportGetRequestProduct {..} =
+   _omitNulls
+      [ "product" .= craReportGetRequestProductProduct
+      , "version" .= craReportGetRequestProductVersion
+      ]
+
+
+-- | Construct a value of type 'CraReportGetRequestProduct' (by applying it's required fields, if any)
+mkCraReportGetRequestProduct
+  :: E'Product6 -- ^ 'craReportGetRequestProductProduct': The Network Insights product discriminator.
+  -> Text -- ^ 'craReportGetRequestProductVersion': A string that specifies a particular version of a CRA product.
+  -> CraReportGetRequestProduct
+mkCraReportGetRequestProduct craReportGetRequestProductProduct craReportGetRequestProductVersion =
+  CraReportGetRequestProduct
+  { craReportGetRequestProductProduct
+  , craReportGetRequestProductVersion
+  }
+
+-- ** CraReportGetResponse
+-- | CraReportGetResponse
+-- CraReportGetResponse
+-- 
+-- CraReportGetResponse defines the response schema for `/cra/report/get`.
+data CraReportGetResponse = CraReportGetResponse
+  { craReportGetResponseClientUserId :: !(Maybe Text) -- ^ "client_user_id" - The unique ID representing the end user that you supplied as &#x60;client_user_id&#x60; when creating the user via &#x60;/user/create&#x60;. &#x60;null&#x60; if the user has no &#x60;client_user_id&#x60; on record.
+  , craReportGetResponseReport :: !(CraReportGetReport) -- ^ /Required/ "report"
+  , craReportGetResponseRequestId :: !(Text) -- ^ /Required/ "request_id" - A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive.
+  , craReportGetResponseUserId :: !(Text) -- ^ /Required/ "user_id" - A unique user identifier, created by &#x60;/user/create&#x60;. Integrations that began using &#x60;/user/create&#x60; after December 10, 2025 use this field to identify a user instead of the &#x60;user_token&#x60;. For more details, see [New User APIs](https://plaid.com/docs/api/users/user-apis).
+  , craReportGetResponseWarnings :: !([CheckReportWarning]) -- ^ /Required/ "warnings" - User or report-level errors that affected the overall report but do not map to a specific product failure.
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON CraReportGetResponse
+instance A.FromJSON CraReportGetResponse where
+  parseJSON = A.withObject "CraReportGetResponse" $ \o ->
+    CraReportGetResponse
+      <$> (o .:? "client_user_id")
+      <*> (o .:  "report")
+      <*> (o .:  "request_id")
+      <*> (o .:  "user_id")
+      <*> (o .:  "warnings")
+
+-- | ToJSON CraReportGetResponse
+instance A.ToJSON CraReportGetResponse where
+  toJSON CraReportGetResponse {..} =
+   _omitNulls
+      [ "client_user_id" .= craReportGetResponseClientUserId
+      , "report" .= craReportGetResponseReport
+      , "request_id" .= craReportGetResponseRequestId
+      , "user_id" .= craReportGetResponseUserId
+      , "warnings" .= craReportGetResponseWarnings
+      ]
+
+
+-- | Construct a value of type 'CraReportGetResponse' (by applying it's required fields, if any)
+mkCraReportGetResponse
+  :: CraReportGetReport -- ^ 'craReportGetResponseReport' 
+  -> Text -- ^ 'craReportGetResponseRequestId': A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive.
+  -> Text -- ^ 'craReportGetResponseUserId': A unique user identifier, created by `/user/create`. Integrations that began using `/user/create` after December 10, 2025 use this field to identify a user instead of the `user_token`. For more details, see [New User APIs](https://plaid.com/docs/api/users/user-apis).
+  -> [CheckReportWarning] -- ^ 'craReportGetResponseWarnings': User or report-level errors that affected the overall report but do not map to a specific product failure.
+  -> CraReportGetResponse
+mkCraReportGetResponse craReportGetResponseReport craReportGetResponseRequestId craReportGetResponseUserId craReportGetResponseWarnings =
+  CraReportGetResponse
+  { craReportGetResponseClientUserId = Nothing
+  , craReportGetResponseReport
+  , craReportGetResponseRequestId
+  , craReportGetResponseUserId
+  , craReportGetResponseWarnings
+  }
+
+-- ** CraReportGetResponseProduct
+-- | CraReportGetResponseProduct
+-- CraReportGetResponseProduct
+--
+-- Per-product report data, selected by the `product` discriminator.
+data CraReportGetResponseProduct
+  = CraReportGetResponseProductHomeLending CraReportGetHomeLendingResponseProduct
+  | CraReportGetResponseProductIncomeInsights CraReportGetIncomeInsightsResponseProduct
+  | CraReportGetResponseProductQualify CraReportGetQualifyResponseProduct
+  deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON CraReportGetResponseProduct
+instance A.FromJSON CraReportGetResponseProduct where
+  parseJSON v = A.withObject "CraReportGetResponseProduct" (\o -> do
+    productTag <- o .: "product"
+    case productTag of
+      "cra_home_lending" -> CraReportGetResponseProductHomeLending <$> A.parseJSON v
+      "cra_income_insights" -> CraReportGetResponseProductIncomeInsights <$> A.parseJSON v
+      "cra_qualify" -> CraReportGetResponseProductQualify <$> A.parseJSON v
+      other -> P.fail ("Unknown CraReportGetResponseProduct product: " <> T.unpack other)
+    ) v
+
+-- | ToJSON CraReportGetResponseProduct
+instance A.ToJSON CraReportGetResponseProduct where
+  toJSON (CraReportGetResponseProductHomeLending x) = A.toJSON x
+  toJSON (CraReportGetResponseProductIncomeInsights x) = A.toJSON x
+  toJSON (CraReportGetResponseProductQualify x) = A.toJSON x
+
+-- ** CraReportProduct
+-- | CraReportProduct
+-- CraReportProduct
+--
+-- A Plaid Check product and version to generate for the report, with the options that apply to that product, selected by the `product` field.
+data CraReportProduct
+  = CraReportProductBaseReport CraReportCreateBaseReportProductConfig
+  | CraReportProductCashflowInsights CraReportCreateCashflowInsightsProductConfig
+  | CraReportProductHomeLending CraReportCreateHomeLendingProductConfig
+  | CraReportProductIncomeInsights CraReportCreateIncomeInsightsProductConfig
+  | CraReportProductLendScore CraReportCreateLendScoreProductConfig
+  | CraReportProductNetworkInsights CraReportCreateNetworkInsightsProductConfig
+  | CraReportProductQualify CraReportCreateQualifyProductConfig
+  deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON CraReportProduct
+instance A.FromJSON CraReportProduct where
+  parseJSON v = A.withObject "CraReportProduct" (\o -> do
+    productTag <- o .: "product"
+    case productTag of
+      "cra_base_report" -> CraReportProductBaseReport <$> A.parseJSON v
+      "cra_cashflow_insights" -> CraReportProductCashflowInsights <$> A.parseJSON v
+      "cra_home_lending" -> CraReportProductHomeLending <$> A.parseJSON v
+      "cra_income_insights" -> CraReportProductIncomeInsights <$> A.parseJSON v
+      "cra_lend_score" -> CraReportProductLendScore <$> A.parseJSON v
+      "cra_network_insights" -> CraReportProductNetworkInsights <$> A.parseJSON v
+      "cra_qualify" -> CraReportProductQualify <$> A.parseJSON v
+      other -> P.fail ("Unknown CraReportProduct product: " <> T.unpack other)
+    ) v
+
+-- | ToJSON CraReportProduct
+instance A.ToJSON CraReportProduct where
+  toJSON (CraReportProductBaseReport x) = A.toJSON x
+  toJSON (CraReportProductCashflowInsights x) = A.toJSON x
+  toJSON (CraReportProductHomeLending x) = A.toJSON x
+  toJSON (CraReportProductIncomeInsights x) = A.toJSON x
+  toJSON (CraReportProductLendScore x) = A.toJSON x
+  toJSON (CraReportProductNetworkInsights x) = A.toJSON x
+  toJSON (CraReportProductQualify x) = A.toJSON x
+
+-- ** CraReportReadyWebhook
+-- | CraReportReadyWebhook
+-- CraReportReadyWebhook
+-- 
+-- Fired when generation finishes for a CRA report requested via `/cra/report/create` or a Link session configured with `cra_report_parameter`, whether every requested product was generated, only some were, or none were. `successful_products` and `failed_products` indicate which products were generated, and `error_code` is populated when every product failed. Call `/cra/report/get` for the generated products and for error details on failed products.
+data CraReportReadyWebhook = CraReportReadyWebhook
+  { craReportReadyWebhookClientReportId :: !(Text) -- ^ /Required/ "client_report_id" - The &#x60;client_report_id&#x60; you supplied when requesting the report, if any.
+  , craReportReadyWebhookClientUserId :: !(Text) -- ^ /Required/ "client_user_id" - The &#x60;client_user_id&#x60; you supplied for this user when calling &#x60;/user/create&#x60;. &#x60;null&#x60; if no &#x60;client_user_id&#x60; is associated with the user.
+  , craReportReadyWebhookEnvironment :: !(WebhookEnvironmentValues) -- ^ /Required/ "environment"
+  , craReportReadyWebhookErrorCode :: !(CraReportErrorCode) -- ^ /Required/ "error_code"
+  , craReportReadyWebhookFailedProducts :: !([CreditProduct]) -- ^ /Required/ "failed_products" - Specifies a list of products that have failed to generate for the report. Additional detail on what caused the failure can be found in the product&#39;s &#x60;errors&#x60; when calling &#x60;/cra/report/get&#x60;.
+  , craReportReadyWebhookGeneratedTime :: !(DateTime) -- ^ /Required/ "generated_time" - The timestamp when the products were generated, in ISO 8601 format. Null if there are no successful products.
+  , craReportReadyWebhookReportId :: !(Text) -- ^ /Required/ "report_id" - The identifier of the CRA report. Pass this value to &#x60;/cra/report/get&#x60; to retrieve the report.
+  , craReportReadyWebhookScope :: !(CraReportScope) -- ^ /Required/ "scope"
+  , craReportReadyWebhookSuccessfulProducts :: !([CreditProduct]) -- ^ /Required/ "successful_products" - Specifies a list of products that have successfully been generated for the report.
+  , craReportReadyWebhookUserId :: !(Text) -- ^ /Required/ "user_id" - The &#x60;user_id&#x60; associated with the user whose data is being requested. This is received by calling &#x60;/user/create&#x60;.
+  , craReportReadyWebhookWebhookCode :: !(Text) -- ^ /Required/ "webhook_code" - &#x60;CRA_REPORT_READY&#x60;
+  , craReportReadyWebhookWebhookType :: !(Text) -- ^ /Required/ "webhook_type" - &#x60;CRA_REPORT&#x60;
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON CraReportReadyWebhook
+instance A.FromJSON CraReportReadyWebhook where
+  parseJSON = A.withObject "CraReportReadyWebhook" $ \o ->
+    CraReportReadyWebhook
+      <$> (o .:  "client_report_id")
+      <*> (o .:  "client_user_id")
+      <*> (o .:  "environment")
+      <*> (o .:  "error_code")
+      <*> (o .:  "failed_products")
+      <*> (o .:  "generated_time")
+      <*> (o .:  "report_id")
+      <*> (o .:  "scope")
+      <*> (o .:  "successful_products")
+      <*> (o .:  "user_id")
+      <*> (o .:  "webhook_code")
+      <*> (o .:  "webhook_type")
+
+-- | ToJSON CraReportReadyWebhook
+instance A.ToJSON CraReportReadyWebhook where
+  toJSON CraReportReadyWebhook {..} =
+   _omitNulls
+      [ "client_report_id" .= craReportReadyWebhookClientReportId
+      , "client_user_id" .= craReportReadyWebhookClientUserId
+      , "environment" .= craReportReadyWebhookEnvironment
+      , "error_code" .= craReportReadyWebhookErrorCode
+      , "failed_products" .= craReportReadyWebhookFailedProducts
+      , "generated_time" .= craReportReadyWebhookGeneratedTime
+      , "report_id" .= craReportReadyWebhookReportId
+      , "scope" .= craReportReadyWebhookScope
+      , "successful_products" .= craReportReadyWebhookSuccessfulProducts
+      , "user_id" .= craReportReadyWebhookUserId
+      , "webhook_code" .= craReportReadyWebhookWebhookCode
+      , "webhook_type" .= craReportReadyWebhookWebhookType
+      ]
+
+
+-- | Construct a value of type 'CraReportReadyWebhook' (by applying it's required fields, if any)
+mkCraReportReadyWebhook
+  :: Text -- ^ 'craReportReadyWebhookClientReportId': The `client_report_id` you supplied when requesting the report, if any.
+  -> Text -- ^ 'craReportReadyWebhookClientUserId': The `client_user_id` you supplied for this user when calling `/user/create`. `null` if no `client_user_id` is associated with the user.
+  -> WebhookEnvironmentValues -- ^ 'craReportReadyWebhookEnvironment' 
+  -> CraReportErrorCode -- ^ 'craReportReadyWebhookErrorCode' 
+  -> [CreditProduct] -- ^ 'craReportReadyWebhookFailedProducts': Specifies a list of products that have failed to generate for the report. Additional detail on what caused the failure can be found in the product's `errors` when calling `/cra/report/get`.
+  -> DateTime -- ^ 'craReportReadyWebhookGeneratedTime': The timestamp when the products were generated, in ISO 8601 format. Null if there are no successful products.
+  -> Text -- ^ 'craReportReadyWebhookReportId': The identifier of the CRA report. Pass this value to `/cra/report/get` to retrieve the report.
+  -> CraReportScope -- ^ 'craReportReadyWebhookScope' 
+  -> [CreditProduct] -- ^ 'craReportReadyWebhookSuccessfulProducts': Specifies a list of products that have successfully been generated for the report.
+  -> Text -- ^ 'craReportReadyWebhookUserId': The `user_id` associated with the user whose data is being requested. This is received by calling `/user/create`.
+  -> Text -- ^ 'craReportReadyWebhookWebhookCode': `CRA_REPORT_READY`
+  -> Text -- ^ 'craReportReadyWebhookWebhookType': `CRA_REPORT`
+  -> CraReportReadyWebhook
+mkCraReportReadyWebhook craReportReadyWebhookClientReportId craReportReadyWebhookClientUserId craReportReadyWebhookEnvironment craReportReadyWebhookErrorCode craReportReadyWebhookFailedProducts craReportReadyWebhookGeneratedTime craReportReadyWebhookReportId craReportReadyWebhookScope craReportReadyWebhookSuccessfulProducts craReportReadyWebhookUserId craReportReadyWebhookWebhookCode craReportReadyWebhookWebhookType =
+  CraReportReadyWebhook
+  { craReportReadyWebhookClientReportId
+  , craReportReadyWebhookClientUserId
+  , craReportReadyWebhookEnvironment
+  , craReportReadyWebhookErrorCode
+  , craReportReadyWebhookFailedProducts
+  , craReportReadyWebhookGeneratedTime
+  , craReportReadyWebhookReportId
+  , craReportReadyWebhookScope
+  , craReportReadyWebhookSuccessfulProducts
+  , craReportReadyWebhookUserId
+  , craReportReadyWebhookWebhookCode
+  , craReportReadyWebhookWebhookType
+  }
+
+-- ** CraReportScope
+
+-- | Enum of 'Text' .
+-- Determines whose items are used. `PLAID_NETWORK` (default) uses the Plaid Network view of the user's profile. `CLIENT_USER` uses only the items linked by this client.
+data CraReportScope
+  = CraReportScope'PLAID_NETWORK -- ^ @"PLAID_NETWORK"@
+  | CraReportScope'CLIENT_USER -- ^ @"CLIENT_USER"@
+  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
+
+instance A.ToJSON CraReportScope where toJSON = A.toJSON . fromCraReportScope
+instance A.FromJSON CraReportScope where parseJSON o = P.either P.fail (pure . P.id) . toCraReportScope =<< A.parseJSON o
+instance WH.ToHttpApiData CraReportScope where toQueryParam = WH.toQueryParam . fromCraReportScope
+instance WH.FromHttpApiData CraReportScope where parseQueryParam o = WH.parseQueryParam o >>= P.left T.pack . toCraReportScope
+instance MimeRender MimeMultipartFormData CraReportScope where mimeRender _ = mimeRenderDefaultMultipartFormData
+
+-- | unwrap 'CraReportScope' enum
+fromCraReportScope :: CraReportScope -> Text
+fromCraReportScope = \case
+  CraReportScope'PLAID_NETWORK -> "PLAID_NETWORK"
+  CraReportScope'CLIENT_USER -> "CLIENT_USER"
+
+-- | parse 'CraReportScope' enum
+toCraReportScope :: Text -> P.Either String CraReportScope
+toCraReportScope = \case
+  "PLAID_NETWORK" -> P.Right CraReportScope'PLAID_NETWORK
+  "CLIENT_USER" -> P.Right CraReportScope'CLIENT_USER
+  s -> P.Left $ "toCraReportScope: enum parse failure: " P.++ P.show s
+
+
+-- ** CraReportUpdatedWebhook
+-- | CraReportUpdatedWebhook
+-- CraReportUpdatedWebhook
+-- 
+-- Fired when a subscribed CRA report has been updated. Retrieve the updated products by calling the relevant product `/get` endpoint. A single webhook covers all CRA report-update subscriptions; the `successful_products`/`failed_products` fields indicate which products were updated, and the `scope` field indicates the data the report was computed over.
+data CraReportUpdatedWebhook = CraReportUpdatedWebhook
+  { craReportUpdatedWebhookClientUserId :: !(Text) -- ^ /Required/ "client_user_id" - The &#x60;client_user_id&#x60; you supplied for this user when calling &#x60;/user/create&#x60;.
+  , craReportUpdatedWebhookEnvironment :: !(WebhookEnvironmentValues) -- ^ /Required/ "environment"
+  , craReportUpdatedWebhookErrorCode :: !(Maybe Text) -- ^ "error_code" - The reason all products failed to update. Populated only when every requested product failed; null if any product succeeded. For example, &#x60;NO_ELIGIBLE_ITEMS&#x60;.
+  , craReportUpdatedWebhookFailedProducts :: !([CreditProduct]) -- ^ /Required/ "failed_products" - Specifies a list of products that have failed to update for the report. Additional detail on what caused the failure can be found by calling the product &#x60;/get&#x60; endpoint.
+  , craReportUpdatedWebhookGeneratedTime :: !(Maybe DateTime) -- ^ "generated_time" - The timestamp when the products were generated, in ISO 8601 format. Null if there are no successful products.
+  , craReportUpdatedWebhookReportId :: !(Maybe Text) -- ^ "report_id" - The identifier of the CRA report that was updated. Pass this value to the relevant product &#x60;/get&#x60; endpoint to retrieve the updated report.
+  , craReportUpdatedWebhookScope :: !(CraReportScope) -- ^ /Required/ "scope"
+  , craReportUpdatedWebhookSuccessfulProducts :: !([CreditProduct]) -- ^ /Required/ "successful_products" - Specifies a list of products that have successfully been updated for the report. Call the product &#x60;/get&#x60; endpoint to retrieve them.
+  , craReportUpdatedWebhookUserId :: !(Text) -- ^ /Required/ "user_id" - The &#x60;user_id&#x60; associated with the user whose data is being requested. This is received by calling &#x60;/user/create&#x60;.
+  , craReportUpdatedWebhookWebhookCode :: !(Text) -- ^ /Required/ "webhook_code" - &#x60;CRA_REPORT_UPDATED&#x60;
+  , craReportUpdatedWebhookWebhookType :: !(Text) -- ^ /Required/ "webhook_type" - &#x60;CRA_REPORT&#x60;
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON CraReportUpdatedWebhook
+instance A.FromJSON CraReportUpdatedWebhook where
+  parseJSON = A.withObject "CraReportUpdatedWebhook" $ \o ->
+    CraReportUpdatedWebhook
+      <$> (o .:  "client_user_id")
+      <*> (o .:  "environment")
+      <*> (o .:? "error_code")
+      <*> (o .:  "failed_products")
+      <*> (o .:? "generated_time")
+      <*> (o .:? "report_id")
+      <*> (o .:  "scope")
+      <*> (o .:  "successful_products")
+      <*> (o .:  "user_id")
+      <*> (o .:  "webhook_code")
+      <*> (o .:  "webhook_type")
+
+-- | ToJSON CraReportUpdatedWebhook
+instance A.ToJSON CraReportUpdatedWebhook where
+  toJSON CraReportUpdatedWebhook {..} =
+   _omitNulls
+      [ "client_user_id" .= craReportUpdatedWebhookClientUserId
+      , "environment" .= craReportUpdatedWebhookEnvironment
+      , "error_code" .= craReportUpdatedWebhookErrorCode
+      , "failed_products" .= craReportUpdatedWebhookFailedProducts
+      , "generated_time" .= craReportUpdatedWebhookGeneratedTime
+      , "report_id" .= craReportUpdatedWebhookReportId
+      , "scope" .= craReportUpdatedWebhookScope
+      , "successful_products" .= craReportUpdatedWebhookSuccessfulProducts
+      , "user_id" .= craReportUpdatedWebhookUserId
+      , "webhook_code" .= craReportUpdatedWebhookWebhookCode
+      , "webhook_type" .= craReportUpdatedWebhookWebhookType
+      ]
+
+
+-- | Construct a value of type 'CraReportUpdatedWebhook' (by applying it's required fields, if any)
+mkCraReportUpdatedWebhook
+  :: Text -- ^ 'craReportUpdatedWebhookClientUserId': The `client_user_id` you supplied for this user when calling `/user/create`.
+  -> WebhookEnvironmentValues -- ^ 'craReportUpdatedWebhookEnvironment' 
+  -> [CreditProduct] -- ^ 'craReportUpdatedWebhookFailedProducts': Specifies a list of products that have failed to update for the report. Additional detail on what caused the failure can be found by calling the product `/get` endpoint.
+  -> CraReportScope -- ^ 'craReportUpdatedWebhookScope' 
+  -> [CreditProduct] -- ^ 'craReportUpdatedWebhookSuccessfulProducts': Specifies a list of products that have successfully been updated for the report. Call the product `/get` endpoint to retrieve them.
+  -> Text -- ^ 'craReportUpdatedWebhookUserId': The `user_id` associated with the user whose data is being requested. This is received by calling `/user/create`.
+  -> Text -- ^ 'craReportUpdatedWebhookWebhookCode': `CRA_REPORT_UPDATED`
+  -> Text -- ^ 'craReportUpdatedWebhookWebhookType': `CRA_REPORT`
+  -> CraReportUpdatedWebhook
+mkCraReportUpdatedWebhook craReportUpdatedWebhookClientUserId craReportUpdatedWebhookEnvironment craReportUpdatedWebhookFailedProducts craReportUpdatedWebhookScope craReportUpdatedWebhookSuccessfulProducts craReportUpdatedWebhookUserId craReportUpdatedWebhookWebhookCode craReportUpdatedWebhookWebhookType =
+  CraReportUpdatedWebhook
+  { craReportUpdatedWebhookClientUserId
+  , craReportUpdatedWebhookEnvironment
+  , craReportUpdatedWebhookErrorCode = Nothing
+  , craReportUpdatedWebhookFailedProducts
+  , craReportUpdatedWebhookGeneratedTime = Nothing
+  , craReportUpdatedWebhookReportId = Nothing
+  , craReportUpdatedWebhookScope
+  , craReportUpdatedWebhookSuccessfulProducts
+  , craReportUpdatedWebhookUserId
+  , craReportUpdatedWebhookWebhookCode
+  , craReportUpdatedWebhookWebhookType
+  }
+
+-- ** CreditProduct
+-- | CreditProduct
+-- CreditProduct
+-- 
+-- A product included in a CRA report, along with the version that was generated.
+data CreditProduct = CreditProduct
+  { creditProductProduct :: !(Products) -- ^ /Required/ "product"
+  , creditProductVersion :: !(Text) -- ^ /Required/ "version" - The version of the product that was generated.
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON CreditProduct
+instance A.FromJSON CreditProduct where
+  parseJSON = A.withObject "CreditProduct" $ \o ->
+    CreditProduct
+      <$> (o .:  "product")
+      <*> (o .:  "version")
+
+-- | ToJSON CreditProduct
+instance A.ToJSON CreditProduct where
+  toJSON CreditProduct {..} =
+   _omitNulls
+      [ "product" .= creditProductProduct
+      , "version" .= creditProductVersion
+      ]
+
+
+-- | Construct a value of type 'CreditProduct' (by applying it's required fields, if any)
+mkCreditProduct
+  :: Products -- ^ 'creditProductProduct' 
+  -> Text -- ^ 'creditProductVersion': The version of the product that was generated.
+  -> CreditProduct
+mkCreditProduct creditProductProduct creditProductVersion =
+  CreditProduct
+  { creditProductProduct
+  , creditProductVersion
+  }
+
+-- ** WebhookEnvironmentValues
+
+-- | Enum of 'Text' .
+-- The Plaid environment the webhook was sent from
+data WebhookEnvironmentValues
+  = WebhookEnvironmentValues'Sandbox -- ^ @"sandbox"@
+  | WebhookEnvironmentValues'Production -- ^ @"production"@
+  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
+
+instance A.ToJSON WebhookEnvironmentValues where toJSON = A.toJSON . fromWebhookEnvironmentValues
+instance A.FromJSON WebhookEnvironmentValues where parseJSON o = P.either P.fail (pure . P.id) . toWebhookEnvironmentValues =<< A.parseJSON o
+instance WH.ToHttpApiData WebhookEnvironmentValues where toQueryParam = WH.toQueryParam . fromWebhookEnvironmentValues
+instance WH.FromHttpApiData WebhookEnvironmentValues where parseQueryParam o = WH.parseQueryParam o >>= P.left T.pack . toWebhookEnvironmentValues
+instance MimeRender MimeMultipartFormData WebhookEnvironmentValues where mimeRender _ = mimeRenderDefaultMultipartFormData
+
+-- | unwrap 'WebhookEnvironmentValues' enum
+fromWebhookEnvironmentValues :: WebhookEnvironmentValues -> Text
+fromWebhookEnvironmentValues = \case
+  WebhookEnvironmentValues'Sandbox -> "sandbox"
+  WebhookEnvironmentValues'Production -> "production"
+
+-- | parse 'WebhookEnvironmentValues' enum
+toWebhookEnvironmentValues :: Text -> P.Either String WebhookEnvironmentValues
+toWebhookEnvironmentValues = \case
+  "sandbox" -> P.Right WebhookEnvironmentValues'Sandbox
+  "production" -> P.Right WebhookEnvironmentValues'Production
+  s -> P.Left $ "toWebhookEnvironmentValues: enum parse failure: " P.++ P.show s
+
+
+-- * Auth Methods
+
+-- ** E'Product
+
+-- | Enum of 'Text' .
+-- The Base Report product discriminator.
+data E'Product
+  = E'Product'Cra_base_report -- ^ @"cra_base_report"@
+  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
+
+instance A.ToJSON E'Product where toJSON = A.toJSON . fromE'Product
+instance A.FromJSON E'Product where parseJSON o = P.either P.fail (pure . P.id) . toE'Product =<< A.parseJSON o
+instance WH.ToHttpApiData E'Product where toQueryParam = WH.toQueryParam . fromE'Product
+instance WH.FromHttpApiData E'Product where parseQueryParam o = WH.parseQueryParam o >>= P.left T.pack . toE'Product
+instance MimeRender MimeMultipartFormData E'Product where mimeRender _ = mimeRenderDefaultMultipartFormData
+
+-- | unwrap 'E'Product' enum
+fromE'Product :: E'Product -> Text
+fromE'Product = \case
+  E'Product'Cra_base_report -> "cra_base_report"
+
+-- | parse 'E'Product' enum
+toE'Product :: Text -> P.Either String E'Product
+toE'Product = \case
+  "cra_base_report" -> P.Right E'Product'Cra_base_report
+  s -> P.Left $ "toE'Product: enum parse failure: " P.++ P.show s
+
+
+-- ** E'Product2
+
+-- | Enum of 'Text' .
+-- The Cashflow Insights product discriminator.
+data E'Product2
+  = E'Product2'Cra_cashflow_insights -- ^ @"cra_cashflow_insights"@
+  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
+
+instance A.ToJSON E'Product2 where toJSON = A.toJSON . fromE'Product2
+instance A.FromJSON E'Product2 where parseJSON o = P.either P.fail (pure . P.id) . toE'Product2 =<< A.parseJSON o
+instance WH.ToHttpApiData E'Product2 where toQueryParam = WH.toQueryParam . fromE'Product2
+instance WH.FromHttpApiData E'Product2 where parseQueryParam o = WH.parseQueryParam o >>= P.left T.pack . toE'Product2
+instance MimeRender MimeMultipartFormData E'Product2 where mimeRender _ = mimeRenderDefaultMultipartFormData
+
+-- | unwrap 'E'Product2' enum
+fromE'Product2 :: E'Product2 -> Text
+fromE'Product2 = \case
+  E'Product2'Cra_cashflow_insights -> "cra_cashflow_insights"
+
+-- | parse 'E'Product2' enum
+toE'Product2 :: Text -> P.Either String E'Product2
+toE'Product2 = \case
+  "cra_cashflow_insights" -> P.Right E'Product2'Cra_cashflow_insights
+  s -> P.Left $ "toE'Product2: enum parse failure: " P.++ P.show s
+
+
+-- ** E'Product3
+
+-- | Enum of 'Text' .
+-- The Home Lending product discriminator.
+data E'Product3
+  = E'Product3'Cra_home_lending -- ^ @"cra_home_lending"@
+  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
+
+instance A.ToJSON E'Product3 where toJSON = A.toJSON . fromE'Product3
+instance A.FromJSON E'Product3 where parseJSON o = P.either P.fail (pure . P.id) . toE'Product3 =<< A.parseJSON o
+instance WH.ToHttpApiData E'Product3 where toQueryParam = WH.toQueryParam . fromE'Product3
+instance WH.FromHttpApiData E'Product3 where parseQueryParam o = WH.parseQueryParam o >>= P.left T.pack . toE'Product3
+instance MimeRender MimeMultipartFormData E'Product3 where mimeRender _ = mimeRenderDefaultMultipartFormData
+
+-- | unwrap 'E'Product3' enum
+fromE'Product3 :: E'Product3 -> Text
+fromE'Product3 = \case
+  E'Product3'Cra_home_lending -> "cra_home_lending"
+
+-- | parse 'E'Product3' enum
+toE'Product3 :: Text -> P.Either String E'Product3
+toE'Product3 = \case
+  "cra_home_lending" -> P.Right E'Product3'Cra_home_lending
+  s -> P.Left $ "toE'Product3: enum parse failure: " P.++ P.show s
+
+
+-- ** E'Product4
+
+-- | Enum of 'Text' .
+-- The Income Insights product discriminator.
+data E'Product4
+  = E'Product4'Cra_income_insights -- ^ @"cra_income_insights"@
+  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
+
+instance A.ToJSON E'Product4 where toJSON = A.toJSON . fromE'Product4
+instance A.FromJSON E'Product4 where parseJSON o = P.either P.fail (pure . P.id) . toE'Product4 =<< A.parseJSON o
+instance WH.ToHttpApiData E'Product4 where toQueryParam = WH.toQueryParam . fromE'Product4
+instance WH.FromHttpApiData E'Product4 where parseQueryParam o = WH.parseQueryParam o >>= P.left T.pack . toE'Product4
+instance MimeRender MimeMultipartFormData E'Product4 where mimeRender _ = mimeRenderDefaultMultipartFormData
+
+-- | unwrap 'E'Product4' enum
+fromE'Product4 :: E'Product4 -> Text
+fromE'Product4 = \case
+  E'Product4'Cra_income_insights -> "cra_income_insights"
+
+-- | parse 'E'Product4' enum
+toE'Product4 :: Text -> P.Either String E'Product4
+toE'Product4 = \case
+  "cra_income_insights" -> P.Right E'Product4'Cra_income_insights
+  s -> P.Left $ "toE'Product4: enum parse failure: " P.++ P.show s
+
+
+-- ** E'Product5
+
+-- | Enum of 'Text' .
+-- The LendScore product discriminator.
+data E'Product5
+  = E'Product5'Cra_lend_score -- ^ @"cra_lend_score"@
+  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
+
+instance A.ToJSON E'Product5 where toJSON = A.toJSON . fromE'Product5
+instance A.FromJSON E'Product5 where parseJSON o = P.either P.fail (pure . P.id) . toE'Product5 =<< A.parseJSON o
+instance WH.ToHttpApiData E'Product5 where toQueryParam = WH.toQueryParam . fromE'Product5
+instance WH.FromHttpApiData E'Product5 where parseQueryParam o = WH.parseQueryParam o >>= P.left T.pack . toE'Product5
+instance MimeRender MimeMultipartFormData E'Product5 where mimeRender _ = mimeRenderDefaultMultipartFormData
+
+-- | unwrap 'E'Product5' enum
+fromE'Product5 :: E'Product5 -> Text
+fromE'Product5 = \case
+  E'Product5'Cra_lend_score -> "cra_lend_score"
+
+-- | parse 'E'Product5' enum
+toE'Product5 :: Text -> P.Either String E'Product5
+toE'Product5 = \case
+  "cra_lend_score" -> P.Right E'Product5'Cra_lend_score
+  s -> P.Left $ "toE'Product5: enum parse failure: " P.++ P.show s
+
+
+-- ** E'Product6
+
+-- | Enum of 'Text' .
+-- The Network Insights product discriminator.
+data E'Product6
+  = E'Product6'Cra_network_insights -- ^ @"cra_network_insights"@
+  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
+
+instance A.ToJSON E'Product6 where toJSON = A.toJSON . fromE'Product6
+instance A.FromJSON E'Product6 where parseJSON o = P.either P.fail (pure . P.id) . toE'Product6 =<< A.parseJSON o
+instance WH.ToHttpApiData E'Product6 where toQueryParam = WH.toQueryParam . fromE'Product6
+instance WH.FromHttpApiData E'Product6 where parseQueryParam o = WH.parseQueryParam o >>= P.left T.pack . toE'Product6
+instance MimeRender MimeMultipartFormData E'Product6 where mimeRender _ = mimeRenderDefaultMultipartFormData
+
+-- | unwrap 'E'Product6' enum
+fromE'Product6 :: E'Product6 -> Text
+fromE'Product6 = \case
+  E'Product6'Cra_network_insights -> "cra_network_insights"
+
+-- | parse 'E'Product6' enum
+toE'Product6 :: Text -> P.Either String E'Product6
+toE'Product6 = \case
+  "cra_network_insights" -> P.Right E'Product6'Cra_network_insights
+  s -> P.Left $ "toE'Product6: enum parse failure: " P.++ P.show s
+
+
+-- ** E'Product7
+
+-- | Enum of 'Text' .
+-- The Qualify product discriminator.
+data E'Product7
+  = E'Product7'Cra_qualify -- ^ @"cra_qualify"@
+  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
+
+instance A.ToJSON E'Product7 where toJSON = A.toJSON . fromE'Product7
+instance A.FromJSON E'Product7 where parseJSON o = P.either P.fail (pure . P.id) . toE'Product7 =<< A.parseJSON o
+instance WH.ToHttpApiData E'Product7 where toQueryParam = WH.toQueryParam . fromE'Product7
+instance WH.FromHttpApiData E'Product7 where parseQueryParam o = WH.parseQueryParam o >>= P.left T.pack . toE'Product7
+instance MimeRender MimeMultipartFormData E'Product7 where mimeRender _ = mimeRenderDefaultMultipartFormData
+
+-- | unwrap 'E'Product7' enum
+fromE'Product7 :: E'Product7 -> Text
+fromE'Product7 = \case
+  E'Product7'Cra_qualify -> "cra_qualify"
+
+-- | parse 'E'Product7' enum
+toE'Product7 :: Text -> P.Either String E'Product7
+toE'Product7 = \case
+  "cra_qualify" -> P.Right E'Product7'Cra_qualify
+  s -> P.Left $ "toE'Product7: enum parse failure: " P.++ P.show s
 
 
