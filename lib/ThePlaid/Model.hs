@@ -7886,6 +7886,8 @@ data LinkTokenCreateRequest = LinkTokenCreateRequest
   , linkTokenCreateRequestUpdate :: !(Maybe LinkTokenCreateRequestUpdateDict) -- ^ "update" [Using update mode to request new accounts](https://plaid.com/docs/link/update-mode/#using-update-mode-to-request-new-accounts)
   , linkTokenCreateRequestAuth :: !(Maybe LinkTokenCreateRequestAuthOptions) -- ^ "auth" – Specifies options for initializing Link for use with the Auth product. This field can be used to enable or disable extended Auth flows for the resulting Link session. Omitting any field will result in a default that can be configured by your account manager.
   , linkTokenCreateRequestTransactions :: !(Maybe LinkTokenCreateRequestTransactionsOptions)
+  , linkTokenCreateRequestUserId :: !(Maybe Text) -- ^ "user_id" - A `user_id` generated using `/user/create`. Required for integrations that began using Plaid Protect, Multi-Item Link, or Plaid Check Consumer Report after December 10, 2025. One of either the `user_id` or the `user` field is required.
+  , linkTokenCreateRequestCraReportParameter :: !(Maybe LinkTokenCreateRequestCraReportParameter) -- ^ "cra_report_parameter" - Specifies the report parameters for Plaid Check products, mirroring the parameters accepted on `/cra/report/create`.
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON LinkTokenCreateRequest
@@ -7913,6 +7915,8 @@ instance A.FromJSON LinkTokenCreateRequest where
       <*> (o .:? "update")
       <*> (o .:? "auth")
       <*> (o .:? "transactions")
+      <*> (o .:? "user_id")
+      <*> (o .:? "cra_report_parameter")
 
 -- | ToJSON LinkTokenCreateRequest
 instance A.ToJSON LinkTokenCreateRequest where
@@ -7939,6 +7943,8 @@ instance A.ToJSON LinkTokenCreateRequest where
       , "update" .= linkTokenCreateRequestUpdate
       , "auth" .= linkTokenCreateRequestAuth
       , "transactions" .= linkTokenCreateRequestTransactions
+      , "user_id" .= linkTokenCreateRequestUserId
+      , "cra_report_parameter" .= linkTokenCreateRequestCraReportParameter
       ]
 
 
@@ -7972,6 +7978,8 @@ mkLinkTokenCreateRequest linkTokenCreateRequestClientName linkTokenCreateRequest
   , linkTokenCreateRequestUpdate = Nothing
   , linkTokenCreateRequestAuth = Nothing
   , linkTokenCreateRequestTransactions = Nothing
+  , linkTokenCreateRequestUserId = Nothing
+  , linkTokenCreateRequestCraReportParameter = Nothing
   }
 
 newtype LinkTokenCreateRequestTransactionsOptions = LinkTokenCreateRequestTransactionsOptions
@@ -7987,6 +7995,66 @@ instance A.ToJSON LinkTokenCreateRequestTransactionsOptions where
   toJSON LinkTokenCreateRequestTransactionsOptions {..} =
    _omitNulls
       [ "days_requested" .= daysRequested ]
+
+-- ** LinkTokenCreateRequestCraReportParameter
+-- | LinkTokenCreateRequestCraReportParameter
+-- Specifies the report parameters for Plaid Check products, mirroring the parameters accepted on `/cra/report/create`.
+data LinkTokenCreateRequestCraReportParameter = LinkTokenCreateRequestCraReportParameter
+  { linkTokenCreateRequestCraReportParameterScope :: !(CraReportScope) -- ^ /Required/ "scope" - Only `CLIENT_USER` is supported on `/link/token/create`; the report is generated from the Items the user links through your application.
+  , linkTokenCreateRequestCraReportParameterDecisionStage :: !(CraReportDecisionStage) -- ^ /Required/ "decision_stage" - The stage in the credit or other eligibility decisioning lifecycle for which a given report will be utilized.
+  , linkTokenCreateRequestCraReportParameterConsumerReportPermissiblePurpose :: !(ConsumerReportPermissiblePurpose) -- ^ /Required/ "consumer_report_permissible_purpose" - Describes the reason you are generating a Consumer Report for this user.
+  , linkTokenCreateRequestCraReportParameterProducts :: !([CraReportProduct]) -- ^ /Required/ "products" - The Plaid Check products, versions, and options to generate for the report.
+  , linkTokenCreateRequestCraReportParameterClientReportId :: !(Maybe Text) -- ^ "client_report_id" - Client-generated identifier, which can be used by lenders to track loan applications.
+  , linkTokenCreateRequestCraReportParameterDaysRequested :: !(Maybe Int) -- ^ "days_requested" - The number of days of history to include in Plaid Check products.
+  , linkTokenCreateRequestCraReportParameterDaysRequired :: !(Maybe Int) -- ^ "days_required" - The minimum number of days of data required for the report to be successfully generated.
+  , linkTokenCreateRequestCraReportParameterIncludeInvestments :: !(Maybe Bool) -- ^ "include_investments" - Indicates that investment data should be extracted from the linked account(s).
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON LinkTokenCreateRequestCraReportParameter
+instance A.FromJSON LinkTokenCreateRequestCraReportParameter where
+  parseJSON = A.withObject "LinkTokenCreateRequestCraReportParameter" $ \o ->
+    LinkTokenCreateRequestCraReportParameter
+      <$> (o .:  "scope")
+      <*> (o .:  "decision_stage")
+      <*> (o .:  "consumer_report_permissible_purpose")
+      <*> (o .:  "products")
+      <*> (o .:? "client_report_id")
+      <*> (o .:? "days_requested")
+      <*> (o .:? "days_required")
+      <*> (o .:? "include_investments")
+
+-- | ToJSON LinkTokenCreateRequestCraReportParameter
+instance A.ToJSON LinkTokenCreateRequestCraReportParameter where
+  toJSON LinkTokenCreateRequestCraReportParameter {..} =
+   _omitNulls
+      [ "scope" .= linkTokenCreateRequestCraReportParameterScope
+      , "decision_stage" .= linkTokenCreateRequestCraReportParameterDecisionStage
+      , "consumer_report_permissible_purpose" .= linkTokenCreateRequestCraReportParameterConsumerReportPermissiblePurpose
+      , "products" .= linkTokenCreateRequestCraReportParameterProducts
+      , "client_report_id" .= linkTokenCreateRequestCraReportParameterClientReportId
+      , "days_requested" .= linkTokenCreateRequestCraReportParameterDaysRequested
+      , "days_required" .= linkTokenCreateRequestCraReportParameterDaysRequired
+      , "include_investments" .= linkTokenCreateRequestCraReportParameterIncludeInvestments
+      ]
+
+-- | Construct a value of type 'LinkTokenCreateRequestCraReportParameter' (by applying it's required fields, if any)
+mkLinkTokenCreateRequestCraReportParameter
+  :: CraReportScope -- ^ 'linkTokenCreateRequestCraReportParameterScope'
+  -> CraReportDecisionStage -- ^ 'linkTokenCreateRequestCraReportParameterDecisionStage'
+  -> ConsumerReportPermissiblePurpose -- ^ 'linkTokenCreateRequestCraReportParameterConsumerReportPermissiblePurpose'
+  -> [CraReportProduct] -- ^ 'linkTokenCreateRequestCraReportParameterProducts'
+  -> LinkTokenCreateRequestCraReportParameter
+mkLinkTokenCreateRequestCraReportParameter linkTokenCreateRequestCraReportParameterScope linkTokenCreateRequestCraReportParameterDecisionStage linkTokenCreateRequestCraReportParameterConsumerReportPermissiblePurpose linkTokenCreateRequestCraReportParameterProducts =
+  LinkTokenCreateRequestCraReportParameter
+  { linkTokenCreateRequestCraReportParameterScope
+  , linkTokenCreateRequestCraReportParameterDecisionStage
+  , linkTokenCreateRequestCraReportParameterConsumerReportPermissiblePurpose
+  , linkTokenCreateRequestCraReportParameterProducts
+  , linkTokenCreateRequestCraReportParameterClientReportId = Nothing
+  , linkTokenCreateRequestCraReportParameterDaysRequested = Nothing
+  , linkTokenCreateRequestCraReportParameterDaysRequired = Nothing
+  , linkTokenCreateRequestCraReportParameterIncludeInvestments = Nothing
+  }
 
 data LinkTokenCreateRequestAuthOptions = 
   LinkTokenCreateRequestAuthOptions

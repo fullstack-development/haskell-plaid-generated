@@ -4374,6 +4374,16 @@ linkTokenCreateRequestAccessTokenL :: Lens_' LinkTokenCreateRequest (Maybe Acces
 linkTokenCreateRequestAccessTokenL f LinkTokenCreateRequest{..} = (\linkTokenCreateRequestAccessToken -> LinkTokenCreateRequest { linkTokenCreateRequestAccessToken, ..} ) <$> f linkTokenCreateRequestAccessToken
 {-# INLINE linkTokenCreateRequestAccessTokenL #-}
 
+-- | 'linkTokenCreateRequestUserId' Lens
+linkTokenCreateRequestUserIdL :: Lens_' LinkTokenCreateRequest (Maybe Text)
+linkTokenCreateRequestUserIdL f LinkTokenCreateRequest{..} = (\linkTokenCreateRequestUserId -> LinkTokenCreateRequest { linkTokenCreateRequestUserId, ..} ) <$> f linkTokenCreateRequestUserId
+{-# INLINE linkTokenCreateRequestUserIdL #-}
+
+-- | 'linkTokenCreateRequestCraReportParameter' Lens
+linkTokenCreateRequestCraReportParameterL :: Lens_' LinkTokenCreateRequest (Maybe LinkTokenCreateRequestCraReportParameter)
+linkTokenCreateRequestCraReportParameterL f LinkTokenCreateRequest{..} = (\linkTokenCreateRequestCraReportParameter -> LinkTokenCreateRequest { linkTokenCreateRequestCraReportParameter, ..} ) <$> f linkTokenCreateRequestCraReportParameter
+{-# INLINE linkTokenCreateRequestCraReportParameterL #-}
+
 -- | 'linkTokenCreateRequestLinkCustomizationName' Lens
 linkTokenCreateRequestLinkCustomizationNameL :: Lens_' LinkTokenCreateRequest (Maybe Text)
 linkTokenCreateRequestLinkCustomizationNameL f LinkTokenCreateRequest{..} = (\linkTokenCreateRequestLinkCustomizationName -> LinkTokenCreateRequest { linkTokenCreateRequestLinkCustomizationName, ..} ) <$> f linkTokenCreateRequestLinkCustomizationName
