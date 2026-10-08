@@ -18601,12 +18601,31 @@ data Products
   | Products'Income -- ^ @"income"@
   | Products'Deposit_switch -- ^ @"deposit_switch"@
   | Products'RecurringTransactions -- ^ @"recurring_transactions"@
+  | Products'Beacon -- ^ @"beacon"@
+  | Products'Employment -- ^ @"employment"@
+  | Products'Income_verification -- ^ @"income_verification"@
+  | Products'Identity_verification -- ^ @"identity_verification"@
+  | Products'Investments_auth -- ^ @"investments_auth"@
+  | Products'Protect_transactions -- ^ @"protect_transactions"@
+  | Products'Standing_orders -- ^ @"standing_orders"@
+  | Products'Signal -- ^ @"signal"@
+  | Products'Statements -- ^ @"statements"@
+  | Products'Transfer -- ^ @"transfer"@
+  | Products'Cra_base_report -- ^ @"cra_base_report"@
+  | Products'Cra_income_insights -- ^ @"cra_income_insights"@
+  | Products'Cra_cashflow_insights -- ^ @"cra_cashflow_insights"@
+  | Products'Cra_lend_score -- ^ @"cra_lend_score"@
+  | Products'Cra_partner_insights -- ^ @"cra_partner_insights"@
+  | Products'Cra_network_insights -- ^ @"cra_network_insights"@
+  | Products'Cra_monitoring -- ^ @"cra_monitoring"@
+  | Products'Layer -- ^ @"layer"@
+  | Products'Protect_linked_bank -- ^ @"protect_linked_bank"@
   | Products'UNKNOWN Text -- ^ asimuskov: Plaid could dynamically add new products. Exclude fails for such cases.
   deriving (P.Show, P.Eq, P.Typeable, P.Ord)
 
 instance P.Bounded Products where
   minBound = P.toEnum 0
-  maxBound = P.toEnum 12
+  maxBound = P.toEnum 31
 
 instance P.Enum Products where
   fromEnum = \case
@@ -18622,7 +18641,26 @@ instance P.Enum Products where
     Products'Income -> 9
     Products'Deposit_switch -> 10
     Products'RecurringTransactions -> 11
-    Products'UNKNOWN _ -> 12
+    Products'Beacon -> 12
+    Products'Employment -> 13
+    Products'Income_verification -> 14
+    Products'Identity_verification -> 15
+    Products'Investments_auth -> 16
+    Products'Protect_transactions -> 17
+    Products'Standing_orders -> 18
+    Products'Signal -> 19
+    Products'Statements -> 20
+    Products'Transfer -> 21
+    Products'Cra_base_report -> 22
+    Products'Cra_income_insights -> 23
+    Products'Cra_cashflow_insights -> 24
+    Products'Cra_lend_score -> 25
+    Products'Cra_partner_insights -> 26
+    Products'Cra_network_insights -> 27
+    Products'Cra_monitoring -> 28
+    Products'Layer -> 29
+    Products'Protect_linked_bank -> 30
+    Products'UNKNOWN _ -> 31
 
   toEnum = \case
     0 -> Products'Assets
@@ -18637,6 +18675,25 @@ instance P.Enum Products where
     9 -> Products'Income
     10 -> Products'Deposit_switch
     11 -> Products'RecurringTransactions 
+    12 -> Products'Beacon
+    13 -> Products'Employment
+    14 -> Products'Income_verification
+    15 -> Products'Identity_verification
+    16 -> Products'Investments_auth
+    17 -> Products'Protect_transactions
+    18 -> Products'Standing_orders
+    19 -> Products'Signal
+    20 -> Products'Statements
+    21 -> Products'Transfer
+    22 -> Products'Cra_base_report
+    23 -> Products'Cra_income_insights
+    24 -> Products'Cra_cashflow_insights
+    25 -> Products'Cra_lend_score
+    26 -> Products'Cra_partner_insights
+    27 -> Products'Cra_network_insights
+    28 -> Products'Cra_monitoring
+    29 -> Products'Layer
+    30 -> Products'Protect_linked_bank
     _ -> Products'UNKNOWN ""
 
 
@@ -18661,6 +18718,25 @@ fromProducts = \case
   Products'Income -> "income"
   Products'Deposit_switch -> "deposit_switch"
   Products'RecurringTransactions -> "recurring_transactions"
+  Products'Beacon -> "beacon"
+  Products'Employment -> "employment"
+  Products'Income_verification -> "income_verification"
+  Products'Identity_verification -> "identity_verification"
+  Products'Investments_auth -> "investments_auth"
+  Products'Protect_transactions -> "protect_transactions"
+  Products'Standing_orders -> "standing_orders"
+  Products'Signal -> "signal"
+  Products'Statements -> "statements"
+  Products'Transfer -> "transfer"
+  Products'Cra_base_report -> "cra_base_report"
+  Products'Cra_income_insights -> "cra_income_insights"
+  Products'Cra_cashflow_insights -> "cra_cashflow_insights"
+  Products'Cra_lend_score -> "cra_lend_score"
+  Products'Cra_partner_insights -> "cra_partner_insights"
+  Products'Cra_network_insights -> "cra_network_insights"
+  Products'Cra_monitoring -> "cra_monitoring"
+  Products'Layer -> "layer"
+  Products'Protect_linked_bank -> "protect_linked_bank"
   Products'UNKNOWN unknownProduct -> unknownProduct
 
 -- | parse 'Products' enum
@@ -18678,6 +18754,25 @@ toProducts = \case
   "income" -> P.Right Products'Income
   "deposit_switch" -> P.Right Products'Deposit_switch
   "recurring_transactions" -> P.Right Products'RecurringTransactions
+  "beacon" -> P.Right Products'Beacon
+  "employment" -> P.Right Products'Employment
+  "income_verification" -> P.Right Products'Income_verification
+  "identity_verification" -> P.Right Products'Identity_verification
+  "investments_auth" -> P.Right Products'Investments_auth
+  "protect_transactions" -> P.Right Products'Protect_transactions
+  "standing_orders" -> P.Right Products'Standing_orders
+  "signal" -> P.Right Products'Signal
+  "statements" -> P.Right Products'Statements
+  "transfer" -> P.Right Products'Transfer
+  "cra_base_report" -> P.Right Products'Cra_base_report
+  "cra_income_insights" -> P.Right Products'Cra_income_insights
+  "cra_cashflow_insights" -> P.Right Products'Cra_cashflow_insights
+  "cra_lend_score" -> P.Right Products'Cra_lend_score
+  "cra_partner_insights" -> P.Right Products'Cra_partner_insights
+  "cra_network_insights" -> P.Right Products'Cra_network_insights
+  "cra_monitoring" -> P.Right Products'Cra_monitoring
+  "layer" -> P.Right Products'Layer
+  "protect_linked_bank" -> P.Right Products'Protect_linked_bank
   unknownProduct -> P.Right (Products'UNKNOWN unknownProduct)
   
 
