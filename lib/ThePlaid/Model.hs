@@ -7873,6 +7873,7 @@ data LinkTokenCreateRequest = LinkTokenCreateRequest
   , linkTokenCreateRequestUser :: !(LinkTokenCreateRequestUser) -- ^ /Required/ "user"
   , linkTokenCreateRequestProducts :: !(Maybe [Products]) -- ^ "products" - List of Plaid product(s) you wish to use. If launching Link in update mode, should be omitted; required otherwise. Valid products are:  &#x60;transactions&#x60;, &#x60;auth&#x60;, &#x60;identity&#x60;, &#x60;assets&#x60;, &#x60;investments&#x60;, &#x60;liabilities&#x60;, &#x60;payment_initiation&#x60;, &#x60;deposit_switch&#x60;  Example: &#x60;[&#39;auth&#39;, &#39;transactions&#39;]&#x60;  &#x60;balance&#x60; is *not* a valid value, the Balance product does not require explicit initalization and will automatically be initialized when any other product is initialized.  Only institutions that support *all* requested products will be shown in Link; to maximize the number of institutions listed, it is recommended to initialize Link with the minimal product set required for your use case. Additional products can be added after Link initialization by calling the relevant endpoints. For details and exceptions, see [Choosing when to initialize products](/docs/link/best-practices/#choosing-when-to-initialize-products).  In Production, you will be billed for each product that you specify when initializing Link. Note that a product cannot be removed from an Item once the Item has been initialized with that product. To stop billing on an Item for subscription-based products, such as Liabilities, Investments, and Transactions, remove the Item via &#x60;/item/remove&#x60;.
   , linkTokenCreateRequestRequiredIfSupportedProducts :: !(Maybe [RequiredIfSupportedProducts]) -- ^ "required_if_supported_products" - List of Plaid product(s) you wish to use only if the institution and account(s) selected by the user support the product. Institutions that do not support these products will still be shown in Link. The products will only be extracted and billed if the user selects an institution and account type that supports them. There should be no overlap between products and required_if_supported_products. The products array must have at least one product. For more details on using this feature, see Required if Supported Products. https://plaid.com/docs/link/initializing-products/#required-if-supported-products  Possible values: auth, identity, investments, liabilities, transactions, statements
+  , linkTokenCreateRequestOptionalProducts :: !(Maybe [OptionalProducts]) -- ^ "optional_products" - List of Plaid product(s) you wish to use only if the institution and account(s) selected by the user support the product. Institutions that do not support these products will still be shown in Link. The products will only be extracted and billed if the user selects an institution and account type that supports them. There should be no overlap between this array and the products, required_if_supported_products, or additional_consented_products arrays. The products array must have at least one product.
   , linkTokenCreateRequestAdditionalConsentedProducts :: !(Maybe [AdditionalConsentedProducts]) -- ^ "additional_consented_products" - List of additional Plaid product(s) you wish to collect consent for to support your use case. These products will not be billed until you start using them by calling the relevant endpoints.
   , linkTokenCreateRequestWebhook :: !(Maybe Text) -- ^ "webhook" - The destination URL to which any webhooks should be sent.
   , linkTokenCreateRequestAccessToken :: !(Maybe AccessToken) -- ^ "access_token" - The &#x60;access_token&#x60; associated with the Item to update, used when updating or modifying an existing &#x60;access_token&#x60;. Used when launching Link in update mode, when completing the Same-day (manual) Micro-deposit flow, or (optionally) when initializing Link as part of the Payment Initiation (UK and Europe) flow.
@@ -7902,6 +7903,7 @@ instance A.FromJSON LinkTokenCreateRequest where
       <*> (o .:  "user")
       <*> (o .:? "products")
       <*> (o .:? "required_if_supported_products")
+      <*> (o .:? "optional_products")
       <*> (o .:? "additional_consented_products")
       <*> (o .:? "webhook")
       <*> (o .:? "access_token")
@@ -7930,6 +7932,7 @@ instance A.ToJSON LinkTokenCreateRequest where
       , "user" .= linkTokenCreateRequestUser
       , "products" .= linkTokenCreateRequestProducts
       , "required_if_supported_products" .= linkTokenCreateRequestRequiredIfSupportedProducts
+      , "optional_products" .= linkTokenCreateRequestOptionalProducts
       , "additional_consented_products" .= linkTokenCreateRequestAdditionalConsentedProducts
       , "webhook" .= linkTokenCreateRequestWebhook
       , "access_token" .= linkTokenCreateRequestAccessToken
@@ -7965,6 +7968,7 @@ mkLinkTokenCreateRequest linkTokenCreateRequestClientName linkTokenCreateRequest
   , linkTokenCreateRequestUser
   , linkTokenCreateRequestProducts = Nothing
   , linkTokenCreateRequestRequiredIfSupportedProducts = Nothing
+  , linkTokenCreateRequestOptionalProducts = Nothing
   , linkTokenCreateRequestAdditionalConsentedProducts = Nothing
   , linkTokenCreateRequestWebhook = Nothing
   , linkTokenCreateRequestAccessToken = Nothing
@@ -18840,6 +18844,113 @@ toRequiredIfSupportedProducts = \case
   "transactions" -> P.Right RequiredIfSupportedProducts'Transactions
   "statements" -> P.Right RequiredIfSupportedProducts'Statements
   unknownProduct -> P.Right (RequiredIfSupportedProducts'UNKNOWN unknownProduct)
+
+
+-- ** OptionalProducts
+
+-- | Enum of 'Text' .
+-- List of Plaid product(s) you wish to use only if the institution and account(s) selected by the user support the product. Institutions that do not support these products will still be shown in Link. The products will only be extracted and billed if the user selects an institution and account type that supports them.
+data OptionalProducts
+  = OptionalProducts'Auth -- ^ @"auth"@
+  | OptionalProducts'Identity -- ^ @"identity"@
+  | OptionalProducts'Investments -- ^ @"investments"@
+  | OptionalProducts'Liabilities -- ^ @"liabilities"@
+  | OptionalProducts'Signal -- ^ @"signal"@
+  | OptionalProducts'Statements -- ^ @"statements"@
+  | OptionalProducts'Transactions -- ^ @"transactions"@
+  | OptionalProducts'Cra_base_report -- ^ @"cra_base_report"@
+  | OptionalProducts'Cra_income_insights -- ^ @"cra_income_insights"@
+  | OptionalProducts'Cra_cashflow_insights -- ^ @"cra_cashflow_insights"@
+  | OptionalProducts'Cra_lend_score -- ^ @"cra_lend_score"@
+  | OptionalProducts'Cra_partner_insights -- ^ @"cra_partner_insights"@
+  | OptionalProducts'Cra_network_insights -- ^ @"cra_network_insights"@
+  | OptionalProducts'Cra_monitoring -- ^ @"cra_monitoring"@
+  | OptionalProducts'UNKNOWN Text -- ^ Plaid could dynamically add new OptionalProducts. Exclude fails for such cases.
+  deriving (P.Show, P.Eq, P.Typeable, P.Ord)
+
+instance P.Bounded OptionalProducts where
+  minBound = P.toEnum 0
+  maxBound = P.toEnum 14
+
+instance P.Enum OptionalProducts where
+  fromEnum = \case
+    OptionalProducts'Auth -> 0
+    OptionalProducts'Identity -> 1
+    OptionalProducts'Investments -> 2
+    OptionalProducts'Liabilities -> 3
+    OptionalProducts'Signal -> 4
+    OptionalProducts'Statements -> 5
+    OptionalProducts'Transactions -> 6
+    OptionalProducts'Cra_base_report -> 7
+    OptionalProducts'Cra_income_insights -> 8
+    OptionalProducts'Cra_cashflow_insights -> 9
+    OptionalProducts'Cra_lend_score -> 10
+    OptionalProducts'Cra_partner_insights -> 11
+    OptionalProducts'Cra_network_insights -> 12
+    OptionalProducts'Cra_monitoring -> 13
+    OptionalProducts'UNKNOWN _ -> 14
+
+  toEnum = \case
+    0 -> OptionalProducts'Auth
+    1 -> OptionalProducts'Identity
+    2 -> OptionalProducts'Investments
+    3 -> OptionalProducts'Liabilities
+    4 -> OptionalProducts'Signal
+    5 -> OptionalProducts'Statements
+    6 -> OptionalProducts'Transactions
+    7 -> OptionalProducts'Cra_base_report
+    8 -> OptionalProducts'Cra_income_insights
+    9 -> OptionalProducts'Cra_cashflow_insights
+    10 -> OptionalProducts'Cra_lend_score
+    11 -> OptionalProducts'Cra_partner_insights
+    12 -> OptionalProducts'Cra_network_insights
+    13 -> OptionalProducts'Cra_monitoring
+    _ -> OptionalProducts'UNKNOWN ""
+
+
+instance A.ToJSON OptionalProducts where toJSON = A.toJSON . fromOptionalProducts
+instance A.FromJSON OptionalProducts where parseJSON o = P.either P.fail (pure . P.id) . toOptionalProducts =<< A.parseJSON o
+instance WH.ToHttpApiData OptionalProducts where toQueryParam = WH.toQueryParam . fromOptionalProducts
+instance WH.FromHttpApiData OptionalProducts where parseQueryParam o = WH.parseQueryParam o >>= P.left T.pack . toOptionalProducts
+instance MimeRender MimeMultipartFormData OptionalProducts where mimeRender _ = mimeRenderDefaultMultipartFormData
+
+-- | unwrap 'OptionalProducts' enum
+fromOptionalProducts :: OptionalProducts -> Text
+fromOptionalProducts = \case
+  OptionalProducts'Auth -> "auth"
+  OptionalProducts'Identity -> "identity"
+  OptionalProducts'Investments -> "investments"
+  OptionalProducts'Liabilities -> "liabilities"
+  OptionalProducts'Signal -> "signal"
+  OptionalProducts'Statements -> "statements"
+  OptionalProducts'Transactions -> "transactions"
+  OptionalProducts'Cra_base_report -> "cra_base_report"
+  OptionalProducts'Cra_income_insights -> "cra_income_insights"
+  OptionalProducts'Cra_cashflow_insights -> "cra_cashflow_insights"
+  OptionalProducts'Cra_lend_score -> "cra_lend_score"
+  OptionalProducts'Cra_partner_insights -> "cra_partner_insights"
+  OptionalProducts'Cra_network_insights -> "cra_network_insights"
+  OptionalProducts'Cra_monitoring -> "cra_monitoring"
+  OptionalProducts'UNKNOWN unknownOptionalProduct -> unknownOptionalProduct
+
+-- | parse 'OptionalProducts' enum
+toOptionalProducts :: Text -> P.Either String OptionalProducts
+toOptionalProducts = \case
+  "auth" -> P.Right OptionalProducts'Auth
+  "identity" -> P.Right OptionalProducts'Identity
+  "investments" -> P.Right OptionalProducts'Investments
+  "liabilities" -> P.Right OptionalProducts'Liabilities
+  "signal" -> P.Right OptionalProducts'Signal
+  "statements" -> P.Right OptionalProducts'Statements
+  "transactions" -> P.Right OptionalProducts'Transactions
+  "cra_base_report" -> P.Right OptionalProducts'Cra_base_report
+  "cra_income_insights" -> P.Right OptionalProducts'Cra_income_insights
+  "cra_cashflow_insights" -> P.Right OptionalProducts'Cra_cashflow_insights
+  "cra_lend_score" -> P.Right OptionalProducts'Cra_lend_score
+  "cra_partner_insights" -> P.Right OptionalProducts'Cra_partner_insights
+  "cra_network_insights" -> P.Right OptionalProducts'Cra_network_insights
+  "cra_monitoring" -> P.Right OptionalProducts'Cra_monitoring
+  unknownOptionalProduct -> P.Right (OptionalProducts'UNKNOWN unknownOptionalProduct)
 
 
 -- ** AdditionalConsentedProducts

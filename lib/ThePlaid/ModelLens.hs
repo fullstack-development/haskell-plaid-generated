@@ -4354,6 +4354,11 @@ linkTokenCreateRequestRequiredIfSupportedProductsL :: Lens_' LinkTokenCreateRequ
 linkTokenCreateRequestRequiredIfSupportedProductsL f LinkTokenCreateRequest{..} = (\linkTokenCreateRequestRequiredIfSupportedProducts -> LinkTokenCreateRequest { linkTokenCreateRequestRequiredIfSupportedProducts, ..} ) <$> f linkTokenCreateRequestRequiredIfSupportedProducts
 {-# INLINE linkTokenCreateRequestRequiredIfSupportedProductsL #-}
 
+-- | 'linkTokenCreateRequestOptionalProducts' Lens
+linkTokenCreateRequestOptionalProductsL :: Lens_' LinkTokenCreateRequest (Maybe [OptionalProducts])
+linkTokenCreateRequestOptionalProductsL f LinkTokenCreateRequest{..} = (\linkTokenCreateRequestOptionalProducts -> LinkTokenCreateRequest { linkTokenCreateRequestOptionalProducts, ..} ) <$> f linkTokenCreateRequestOptionalProducts
+{-# INLINE linkTokenCreateRequestOptionalProductsL #-}
+
 -- | 'linkTokenCreateAdditionalConsentedProducts' Lens
 linkTokenCreateRequestAdditionalConsentedProductsL :: Lens_' LinkTokenCreateRequest (Maybe [AdditionalConsentedProducts])
 linkTokenCreateRequestAdditionalConsentedProductsL f LinkTokenCreateRequest{..} = (\linkTokenCreateRequestAdditionalConsentedProducts -> LinkTokenCreateRequest { linkTokenCreateRequestAdditionalConsentedProducts, ..} ) <$> f linkTokenCreateRequestAdditionalConsentedProducts
