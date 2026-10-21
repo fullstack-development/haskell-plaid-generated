@@ -4389,6 +4389,11 @@ linkTokenCreateRequestCraReportParameterL :: Lens_' LinkTokenCreateRequest (Mayb
 linkTokenCreateRequestCraReportParameterL f LinkTokenCreateRequest{..} = (\linkTokenCreateRequestCraReportParameter -> LinkTokenCreateRequest { linkTokenCreateRequestCraReportParameter, ..} ) <$> f linkTokenCreateRequestCraReportParameter
 {-# INLINE linkTokenCreateRequestCraReportParameterL #-}
 
+-- | 'linkTokenCreateRequestConsumerReportPermissiblePurpose' Lens
+linkTokenCreateRequestConsumerReportPermissiblePurposeL :: Lens_' LinkTokenCreateRequest (Maybe ConsumerReportPermissiblePurpose)
+linkTokenCreateRequestConsumerReportPermissiblePurposeL f LinkTokenCreateRequest{..} = (\linkTokenCreateRequestConsumerReportPermissiblePurpose -> LinkTokenCreateRequest { linkTokenCreateRequestConsumerReportPermissiblePurpose, ..} ) <$> f linkTokenCreateRequestConsumerReportPermissiblePurpose
+{-# INLINE linkTokenCreateRequestConsumerReportPermissiblePurposeL #-}
+
 -- | 'linkTokenCreateRequestLinkCustomizationName' Lens
 linkTokenCreateRequestLinkCustomizationNameL :: Lens_' LinkTokenCreateRequest (Maybe Text)
 linkTokenCreateRequestLinkCustomizationNameL f LinkTokenCreateRequest{..} = (\linkTokenCreateRequestLinkCustomizationName -> LinkTokenCreateRequest { linkTokenCreateRequestLinkCustomizationName, ..} ) <$> f linkTokenCreateRequestLinkCustomizationName

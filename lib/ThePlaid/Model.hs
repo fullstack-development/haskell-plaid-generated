@@ -7889,6 +7889,7 @@ data LinkTokenCreateRequest = LinkTokenCreateRequest
   , linkTokenCreateRequestTransactions :: !(Maybe LinkTokenCreateRequestTransactionsOptions)
   , linkTokenCreateRequestUserId :: !(Maybe Text) -- ^ "user_id" - A `user_id` generated using `/user/create`. Required for integrations that began using Plaid Protect, Multi-Item Link, or Plaid Check Consumer Report after December 10, 2025. One of either the `user_id` or the `user` field is required.
   , linkTokenCreateRequestCraReportParameter :: !(Maybe LinkTokenCreateRequestCraReportParameter) -- ^ "cra_report_parameter" - Specifies the report parameters for Plaid Check products, mirroring the parameters accepted on `/cra/report/create`.
+  , linkTokenCreateRequestConsumerReportPermissiblePurpose :: !(Maybe ConsumerReportPermissiblePurpose) -- ^ "consumer_report_permissible_purpose" - Describes the reason you are generating a Consumer Report for this user. Required when using Plaid Check (CRA) products; invalid otherwise.
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON LinkTokenCreateRequest
@@ -7919,6 +7920,7 @@ instance A.FromJSON LinkTokenCreateRequest where
       <*> (o .:? "transactions")
       <*> (o .:? "user_id")
       <*> (o .:? "cra_report_parameter")
+      <*> (o .:? "consumer_report_permissible_purpose")
 
 -- | ToJSON LinkTokenCreateRequest
 instance A.ToJSON LinkTokenCreateRequest where
@@ -7948,6 +7950,7 @@ instance A.ToJSON LinkTokenCreateRequest where
       , "transactions" .= linkTokenCreateRequestTransactions
       , "user_id" .= linkTokenCreateRequestUserId
       , "cra_report_parameter" .= linkTokenCreateRequestCraReportParameter
+      , "consumer_report_permissible_purpose" .= linkTokenCreateRequestConsumerReportPermissiblePurpose
       ]
 
 
@@ -7984,6 +7987,7 @@ mkLinkTokenCreateRequest linkTokenCreateRequestClientName linkTokenCreateRequest
   , linkTokenCreateRequestTransactions = Nothing
   , linkTokenCreateRequestUserId = Nothing
   , linkTokenCreateRequestCraReportParameter = Nothing
+  , linkTokenCreateRequestConsumerReportPermissiblePurpose = Nothing
   }
 
 newtype LinkTokenCreateRequestTransactionsOptions = LinkTokenCreateRequestTransactionsOptions
@@ -8006,7 +8010,6 @@ instance A.ToJSON LinkTokenCreateRequestTransactionsOptions where
 data LinkTokenCreateRequestCraReportParameter = LinkTokenCreateRequestCraReportParameter
   { linkTokenCreateRequestCraReportParameterScope :: !(CraReportScope) -- ^ /Required/ "scope" - Only `CLIENT_USER` is supported on `/link/token/create`; the report is generated from the Items the user links through your application.
   , linkTokenCreateRequestCraReportParameterDecisionStage :: !(CraReportDecisionStage) -- ^ /Required/ "decision_stage" - The stage in the credit or other eligibility decisioning lifecycle for which a given report will be utilized.
-  , linkTokenCreateRequestCraReportParameterConsumerReportPermissiblePurpose :: !(ConsumerReportPermissiblePurpose) -- ^ /Required/ "consumer_report_permissible_purpose" - Describes the reason you are generating a Consumer Report for this user.
   , linkTokenCreateRequestCraReportParameterProducts :: !([CraReportProduct]) -- ^ /Required/ "products" - The Plaid Check products, versions, and options to generate for the report.
   , linkTokenCreateRequestCraReportParameterClientReportId :: !(Maybe Text) -- ^ "client_report_id" - Client-generated identifier, which can be used by lenders to track loan applications.
   , linkTokenCreateRequestCraReportParameterDaysRequested :: !(Maybe Int) -- ^ "days_requested" - The number of days of history to include in Plaid Check products.
@@ -8020,7 +8023,6 @@ instance A.FromJSON LinkTokenCreateRequestCraReportParameter where
     LinkTokenCreateRequestCraReportParameter
       <$> (o .:  "scope")
       <*> (o .:  "decision_stage")
-      <*> (o .:  "consumer_report_permissible_purpose")
       <*> (o .:  "products")
       <*> (o .:? "client_report_id")
       <*> (o .:? "days_requested")
@@ -8033,7 +8035,6 @@ instance A.ToJSON LinkTokenCreateRequestCraReportParameter where
    _omitNulls
       [ "scope" .= linkTokenCreateRequestCraReportParameterScope
       , "decision_stage" .= linkTokenCreateRequestCraReportParameterDecisionStage
-      , "consumer_report_permissible_purpose" .= linkTokenCreateRequestCraReportParameterConsumerReportPermissiblePurpose
       , "products" .= linkTokenCreateRequestCraReportParameterProducts
       , "client_report_id" .= linkTokenCreateRequestCraReportParameterClientReportId
       , "days_requested" .= linkTokenCreateRequestCraReportParameterDaysRequested
@@ -8045,14 +8046,12 @@ instance A.ToJSON LinkTokenCreateRequestCraReportParameter where
 mkLinkTokenCreateRequestCraReportParameter
   :: CraReportScope -- ^ 'linkTokenCreateRequestCraReportParameterScope'
   -> CraReportDecisionStage -- ^ 'linkTokenCreateRequestCraReportParameterDecisionStage'
-  -> ConsumerReportPermissiblePurpose -- ^ 'linkTokenCreateRequestCraReportParameterConsumerReportPermissiblePurpose'
   -> [CraReportProduct] -- ^ 'linkTokenCreateRequestCraReportParameterProducts'
   -> LinkTokenCreateRequestCraReportParameter
-mkLinkTokenCreateRequestCraReportParameter linkTokenCreateRequestCraReportParameterScope linkTokenCreateRequestCraReportParameterDecisionStage linkTokenCreateRequestCraReportParameterConsumerReportPermissiblePurpose linkTokenCreateRequestCraReportParameterProducts =
+mkLinkTokenCreateRequestCraReportParameter linkTokenCreateRequestCraReportParameterScope linkTokenCreateRequestCraReportParameterDecisionStage linkTokenCreateRequestCraReportParameterProducts =
   LinkTokenCreateRequestCraReportParameter
   { linkTokenCreateRequestCraReportParameterScope
   , linkTokenCreateRequestCraReportParameterDecisionStage
-  , linkTokenCreateRequestCraReportParameterConsumerReportPermissiblePurpose
   , linkTokenCreateRequestCraReportParameterProducts
   , linkTokenCreateRequestCraReportParameterClientReportId = Nothing
   , linkTokenCreateRequestCraReportParameterDaysRequested = Nothing
