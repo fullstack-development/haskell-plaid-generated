@@ -21201,6 +21201,65 @@ mkCraReportGetIncomeInsightsStream craReportGetIncomeInsightsStreamEndDate craRe
   , craReportGetIncomeInsightsStreamStartDate
   }
 
+-- ** CraReportGetLendScoreScore
+-- | CraReportGetLendScoreScore
+-- A single LendScore variant result returned by `/cra/report/get`.
+data CraReportGetLendScoreScore = CraReportGetLendScoreScore
+  { craReportGetLendScoreScoreErrorCode :: !(Maybe Text) -- ^ "error_code" - Set when this variant failed to generate.
+  , craReportGetLendScoreScoreReasonCodes :: !([Text]) -- ^ /Required/ "reason_codes" - Reason codes explaining the score.
+  , craReportGetLendScoreScoreScore :: !(Maybe Int) -- ^ "score" - The LendScore value. May be `null` when the variant failed to generate.
+  , craReportGetLendScoreScoreVariant :: !(Text) -- ^ /Required/ "variant" - The LendScore model variant, e.g. `GENERALIST`.
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON CraReportGetLendScoreScore
+instance A.FromJSON CraReportGetLendScoreScore where
+  parseJSON = A.withObject "CraReportGetLendScoreScore" $ \o ->
+    CraReportGetLendScoreScore
+      <$> (o .:? "error_code")
+      <*> (o .:  "reason_codes")
+      <*> (o .:? "score")
+      <*> (o .:  "variant")
+
+-- | ToJSON CraReportGetLendScoreScore
+instance A.ToJSON CraReportGetLendScoreScore where
+  toJSON CraReportGetLendScoreScore {..} =
+   _omitNulls
+      [ "error_code" .= craReportGetLendScoreScoreErrorCode
+      , "reason_codes" .= craReportGetLendScoreScoreReasonCodes
+      , "score" .= craReportGetLendScoreScoreScore
+      , "variant" .= craReportGetLendScoreScoreVariant
+      ]
+
+-- ** CraReportGetLendScoreResponseProduct
+-- | CraReportGetLendScoreResponseProduct
+-- LendScore data returned by `/cra/report/get`.
+data CraReportGetLendScoreResponseProduct = CraReportGetLendScoreResponseProduct
+  { craReportGetLendScoreResponseProductErrors :: !([PlaidError]) -- ^ /Required/ "errors" - Product-level errors. Non-empty when this product failed to generate; empty on success.
+  , craReportGetLendScoreResponseProductMetadata :: !((Map.Map String A.Value)) -- ^ /Required/ "metadata" - A map of product report metadata.
+  , craReportGetLendScoreResponseProductScores :: !([CraReportGetLendScoreScore]) -- ^ /Required/ "scores" - The LendScore results, one per requested variant.
+  , craReportGetLendScoreResponseProductVersion :: !(Text) -- ^ /Required/ "version" - A string that specifies a particular version of a CRA product.
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON CraReportGetLendScoreResponseProduct
+instance A.FromJSON CraReportGetLendScoreResponseProduct where
+  parseJSON = A.withObject "CraReportGetLendScoreResponseProduct" $ \o ->
+    CraReportGetLendScoreResponseProduct
+      <$> (o .:  "errors")
+      <*> (o .:  "metadata")
+      <*> (o .:  "scores")
+      <*> (o .:  "version")
+
+-- | ToJSON CraReportGetLendScoreResponseProduct
+instance A.ToJSON CraReportGetLendScoreResponseProduct where
+  toJSON CraReportGetLendScoreResponseProduct {..} =
+   _omitNulls
+      [ "product" .= ("cra_lend_score" :: Text)
+      , "errors" .= craReportGetLendScoreResponseProductErrors
+      , "metadata" .= craReportGetLendScoreResponseProductMetadata
+      , "scores" .= craReportGetLendScoreResponseProductScores
+      , "version" .= craReportGetLendScoreResponseProductVersion
+      ]
+
 -- ** CraReportGetProductBaseMetadata
 -- | CraReportGetProductBaseMetadata
 -- CraReportGetProductBaseMetadata
@@ -21512,6 +21571,7 @@ data CraReportGetResponseProduct
   = CraReportGetResponseProductHomeLending CraReportGetHomeLendingResponseProduct
   | CraReportGetResponseProductIncomeInsights CraReportGetIncomeInsightsResponseProduct
   | CraReportGetResponseProductQualify CraReportGetQualifyResponseProduct
+  | CraReportGetResponseProductLendScore CraReportGetLendScoreResponseProduct
   deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON CraReportGetResponseProduct
@@ -21522,6 +21582,7 @@ instance A.FromJSON CraReportGetResponseProduct where
       "cra_home_lending" -> CraReportGetResponseProductHomeLending <$> A.parseJSON v
       "cra_income_insights" -> CraReportGetResponseProductIncomeInsights <$> A.parseJSON v
       "cra_qualify" -> CraReportGetResponseProductQualify <$> A.parseJSON v
+      "cra_lend_score" -> CraReportGetResponseProductLendScore <$> A.parseJSON v
       other -> P.fail ("Unknown CraReportGetResponseProduct product: " <> T.unpack other)
     ) v
 
@@ -21530,6 +21591,7 @@ instance A.ToJSON CraReportGetResponseProduct where
   toJSON (CraReportGetResponseProductHomeLending x) = A.toJSON x
   toJSON (CraReportGetResponseProductIncomeInsights x) = A.toJSON x
   toJSON (CraReportGetResponseProductQualify x) = A.toJSON x
+  toJSON (CraReportGetResponseProductLendScore x) = A.toJSON x
 
 -- ** CraReportProduct
 -- | CraReportProduct
@@ -21970,6 +22032,7 @@ toE'Product5 = \case
 -- The Network Insights product discriminator.
 data E'Product6
   = E'Product6'Cra_network_insights -- ^ @"cra_network_insights"@
+  | E'Product6'Cra_lend_score -- ^ @"cra_lend_score"@
   deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
 
 instance A.ToJSON E'Product6 where toJSON = A.toJSON . fromE'Product6
@@ -21982,11 +22045,13 @@ instance MimeRender MimeMultipartFormData E'Product6 where mimeRender _ = mimeRe
 fromE'Product6 :: E'Product6 -> Text
 fromE'Product6 = \case
   E'Product6'Cra_network_insights -> "cra_network_insights"
+  E'Product6'Cra_lend_score -> "cra_lend_score"
 
 -- | parse 'E'Product6' enum
 toE'Product6 :: Text -> P.Either String E'Product6
 toE'Product6 = \case
   "cra_network_insights" -> P.Right E'Product6'Cra_network_insights
+  "cra_lend_score" -> P.Right E'Product6'Cra_lend_score
   s -> P.Left $ "toE'Product6: enum parse failure: " P.++ P.show s
 
 
