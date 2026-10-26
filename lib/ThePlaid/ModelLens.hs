@@ -9168,6 +9168,36 @@ userCreateResponseUserTokenL :: Lens_' UserCreateResponse (Maybe Text)
 userCreateResponseUserTokenL f UserCreateResponse{..} = (\userCreateResponseUserToken -> UserCreateResponse { userCreateResponseUserToken, ..} ) <$> f userCreateResponseUserToken
 {-# INLINE userCreateResponseUserTokenL #-}
 
+-- * UserUpdateRequest
+
+-- | 'userUpdateRequestClientId' Lens
+userUpdateRequestClientIdL :: Lens_' UserUpdateRequest (Maybe Text)
+userUpdateRequestClientIdL f UserUpdateRequest{..} = (\userUpdateRequestClientId -> UserUpdateRequest { userUpdateRequestClientId, ..} ) <$> f userUpdateRequestClientId
+{-# INLINE userUpdateRequestClientIdL #-}
+
+-- | 'userUpdateRequestIdentity' Lens
+userUpdateRequestIdentityL :: Lens_' UserUpdateRequest (Maybe ClientUserIdentity)
+userUpdateRequestIdentityL f UserUpdateRequest{..} = (\userUpdateRequestIdentity -> UserUpdateRequest { userUpdateRequestIdentity, ..} ) <$> f userUpdateRequestIdentity
+{-# INLINE userUpdateRequestIdentityL #-}
+
+-- | 'userUpdateRequestSecret' Lens
+userUpdateRequestSecretL :: Lens_' UserUpdateRequest (Maybe Text)
+userUpdateRequestSecretL f UserUpdateRequest{..} = (\userUpdateRequestSecret -> UserUpdateRequest { userUpdateRequestSecret, ..} ) <$> f userUpdateRequestSecret
+{-# INLINE userUpdateRequestSecretL #-}
+
+-- | 'userUpdateRequestUserId' Lens
+userUpdateRequestUserIdL :: Lens_' UserUpdateRequest (Text)
+userUpdateRequestUserIdL f UserUpdateRequest{..} = (\userUpdateRequestUserId -> UserUpdateRequest { userUpdateRequestUserId, ..} ) <$> f userUpdateRequestUserId
+{-# INLINE userUpdateRequestUserIdL #-}
+
+-- * UserUpdateResponse
+
+-- | 'userUpdateResponseRequestId' Lens
+userUpdateResponseRequestIdL :: Lens_' UserUpdateResponse (Text)
+userUpdateResponseRequestIdL f UserUpdateResponse{..} = (\userUpdateResponseRequestId -> UserUpdateResponse { userUpdateResponseRequestId, ..} ) <$> f userUpdateResponseRequestId
+{-# INLINE userUpdateResponseRequestIdL #-}
+
+
 
 
 -- * UserIDNumber

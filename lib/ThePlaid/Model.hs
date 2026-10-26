@@ -16007,6 +16007,78 @@ mkUserCreateResponse userCreateResponseRequestId userCreateResponseUserId =
   , userCreateResponseUserToken = Nothing
   }
 
+-- ** UserUpdateRequest
+-- | UserUpdateRequest
+-- UserUpdateRequest defines the request schema for `/user/update`
+data UserUpdateRequest = UserUpdateRequest
+  { userUpdateRequestClientId :: !(Maybe Text) -- ^ "client_id" - Your Plaid API &#x60;client_id&#x60;.
+  , userUpdateRequestIdentity :: !(Maybe ClientUserIdentity) -- ^ "identity"
+  , userUpdateRequestSecret :: !(Maybe Text) -- ^ "secret" - Your Plaid API &#x60;secret&#x60;.
+  , userUpdateRequestUserId :: !(Text) -- ^ /Required/ "user_id" - A unique user identifier, created by &#x60;/user/create&#x60;.
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON UserUpdateRequest
+instance A.FromJSON UserUpdateRequest where
+  parseJSON = A.withObject "UserUpdateRequest" $ \o ->
+    UserUpdateRequest
+      <$> (o .:? "client_id")
+      <*> (o .:? "identity")
+      <*> (o .:? "secret")
+      <*> (o .:  "user_id")
+
+-- | ToJSON UserUpdateRequest
+instance A.ToJSON UserUpdateRequest where
+  toJSON UserUpdateRequest {..} =
+   _omitNulls
+      [ "client_id" .= userUpdateRequestClientId
+      , "identity" .= userUpdateRequestIdentity
+      , "secret" .= userUpdateRequestSecret
+      , "user_id" .= userUpdateRequestUserId
+      ]
+
+
+-- | Construct a value of type 'UserUpdateRequest' (by applying it's required fields, if any)
+mkUserUpdateRequest
+  :: Text -- ^ 'userUpdateRequestUserId': A unique user identifier, created by `/user/create`.
+  -> UserUpdateRequest
+mkUserUpdateRequest userUpdateRequestUserId =
+  UserUpdateRequest
+  { userUpdateRequestClientId = Nothing
+  , userUpdateRequestIdentity = Nothing
+  , userUpdateRequestSecret = Nothing
+  , userUpdateRequestUserId
+  }
+
+-- ** UserUpdateResponse
+-- | UserUpdateResponse
+-- UserUpdateResponse defines the response schema for `/user/update`
+data UserUpdateResponse = UserUpdateResponse
+  { userUpdateResponseRequestId :: !(Text) -- ^ /Required/ "request_id" - A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive.
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON UserUpdateResponse
+instance A.FromJSON UserUpdateResponse where
+  parseJSON = A.withObject "UserUpdateResponse" $ \o ->
+    UserUpdateResponse
+      <$> (o .:  "request_id")
+
+-- | ToJSON UserUpdateResponse
+instance A.ToJSON UserUpdateResponse where
+  toJSON UserUpdateResponse {..} =
+   _omitNulls
+      [ "request_id" .= userUpdateResponseRequestId
+      ]
+
+
+-- | Construct a value of type 'UserUpdateResponse' (by applying it's required fields, if any)
+mkUserUpdateResponse
+  :: Text -- ^ 'userUpdateResponseRequestId': A unique identifier for the request, which can be used for troubleshooting. This identifier, like all Plaid identifiers, is case sensitive.
+  -> UserUpdateResponse
+mkUserUpdateResponse userUpdateResponseRequestId =
+  UserUpdateResponse
+  { userUpdateResponseRequestId
+  }
+
 -- ** UserIDNumber
 -- | UserIDNumber
 -- ID number submitted by the user, currently used only for the Identity Verification product. If the user has not submitted this data yet, this field will be `null`. Otherwise, both fields are guaranteed to be filled.

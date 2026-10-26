@@ -2341,6 +2341,37 @@ instance Consumes UserCreate MimeJSON
 instance Produces UserCreate MimeJSON
 
 
+-- *** userUpdate
+
+-- | @POST \/user\/update@
+-- 
+-- Update user information
+-- 
+-- This endpoint updates user information for an existing `user_id` or `user_token`. Identity updates use merge semantics: provided fields overwrite existing ones; omitted fields remain unchanged.
+-- 
+-- AuthMethod: 'AuthApiKeyClientId', 'AuthApiKeyPlaidVersion', 'AuthApiKeySecret'
+-- 
+userUpdate
+  :: (Consumes UserUpdate MimeJSON, MimeRender MimeJSON UserUpdateRequest)
+  => UserUpdateRequest -- ^ "userUpdateRequest"
+  -> ThePlaidRequest UserUpdate MimeJSON UserUpdateResponse MimeJSON
+userUpdate userUpdateRequest =
+  _mkRequest "POST" ["/user/update"]
+    `_hasAuthType` (P.Proxy :: P.Proxy AuthApiKeyClientId)
+    `_hasAuthType` (P.Proxy :: P.Proxy AuthApiKeyPlaidVersion)
+    `_hasAuthType` (P.Proxy :: P.Proxy AuthApiKeySecret)
+    `setBodyParam` userUpdateRequest
+
+data UserUpdate 
+instance HasBodyParam UserUpdate UserUpdateRequest 
+
+-- | @application/json@
+instance Consumes UserUpdate MimeJSON
+
+-- | @application/json@
+instance Produces UserUpdate MimeJSON
+
+
 -- *** craReportCreate
 
 -- | @POST \/cra\/report\/create@
