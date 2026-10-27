@@ -2183,3 +2183,254 @@ instance Consumes WebhookVerificationKeyGet MimeJSON
 -- | @application/json@
 instance Produces WebhookVerificationKeyGet MimeJSON
 
+-- *** craCheckReportPdfGet
+
+-- | @POST \/cra\/check_report\/pdf\/get@
+-- 
+-- Retrieve a Consumer Report as a PDF
+-- 
+-- `/cra/check_report/pdf/get` retrieves the most recent Consumer Report in PDF format. The most recent Base Report for the user is always included. Use the `add_ons` field to also include the most recent Income Insights, Partner Insights or LendScore report in the PDF.
+-- 
+-- AuthMethod: 'AuthApiKeyClientId', 'AuthApiKeyPlaidVersion', 'AuthApiKeySecret'
+-- 
+craCheckReportPdfGet
+  :: (Consumes CraCheckReportPdfGet MimeJSON, MimeRender MimeJSON CraCheckReportPDFGetRequest)
+  => Accept accept -- ^ request accept ('MimeType')
+  -> CraCheckReportPDFGetRequest -- ^ "craCheckReportPdfGetRequest"
+  -> ThePlaidRequest CraCheckReportPdfGet MimeJSON FilePath accept
+craCheckReportPdfGet  _ craCheckReportPdfGetRequest =
+  _mkRequest "POST" ["/cra/check_report/pdf/get"]
+    `_hasAuthType` (P.Proxy :: P.Proxy AuthApiKeyClientId)
+    `_hasAuthType` (P.Proxy :: P.Proxy AuthApiKeyPlaidVersion)
+    `_hasAuthType` (P.Proxy :: P.Proxy AuthApiKeySecret)
+    `setBodyParam` craCheckReportPdfGetRequest
+
+data CraCheckReportPdfGet 
+instance HasBodyParam CraCheckReportPdfGet CraCheckReportPDFGetRequest 
+
+-- | @application/json@
+instance Consumes CraCheckReportPdfGet MimeJSON
+
+-- | @application/octet-stream@
+instance Produces CraCheckReportPdfGet MimeOctetStream
+-- | @application/json@
+instance Produces CraCheckReportPdfGet MimeJSON
+
+
+-- *** signalDecisionReport
+
+-- | @POST \/signal\/decision\/report@
+-- 
+-- Report whether you initiated an ACH transaction
+-- 
+-- After you call `/signal/evaluate`, Plaid will normally infer the outcome from your Signal Rules. However, if you are not using Signal Rules, if the Signal Rules outcome was `REVIEW`, or if you take a different action than the one determined by the Signal Rules, you will need to call `/signal/decision/report`. This helps improve Signal Transaction Score accuracy for your account and is necessary for proper functioning of the rule performance and rule tuning capabilities in the Dashboard. If your effective decision changes after calling `/signal/decision/report` (for example, you indicated that you accepted a transaction, but later on, your payment processor rejected it, so it was never initiated), call `/signal/decision/report` again for the transaction to correct Plaid's records.  If you are using Plaid Transfer as your payment processor, you also do not need to call `/signal/decision/report`, as Plaid can infer outcomes from your Transfer activity.  If using a Balance-only ruleset, this endpoint will not impact scores (Balance does not use scores), but is necessary to view accurate transaction outcomes and tune rule logic in the Dashboard.
+-- 
+-- AuthMethod: 'AuthApiKeyClientId', 'AuthApiKeyPlaidVersion', 'AuthApiKeySecret'
+-- 
+signalDecisionReport
+  :: (Consumes SignalDecisionReport MimeJSON, MimeRender MimeJSON SignalDecisionReportRequest)
+  => SignalDecisionReportRequest -- ^ "signalDecisionReportRequest"
+  -> ThePlaidRequest SignalDecisionReport MimeJSON SignalDecisionReportResponse MimeJSON
+signalDecisionReport signalDecisionReportRequest =
+  _mkRequest "POST" ["/signal/decision/report"]
+    `_hasAuthType` (P.Proxy :: P.Proxy AuthApiKeyClientId)
+    `_hasAuthType` (P.Proxy :: P.Proxy AuthApiKeyPlaidVersion)
+    `_hasAuthType` (P.Proxy :: P.Proxy AuthApiKeySecret)
+    `setBodyParam` signalDecisionReportRequest
+
+data SignalDecisionReport 
+instance HasBodyParam SignalDecisionReport SignalDecisionReportRequest 
+
+-- | @application/json@
+instance Consumes SignalDecisionReport MimeJSON
+
+-- | @application/json@
+instance Produces SignalDecisionReport MimeJSON
+
+
+-- *** signalEvaluate
+
+-- | @POST \/signal\/evaluate@
+-- 
+-- Evaluate a planned ACH transaction
+-- 
+-- Use `/signal/evaluate` to evaluate a planned ACH transaction to get a return risk assessment and additional risk signals.  Before using `/signal/evaluate`, you must first [create a ruleset](https://plaid.com/docs/signal/signal-rules/) in the Dashboard under [**Signal->Rules**](https://dashboard.plaid.com/signal/risk-profiles).  `/signal/evaluate` can be used with either Signal Transaction Scores or the Balance product. Which product is used will be determined by the `ruleset_key` that you provide. For more details, see [Signal Rules](https://plaid.com/docs/signal/signal-rules/).  Note: This request may have higher latency when using a Balance-only ruleset. This is because Plaid must communicate directly with the institution to request data. Balance-only rulesets may have latency of up to 30 seconds or more; if you encounter errors, you may find it necessary to adjust your timeout period when making requests.
+-- 
+-- AuthMethod: 'AuthApiKeyClientId', 'AuthApiKeyPlaidVersion', 'AuthApiKeySecret'
+-- 
+signalEvaluate
+  :: (Consumes SignalEvaluate MimeJSON, MimeRender MimeJSON SignalEvaluateRequest)
+  => SignalEvaluateRequest -- ^ "signalEvaluateRequest"
+  -> ThePlaidRequest SignalEvaluate MimeJSON SignalEvaluateResponse MimeJSON
+signalEvaluate signalEvaluateRequest =
+  _mkRequest "POST" ["/signal/evaluate"]
+    `_hasAuthType` (P.Proxy :: P.Proxy AuthApiKeyClientId)
+    `_hasAuthType` (P.Proxy :: P.Proxy AuthApiKeyPlaidVersion)
+    `_hasAuthType` (P.Proxy :: P.Proxy AuthApiKeySecret)
+    `setBodyParam` signalEvaluateRequest
+
+data SignalEvaluate 
+instance HasBodyParam SignalEvaluate SignalEvaluateRequest 
+
+-- | @application/json@
+instance Consumes SignalEvaluate MimeJSON
+
+-- | @application/json@
+instance Produces SignalEvaluate MimeJSON
+
+
+-- *** signalReturnReport
+
+-- | @POST \/signal\/return\/report@
+-- 
+-- Report a return for an ACH transaction
+-- 
+-- Call the `/signal/return/report` endpoint to report a returned transaction that was previously sent to the `/signal/evaluate` endpoint. Your feedback will be used by the model to incorporate the latest risk trends into your scores and tune rule logic. If using a Balance-only ruleset, this endpoint will not impact scores (as Balance does not use scores), but is necessary to view accurate transaction outcomes and tune rule logic in the Dashboard.
+-- 
+-- AuthMethod: 'AuthApiKeyClientId', 'AuthApiKeyPlaidVersion', 'AuthApiKeySecret'
+-- 
+signalReturnReport
+  :: (Consumes SignalReturnReport MimeJSON, MimeRender MimeJSON SignalReturnReportRequest)
+  => SignalReturnReportRequest -- ^ "signalReturnReportRequest"
+  -> ThePlaidRequest SignalReturnReport MimeJSON SignalReturnReportResponse MimeJSON
+signalReturnReport signalReturnReportRequest =
+  _mkRequest "POST" ["/signal/return/report"]
+    `_hasAuthType` (P.Proxy :: P.Proxy AuthApiKeyClientId)
+    `_hasAuthType` (P.Proxy :: P.Proxy AuthApiKeyPlaidVersion)
+    `_hasAuthType` (P.Proxy :: P.Proxy AuthApiKeySecret)
+    `setBodyParam` signalReturnReportRequest
+
+data SignalReturnReport 
+instance HasBodyParam SignalReturnReport SignalReturnReportRequest 
+
+-- | @application/json@
+instance Consumes SignalReturnReport MimeJSON
+
+-- | @application/json@
+instance Produces SignalReturnReport MimeJSON
+
+
+-- *** userCreate
+
+-- | @POST \/user\/create@
+-- 
+-- Create user
+-- 
+-- For Plaid products and flows that use the user object, `/user/create` provides you a single token to access all data associated with the user. You must call this endpoint before calling `/link/token/create` if you are using any of the following: Plaid Check, Income Verification, Multi-Item Link, or Plaid Protect (Identity). If you are using Plaid Protect Link session scoring, you do not need to call `/user/create` first; Plaid will resolve or create the user when `user.client_user_id` is provided in `/link/token/create`. For customers who began using this endpoint on or after December 10, 2025, this endpoint takes a `client_user_id` and an `identity` object and will return a `user_id`. For customers who began using it before that date, the endpoint takes a `client_user_id` and a `consumer_report_user_identity` object and will return a `user_token` and `user_id`. For more details, see [New User APIs](https://plaid.com/docs/api/users/user-apis). In order to create a Plaid Check Consumer Report for a user, or to use Payment Initiation, Variable Recurring Payments, or Virtual Accounts, the `identity` (new) or `consumer_report_user_identity` (legacy) object must be present. If it is not provided during the `/user/create` call, it can be added later by calling `/user/update`.   When using Payment Initiation, Variable Recurring Payments, or Virtual Accounts, the `identity` object must contain a `name` and either an email address or a phone number.   In order to generate a Plaid Check Consumer Report, the following `identity` fields, at minimum, are required and must be non-empty: `name`, `date_of_birth`, `emails`, `phone_numbers`, and `addresses` (with at least one email, phone number, and address designated as `primary`). Plaid Check Consumer Reports can only be created for US-based users; the user's address country must be `US`. If creating a report for sharing with a GSE such as Fannie or Freddie, the user's full SSN must be provided via the `id_numbers` field. Providing at least a partial SSN is also strongly recommended for all use cases, since it improves the accuracy of matching user records during compliance processes such as file disclosure, dispute, or security freeze requests.   When using Plaid Protect, it is highly recommended that you provide an `identity` object to better identify and block fraud across your Link sessions.   Plaid will normalize identity fields before storing them and utilize the same identity across different user-based products.
+-- 
+-- AuthMethod: 'AuthApiKeyClientId', 'AuthApiKeyPlaidVersion', 'AuthApiKeySecret'
+-- 
+userCreate
+  :: (Consumes UserCreate MimeJSON, MimeRender MimeJSON UserCreateRequest)
+  => UserCreateRequest -- ^ "userCreateRequest"
+  -> ThePlaidRequest UserCreate MimeJSON UserCreateResponse MimeJSON
+userCreate userCreateRequest =
+  _mkRequest "POST" ["/user/create"]
+    `_hasAuthType` (P.Proxy :: P.Proxy AuthApiKeyClientId)
+    `_hasAuthType` (P.Proxy :: P.Proxy AuthApiKeyPlaidVersion)
+    `_hasAuthType` (P.Proxy :: P.Proxy AuthApiKeySecret)
+    `setBodyParam` userCreateRequest
+
+data UserCreate 
+instance HasBodyParam UserCreate UserCreateRequest 
+
+-- | @application/json@
+instance Consumes UserCreate MimeJSON
+
+-- | @application/json@
+instance Produces UserCreate MimeJSON
+
+
+-- *** userUpdate
+
+-- | @POST \/user\/update@
+-- 
+-- Update user information
+-- 
+-- This endpoint updates user information for an existing `user_id` or `user_token`. Identity updates use merge semantics: provided fields overwrite existing ones; omitted fields remain unchanged.
+-- 
+-- AuthMethod: 'AuthApiKeyClientId', 'AuthApiKeyPlaidVersion', 'AuthApiKeySecret'
+-- 
+userUpdate
+  :: (Consumes UserUpdate MimeJSON, MimeRender MimeJSON UserUpdateRequest)
+  => UserUpdateRequest -- ^ "userUpdateRequest"
+  -> ThePlaidRequest UserUpdate MimeJSON UserUpdateResponse MimeJSON
+userUpdate userUpdateRequest =
+  _mkRequest "POST" ["/user/update"]
+    `_hasAuthType` (P.Proxy :: P.Proxy AuthApiKeyClientId)
+    `_hasAuthType` (P.Proxy :: P.Proxy AuthApiKeyPlaidVersion)
+    `_hasAuthType` (P.Proxy :: P.Proxy AuthApiKeySecret)
+    `setBodyParam` userUpdateRequest
+
+data UserUpdate 
+instance HasBodyParam UserUpdate UserUpdateRequest 
+
+-- | @application/json@
+instance Consumes UserUpdate MimeJSON
+
+-- | @application/json@
+instance Produces UserUpdate MimeJSON
+
+
+-- *** craReportCreate
+
+-- | @POST \/cra\/report\/create@
+-- 
+-- Create a CRA Report for provided user
+-- 
+-- `/cra/report/create` generates a CRA Report for a user from the Items associated with that user.  Each requested product is generated asynchronously. Use the returned `report_id` to retrieve the report once its products are ready.
+-- 
+-- AuthMethod: 'AuthApiKeyClientId', 'AuthApiKeyPlaidVersion', 'AuthApiKeySecret'
+-- 
+craReportCreate
+  :: (Consumes CraReportCreate MimeJSON, MimeRender MimeJSON CraReportCreateRequest)
+  => CraReportCreateRequest -- ^ "craReportCreateRequest"
+  -> ThePlaidRequest CraReportCreate MimeJSON CraReportCreateResponse MimeJSON
+craReportCreate craReportCreateRequest =
+  _mkRequest "POST" ["/cra/report/create"]
+    `_hasAuthType` (P.Proxy :: P.Proxy AuthApiKeyClientId)
+    `_hasAuthType` (P.Proxy :: P.Proxy AuthApiKeyPlaidVersion)
+    `_hasAuthType` (P.Proxy :: P.Proxy AuthApiKeySecret)
+    `setBodyParam` craReportCreateRequest
+
+data CraReportCreate 
+instance HasBodyParam CraReportCreate CraReportCreateRequest 
+
+-- | @application/json@
+instance Consumes CraReportCreate MimeJSON
+
+-- | @application/json@
+instance Produces CraReportCreate MimeJSON
+
+
+-- *** craReportGet
+
+-- | @POST \/cra\/report\/get@
+-- 
+-- Retrieve a CRA Report for provided user
+-- 
+-- `/cra/report/get` retrieves a CRA Report for a user.
+-- 
+-- AuthMethod: 'AuthApiKeyClientId', 'AuthApiKeyPlaidVersion', 'AuthApiKeySecret'
+-- 
+craReportGet
+  :: (Consumes CraReportGet MimeJSON, MimeRender MimeJSON CraReportGetRequest)
+  => CraReportGetRequest -- ^ "craReportGetRequest"
+  -> ThePlaidRequest CraReportGet MimeJSON CraReportGetResponse MimeJSON
+craReportGet craReportGetRequest =
+  _mkRequest "POST" ["/cra/report/get"]
+    `_hasAuthType` (P.Proxy :: P.Proxy AuthApiKeyClientId)
+    `_hasAuthType` (P.Proxy :: P.Proxy AuthApiKeyPlaidVersion)
+    `_hasAuthType` (P.Proxy :: P.Proxy AuthApiKeySecret)
+    `setBodyParam` craReportGetRequest
+
+data CraReportGet 
+instance HasBodyParam CraReportGet CraReportGetRequest 
+
+-- | @application/json@
+instance Consumes CraReportGet MimeJSON
+
+-- | @application/json@
+instance Produces CraReportGet MimeJSON
+
+

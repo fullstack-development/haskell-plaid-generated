@@ -4354,6 +4354,11 @@ linkTokenCreateRequestRequiredIfSupportedProductsL :: Lens_' LinkTokenCreateRequ
 linkTokenCreateRequestRequiredIfSupportedProductsL f LinkTokenCreateRequest{..} = (\linkTokenCreateRequestRequiredIfSupportedProducts -> LinkTokenCreateRequest { linkTokenCreateRequestRequiredIfSupportedProducts, ..} ) <$> f linkTokenCreateRequestRequiredIfSupportedProducts
 {-# INLINE linkTokenCreateRequestRequiredIfSupportedProductsL #-}
 
+-- | 'linkTokenCreateRequestOptionalProducts' Lens
+linkTokenCreateRequestOptionalProductsL :: Lens_' LinkTokenCreateRequest (Maybe [OptionalProducts])
+linkTokenCreateRequestOptionalProductsL f LinkTokenCreateRequest{..} = (\linkTokenCreateRequestOptionalProducts -> LinkTokenCreateRequest { linkTokenCreateRequestOptionalProducts, ..} ) <$> f linkTokenCreateRequestOptionalProducts
+{-# INLINE linkTokenCreateRequestOptionalProductsL #-}
+
 -- | 'linkTokenCreateAdditionalConsentedProducts' Lens
 linkTokenCreateRequestAdditionalConsentedProductsL :: Lens_' LinkTokenCreateRequest (Maybe [AdditionalConsentedProducts])
 linkTokenCreateRequestAdditionalConsentedProductsL f LinkTokenCreateRequest{..} = (\linkTokenCreateRequestAdditionalConsentedProducts -> LinkTokenCreateRequest { linkTokenCreateRequestAdditionalConsentedProducts, ..} ) <$> f linkTokenCreateRequestAdditionalConsentedProducts
@@ -4373,6 +4378,21 @@ linkTokenCreateRequestWebhookL f LinkTokenCreateRequest{..} = (\linkTokenCreateR
 linkTokenCreateRequestAccessTokenL :: Lens_' LinkTokenCreateRequest (Maybe AccessToken)
 linkTokenCreateRequestAccessTokenL f LinkTokenCreateRequest{..} = (\linkTokenCreateRequestAccessToken -> LinkTokenCreateRequest { linkTokenCreateRequestAccessToken, ..} ) <$> f linkTokenCreateRequestAccessToken
 {-# INLINE linkTokenCreateRequestAccessTokenL #-}
+
+-- | 'linkTokenCreateRequestUserId' Lens
+linkTokenCreateRequestUserIdL :: Lens_' LinkTokenCreateRequest (Maybe Text)
+linkTokenCreateRequestUserIdL f LinkTokenCreateRequest{..} = (\linkTokenCreateRequestUserId -> LinkTokenCreateRequest { linkTokenCreateRequestUserId, ..} ) <$> f linkTokenCreateRequestUserId
+{-# INLINE linkTokenCreateRequestUserIdL #-}
+
+-- | 'linkTokenCreateRequestCraReportParameter' Lens
+linkTokenCreateRequestCraReportParameterL :: Lens_' LinkTokenCreateRequest (Maybe LinkTokenCreateRequestCraReportParameter)
+linkTokenCreateRequestCraReportParameterL f LinkTokenCreateRequest{..} = (\linkTokenCreateRequestCraReportParameter -> LinkTokenCreateRequest { linkTokenCreateRequestCraReportParameter, ..} ) <$> f linkTokenCreateRequestCraReportParameter
+{-# INLINE linkTokenCreateRequestCraReportParameterL #-}
+
+-- | 'linkTokenCreateRequestConsumerReportPermissiblePurpose' Lens
+linkTokenCreateRequestConsumerReportPermissiblePurposeL :: Lens_' LinkTokenCreateRequest (Maybe ConsumerReportPermissiblePurpose)
+linkTokenCreateRequestConsumerReportPermissiblePurposeL f LinkTokenCreateRequest{..} = (\linkTokenCreateRequestConsumerReportPermissiblePurpose -> LinkTokenCreateRequest { linkTokenCreateRequestConsumerReportPermissiblePurpose, ..} ) <$> f linkTokenCreateRequestConsumerReportPermissiblePurpose
+{-# INLINE linkTokenCreateRequestConsumerReportPermissiblePurposeL #-}
 
 -- | 'linkTokenCreateRequestLinkCustomizationName' Lens
 linkTokenCreateRequestLinkCustomizationNameL :: Lens_' LinkTokenCreateRequest (Maybe Text)
@@ -7784,5 +7804,2353 @@ yTDNetIncomeSummaryFieldNumberValueL f YTDNetIncomeSummaryFieldNumber{..} = (\yT
 yTDNetIncomeSummaryFieldNumberVerificationStatusL :: Lens_' YTDNetIncomeSummaryFieldNumber (VerificationStatus)
 yTDNetIncomeSummaryFieldNumberVerificationStatusL f YTDNetIncomeSummaryFieldNumber{..} = (\yTDNetIncomeSummaryFieldNumberVerificationStatus -> YTDNetIncomeSummaryFieldNumber { yTDNetIncomeSummaryFieldNumberVerificationStatus, ..} ) <$> f yTDNetIncomeSummaryFieldNumberVerificationStatus
 {-# INLINE yTDNetIncomeSummaryFieldNumberVerificationStatusL #-}
+
+-- * BankInitiatedReturnRisk
+
+-- | 'bankInitiatedReturnRiskRiskTier' Lens
+bankInitiatedReturnRiskRiskTierL :: Lens_' BankInitiatedReturnRisk (Int)
+bankInitiatedReturnRiskRiskTierL f BankInitiatedReturnRisk{..} = (\bankInitiatedReturnRiskRiskTier -> BankInitiatedReturnRisk { bankInitiatedReturnRiskRiskTier, ..} ) <$> f bankInitiatedReturnRiskRiskTier
+{-# INLINE bankInitiatedReturnRiskRiskTierL #-}
+
+-- | 'bankInitiatedReturnRiskScore' Lens
+bankInitiatedReturnRiskScoreL :: Lens_' BankInitiatedReturnRisk (Int)
+bankInitiatedReturnRiskScoreL f BankInitiatedReturnRisk{..} = (\bankInitiatedReturnRiskScore -> BankInitiatedReturnRisk { bankInitiatedReturnRiskScore, ..} ) <$> f bankInitiatedReturnRiskScore
+{-# INLINE bankInitiatedReturnRiskScoreL #-}
+
+
+
+-- * CheckReportWarning
+
+-- | 'checkReportWarningCause' Lens
+checkReportWarningCauseL :: Lens_' CheckReportWarning (Cause)
+checkReportWarningCauseL f CheckReportWarning{..} = (\checkReportWarningCause -> CheckReportWarning { checkReportWarningCause, ..} ) <$> f checkReportWarningCause
+{-# INLINE checkReportWarningCauseL #-}
+
+-- | 'checkReportWarningWarningCode' Lens
+checkReportWarningWarningCodeL :: Lens_' CheckReportWarning (CheckReportWarningCode)
+checkReportWarningWarningCodeL f CheckReportWarning{..} = (\checkReportWarningWarningCode -> CheckReportWarning { checkReportWarningWarningCode, ..} ) <$> f checkReportWarningWarningCode
+{-# INLINE checkReportWarningWarningCodeL #-}
+
+-- | 'checkReportWarningWarningType' Lens
+checkReportWarningWarningTypeL :: Lens_' CheckReportWarning (Text)
+checkReportWarningWarningTypeL f CheckReportWarning{..} = (\checkReportWarningWarningType -> CheckReportWarning { checkReportWarningWarningType, ..} ) <$> f checkReportWarningWarningType
+{-# INLINE checkReportWarningWarningTypeL #-}
+
+
+
+-- * CheckReportWarningCode
+
+
+
+-- * ClientUserIdentity
+
+-- | 'clientUserIdentityAddresses' Lens
+clientUserIdentityAddressesL :: Lens_' ClientUserIdentity (Maybe [ClientUserIdentityAddress])
+clientUserIdentityAddressesL f ClientUserIdentity{..} = (\clientUserIdentityAddresses -> ClientUserIdentity { clientUserIdentityAddresses, ..} ) <$> f clientUserIdentityAddresses
+{-# INLINE clientUserIdentityAddressesL #-}
+
+-- | 'clientUserIdentityDateOfBirth' Lens
+clientUserIdentityDateOfBirthL :: Lens_' ClientUserIdentity (Maybe Date)
+clientUserIdentityDateOfBirthL f ClientUserIdentity{..} = (\clientUserIdentityDateOfBirth -> ClientUserIdentity { clientUserIdentityDateOfBirth, ..} ) <$> f clientUserIdentityDateOfBirth
+{-# INLINE clientUserIdentityDateOfBirthL #-}
+
+-- | 'clientUserIdentityEmails' Lens
+clientUserIdentityEmailsL :: Lens_' ClientUserIdentity (Maybe [ClientUserIdentityEmail])
+clientUserIdentityEmailsL f ClientUserIdentity{..} = (\clientUserIdentityEmails -> ClientUserIdentity { clientUserIdentityEmails, ..} ) <$> f clientUserIdentityEmails
+{-# INLINE clientUserIdentityEmailsL #-}
+
+-- | 'clientUserIdentityIdNumbers' Lens
+clientUserIdentityIdNumbersL :: Lens_' ClientUserIdentity (Maybe [UserIDNumber])
+clientUserIdentityIdNumbersL f ClientUserIdentity{..} = (\clientUserIdentityIdNumbers -> ClientUserIdentity { clientUserIdentityIdNumbers, ..} ) <$> f clientUserIdentityIdNumbers
+{-# INLINE clientUserIdentityIdNumbersL #-}
+
+-- | 'clientUserIdentityName' Lens
+clientUserIdentityNameL :: Lens_' ClientUserIdentity (Maybe ClientUserIdentityName)
+clientUserIdentityNameL f ClientUserIdentity{..} = (\clientUserIdentityName -> ClientUserIdentity { clientUserIdentityName, ..} ) <$> f clientUserIdentityName
+{-# INLINE clientUserIdentityNameL #-}
+
+-- | 'clientUserIdentityPhoneNumbers' Lens
+clientUserIdentityPhoneNumbersL :: Lens_' ClientUserIdentity (Maybe [ClientUserIdentityPhoneNumber])
+clientUserIdentityPhoneNumbersL f ClientUserIdentity{..} = (\clientUserIdentityPhoneNumbers -> ClientUserIdentity { clientUserIdentityPhoneNumbers, ..} ) <$> f clientUserIdentityPhoneNumbers
+{-# INLINE clientUserIdentityPhoneNumbersL #-}
+
+
+
+-- * ClientUserIdentityAddress
+
+-- | 'clientUserIdentityAddressCity' Lens
+clientUserIdentityAddressCityL :: Lens_' ClientUserIdentityAddress (Maybe Text)
+clientUserIdentityAddressCityL f ClientUserIdentityAddress{..} = (\clientUserIdentityAddressCity -> ClientUserIdentityAddress { clientUserIdentityAddressCity, ..} ) <$> f clientUserIdentityAddressCity
+{-# INLINE clientUserIdentityAddressCityL #-}
+
+-- | 'clientUserIdentityAddressCountry' Lens
+clientUserIdentityAddressCountryL :: Lens_' ClientUserIdentityAddress (Text)
+clientUserIdentityAddressCountryL f ClientUserIdentityAddress{..} = (\clientUserIdentityAddressCountry -> ClientUserIdentityAddress { clientUserIdentityAddressCountry, ..} ) <$> f clientUserIdentityAddressCountry
+{-# INLINE clientUserIdentityAddressCountryL #-}
+
+-- | 'clientUserIdentityAddressPostalCode' Lens
+clientUserIdentityAddressPostalCodeL :: Lens_' ClientUserIdentityAddress (Maybe Text)
+clientUserIdentityAddressPostalCodeL f ClientUserIdentityAddress{..} = (\clientUserIdentityAddressPostalCode -> ClientUserIdentityAddress { clientUserIdentityAddressPostalCode, ..} ) <$> f clientUserIdentityAddressPostalCode
+{-# INLINE clientUserIdentityAddressPostalCodeL #-}
+
+-- | 'clientUserIdentityAddressPrimary' Lens
+clientUserIdentityAddressPrimaryL :: Lens_' ClientUserIdentityAddress (Bool)
+clientUserIdentityAddressPrimaryL f ClientUserIdentityAddress{..} = (\clientUserIdentityAddressPrimary -> ClientUserIdentityAddress { clientUserIdentityAddressPrimary, ..} ) <$> f clientUserIdentityAddressPrimary
+{-# INLINE clientUserIdentityAddressPrimaryL #-}
+
+-- | 'clientUserIdentityAddressRegion' Lens
+clientUserIdentityAddressRegionL :: Lens_' ClientUserIdentityAddress (Maybe Text)
+clientUserIdentityAddressRegionL f ClientUserIdentityAddress{..} = (\clientUserIdentityAddressRegion -> ClientUserIdentityAddress { clientUserIdentityAddressRegion, ..} ) <$> f clientUserIdentityAddressRegion
+{-# INLINE clientUserIdentityAddressRegionL #-}
+
+-- | 'clientUserIdentityAddressStreet1' Lens
+clientUserIdentityAddressStreet1L :: Lens_' ClientUserIdentityAddress (Maybe Text)
+clientUserIdentityAddressStreet1L f ClientUserIdentityAddress{..} = (\clientUserIdentityAddressStreet1 -> ClientUserIdentityAddress { clientUserIdentityAddressStreet1, ..} ) <$> f clientUserIdentityAddressStreet1
+{-# INLINE clientUserIdentityAddressStreet1L #-}
+
+-- | 'clientUserIdentityAddressStreet2' Lens
+clientUserIdentityAddressStreet2L :: Lens_' ClientUserIdentityAddress (Maybe Text)
+clientUserIdentityAddressStreet2L f ClientUserIdentityAddress{..} = (\clientUserIdentityAddressStreet2 -> ClientUserIdentityAddress { clientUserIdentityAddressStreet2, ..} ) <$> f clientUserIdentityAddressStreet2
+{-# INLINE clientUserIdentityAddressStreet2L #-}
+
+
+
+-- * ClientUserIdentityEmail
+
+-- | 'clientUserIdentityEmailData' Lens
+clientUserIdentityEmailDataL :: Lens_' ClientUserIdentityEmail (Text)
+clientUserIdentityEmailDataL f ClientUserIdentityEmail{..} = (\clientUserIdentityEmailData -> ClientUserIdentityEmail { clientUserIdentityEmailData, ..} ) <$> f clientUserIdentityEmailData
+{-# INLINE clientUserIdentityEmailDataL #-}
+
+-- | 'clientUserIdentityEmailPrimary' Lens
+clientUserIdentityEmailPrimaryL :: Lens_' ClientUserIdentityEmail (Bool)
+clientUserIdentityEmailPrimaryL f ClientUserIdentityEmail{..} = (\clientUserIdentityEmailPrimary -> ClientUserIdentityEmail { clientUserIdentityEmailPrimary, ..} ) <$> f clientUserIdentityEmailPrimary
+{-# INLINE clientUserIdentityEmailPrimaryL #-}
+
+
+
+-- * ClientUserIdentityName
+
+-- | 'clientUserIdentityNameFamilyName' Lens
+clientUserIdentityNameFamilyNameL :: Lens_' ClientUserIdentityName (Text)
+clientUserIdentityNameFamilyNameL f ClientUserIdentityName{..} = (\clientUserIdentityNameFamilyName -> ClientUserIdentityName { clientUserIdentityNameFamilyName, ..} ) <$> f clientUserIdentityNameFamilyName
+{-# INLINE clientUserIdentityNameFamilyNameL #-}
+
+-- | 'clientUserIdentityNameGivenName' Lens
+clientUserIdentityNameGivenNameL :: Lens_' ClientUserIdentityName (Text)
+clientUserIdentityNameGivenNameL f ClientUserIdentityName{..} = (\clientUserIdentityNameGivenName -> ClientUserIdentityName { clientUserIdentityNameGivenName, ..} ) <$> f clientUserIdentityNameGivenName
+{-# INLINE clientUserIdentityNameGivenNameL #-}
+
+
+
+-- * ClientUserIdentityPhoneNumber
+
+-- | 'clientUserIdentityPhoneNumberData' Lens
+clientUserIdentityPhoneNumberDataL :: Lens_' ClientUserIdentityPhoneNumber (Text)
+clientUserIdentityPhoneNumberDataL f ClientUserIdentityPhoneNumber{..} = (\clientUserIdentityPhoneNumberData -> ClientUserIdentityPhoneNumber { clientUserIdentityPhoneNumberData, ..} ) <$> f clientUserIdentityPhoneNumberData
+{-# INLINE clientUserIdentityPhoneNumberDataL #-}
+
+-- | 'clientUserIdentityPhoneNumberPrimary' Lens
+clientUserIdentityPhoneNumberPrimaryL :: Lens_' ClientUserIdentityPhoneNumber (Bool)
+clientUserIdentityPhoneNumberPrimaryL f ClientUserIdentityPhoneNumber{..} = (\clientUserIdentityPhoneNumberPrimary -> ClientUserIdentityPhoneNumber { clientUserIdentityPhoneNumberPrimary, ..} ) <$> f clientUserIdentityPhoneNumberPrimary
+{-# INLINE clientUserIdentityPhoneNumberPrimaryL #-}
+
+
+
+-- * ConsumerReportPermissiblePurpose
+
+
+
+-- * ConsumerReportUserIdentity
+
+-- | 'consumerReportUserIdentityDateOfBirth' Lens
+consumerReportUserIdentityDateOfBirthL :: Lens_' ConsumerReportUserIdentity (Date)
+consumerReportUserIdentityDateOfBirthL f ConsumerReportUserIdentity{..} = (\consumerReportUserIdentityDateOfBirth -> ConsumerReportUserIdentity { consumerReportUserIdentityDateOfBirth, ..} ) <$> f consumerReportUserIdentityDateOfBirth
+{-# INLINE consumerReportUserIdentityDateOfBirthL #-}
+
+-- | 'consumerReportUserIdentityEmails' Lens
+consumerReportUserIdentityEmailsL :: Lens_' ConsumerReportUserIdentity ([Text])
+consumerReportUserIdentityEmailsL f ConsumerReportUserIdentity{..} = (\consumerReportUserIdentityEmails -> ConsumerReportUserIdentity { consumerReportUserIdentityEmails, ..} ) <$> f consumerReportUserIdentityEmails
+{-# INLINE consumerReportUserIdentityEmailsL #-}
+
+-- | 'consumerReportUserIdentityFirstName' Lens
+consumerReportUserIdentityFirstNameL :: Lens_' ConsumerReportUserIdentity (Text)
+consumerReportUserIdentityFirstNameL f ConsumerReportUserIdentity{..} = (\consumerReportUserIdentityFirstName -> ConsumerReportUserIdentity { consumerReportUserIdentityFirstName, ..} ) <$> f consumerReportUserIdentityFirstName
+{-# INLINE consumerReportUserIdentityFirstNameL #-}
+
+-- | 'consumerReportUserIdentityLastName' Lens
+consumerReportUserIdentityLastNameL :: Lens_' ConsumerReportUserIdentity (Text)
+consumerReportUserIdentityLastNameL f ConsumerReportUserIdentity{..} = (\consumerReportUserIdentityLastName -> ConsumerReportUserIdentity { consumerReportUserIdentityLastName, ..} ) <$> f consumerReportUserIdentityLastName
+{-# INLINE consumerReportUserIdentityLastNameL #-}
+
+-- | 'consumerReportUserIdentityPhoneNumbers' Lens
+consumerReportUserIdentityPhoneNumbersL :: Lens_' ConsumerReportUserIdentity ([Text])
+consumerReportUserIdentityPhoneNumbersL f ConsumerReportUserIdentity{..} = (\consumerReportUserIdentityPhoneNumbers -> ConsumerReportUserIdentity { consumerReportUserIdentityPhoneNumbers, ..} ) <$> f consumerReportUserIdentityPhoneNumbers
+{-# INLINE consumerReportUserIdentityPhoneNumbersL #-}
+
+-- | 'consumerReportUserIdentityPrimaryAddress' Lens
+consumerReportUserIdentityPrimaryAddressL :: Lens_' ConsumerReportUserIdentity (AddressData)
+consumerReportUserIdentityPrimaryAddressL f ConsumerReportUserIdentity{..} = (\consumerReportUserIdentityPrimaryAddress -> ConsumerReportUserIdentity { consumerReportUserIdentityPrimaryAddress, ..} ) <$> f consumerReportUserIdentityPrimaryAddress
+{-# INLINE consumerReportUserIdentityPrimaryAddressL #-}
+
+-- | 'consumerReportUserIdentitySsnFull' Lens
+consumerReportUserIdentitySsnFullL :: Lens_' ConsumerReportUserIdentity (Maybe Text)
+consumerReportUserIdentitySsnFullL f ConsumerReportUserIdentity{..} = (\consumerReportUserIdentitySsnFull -> ConsumerReportUserIdentity { consumerReportUserIdentitySsnFull, ..} ) <$> f consumerReportUserIdentitySsnFull
+{-# INLINE consumerReportUserIdentitySsnFullL #-}
+
+-- | 'consumerReportUserIdentitySsnLast4' Lens
+consumerReportUserIdentitySsnLast4L :: Lens_' ConsumerReportUserIdentity (Maybe Text)
+consumerReportUserIdentitySsnLast4L f ConsumerReportUserIdentity{..} = (\consumerReportUserIdentitySsnLast4 -> ConsumerReportUserIdentity { consumerReportUserIdentitySsnLast4, ..} ) <$> f consumerReportUserIdentitySsnLast4
+{-# INLINE consumerReportUserIdentitySsnLast4L #-}
+
+
+
+-- * CraAnnualIncomeValues
+
+-- | 'craAnnualIncomeValuesGrossIncome' Lens
+craAnnualIncomeValuesGrossIncomeL :: Lens_' CraAnnualIncomeValues (Double)
+craAnnualIncomeValuesGrossIncomeL f CraAnnualIncomeValues{..} = (\craAnnualIncomeValuesGrossIncome -> CraAnnualIncomeValues { craAnnualIncomeValuesGrossIncome, ..} ) <$> f craAnnualIncomeValuesGrossIncome
+{-# INLINE craAnnualIncomeValuesGrossIncomeL #-}
+
+-- | 'craAnnualIncomeValuesNetIncome' Lens
+craAnnualIncomeValuesNetIncomeL :: Lens_' CraAnnualIncomeValues (Double)
+craAnnualIncomeValuesNetIncomeL f CraAnnualIncomeValues{..} = (\craAnnualIncomeValuesNetIncome -> CraAnnualIncomeValues { craAnnualIncomeValuesNetIncome, ..} ) <$> f craAnnualIncomeValuesNetIncome
+{-# INLINE craAnnualIncomeValuesNetIncomeL #-}
+
+
+
+-- * CraBankIncomeIncomeProvider
+
+-- | 'craBankIncomeIncomeProviderIsNormalized' Lens
+craBankIncomeIncomeProviderIsNormalizedL :: Lens_' CraBankIncomeIncomeProvider (Bool)
+craBankIncomeIncomeProviderIsNormalizedL f CraBankIncomeIncomeProvider{..} = (\craBankIncomeIncomeProviderIsNormalized -> CraBankIncomeIncomeProvider { craBankIncomeIncomeProviderIsNormalized, ..} ) <$> f craBankIncomeIncomeProviderIsNormalized
+{-# INLINE craBankIncomeIncomeProviderIsNormalizedL #-}
+
+-- | 'craBankIncomeIncomeProviderName' Lens
+craBankIncomeIncomeProviderNameL :: Lens_' CraBankIncomeIncomeProvider (Text)
+craBankIncomeIncomeProviderNameL f CraBankIncomeIncomeProvider{..} = (\craBankIncomeIncomeProviderName -> CraBankIncomeIncomeProvider { craBankIncomeIncomeProviderName, ..} ) <$> f craBankIncomeIncomeProviderName
+{-# INLINE craBankIncomeIncomeProviderNameL #-}
+
+
+
+-- * CraBankIncomeStatus
+
+
+
+-- * CraCheckReportPDFGetRequest
+
+-- | 'craCheckReportPDFGetRequestAddOns' Lens
+craCheckReportPDFGetRequestAddOnsL :: Lens_' CraCheckReportPDFGetRequest (Maybe [CraPDFAddOns])
+craCheckReportPDFGetRequestAddOnsL f CraCheckReportPDFGetRequest{..} = (\craCheckReportPDFGetRequestAddOns -> CraCheckReportPDFGetRequest { craCheckReportPDFGetRequestAddOns, ..} ) <$> f craCheckReportPDFGetRequestAddOns
+{-# INLINE craCheckReportPDFGetRequestAddOnsL #-}
+
+-- | 'craCheckReportPDFGetRequestClientId' Lens
+craCheckReportPDFGetRequestClientIdL :: Lens_' CraCheckReportPDFGetRequest (Maybe Text)
+craCheckReportPDFGetRequestClientIdL f CraCheckReportPDFGetRequest{..} = (\craCheckReportPDFGetRequestClientId -> CraCheckReportPDFGetRequest { craCheckReportPDFGetRequestClientId, ..} ) <$> f craCheckReportPDFGetRequestClientId
+{-# INLINE craCheckReportPDFGetRequestClientIdL #-}
+
+-- | 'craCheckReportPDFGetRequestSecret' Lens
+craCheckReportPDFGetRequestSecretL :: Lens_' CraCheckReportPDFGetRequest (Maybe Text)
+craCheckReportPDFGetRequestSecretL f CraCheckReportPDFGetRequest{..} = (\craCheckReportPDFGetRequestSecret -> CraCheckReportPDFGetRequest { craCheckReportPDFGetRequestSecret, ..} ) <$> f craCheckReportPDFGetRequestSecret
+{-# INLINE craCheckReportPDFGetRequestSecretL #-}
+
+-- | 'craCheckReportPDFGetRequestThirdPartyUserToken' Lens
+craCheckReportPDFGetRequestThirdPartyUserTokenL :: Lens_' CraCheckReportPDFGetRequest (Maybe Text)
+craCheckReportPDFGetRequestThirdPartyUserTokenL f CraCheckReportPDFGetRequest{..} = (\craCheckReportPDFGetRequestThirdPartyUserToken -> CraCheckReportPDFGetRequest { craCheckReportPDFGetRequestThirdPartyUserToken, ..} ) <$> f craCheckReportPDFGetRequestThirdPartyUserToken
+{-# INLINE craCheckReportPDFGetRequestThirdPartyUserTokenL #-}
+
+-- | 'craCheckReportPDFGetRequestUserId' Lens
+craCheckReportPDFGetRequestUserIdL :: Lens_' CraCheckReportPDFGetRequest (Maybe Text)
+craCheckReportPDFGetRequestUserIdL f CraCheckReportPDFGetRequest{..} = (\craCheckReportPDFGetRequestUserId -> CraCheckReportPDFGetRequest { craCheckReportPDFGetRequestUserId, ..} ) <$> f craCheckReportPDFGetRequestUserId
+{-# INLINE craCheckReportPDFGetRequestUserIdL #-}
+
+-- | 'craCheckReportPDFGetRequestUserToken' Lens
+craCheckReportPDFGetRequestUserTokenL :: Lens_' CraCheckReportPDFGetRequest (Maybe Text)
+craCheckReportPDFGetRequestUserTokenL f CraCheckReportPDFGetRequest{..} = (\craCheckReportPDFGetRequestUserToken -> CraCheckReportPDFGetRequest { craCheckReportPDFGetRequestUserToken, ..} ) <$> f craCheckReportPDFGetRequestUserToken
+{-# INLINE craCheckReportPDFGetRequestUserTokenL #-}
+
+
+
+-- * CraCurrentModeledIncome
+
+-- | 'craCurrentModeledIncomeAnnual' Lens
+craCurrentModeledIncomeAnnualL :: Lens_' CraCurrentModeledIncome (CraAnnualIncomeValues)
+craCurrentModeledIncomeAnnualL f CraCurrentModeledIncome{..} = (\craCurrentModeledIncomeAnnual -> CraCurrentModeledIncome { craCurrentModeledIncomeAnnual, ..} ) <$> f craCurrentModeledIncomeAnnual
+{-# INLINE craCurrentModeledIncomeAnnualL #-}
+
+-- | 'craCurrentModeledIncomeMonthly' Lens
+craCurrentModeledIncomeMonthlyL :: Lens_' CraCurrentModeledIncome (CraMonthlyIncomeValues)
+craCurrentModeledIncomeMonthlyL f CraCurrentModeledIncome{..} = (\craCurrentModeledIncomeMonthly -> CraCurrentModeledIncome { craCurrentModeledIncomeMonthly, ..} ) <$> f craCurrentModeledIncomeMonthly
+{-# INLINE craCurrentModeledIncomeMonthlyL #-}
+
+
+
+-- * CraIncomeCategory
+
+-- | 'craIncomeCategoryPrimary' Lens
+craIncomeCategoryPrimaryL :: Lens_' CraIncomeCategory (Text)
+craIncomeCategoryPrimaryL f CraIncomeCategory{..} = (\craIncomeCategoryPrimary -> CraIncomeCategory { craIncomeCategoryPrimary, ..} ) <$> f craIncomeCategoryPrimary
+{-# INLINE craIncomeCategoryPrimaryL #-}
+
+-- | 'craIncomeCategorySecondary' Lens
+craIncomeCategorySecondaryL :: Lens_' CraIncomeCategory (Text)
+craIncomeCategorySecondaryL f CraIncomeCategory{..} = (\craIncomeCategorySecondary -> CraIncomeCategory { craIncomeCategorySecondary, ..} ) <$> f craIncomeCategorySecondary
+{-# INLINE craIncomeCategorySecondaryL #-}
+
+
+
+-- * CraIncomeInsightsUserSummary
+
+-- | 'craIncomeInsightsUserSummaryIncomeMetrics' Lens
+craIncomeInsightsUserSummaryIncomeMetricsL :: Lens_' CraIncomeInsightsUserSummary ([CraIncomeMetrics])
+craIncomeInsightsUserSummaryIncomeMetricsL f CraIncomeInsightsUserSummary{..} = (\craIncomeInsightsUserSummaryIncomeMetrics -> CraIncomeInsightsUserSummary { craIncomeInsightsUserSummaryIncomeMetrics, ..} ) <$> f craIncomeInsightsUserSummaryIncomeMetrics
+{-# INLINE craIncomeInsightsUserSummaryIncomeMetricsL #-}
+
+
+
+-- * CraIncomeMetrics
+
+-- | 'craIncomeMetricsCurrent' Lens
+craIncomeMetricsCurrentL :: Lens_' CraIncomeMetrics (CraCurrentModeledIncome)
+craIncomeMetricsCurrentL f CraIncomeMetrics{..} = (\craIncomeMetricsCurrent -> CraIncomeMetrics { craIncomeMetricsCurrent, ..} ) <$> f craIncomeMetricsCurrent
+{-# INLINE craIncomeMetricsCurrentL #-}
+
+-- | 'craIncomeMetricsIsoCurrencyCode' Lens
+craIncomeMetricsIsoCurrencyCodeL :: Lens_' CraIncomeMetrics (Text)
+craIncomeMetricsIsoCurrencyCodeL f CraIncomeMetrics{..} = (\craIncomeMetricsIsoCurrencyCode -> CraIncomeMetrics { craIncomeMetricsIsoCurrencyCode, ..} ) <$> f craIncomeMetricsIsoCurrencyCode
+{-# INLINE craIncomeMetricsIsoCurrencyCodeL #-}
+
+-- | 'craIncomeMetricsProjected' Lens
+craIncomeMetricsProjectedL :: Lens_' CraIncomeMetrics (CraProjectedModeledIncome)
+craIncomeMetricsProjectedL f CraIncomeMetrics{..} = (\craIncomeMetricsProjected -> CraIncomeMetrics { craIncomeMetricsProjected, ..} ) <$> f craIncomeMetricsProjected
+{-# INLINE craIncomeMetricsProjectedL #-}
+
+-- | 'craIncomeMetricsUnofficialCurrencyCode' Lens
+craIncomeMetricsUnofficialCurrencyCodeL :: Lens_' CraIncomeMetrics (Text)
+craIncomeMetricsUnofficialCurrencyCodeL f CraIncomeMetrics{..} = (\craIncomeMetricsUnofficialCurrencyCode -> CraIncomeMetrics { craIncomeMetricsUnofficialCurrencyCode, ..} ) <$> f craIncomeMetricsUnofficialCurrencyCode
+{-# INLINE craIncomeMetricsUnofficialCurrencyCodeL #-}
+
+
+
+-- * CraIncomeNextPayment
+
+-- | 'craIncomeNextPaymentDate' Lens
+craIncomeNextPaymentDateL :: Lens_' CraIncomeNextPayment (Date)
+craIncomeNextPaymentDateL f CraIncomeNextPayment{..} = (\craIncomeNextPaymentDate -> CraIncomeNextPayment { craIncomeNextPaymentDate, ..} ) <$> f craIncomeNextPaymentDate
+{-# INLINE craIncomeNextPaymentDateL #-}
+
+
+
+-- * CraIncomeStreamInsights
+
+-- | 'craIncomeStreamInsightsIncomeCategory' Lens
+craIncomeStreamInsightsIncomeCategoryL :: Lens_' CraIncomeStreamInsights (CraIncomeCategory)
+craIncomeStreamInsightsIncomeCategoryL f CraIncomeStreamInsights{..} = (\craIncomeStreamInsightsIncomeCategory -> CraIncomeStreamInsights { craIncomeStreamInsightsIncomeCategory, ..} ) <$> f craIncomeStreamInsightsIncomeCategory
+{-# INLINE craIncomeStreamInsightsIncomeCategoryL #-}
+
+-- | 'craIncomeStreamInsightsIncomeProvider' Lens
+craIncomeStreamInsightsIncomeProviderL :: Lens_' CraIncomeStreamInsights (CraBankIncomeIncomeProvider)
+craIncomeStreamInsightsIncomeProviderL f CraIncomeStreamInsights{..} = (\craIncomeStreamInsightsIncomeProvider -> CraIncomeStreamInsights { craIncomeStreamInsightsIncomeProvider, ..} ) <$> f craIncomeStreamInsightsIncomeProvider
+{-# INLINE craIncomeStreamInsightsIncomeProviderL #-}
+
+-- | 'craIncomeStreamInsightsNextPayment' Lens
+craIncomeStreamInsightsNextPaymentL :: Lens_' CraIncomeStreamInsights (CraIncomeNextPayment)
+craIncomeStreamInsightsNextPaymentL f CraIncomeStreamInsights{..} = (\craIncomeStreamInsightsNextPayment -> CraIncomeStreamInsights { craIncomeStreamInsightsNextPayment, ..} ) <$> f craIncomeStreamInsightsNextPayment
+{-# INLINE craIncomeStreamInsightsNextPaymentL #-}
+
+-- | 'craIncomeStreamInsightsPayFrequency' Lens
+craIncomeStreamInsightsPayFrequencyL :: Lens_' CraIncomeStreamInsights (CreditBankIncomePayFrequency)
+craIncomeStreamInsightsPayFrequencyL f CraIncomeStreamInsights{..} = (\craIncomeStreamInsightsPayFrequency -> CraIncomeStreamInsights { craIncomeStreamInsightsPayFrequency, ..} ) <$> f craIncomeStreamInsightsPayFrequency
+{-# INLINE craIncomeStreamInsightsPayFrequencyL #-}
+
+-- | 'craIncomeStreamInsightsStatus' Lens
+craIncomeStreamInsightsStatusL :: Lens_' CraIncomeStreamInsights (CraBankIncomeStatus)
+craIncomeStreamInsightsStatusL f CraIncomeStreamInsights{..} = (\craIncomeStreamInsightsStatus -> CraIncomeStreamInsights { craIncomeStreamInsightsStatus, ..} ) <$> f craIncomeStreamInsightsStatus
+{-# INLINE craIncomeStreamInsightsStatusL #-}
+
+
+
+-- * CraMonthlyIncomeValues
+
+-- | 'craMonthlyIncomeValuesGrossIncome' Lens
+craMonthlyIncomeValuesGrossIncomeL :: Lens_' CraMonthlyIncomeValues (Double)
+craMonthlyIncomeValuesGrossIncomeL f CraMonthlyIncomeValues{..} = (\craMonthlyIncomeValuesGrossIncome -> CraMonthlyIncomeValues { craMonthlyIncomeValuesGrossIncome, ..} ) <$> f craMonthlyIncomeValuesGrossIncome
+{-# INLINE craMonthlyIncomeValuesGrossIncomeL #-}
+
+-- | 'craMonthlyIncomeValuesNetIncome' Lens
+craMonthlyIncomeValuesNetIncomeL :: Lens_' CraMonthlyIncomeValues (Double)
+craMonthlyIncomeValuesNetIncomeL f CraMonthlyIncomeValues{..} = (\craMonthlyIncomeValuesNetIncome -> CraMonthlyIncomeValues { craMonthlyIncomeValuesNetIncome, ..} ) <$> f craMonthlyIncomeValuesNetIncome
+{-# INLINE craMonthlyIncomeValuesNetIncomeL #-}
+
+
+
+-- * CraPDFAddOns
+
+
+
+-- * CraProjectedModeledIncome
+
+-- | 'craProjectedModeledIncomeAnnual' Lens
+craProjectedModeledIncomeAnnualL :: Lens_' CraProjectedModeledIncome (CraAnnualIncomeValues)
+craProjectedModeledIncomeAnnualL f CraProjectedModeledIncome{..} = (\craProjectedModeledIncomeAnnual -> CraProjectedModeledIncome { craProjectedModeledIncomeAnnual, ..} ) <$> f craProjectedModeledIncomeAnnual
+{-# INLINE craProjectedModeledIncomeAnnualL #-}
+
+-- | 'craProjectedModeledIncomeMonthly' Lens
+craProjectedModeledIncomeMonthlyL :: Lens_' CraProjectedModeledIncome (CraMonthlyIncomeValues)
+craProjectedModeledIncomeMonthlyL f CraProjectedModeledIncome{..} = (\craProjectedModeledIncomeMonthly -> CraProjectedModeledIncome { craProjectedModeledIncomeMonthly, ..} ) <$> f craProjectedModeledIncomeMonthly
+{-# INLINE craProjectedModeledIncomeMonthlyL #-}
+
+
+
+-- * CreditBankIncomePayFrequency
+
+
+
+-- * CustomerInitiatedReturnRisk
+
+-- | 'customerInitiatedReturnRiskRiskTier' Lens
+customerInitiatedReturnRiskRiskTierL :: Lens_' CustomerInitiatedReturnRisk (Int)
+customerInitiatedReturnRiskRiskTierL f CustomerInitiatedReturnRisk{..} = (\customerInitiatedReturnRiskRiskTier -> CustomerInitiatedReturnRisk { customerInitiatedReturnRiskRiskTier, ..} ) <$> f customerInitiatedReturnRiskRiskTier
+{-# INLINE customerInitiatedReturnRiskRiskTierL #-}
+
+-- | 'customerInitiatedReturnRiskScore' Lens
+customerInitiatedReturnRiskScoreL :: Lens_' CustomerInitiatedReturnRisk (Int)
+customerInitiatedReturnRiskScoreL f CustomerInitiatedReturnRisk{..} = (\customerInitiatedReturnRiskScore -> CustomerInitiatedReturnRisk { customerInitiatedReturnRiskScore, ..} ) <$> f customerInitiatedReturnRiskScore
+{-# INLINE customerInitiatedReturnRiskScoreL #-}
+
+
+
+-- * IDNumberType
+
+
+
+-- * IncomeInsightsFilter
+
+-- | 'incomeInsightsFilterExcludedCategories' Lens
+incomeInsightsFilterExcludedCategoriesL :: Lens_' IncomeInsightsFilter (Maybe [Text])
+incomeInsightsFilterExcludedCategoriesL f IncomeInsightsFilter{..} = (\incomeInsightsFilterExcludedCategories -> IncomeInsightsFilter { incomeInsightsFilterExcludedCategories, ..} ) <$> f incomeInsightsFilterExcludedCategories
+{-# INLINE incomeInsightsFilterExcludedCategoriesL #-}
+
+-- | 'incomeInsightsFilterIncludedCategories' Lens
+incomeInsightsFilterIncludedCategoriesL :: Lens_' IncomeInsightsFilter ([Text])
+incomeInsightsFilterIncludedCategoriesL f IncomeInsightsFilter{..} = (\incomeInsightsFilterIncludedCategories -> IncomeInsightsFilter { incomeInsightsFilterIncludedCategories, ..} ) <$> f incomeInsightsFilterIncludedCategories
+{-# INLINE incomeInsightsFilterIncludedCategoriesL #-}
+
+
+
+-- * PlaidError
+
+-- | 'plaidErrorCauses' Lens
+plaidErrorCausesL :: Lens_' PlaidError (Maybe [A.Value])
+plaidErrorCausesL f PlaidError{..} = (\plaidErrorCauses -> PlaidError { plaidErrorCauses, ..} ) <$> f plaidErrorCauses
+{-# INLINE plaidErrorCausesL #-}
+
+-- | 'plaidErrorDisplayMessage' Lens
+plaidErrorDisplayMessageL :: Lens_' PlaidError (Text)
+plaidErrorDisplayMessageL f PlaidError{..} = (\plaidErrorDisplayMessage -> PlaidError { plaidErrorDisplayMessage, ..} ) <$> f plaidErrorDisplayMessage
+{-# INLINE plaidErrorDisplayMessageL #-}
+
+-- | 'plaidErrorDocumentationUrl' Lens
+plaidErrorDocumentationUrlL :: Lens_' PlaidError (Maybe Text)
+plaidErrorDocumentationUrlL f PlaidError{..} = (\plaidErrorDocumentationUrl -> PlaidError { plaidErrorDocumentationUrl, ..} ) <$> f plaidErrorDocumentationUrl
+{-# INLINE plaidErrorDocumentationUrlL #-}
+
+-- | 'plaidErrorErrorCode' Lens
+plaidErrorErrorCodeL :: Lens_' PlaidError (Text)
+plaidErrorErrorCodeL f PlaidError{..} = (\plaidErrorErrorCode -> PlaidError { plaidErrorErrorCode, ..} ) <$> f plaidErrorErrorCode
+{-# INLINE plaidErrorErrorCodeL #-}
+
+-- | 'plaidErrorErrorCodeReason' Lens
+plaidErrorErrorCodeReasonL :: Lens_' PlaidError (Maybe Text)
+plaidErrorErrorCodeReasonL f PlaidError{..} = (\plaidErrorErrorCodeReason -> PlaidError { plaidErrorErrorCodeReason, ..} ) <$> f plaidErrorErrorCodeReason
+{-# INLINE plaidErrorErrorCodeReasonL #-}
+
+-- | 'plaidErrorErrorMessage' Lens
+plaidErrorErrorMessageL :: Lens_' PlaidError (Text)
+plaidErrorErrorMessageL f PlaidError{..} = (\plaidErrorErrorMessage -> PlaidError { plaidErrorErrorMessage, ..} ) <$> f plaidErrorErrorMessage
+{-# INLINE plaidErrorErrorMessageL #-}
+
+-- | 'plaidErrorErrorType' Lens
+plaidErrorErrorTypeL :: Lens_' PlaidError (PlaidErrorType)
+plaidErrorErrorTypeL f PlaidError{..} = (\plaidErrorErrorType -> PlaidError { plaidErrorErrorType, ..} ) <$> f plaidErrorErrorType
+{-# INLINE plaidErrorErrorTypeL #-}
+
+-- | 'plaidErrorProvidedAccountSubtypes' Lens
+plaidErrorProvidedAccountSubtypesL :: Lens_' PlaidError (Maybe [Text])
+plaidErrorProvidedAccountSubtypesL f PlaidError{..} = (\plaidErrorProvidedAccountSubtypes -> PlaidError { plaidErrorProvidedAccountSubtypes, ..} ) <$> f plaidErrorProvidedAccountSubtypes
+{-# INLINE plaidErrorProvidedAccountSubtypesL #-}
+
+-- | 'plaidErrorRequestId' Lens
+plaidErrorRequestIdL :: Lens_' PlaidError (Maybe Text)
+plaidErrorRequestIdL f PlaidError{..} = (\plaidErrorRequestId -> PlaidError { plaidErrorRequestId, ..} ) <$> f plaidErrorRequestId
+{-# INLINE plaidErrorRequestIdL #-}
+
+-- | 'plaidErrorRequiredAccountSubtypes' Lens
+plaidErrorRequiredAccountSubtypesL :: Lens_' PlaidError (Maybe [Text])
+plaidErrorRequiredAccountSubtypesL f PlaidError{..} = (\plaidErrorRequiredAccountSubtypes -> PlaidError { plaidErrorRequiredAccountSubtypes, ..} ) <$> f plaidErrorRequiredAccountSubtypes
+{-# INLINE plaidErrorRequiredAccountSubtypesL #-}
+
+-- | 'plaidErrorStatus' Lens
+plaidErrorStatusL :: Lens_' PlaidError (Maybe Int)
+plaidErrorStatusL f PlaidError{..} = (\plaidErrorStatus -> PlaidError { plaidErrorStatus, ..} ) <$> f plaidErrorStatus
+{-# INLINE plaidErrorStatusL #-}
+
+-- | 'plaidErrorSuggestedAction' Lens
+plaidErrorSuggestedActionL :: Lens_' PlaidError (Maybe Text)
+plaidErrorSuggestedActionL f PlaidError{..} = (\plaidErrorSuggestedAction -> PlaidError { plaidErrorSuggestedAction, ..} ) <$> f plaidErrorSuggestedAction
+{-# INLINE plaidErrorSuggestedActionL #-}
+
+
+
+-- * PlaidErrorType
+
+
+
+-- * RiskProfile
+
+-- | 'riskProfileKey' Lens
+riskProfileKeyL :: Lens_' RiskProfile (Maybe Text)
+riskProfileKeyL f RiskProfile{..} = (\riskProfileKey -> RiskProfile { riskProfileKey, ..} ) <$> f riskProfileKey
+{-# INLINE riskProfileKeyL #-}
+
+-- | 'riskProfileOutcome' Lens
+riskProfileOutcomeL :: Lens_' RiskProfile (Maybe Text)
+riskProfileOutcomeL f RiskProfile{..} = (\riskProfileOutcome -> RiskProfile { riskProfileOutcome, ..} ) <$> f riskProfileOutcome
+{-# INLINE riskProfileOutcomeL #-}
+
+
+
+-- * RuleDetails
+
+-- | 'ruleDetailsCustomActionKey' Lens
+ruleDetailsCustomActionKeyL :: Lens_' RuleDetails (Maybe Text)
+ruleDetailsCustomActionKeyL f RuleDetails{..} = (\ruleDetailsCustomActionKey -> RuleDetails { ruleDetailsCustomActionKey, ..} ) <$> f ruleDetailsCustomActionKey
+{-# INLINE ruleDetailsCustomActionKeyL #-}
+
+-- | 'ruleDetailsInternalNote' Lens
+ruleDetailsInternalNoteL :: Lens_' RuleDetails (Maybe Text)
+ruleDetailsInternalNoteL f RuleDetails{..} = (\ruleDetailsInternalNote -> RuleDetails { ruleDetailsInternalNote, ..} ) <$> f ruleDetailsInternalNote
+{-# INLINE ruleDetailsInternalNoteL #-}
+
+
+
+-- * RuleResult
+
+
+
+-- * Ruleset
+
+-- | 'rulesetOutcome' Lens
+rulesetOutcomeL :: Lens_' Ruleset (Maybe Text)
+rulesetOutcomeL f Ruleset{..} = (\rulesetOutcome -> Ruleset { rulesetOutcome, ..} ) <$> f rulesetOutcome
+{-# INLINE rulesetOutcomeL #-}
+
+-- | 'rulesetResult' Lens
+rulesetResultL :: Lens_' Ruleset (RuleResult)
+rulesetResultL f Ruleset{..} = (\rulesetResult -> Ruleset { rulesetResult, ..} ) <$> f rulesetResult
+{-# INLINE rulesetResultL #-}
+
+-- | 'rulesetRulesetKey' Lens
+rulesetRulesetKeyL :: Lens_' Ruleset (Maybe Text)
+rulesetRulesetKeyL f Ruleset{..} = (\rulesetRulesetKey -> Ruleset { rulesetRulesetKey, ..} ) <$> f rulesetRulesetKey
+{-# INLINE rulesetRulesetKeyL #-}
+
+-- | 'rulesetTriggeredRuleDetails' Lens
+rulesetTriggeredRuleDetailsL :: Lens_' Ruleset (Maybe RuleDetails)
+rulesetTriggeredRuleDetailsL f Ruleset{..} = (\rulesetTriggeredRuleDetails -> Ruleset { rulesetTriggeredRuleDetails, ..} ) <$> f rulesetTriggeredRuleDetails
+{-# INLINE rulesetTriggeredRuleDetailsL #-}
+
+
+
+-- * SignalAddressData
+
+-- | 'signalAddressDataCity' Lens
+signalAddressDataCityL :: Lens_' SignalAddressData (Maybe Text)
+signalAddressDataCityL f SignalAddressData{..} = (\signalAddressDataCity -> SignalAddressData { signalAddressDataCity, ..} ) <$> f signalAddressDataCity
+{-# INLINE signalAddressDataCityL #-}
+
+-- | 'signalAddressDataCountry' Lens
+signalAddressDataCountryL :: Lens_' SignalAddressData (Maybe Text)
+signalAddressDataCountryL f SignalAddressData{..} = (\signalAddressDataCountry -> SignalAddressData { signalAddressDataCountry, ..} ) <$> f signalAddressDataCountry
+{-# INLINE signalAddressDataCountryL #-}
+
+-- | 'signalAddressDataPostalCode' Lens
+signalAddressDataPostalCodeL :: Lens_' SignalAddressData (Maybe Text)
+signalAddressDataPostalCodeL f SignalAddressData{..} = (\signalAddressDataPostalCode -> SignalAddressData { signalAddressDataPostalCode, ..} ) <$> f signalAddressDataPostalCode
+{-# INLINE signalAddressDataPostalCodeL #-}
+
+-- | 'signalAddressDataRegion' Lens
+signalAddressDataRegionL :: Lens_' SignalAddressData (Maybe Text)
+signalAddressDataRegionL f SignalAddressData{..} = (\signalAddressDataRegion -> SignalAddressData { signalAddressDataRegion, ..} ) <$> f signalAddressDataRegion
+{-# INLINE signalAddressDataRegionL #-}
+
+-- | 'signalAddressDataStreet' Lens
+signalAddressDataStreetL :: Lens_' SignalAddressData (Maybe Text)
+signalAddressDataStreetL f SignalAddressData{..} = (\signalAddressDataStreet -> SignalAddressData { signalAddressDataStreet, ..} ) <$> f signalAddressDataStreet
+{-# INLINE signalAddressDataStreetL #-}
+
+
+
+-- * SignalDecisionOutcome
+
+
+
+-- * SignalDecisionReportRequest
+
+-- | 'signalDecisionReportRequestAmountInstantlyAvailable' Lens
+signalDecisionReportRequestAmountInstantlyAvailableL :: Lens_' SignalDecisionReportRequest (Maybe Double)
+signalDecisionReportRequestAmountInstantlyAvailableL f SignalDecisionReportRequest{..} = (\signalDecisionReportRequestAmountInstantlyAvailable -> SignalDecisionReportRequest { signalDecisionReportRequestAmountInstantlyAvailable, ..} ) <$> f signalDecisionReportRequestAmountInstantlyAvailable
+{-# INLINE signalDecisionReportRequestAmountInstantlyAvailableL #-}
+
+-- | 'signalDecisionReportRequestClientId' Lens
+signalDecisionReportRequestClientIdL :: Lens_' SignalDecisionReportRequest (Maybe Text)
+signalDecisionReportRequestClientIdL f SignalDecisionReportRequest{..} = (\signalDecisionReportRequestClientId -> SignalDecisionReportRequest { signalDecisionReportRequestClientId, ..} ) <$> f signalDecisionReportRequestClientId
+{-# INLINE signalDecisionReportRequestClientIdL #-}
+
+-- | 'signalDecisionReportRequestClientTransactionId' Lens
+signalDecisionReportRequestClientTransactionIdL :: Lens_' SignalDecisionReportRequest (Text)
+signalDecisionReportRequestClientTransactionIdL f SignalDecisionReportRequest{..} = (\signalDecisionReportRequestClientTransactionId -> SignalDecisionReportRequest { signalDecisionReportRequestClientTransactionId, ..} ) <$> f signalDecisionReportRequestClientTransactionId
+{-# INLINE signalDecisionReportRequestClientTransactionIdL #-}
+
+-- | 'signalDecisionReportRequestDaysFundsOnHold' Lens
+signalDecisionReportRequestDaysFundsOnHoldL :: Lens_' SignalDecisionReportRequest (Maybe Int)
+signalDecisionReportRequestDaysFundsOnHoldL f SignalDecisionReportRequest{..} = (\signalDecisionReportRequestDaysFundsOnHold -> SignalDecisionReportRequest { signalDecisionReportRequestDaysFundsOnHold, ..} ) <$> f signalDecisionReportRequestDaysFundsOnHold
+{-# INLINE signalDecisionReportRequestDaysFundsOnHoldL #-}
+
+-- | 'signalDecisionReportRequestDecisionOutcome' Lens
+signalDecisionReportRequestDecisionOutcomeL :: Lens_' SignalDecisionReportRequest (Maybe SignalDecisionOutcome)
+signalDecisionReportRequestDecisionOutcomeL f SignalDecisionReportRequest{..} = (\signalDecisionReportRequestDecisionOutcome -> SignalDecisionReportRequest { signalDecisionReportRequestDecisionOutcome, ..} ) <$> f signalDecisionReportRequestDecisionOutcome
+{-# INLINE signalDecisionReportRequestDecisionOutcomeL #-}
+
+-- | 'signalDecisionReportRequestInitiated' Lens
+signalDecisionReportRequestInitiatedL :: Lens_' SignalDecisionReportRequest (Bool)
+signalDecisionReportRequestInitiatedL f SignalDecisionReportRequest{..} = (\signalDecisionReportRequestInitiated -> SignalDecisionReportRequest { signalDecisionReportRequestInitiated, ..} ) <$> f signalDecisionReportRequestInitiated
+{-# INLINE signalDecisionReportRequestInitiatedL #-}
+
+-- | 'signalDecisionReportRequestPaymentMethod' Lens
+signalDecisionReportRequestPaymentMethodL :: Lens_' SignalDecisionReportRequest (Maybe SignalPaymentMethod)
+signalDecisionReportRequestPaymentMethodL f SignalDecisionReportRequest{..} = (\signalDecisionReportRequestPaymentMethod -> SignalDecisionReportRequest { signalDecisionReportRequestPaymentMethod, ..} ) <$> f signalDecisionReportRequestPaymentMethod
+{-# INLINE signalDecisionReportRequestPaymentMethodL #-}
+
+-- | 'signalDecisionReportRequestSecret' Lens
+signalDecisionReportRequestSecretL :: Lens_' SignalDecisionReportRequest (Maybe Text)
+signalDecisionReportRequestSecretL f SignalDecisionReportRequest{..} = (\signalDecisionReportRequestSecret -> SignalDecisionReportRequest { signalDecisionReportRequestSecret, ..} ) <$> f signalDecisionReportRequestSecret
+{-# INLINE signalDecisionReportRequestSecretL #-}
+
+-- | 'signalDecisionReportRequestSubmittedAt' Lens
+signalDecisionReportRequestSubmittedAtL :: Lens_' SignalDecisionReportRequest (Maybe DateTime)
+signalDecisionReportRequestSubmittedAtL f SignalDecisionReportRequest{..} = (\signalDecisionReportRequestSubmittedAt -> SignalDecisionReportRequest { signalDecisionReportRequestSubmittedAt, ..} ) <$> f signalDecisionReportRequestSubmittedAt
+{-# INLINE signalDecisionReportRequestSubmittedAtL #-}
+
+
+
+-- * SignalDecisionReportResponse
+
+-- | 'signalDecisionReportResponseRequestId' Lens
+signalDecisionReportResponseRequestIdL :: Lens_' SignalDecisionReportResponse (Text)
+signalDecisionReportResponseRequestIdL f SignalDecisionReportResponse{..} = (\signalDecisionReportResponseRequestId -> SignalDecisionReportResponse { signalDecisionReportResponseRequestId, ..} ) <$> f signalDecisionReportResponseRequestId
+{-# INLINE signalDecisionReportResponseRequestIdL #-}
+
+
+
+-- * SignalDevice
+
+-- | 'signalDeviceIpAddress' Lens
+signalDeviceIpAddressL :: Lens_' SignalDevice (Maybe Text)
+signalDeviceIpAddressL f SignalDevice{..} = (\signalDeviceIpAddress -> SignalDevice { signalDeviceIpAddress, ..} ) <$> f signalDeviceIpAddress
+{-# INLINE signalDeviceIpAddressL #-}
+
+-- | 'signalDeviceUserAgent' Lens
+signalDeviceUserAgentL :: Lens_' SignalDevice (Maybe Text)
+signalDeviceUserAgentL f SignalDevice{..} = (\signalDeviceUserAgent -> SignalDevice { signalDeviceUserAgent, ..} ) <$> f signalDeviceUserAgent
+{-# INLINE signalDeviceUserAgentL #-}
+
+
+
+-- * SignalEvaluateCoreAttributes
+
+-- | 'signalEvaluateCoreAttributesAddressChangeCount28d' Lens
+signalEvaluateCoreAttributesAddressChangeCount28dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Int)
+signalEvaluateCoreAttributesAddressChangeCount28dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesAddressChangeCount28d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesAddressChangeCount28d, ..} ) <$> f signalEvaluateCoreAttributesAddressChangeCount28d
+{-# INLINE signalEvaluateCoreAttributesAddressChangeCount28dL #-}
+
+-- | 'signalEvaluateCoreAttributesAddressChangeCount90d' Lens
+signalEvaluateCoreAttributesAddressChangeCount90dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Int)
+signalEvaluateCoreAttributesAddressChangeCount90dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesAddressChangeCount90d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesAddressChangeCount90d, ..} ) <$> f signalEvaluateCoreAttributesAddressChangeCount90d
+{-# INLINE signalEvaluateCoreAttributesAddressChangeCount90dL #-}
+
+-- | 'signalEvaluateCoreAttributesAvailableBalance' Lens
+signalEvaluateCoreAttributesAvailableBalanceL :: Lens_' SignalEvaluateCoreAttributes (Maybe Double)
+signalEvaluateCoreAttributesAvailableBalanceL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesAvailableBalance -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesAvailableBalance, ..} ) <$> f signalEvaluateCoreAttributesAvailableBalance
+{-# INLINE signalEvaluateCoreAttributesAvailableBalanceL #-}
+
+-- | 'signalEvaluateCoreAttributesBalanceLastUpdated' Lens
+signalEvaluateCoreAttributesBalanceLastUpdatedL :: Lens_' SignalEvaluateCoreAttributes (Maybe DateTime)
+signalEvaluateCoreAttributesBalanceLastUpdatedL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesBalanceLastUpdated -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesBalanceLastUpdated, ..} ) <$> f signalEvaluateCoreAttributesBalanceLastUpdated
+{-# INLINE signalEvaluateCoreAttributesBalanceLastUpdatedL #-}
+
+-- | 'signalEvaluateCoreAttributesBalanceToTransactionAmountRatio' Lens
+signalEvaluateCoreAttributesBalanceToTransactionAmountRatioL :: Lens_' SignalEvaluateCoreAttributes (Maybe Double)
+signalEvaluateCoreAttributesBalanceToTransactionAmountRatioL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesBalanceToTransactionAmountRatio -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesBalanceToTransactionAmountRatio, ..} ) <$> f signalEvaluateCoreAttributesBalanceToTransactionAmountRatio
+{-# INLINE signalEvaluateCoreAttributesBalanceToTransactionAmountRatioL #-}
+
+-- | 'signalEvaluateCoreAttributesCreditTransactionsCount10d' Lens
+signalEvaluateCoreAttributesCreditTransactionsCount10dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Int)
+signalEvaluateCoreAttributesCreditTransactionsCount10dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesCreditTransactionsCount10d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesCreditTransactionsCount10d, ..} ) <$> f signalEvaluateCoreAttributesCreditTransactionsCount10d
+{-# INLINE signalEvaluateCoreAttributesCreditTransactionsCount10dL #-}
+
+-- | 'signalEvaluateCoreAttributesCreditTransactionsCount30d' Lens
+signalEvaluateCoreAttributesCreditTransactionsCount30dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Int)
+signalEvaluateCoreAttributesCreditTransactionsCount30dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesCreditTransactionsCount30d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesCreditTransactionsCount30d, ..} ) <$> f signalEvaluateCoreAttributesCreditTransactionsCount30d
+{-# INLINE signalEvaluateCoreAttributesCreditTransactionsCount30dL #-}
+
+-- | 'signalEvaluateCoreAttributesCreditTransactionsCount60d' Lens
+signalEvaluateCoreAttributesCreditTransactionsCount60dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Int)
+signalEvaluateCoreAttributesCreditTransactionsCount60dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesCreditTransactionsCount60d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesCreditTransactionsCount60d, ..} ) <$> f signalEvaluateCoreAttributesCreditTransactionsCount60d
+{-# INLINE signalEvaluateCoreAttributesCreditTransactionsCount60dL #-}
+
+-- | 'signalEvaluateCoreAttributesCreditTransactionsCount90d' Lens
+signalEvaluateCoreAttributesCreditTransactionsCount90dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Int)
+signalEvaluateCoreAttributesCreditTransactionsCount90dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesCreditTransactionsCount90d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesCreditTransactionsCount90d, ..} ) <$> f signalEvaluateCoreAttributesCreditTransactionsCount90d
+{-# INLINE signalEvaluateCoreAttributesCreditTransactionsCount90dL #-}
+
+-- | 'signalEvaluateCoreAttributesCurrentBalance' Lens
+signalEvaluateCoreAttributesCurrentBalanceL :: Lens_' SignalEvaluateCoreAttributes (Maybe Double)
+signalEvaluateCoreAttributesCurrentBalanceL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesCurrentBalance -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesCurrentBalance, ..} ) <$> f signalEvaluateCoreAttributesCurrentBalance
+{-# INLINE signalEvaluateCoreAttributesCurrentBalanceL #-}
+
+-- | 'signalEvaluateCoreAttributesDaysSinceAccountOpening' Lens
+signalEvaluateCoreAttributesDaysSinceAccountOpeningL :: Lens_' SignalEvaluateCoreAttributes (Maybe Int)
+signalEvaluateCoreAttributesDaysSinceAccountOpeningL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesDaysSinceAccountOpening -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesDaysSinceAccountOpening, ..} ) <$> f signalEvaluateCoreAttributesDaysSinceAccountOpening
+{-# INLINE signalEvaluateCoreAttributesDaysSinceAccountOpeningL #-}
+
+-- | 'signalEvaluateCoreAttributesDaysSinceFirstPlaidConnection' Lens
+signalEvaluateCoreAttributesDaysSinceFirstPlaidConnectionL :: Lens_' SignalEvaluateCoreAttributes (Maybe Int)
+signalEvaluateCoreAttributesDaysSinceFirstPlaidConnectionL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesDaysSinceFirstPlaidConnection -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesDaysSinceFirstPlaidConnection, ..} ) <$> f signalEvaluateCoreAttributesDaysSinceFirstPlaidConnection
+{-# INLINE signalEvaluateCoreAttributesDaysSinceFirstPlaidConnectionL #-}
+
+-- | 'signalEvaluateCoreAttributesDaysWithNegativeBalanceCount90d' Lens
+signalEvaluateCoreAttributesDaysWithNegativeBalanceCount90dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Int)
+signalEvaluateCoreAttributesDaysWithNegativeBalanceCount90dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesDaysWithNegativeBalanceCount90d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesDaysWithNegativeBalanceCount90d, ..} ) <$> f signalEvaluateCoreAttributesDaysWithNegativeBalanceCount90d
+{-# INLINE signalEvaluateCoreAttributesDaysWithNegativeBalanceCount90dL #-}
+
+-- | 'signalEvaluateCoreAttributesDebitTransactionsCount10d' Lens
+signalEvaluateCoreAttributesDebitTransactionsCount10dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Int)
+signalEvaluateCoreAttributesDebitTransactionsCount10dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesDebitTransactionsCount10d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesDebitTransactionsCount10d, ..} ) <$> f signalEvaluateCoreAttributesDebitTransactionsCount10d
+{-# INLINE signalEvaluateCoreAttributesDebitTransactionsCount10dL #-}
+
+-- | 'signalEvaluateCoreAttributesDebitTransactionsCount30d' Lens
+signalEvaluateCoreAttributesDebitTransactionsCount30dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Int)
+signalEvaluateCoreAttributesDebitTransactionsCount30dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesDebitTransactionsCount30d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesDebitTransactionsCount30d, ..} ) <$> f signalEvaluateCoreAttributesDebitTransactionsCount30d
+{-# INLINE signalEvaluateCoreAttributesDebitTransactionsCount30dL #-}
+
+-- | 'signalEvaluateCoreAttributesDebitTransactionsCount60d' Lens
+signalEvaluateCoreAttributesDebitTransactionsCount60dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Int)
+signalEvaluateCoreAttributesDebitTransactionsCount60dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesDebitTransactionsCount60d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesDebitTransactionsCount60d, ..} ) <$> f signalEvaluateCoreAttributesDebitTransactionsCount60d
+{-# INLINE signalEvaluateCoreAttributesDebitTransactionsCount60dL #-}
+
+-- | 'signalEvaluateCoreAttributesDebitTransactionsCount90d' Lens
+signalEvaluateCoreAttributesDebitTransactionsCount90dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Int)
+signalEvaluateCoreAttributesDebitTransactionsCount90dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesDebitTransactionsCount90d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesDebitTransactionsCount90d, ..} ) <$> f signalEvaluateCoreAttributesDebitTransactionsCount90d
+{-# INLINE signalEvaluateCoreAttributesDebitTransactionsCount90dL #-}
+
+-- | 'signalEvaluateCoreAttributesDistinctIpAddressesCount30d' Lens
+signalEvaluateCoreAttributesDistinctIpAddressesCount30dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Int)
+signalEvaluateCoreAttributesDistinctIpAddressesCount30dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesDistinctIpAddressesCount30d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesDistinctIpAddressesCount30d, ..} ) <$> f signalEvaluateCoreAttributesDistinctIpAddressesCount30d
+{-# INLINE signalEvaluateCoreAttributesDistinctIpAddressesCount30dL #-}
+
+-- | 'signalEvaluateCoreAttributesDistinctIpAddressesCount3d' Lens
+signalEvaluateCoreAttributesDistinctIpAddressesCount3dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Int)
+signalEvaluateCoreAttributesDistinctIpAddressesCount3dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesDistinctIpAddressesCount3d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesDistinctIpAddressesCount3d, ..} ) <$> f signalEvaluateCoreAttributesDistinctIpAddressesCount3d
+{-# INLINE signalEvaluateCoreAttributesDistinctIpAddressesCount3dL #-}
+
+-- | 'signalEvaluateCoreAttributesDistinctIpAddressesCount7d' Lens
+signalEvaluateCoreAttributesDistinctIpAddressesCount7dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Int)
+signalEvaluateCoreAttributesDistinctIpAddressesCount7dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesDistinctIpAddressesCount7d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesDistinctIpAddressesCount7d, ..} ) <$> f signalEvaluateCoreAttributesDistinctIpAddressesCount7d
+{-# INLINE signalEvaluateCoreAttributesDistinctIpAddressesCount7dL #-}
+
+-- | 'signalEvaluateCoreAttributesDistinctIpAddressesCount90d' Lens
+signalEvaluateCoreAttributesDistinctIpAddressesCount90dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Int)
+signalEvaluateCoreAttributesDistinctIpAddressesCount90dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesDistinctIpAddressesCount90d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesDistinctIpAddressesCount90d, ..} ) <$> f signalEvaluateCoreAttributesDistinctIpAddressesCount90d
+{-# INLINE signalEvaluateCoreAttributesDistinctIpAddressesCount90dL #-}
+
+-- | 'signalEvaluateCoreAttributesDistinctSslTlsConnectionSessionsCount30d' Lens
+signalEvaluateCoreAttributesDistinctSslTlsConnectionSessionsCount30dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Int)
+signalEvaluateCoreAttributesDistinctSslTlsConnectionSessionsCount30dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesDistinctSslTlsConnectionSessionsCount30d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesDistinctSslTlsConnectionSessionsCount30d, ..} ) <$> f signalEvaluateCoreAttributesDistinctSslTlsConnectionSessionsCount30d
+{-# INLINE signalEvaluateCoreAttributesDistinctSslTlsConnectionSessionsCount30dL #-}
+
+-- | 'signalEvaluateCoreAttributesDistinctSslTlsConnectionSessionsCount3d' Lens
+signalEvaluateCoreAttributesDistinctSslTlsConnectionSessionsCount3dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Int)
+signalEvaluateCoreAttributesDistinctSslTlsConnectionSessionsCount3dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesDistinctSslTlsConnectionSessionsCount3d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesDistinctSslTlsConnectionSessionsCount3d, ..} ) <$> f signalEvaluateCoreAttributesDistinctSslTlsConnectionSessionsCount3d
+{-# INLINE signalEvaluateCoreAttributesDistinctSslTlsConnectionSessionsCount3dL #-}
+
+-- | 'signalEvaluateCoreAttributesDistinctSslTlsConnectionSessionsCount7d' Lens
+signalEvaluateCoreAttributesDistinctSslTlsConnectionSessionsCount7dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Int)
+signalEvaluateCoreAttributesDistinctSslTlsConnectionSessionsCount7dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesDistinctSslTlsConnectionSessionsCount7d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesDistinctSslTlsConnectionSessionsCount7d, ..} ) <$> f signalEvaluateCoreAttributesDistinctSslTlsConnectionSessionsCount7d
+{-# INLINE signalEvaluateCoreAttributesDistinctSslTlsConnectionSessionsCount7dL #-}
+
+-- | 'signalEvaluateCoreAttributesDistinctSslTlsConnectionSessionsCount90d' Lens
+signalEvaluateCoreAttributesDistinctSslTlsConnectionSessionsCount90dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Int)
+signalEvaluateCoreAttributesDistinctSslTlsConnectionSessionsCount90dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesDistinctSslTlsConnectionSessionsCount90d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesDistinctSslTlsConnectionSessionsCount90d, ..} ) <$> f signalEvaluateCoreAttributesDistinctSslTlsConnectionSessionsCount90d
+{-# INLINE signalEvaluateCoreAttributesDistinctSslTlsConnectionSessionsCount90dL #-}
+
+-- | 'signalEvaluateCoreAttributesDistinctUserAgentsCount30d' Lens
+signalEvaluateCoreAttributesDistinctUserAgentsCount30dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Int)
+signalEvaluateCoreAttributesDistinctUserAgentsCount30dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesDistinctUserAgentsCount30d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesDistinctUserAgentsCount30d, ..} ) <$> f signalEvaluateCoreAttributesDistinctUserAgentsCount30d
+{-# INLINE signalEvaluateCoreAttributesDistinctUserAgentsCount30dL #-}
+
+-- | 'signalEvaluateCoreAttributesDistinctUserAgentsCount3d' Lens
+signalEvaluateCoreAttributesDistinctUserAgentsCount3dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Int)
+signalEvaluateCoreAttributesDistinctUserAgentsCount3dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesDistinctUserAgentsCount3d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesDistinctUserAgentsCount3d, ..} ) <$> f signalEvaluateCoreAttributesDistinctUserAgentsCount3d
+{-# INLINE signalEvaluateCoreAttributesDistinctUserAgentsCount3dL #-}
+
+-- | 'signalEvaluateCoreAttributesDistinctUserAgentsCount7d' Lens
+signalEvaluateCoreAttributesDistinctUserAgentsCount7dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Int)
+signalEvaluateCoreAttributesDistinctUserAgentsCount7dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesDistinctUserAgentsCount7d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesDistinctUserAgentsCount7d, ..} ) <$> f signalEvaluateCoreAttributesDistinctUserAgentsCount7d
+{-# INLINE signalEvaluateCoreAttributesDistinctUserAgentsCount7dL #-}
+
+-- | 'signalEvaluateCoreAttributesDistinctUserAgentsCount90d' Lens
+signalEvaluateCoreAttributesDistinctUserAgentsCount90dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Int)
+signalEvaluateCoreAttributesDistinctUserAgentsCount90dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesDistinctUserAgentsCount90d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesDistinctUserAgentsCount90d, ..} ) <$> f signalEvaluateCoreAttributesDistinctUserAgentsCount90d
+{-# INLINE signalEvaluateCoreAttributesDistinctUserAgentsCount90dL #-}
+
+-- | 'signalEvaluateCoreAttributesEmailChangeCount28d' Lens
+signalEvaluateCoreAttributesEmailChangeCount28dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Int)
+signalEvaluateCoreAttributesEmailChangeCount28dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesEmailChangeCount28d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesEmailChangeCount28d, ..} ) <$> f signalEvaluateCoreAttributesEmailChangeCount28d
+{-# INLINE signalEvaluateCoreAttributesEmailChangeCount28dL #-}
+
+-- | 'signalEvaluateCoreAttributesEmailChangeCount90d' Lens
+signalEvaluateCoreAttributesEmailChangeCount90dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Int)
+signalEvaluateCoreAttributesEmailChangeCount90dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesEmailChangeCount90d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesEmailChangeCount90d, ..} ) <$> f signalEvaluateCoreAttributesEmailChangeCount90d
+{-# INLINE signalEvaluateCoreAttributesEmailChangeCount90dL #-}
+
+-- | 'signalEvaluateCoreAttributesFailedPlaidNonOauthAuthenticationAttemptsCount30d' Lens
+signalEvaluateCoreAttributesFailedPlaidNonOauthAuthenticationAttemptsCount30dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Int)
+signalEvaluateCoreAttributesFailedPlaidNonOauthAuthenticationAttemptsCount30dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesFailedPlaidNonOauthAuthenticationAttemptsCount30d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesFailedPlaidNonOauthAuthenticationAttemptsCount30d, ..} ) <$> f signalEvaluateCoreAttributesFailedPlaidNonOauthAuthenticationAttemptsCount30d
+{-# INLINE signalEvaluateCoreAttributesFailedPlaidNonOauthAuthenticationAttemptsCount30dL #-}
+
+-- | 'signalEvaluateCoreAttributesFailedPlaidNonOauthAuthenticationAttemptsCount3d' Lens
+signalEvaluateCoreAttributesFailedPlaidNonOauthAuthenticationAttemptsCount3dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Int)
+signalEvaluateCoreAttributesFailedPlaidNonOauthAuthenticationAttemptsCount3dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesFailedPlaidNonOauthAuthenticationAttemptsCount3d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesFailedPlaidNonOauthAuthenticationAttemptsCount3d, ..} ) <$> f signalEvaluateCoreAttributesFailedPlaidNonOauthAuthenticationAttemptsCount3d
+{-# INLINE signalEvaluateCoreAttributesFailedPlaidNonOauthAuthenticationAttemptsCount3dL #-}
+
+-- | 'signalEvaluateCoreAttributesFailedPlaidNonOauthAuthenticationAttemptsCount7d' Lens
+signalEvaluateCoreAttributesFailedPlaidNonOauthAuthenticationAttemptsCount7dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Int)
+signalEvaluateCoreAttributesFailedPlaidNonOauthAuthenticationAttemptsCount7dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesFailedPlaidNonOauthAuthenticationAttemptsCount7d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesFailedPlaidNonOauthAuthenticationAttemptsCount7d, ..} ) <$> f signalEvaluateCoreAttributesFailedPlaidNonOauthAuthenticationAttemptsCount7d
+{-# INLINE signalEvaluateCoreAttributesFailedPlaidNonOauthAuthenticationAttemptsCount7dL #-}
+
+-- | 'signalEvaluateCoreAttributesIsAccountClosed' Lens
+signalEvaluateCoreAttributesIsAccountClosedL :: Lens_' SignalEvaluateCoreAttributes (Maybe Bool)
+signalEvaluateCoreAttributesIsAccountClosedL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesIsAccountClosed -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesIsAccountClosed, ..} ) <$> f signalEvaluateCoreAttributesIsAccountClosed
+{-# INLINE signalEvaluateCoreAttributesIsAccountClosedL #-}
+
+-- | 'signalEvaluateCoreAttributesIsAccountFrozenOrRestricted' Lens
+signalEvaluateCoreAttributesIsAccountFrozenOrRestrictedL :: Lens_' SignalEvaluateCoreAttributes (Maybe Bool)
+signalEvaluateCoreAttributesIsAccountFrozenOrRestrictedL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesIsAccountFrozenOrRestricted -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesIsAccountFrozenOrRestricted, ..} ) <$> f signalEvaluateCoreAttributesIsAccountFrozenOrRestricted
+{-# INLINE signalEvaluateCoreAttributesIsAccountFrozenOrRestrictedL #-}
+
+-- | 'signalEvaluateCoreAttributesIsSavingsOrMoneyMarketAccount' Lens
+signalEvaluateCoreAttributesIsSavingsOrMoneyMarketAccountL :: Lens_' SignalEvaluateCoreAttributes (Maybe Bool)
+signalEvaluateCoreAttributesIsSavingsOrMoneyMarketAccountL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesIsSavingsOrMoneyMarketAccount -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesIsSavingsOrMoneyMarketAccount, ..} ) <$> f signalEvaluateCoreAttributesIsSavingsOrMoneyMarketAccount
+{-# INLINE signalEvaluateCoreAttributesIsSavingsOrMoneyMarketAccountL #-}
+
+-- | 'signalEvaluateCoreAttributesNsfOverdraftTransactionsCount30d' Lens
+signalEvaluateCoreAttributesNsfOverdraftTransactionsCount30dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Int)
+signalEvaluateCoreAttributesNsfOverdraftTransactionsCount30dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesNsfOverdraftTransactionsCount30d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesNsfOverdraftTransactionsCount30d, ..} ) <$> f signalEvaluateCoreAttributesNsfOverdraftTransactionsCount30d
+{-# INLINE signalEvaluateCoreAttributesNsfOverdraftTransactionsCount30dL #-}
+
+-- | 'signalEvaluateCoreAttributesNsfOverdraftTransactionsCount60d' Lens
+signalEvaluateCoreAttributesNsfOverdraftTransactionsCount60dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Int)
+signalEvaluateCoreAttributesNsfOverdraftTransactionsCount60dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesNsfOverdraftTransactionsCount60d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesNsfOverdraftTransactionsCount60d, ..} ) <$> f signalEvaluateCoreAttributesNsfOverdraftTransactionsCount60d
+{-# INLINE signalEvaluateCoreAttributesNsfOverdraftTransactionsCount60dL #-}
+
+-- | 'signalEvaluateCoreAttributesNsfOverdraftTransactionsCount7d' Lens
+signalEvaluateCoreAttributesNsfOverdraftTransactionsCount7dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Int)
+signalEvaluateCoreAttributesNsfOverdraftTransactionsCount7dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesNsfOverdraftTransactionsCount7d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesNsfOverdraftTransactionsCount7d, ..} ) <$> f signalEvaluateCoreAttributesNsfOverdraftTransactionsCount7d
+{-# INLINE signalEvaluateCoreAttributesNsfOverdraftTransactionsCount7dL #-}
+
+-- | 'signalEvaluateCoreAttributesNsfOverdraftTransactionsCount90d' Lens
+signalEvaluateCoreAttributesNsfOverdraftTransactionsCount90dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Int)
+signalEvaluateCoreAttributesNsfOverdraftTransactionsCount90dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesNsfOverdraftTransactionsCount90d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesNsfOverdraftTransactionsCount90d, ..} ) <$> f signalEvaluateCoreAttributesNsfOverdraftTransactionsCount90d
+{-# INLINE signalEvaluateCoreAttributesNsfOverdraftTransactionsCount90dL #-}
+
+-- | 'signalEvaluateCoreAttributesP10EodBalance30d' Lens
+signalEvaluateCoreAttributesP10EodBalance30dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Double)
+signalEvaluateCoreAttributesP10EodBalance30dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesP10EodBalance30d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesP10EodBalance30d, ..} ) <$> f signalEvaluateCoreAttributesP10EodBalance30d
+{-# INLINE signalEvaluateCoreAttributesP10EodBalance30dL #-}
+
+-- | 'signalEvaluateCoreAttributesP10EodBalance31dTo60d' Lens
+signalEvaluateCoreAttributesP10EodBalance31dTo60dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Double)
+signalEvaluateCoreAttributesP10EodBalance31dTo60dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesP10EodBalance31dTo60d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesP10EodBalance31dTo60d, ..} ) <$> f signalEvaluateCoreAttributesP10EodBalance31dTo60d
+{-# INLINE signalEvaluateCoreAttributesP10EodBalance31dTo60dL #-}
+
+-- | 'signalEvaluateCoreAttributesP10EodBalance60d' Lens
+signalEvaluateCoreAttributesP10EodBalance60dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Double)
+signalEvaluateCoreAttributesP10EodBalance60dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesP10EodBalance60d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesP10EodBalance60d, ..} ) <$> f signalEvaluateCoreAttributesP10EodBalance60d
+{-# INLINE signalEvaluateCoreAttributesP10EodBalance60dL #-}
+
+-- | 'signalEvaluateCoreAttributesP10EodBalance61dTo90d' Lens
+signalEvaluateCoreAttributesP10EodBalance61dTo90dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Double)
+signalEvaluateCoreAttributesP10EodBalance61dTo90dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesP10EodBalance61dTo90d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesP10EodBalance61dTo90d, ..} ) <$> f signalEvaluateCoreAttributesP10EodBalance61dTo90d
+{-# INLINE signalEvaluateCoreAttributesP10EodBalance61dTo90dL #-}
+
+-- | 'signalEvaluateCoreAttributesP10EodBalance90d' Lens
+signalEvaluateCoreAttributesP10EodBalance90dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Double)
+signalEvaluateCoreAttributesP10EodBalance90dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesP10EodBalance90d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesP10EodBalance90d, ..} ) <$> f signalEvaluateCoreAttributesP10EodBalance90d
+{-# INLINE signalEvaluateCoreAttributesP10EodBalance90dL #-}
+
+-- | 'signalEvaluateCoreAttributesP50CreditTransactionsAmount28d' Lens
+signalEvaluateCoreAttributesP50CreditTransactionsAmount28dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Double)
+signalEvaluateCoreAttributesP50CreditTransactionsAmount28dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesP50CreditTransactionsAmount28d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesP50CreditTransactionsAmount28d, ..} ) <$> f signalEvaluateCoreAttributesP50CreditTransactionsAmount28d
+{-# INLINE signalEvaluateCoreAttributesP50CreditTransactionsAmount28dL #-}
+
+-- | 'signalEvaluateCoreAttributesP50DebitTransactionsAmount28d' Lens
+signalEvaluateCoreAttributesP50DebitTransactionsAmount28dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Double)
+signalEvaluateCoreAttributesP50DebitTransactionsAmount28dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesP50DebitTransactionsAmount28d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesP50DebitTransactionsAmount28d, ..} ) <$> f signalEvaluateCoreAttributesP50DebitTransactionsAmount28d
+{-# INLINE signalEvaluateCoreAttributesP50DebitTransactionsAmount28dL #-}
+
+-- | 'signalEvaluateCoreAttributesP50EodBalance30d' Lens
+signalEvaluateCoreAttributesP50EodBalance30dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Double)
+signalEvaluateCoreAttributesP50EodBalance30dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesP50EodBalance30d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesP50EodBalance30d, ..} ) <$> f signalEvaluateCoreAttributesP50EodBalance30d
+{-# INLINE signalEvaluateCoreAttributesP50EodBalance30dL #-}
+
+-- | 'signalEvaluateCoreAttributesP50EodBalance31dTo60d' Lens
+signalEvaluateCoreAttributesP50EodBalance31dTo60dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Double)
+signalEvaluateCoreAttributesP50EodBalance31dTo60dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesP50EodBalance31dTo60d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesP50EodBalance31dTo60d, ..} ) <$> f signalEvaluateCoreAttributesP50EodBalance31dTo60d
+{-# INLINE signalEvaluateCoreAttributesP50EodBalance31dTo60dL #-}
+
+-- | 'signalEvaluateCoreAttributesP50EodBalance60d' Lens
+signalEvaluateCoreAttributesP50EodBalance60dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Double)
+signalEvaluateCoreAttributesP50EodBalance60dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesP50EodBalance60d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesP50EodBalance60d, ..} ) <$> f signalEvaluateCoreAttributesP50EodBalance60d
+{-# INLINE signalEvaluateCoreAttributesP50EodBalance60dL #-}
+
+-- | 'signalEvaluateCoreAttributesP50EodBalance61dTo90d' Lens
+signalEvaluateCoreAttributesP50EodBalance61dTo90dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Double)
+signalEvaluateCoreAttributesP50EodBalance61dTo90dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesP50EodBalance61dTo90d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesP50EodBalance61dTo90d, ..} ) <$> f signalEvaluateCoreAttributesP50EodBalance61dTo90d
+{-# INLINE signalEvaluateCoreAttributesP50EodBalance61dTo90dL #-}
+
+-- | 'signalEvaluateCoreAttributesP50EodBalance90d' Lens
+signalEvaluateCoreAttributesP50EodBalance90dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Double)
+signalEvaluateCoreAttributesP50EodBalance90dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesP50EodBalance90d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesP50EodBalance90d, ..} ) <$> f signalEvaluateCoreAttributesP50EodBalance90d
+{-# INLINE signalEvaluateCoreAttributesP50EodBalance90dL #-}
+
+-- | 'signalEvaluateCoreAttributesP90EodBalance30d' Lens
+signalEvaluateCoreAttributesP90EodBalance30dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Double)
+signalEvaluateCoreAttributesP90EodBalance30dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesP90EodBalance30d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesP90EodBalance30d, ..} ) <$> f signalEvaluateCoreAttributesP90EodBalance30d
+{-# INLINE signalEvaluateCoreAttributesP90EodBalance30dL #-}
+
+-- | 'signalEvaluateCoreAttributesP90EodBalance31dTo60d' Lens
+signalEvaluateCoreAttributesP90EodBalance31dTo60dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Double)
+signalEvaluateCoreAttributesP90EodBalance31dTo60dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesP90EodBalance31dTo60d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesP90EodBalance31dTo60d, ..} ) <$> f signalEvaluateCoreAttributesP90EodBalance31dTo60d
+{-# INLINE signalEvaluateCoreAttributesP90EodBalance31dTo60dL #-}
+
+-- | 'signalEvaluateCoreAttributesP90EodBalance60d' Lens
+signalEvaluateCoreAttributesP90EodBalance60dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Double)
+signalEvaluateCoreAttributesP90EodBalance60dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesP90EodBalance60d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesP90EodBalance60d, ..} ) <$> f signalEvaluateCoreAttributesP90EodBalance60d
+{-# INLINE signalEvaluateCoreAttributesP90EodBalance60dL #-}
+
+-- | 'signalEvaluateCoreAttributesP90EodBalance61dTo90d' Lens
+signalEvaluateCoreAttributesP90EodBalance61dTo90dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Double)
+signalEvaluateCoreAttributesP90EodBalance61dTo90dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesP90EodBalance61dTo90d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesP90EodBalance61dTo90d, ..} ) <$> f signalEvaluateCoreAttributesP90EodBalance61dTo90d
+{-# INLINE signalEvaluateCoreAttributesP90EodBalance61dTo90dL #-}
+
+-- | 'signalEvaluateCoreAttributesP90EodBalance90d' Lens
+signalEvaluateCoreAttributesP90EodBalance90dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Double)
+signalEvaluateCoreAttributesP90EodBalance90dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesP90EodBalance90d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesP90EodBalance90d, ..} ) <$> f signalEvaluateCoreAttributesP90EodBalance90d
+{-# INLINE signalEvaluateCoreAttributesP90EodBalance90dL #-}
+
+-- | 'signalEvaluateCoreAttributesP95CreditTransactionsAmount28d' Lens
+signalEvaluateCoreAttributesP95CreditTransactionsAmount28dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Double)
+signalEvaluateCoreAttributesP95CreditTransactionsAmount28dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesP95CreditTransactionsAmount28d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesP95CreditTransactionsAmount28d, ..} ) <$> f signalEvaluateCoreAttributesP95CreditTransactionsAmount28d
+{-# INLINE signalEvaluateCoreAttributesP95CreditTransactionsAmount28dL #-}
+
+-- | 'signalEvaluateCoreAttributesP95DebitTransactionsAmount28d' Lens
+signalEvaluateCoreAttributesP95DebitTransactionsAmount28dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Double)
+signalEvaluateCoreAttributesP95DebitTransactionsAmount28dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesP95DebitTransactionsAmount28d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesP95DebitTransactionsAmount28d, ..} ) <$> f signalEvaluateCoreAttributesP95DebitTransactionsAmount28d
+{-# INLINE signalEvaluateCoreAttributesP95DebitTransactionsAmount28dL #-}
+
+-- | 'signalEvaluateCoreAttributesPhoneChangeCount28d' Lens
+signalEvaluateCoreAttributesPhoneChangeCount28dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Int)
+signalEvaluateCoreAttributesPhoneChangeCount28dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesPhoneChangeCount28d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesPhoneChangeCount28d, ..} ) <$> f signalEvaluateCoreAttributesPhoneChangeCount28d
+{-# INLINE signalEvaluateCoreAttributesPhoneChangeCount28dL #-}
+
+-- | 'signalEvaluateCoreAttributesPhoneChangeCount90d' Lens
+signalEvaluateCoreAttributesPhoneChangeCount90dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Int)
+signalEvaluateCoreAttributesPhoneChangeCount90dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesPhoneChangeCount90d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesPhoneChangeCount90d, ..} ) <$> f signalEvaluateCoreAttributesPhoneChangeCount90d
+{-# INLINE signalEvaluateCoreAttributesPhoneChangeCount90dL #-}
+
+-- | 'signalEvaluateCoreAttributesPlaidConnectionsCount30d' Lens
+signalEvaluateCoreAttributesPlaidConnectionsCount30dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Int)
+signalEvaluateCoreAttributesPlaidConnectionsCount30dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesPlaidConnectionsCount30d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesPlaidConnectionsCount30d, ..} ) <$> f signalEvaluateCoreAttributesPlaidConnectionsCount30d
+{-# INLINE signalEvaluateCoreAttributesPlaidConnectionsCount30dL #-}
+
+-- | 'signalEvaluateCoreAttributesPlaidConnectionsCount7d' Lens
+signalEvaluateCoreAttributesPlaidConnectionsCount7dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Int)
+signalEvaluateCoreAttributesPlaidConnectionsCount7dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesPlaidConnectionsCount7d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesPlaidConnectionsCount7d, ..} ) <$> f signalEvaluateCoreAttributesPlaidConnectionsCount7d
+{-# INLINE signalEvaluateCoreAttributesPlaidConnectionsCount7dL #-}
+
+-- | 'signalEvaluateCoreAttributesPlaidNonOauthAuthenticationAttemptsCount30d' Lens
+signalEvaluateCoreAttributesPlaidNonOauthAuthenticationAttemptsCount30dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Int)
+signalEvaluateCoreAttributesPlaidNonOauthAuthenticationAttemptsCount30dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesPlaidNonOauthAuthenticationAttemptsCount30d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesPlaidNonOauthAuthenticationAttemptsCount30d, ..} ) <$> f signalEvaluateCoreAttributesPlaidNonOauthAuthenticationAttemptsCount30d
+{-# INLINE signalEvaluateCoreAttributesPlaidNonOauthAuthenticationAttemptsCount30dL #-}
+
+-- | 'signalEvaluateCoreAttributesPlaidNonOauthAuthenticationAttemptsCount3d' Lens
+signalEvaluateCoreAttributesPlaidNonOauthAuthenticationAttemptsCount3dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Int)
+signalEvaluateCoreAttributesPlaidNonOauthAuthenticationAttemptsCount3dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesPlaidNonOauthAuthenticationAttemptsCount3d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesPlaidNonOauthAuthenticationAttemptsCount3d, ..} ) <$> f signalEvaluateCoreAttributesPlaidNonOauthAuthenticationAttemptsCount3d
+{-# INLINE signalEvaluateCoreAttributesPlaidNonOauthAuthenticationAttemptsCount3dL #-}
+
+-- | 'signalEvaluateCoreAttributesPlaidNonOauthAuthenticationAttemptsCount7d' Lens
+signalEvaluateCoreAttributesPlaidNonOauthAuthenticationAttemptsCount7dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Int)
+signalEvaluateCoreAttributesPlaidNonOauthAuthenticationAttemptsCount7dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesPlaidNonOauthAuthenticationAttemptsCount7d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesPlaidNonOauthAuthenticationAttemptsCount7d, ..} ) <$> f signalEvaluateCoreAttributesPlaidNonOauthAuthenticationAttemptsCount7d
+{-# INLINE signalEvaluateCoreAttributesPlaidNonOauthAuthenticationAttemptsCount7dL #-}
+
+-- | 'signalEvaluateCoreAttributesTotalCreditTransactionsAmount10d' Lens
+signalEvaluateCoreAttributesTotalCreditTransactionsAmount10dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Double)
+signalEvaluateCoreAttributesTotalCreditTransactionsAmount10dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesTotalCreditTransactionsAmount10d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesTotalCreditTransactionsAmount10d, ..} ) <$> f signalEvaluateCoreAttributesTotalCreditTransactionsAmount10d
+{-# INLINE signalEvaluateCoreAttributesTotalCreditTransactionsAmount10dL #-}
+
+-- | 'signalEvaluateCoreAttributesTotalCreditTransactionsAmount30d' Lens
+signalEvaluateCoreAttributesTotalCreditTransactionsAmount30dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Double)
+signalEvaluateCoreAttributesTotalCreditTransactionsAmount30dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesTotalCreditTransactionsAmount30d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesTotalCreditTransactionsAmount30d, ..} ) <$> f signalEvaluateCoreAttributesTotalCreditTransactionsAmount30d
+{-# INLINE signalEvaluateCoreAttributesTotalCreditTransactionsAmount30dL #-}
+
+-- | 'signalEvaluateCoreAttributesTotalCreditTransactionsAmount60d' Lens
+signalEvaluateCoreAttributesTotalCreditTransactionsAmount60dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Double)
+signalEvaluateCoreAttributesTotalCreditTransactionsAmount60dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesTotalCreditTransactionsAmount60d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesTotalCreditTransactionsAmount60d, ..} ) <$> f signalEvaluateCoreAttributesTotalCreditTransactionsAmount60d
+{-# INLINE signalEvaluateCoreAttributesTotalCreditTransactionsAmount60dL #-}
+
+-- | 'signalEvaluateCoreAttributesTotalCreditTransactionsAmount90d' Lens
+signalEvaluateCoreAttributesTotalCreditTransactionsAmount90dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Double)
+signalEvaluateCoreAttributesTotalCreditTransactionsAmount90dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesTotalCreditTransactionsAmount90d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesTotalCreditTransactionsAmount90d, ..} ) <$> f signalEvaluateCoreAttributesTotalCreditTransactionsAmount90d
+{-# INLINE signalEvaluateCoreAttributesTotalCreditTransactionsAmount90dL #-}
+
+-- | 'signalEvaluateCoreAttributesTotalDebitTransactionsAmount10d' Lens
+signalEvaluateCoreAttributesTotalDebitTransactionsAmount10dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Double)
+signalEvaluateCoreAttributesTotalDebitTransactionsAmount10dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesTotalDebitTransactionsAmount10d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesTotalDebitTransactionsAmount10d, ..} ) <$> f signalEvaluateCoreAttributesTotalDebitTransactionsAmount10d
+{-# INLINE signalEvaluateCoreAttributesTotalDebitTransactionsAmount10dL #-}
+
+-- | 'signalEvaluateCoreAttributesTotalDebitTransactionsAmount30d' Lens
+signalEvaluateCoreAttributesTotalDebitTransactionsAmount30dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Double)
+signalEvaluateCoreAttributesTotalDebitTransactionsAmount30dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesTotalDebitTransactionsAmount30d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesTotalDebitTransactionsAmount30d, ..} ) <$> f signalEvaluateCoreAttributesTotalDebitTransactionsAmount30d
+{-# INLINE signalEvaluateCoreAttributesTotalDebitTransactionsAmount30dL #-}
+
+-- | 'signalEvaluateCoreAttributesTotalDebitTransactionsAmount60d' Lens
+signalEvaluateCoreAttributesTotalDebitTransactionsAmount60dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Double)
+signalEvaluateCoreAttributesTotalDebitTransactionsAmount60dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesTotalDebitTransactionsAmount60d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesTotalDebitTransactionsAmount60d, ..} ) <$> f signalEvaluateCoreAttributesTotalDebitTransactionsAmount60d
+{-# INLINE signalEvaluateCoreAttributesTotalDebitTransactionsAmount60dL #-}
+
+-- | 'signalEvaluateCoreAttributesTotalDebitTransactionsAmount90d' Lens
+signalEvaluateCoreAttributesTotalDebitTransactionsAmount90dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Double)
+signalEvaluateCoreAttributesTotalDebitTransactionsAmount90dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesTotalDebitTransactionsAmount90d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesTotalDebitTransactionsAmount90d, ..} ) <$> f signalEvaluateCoreAttributesTotalDebitTransactionsAmount90d
+{-# INLINE signalEvaluateCoreAttributesTotalDebitTransactionsAmount90dL #-}
+
+-- | 'signalEvaluateCoreAttributesTotalPlaidConnectionsCount' Lens
+signalEvaluateCoreAttributesTotalPlaidConnectionsCountL :: Lens_' SignalEvaluateCoreAttributes (Maybe Int)
+signalEvaluateCoreAttributesTotalPlaidConnectionsCountL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesTotalPlaidConnectionsCount -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesTotalPlaidConnectionsCount, ..} ) <$> f signalEvaluateCoreAttributesTotalPlaidConnectionsCount
+{-# INLINE signalEvaluateCoreAttributesTotalPlaidConnectionsCountL #-}
+
+-- | 'signalEvaluateCoreAttributesTransactionsLastUpdated' Lens
+signalEvaluateCoreAttributesTransactionsLastUpdatedL :: Lens_' SignalEvaluateCoreAttributes (Maybe DateTime)
+signalEvaluateCoreAttributesTransactionsLastUpdatedL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesTransactionsLastUpdated -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesTransactionsLastUpdated, ..} ) <$> f signalEvaluateCoreAttributesTransactionsLastUpdated
+{-# INLINE signalEvaluateCoreAttributesTransactionsLastUpdatedL #-}
+
+-- | 'signalEvaluateCoreAttributesUnauthorizedTransactionsCount30d' Lens
+signalEvaluateCoreAttributesUnauthorizedTransactionsCount30dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Int)
+signalEvaluateCoreAttributesUnauthorizedTransactionsCount30dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesUnauthorizedTransactionsCount30d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesUnauthorizedTransactionsCount30d, ..} ) <$> f signalEvaluateCoreAttributesUnauthorizedTransactionsCount30d
+{-# INLINE signalEvaluateCoreAttributesUnauthorizedTransactionsCount30dL #-}
+
+-- | 'signalEvaluateCoreAttributesUnauthorizedTransactionsCount60d' Lens
+signalEvaluateCoreAttributesUnauthorizedTransactionsCount60dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Int)
+signalEvaluateCoreAttributesUnauthorizedTransactionsCount60dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesUnauthorizedTransactionsCount60d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesUnauthorizedTransactionsCount60d, ..} ) <$> f signalEvaluateCoreAttributesUnauthorizedTransactionsCount60d
+{-# INLINE signalEvaluateCoreAttributesUnauthorizedTransactionsCount60dL #-}
+
+-- | 'signalEvaluateCoreAttributesUnauthorizedTransactionsCount7d' Lens
+signalEvaluateCoreAttributesUnauthorizedTransactionsCount7dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Int)
+signalEvaluateCoreAttributesUnauthorizedTransactionsCount7dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesUnauthorizedTransactionsCount7d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesUnauthorizedTransactionsCount7d, ..} ) <$> f signalEvaluateCoreAttributesUnauthorizedTransactionsCount7d
+{-# INLINE signalEvaluateCoreAttributesUnauthorizedTransactionsCount7dL #-}
+
+-- | 'signalEvaluateCoreAttributesUnauthorizedTransactionsCount90d' Lens
+signalEvaluateCoreAttributesUnauthorizedTransactionsCount90dL :: Lens_' SignalEvaluateCoreAttributes (Maybe Int)
+signalEvaluateCoreAttributesUnauthorizedTransactionsCount90dL f SignalEvaluateCoreAttributes{..} = (\signalEvaluateCoreAttributesUnauthorizedTransactionsCount90d -> SignalEvaluateCoreAttributes { signalEvaluateCoreAttributesUnauthorizedTransactionsCount90d, ..} ) <$> f signalEvaluateCoreAttributesUnauthorizedTransactionsCount90d
+{-# INLINE signalEvaluateCoreAttributesUnauthorizedTransactionsCount90dL #-}
+
+
+
+-- * SignalEvaluateRequest
+
+-- | 'signalEvaluateRequestAccessToken' Lens
+signalEvaluateRequestAccessTokenL :: Lens_' SignalEvaluateRequest (Text)
+signalEvaluateRequestAccessTokenL f SignalEvaluateRequest{..} = (\signalEvaluateRequestAccessToken -> SignalEvaluateRequest { signalEvaluateRequestAccessToken, ..} ) <$> f signalEvaluateRequestAccessToken
+{-# INLINE signalEvaluateRequestAccessTokenL #-}
+
+-- | 'signalEvaluateRequestAccountId' Lens
+signalEvaluateRequestAccountIdL :: Lens_' SignalEvaluateRequest (Text)
+signalEvaluateRequestAccountIdL f SignalEvaluateRequest{..} = (\signalEvaluateRequestAccountId -> SignalEvaluateRequest { signalEvaluateRequestAccountId, ..} ) <$> f signalEvaluateRequestAccountId
+{-# INLINE signalEvaluateRequestAccountIdL #-}
+
+-- | 'signalEvaluateRequestAmount' Lens
+signalEvaluateRequestAmountL :: Lens_' SignalEvaluateRequest (Double)
+signalEvaluateRequestAmountL f SignalEvaluateRequest{..} = (\signalEvaluateRequestAmount -> SignalEvaluateRequest { signalEvaluateRequestAmount, ..} ) <$> f signalEvaluateRequestAmount
+{-# INLINE signalEvaluateRequestAmountL #-}
+
+-- | 'signalEvaluateRequestClientId' Lens
+signalEvaluateRequestClientIdL :: Lens_' SignalEvaluateRequest (Maybe Text)
+signalEvaluateRequestClientIdL f SignalEvaluateRequest{..} = (\signalEvaluateRequestClientId -> SignalEvaluateRequest { signalEvaluateRequestClientId, ..} ) <$> f signalEvaluateRequestClientId
+{-# INLINE signalEvaluateRequestClientIdL #-}
+
+-- | 'signalEvaluateRequestClientTransactionId' Lens
+signalEvaluateRequestClientTransactionIdL :: Lens_' SignalEvaluateRequest (Text)
+signalEvaluateRequestClientTransactionIdL f SignalEvaluateRequest{..} = (\signalEvaluateRequestClientTransactionId -> SignalEvaluateRequest { signalEvaluateRequestClientTransactionId, ..} ) <$> f signalEvaluateRequestClientTransactionId
+{-# INLINE signalEvaluateRequestClientTransactionIdL #-}
+
+-- | 'signalEvaluateRequestClientUserId' Lens
+signalEvaluateRequestClientUserIdL :: Lens_' SignalEvaluateRequest (Maybe Text)
+signalEvaluateRequestClientUserIdL f SignalEvaluateRequest{..} = (\signalEvaluateRequestClientUserId -> SignalEvaluateRequest { signalEvaluateRequestClientUserId, ..} ) <$> f signalEvaluateRequestClientUserId
+{-# INLINE signalEvaluateRequestClientUserIdL #-}
+
+-- | 'signalEvaluateRequestDefaultPaymentMethod' Lens
+signalEvaluateRequestDefaultPaymentMethodL :: Lens_' SignalEvaluateRequest (Maybe Text)
+signalEvaluateRequestDefaultPaymentMethodL f SignalEvaluateRequest{..} = (\signalEvaluateRequestDefaultPaymentMethod -> SignalEvaluateRequest { signalEvaluateRequestDefaultPaymentMethod, ..} ) <$> f signalEvaluateRequestDefaultPaymentMethod
+{-# INLINE signalEvaluateRequestDefaultPaymentMethodL #-}
+
+-- | 'signalEvaluateRequestDevice' Lens
+signalEvaluateRequestDeviceL :: Lens_' SignalEvaluateRequest (Maybe SignalDevice)
+signalEvaluateRequestDeviceL f SignalEvaluateRequest{..} = (\signalEvaluateRequestDevice -> SignalEvaluateRequest { signalEvaluateRequestDevice, ..} ) <$> f signalEvaluateRequestDevice
+{-# INLINE signalEvaluateRequestDeviceL #-}
+
+-- | 'signalEvaluateRequestIsRecurring' Lens
+signalEvaluateRequestIsRecurringL :: Lens_' SignalEvaluateRequest (Maybe Bool)
+signalEvaluateRequestIsRecurringL f SignalEvaluateRequest{..} = (\signalEvaluateRequestIsRecurring -> SignalEvaluateRequest { signalEvaluateRequestIsRecurring, ..} ) <$> f signalEvaluateRequestIsRecurring
+{-# INLINE signalEvaluateRequestIsRecurringL #-}
+
+-- | 'signalEvaluateRequestRiskProfileKey' Lens
+signalEvaluateRequestRiskProfileKeyL :: Lens_' SignalEvaluateRequest (Maybe Text)
+signalEvaluateRequestRiskProfileKeyL f SignalEvaluateRequest{..} = (\signalEvaluateRequestRiskProfileKey -> SignalEvaluateRequest { signalEvaluateRequestRiskProfileKey, ..} ) <$> f signalEvaluateRequestRiskProfileKey
+{-# INLINE signalEvaluateRequestRiskProfileKeyL #-}
+
+-- | 'signalEvaluateRequestRulesetKey' Lens
+signalEvaluateRequestRulesetKeyL :: Lens_' SignalEvaluateRequest (Maybe Text)
+signalEvaluateRequestRulesetKeyL f SignalEvaluateRequest{..} = (\signalEvaluateRequestRulesetKey -> SignalEvaluateRequest { signalEvaluateRequestRulesetKey, ..} ) <$> f signalEvaluateRequestRulesetKey
+{-# INLINE signalEvaluateRequestRulesetKeyL #-}
+
+-- | 'signalEvaluateRequestSecret' Lens
+signalEvaluateRequestSecretL :: Lens_' SignalEvaluateRequest (Maybe Text)
+signalEvaluateRequestSecretL f SignalEvaluateRequest{..} = (\signalEvaluateRequestSecret -> SignalEvaluateRequest { signalEvaluateRequestSecret, ..} ) <$> f signalEvaluateRequestSecret
+{-# INLINE signalEvaluateRequestSecretL #-}
+
+-- | 'signalEvaluateRequestUser' Lens
+signalEvaluateRequestUserL :: Lens_' SignalEvaluateRequest (Maybe SignalUser)
+signalEvaluateRequestUserL f SignalEvaluateRequest{..} = (\signalEvaluateRequestUser -> SignalEvaluateRequest { signalEvaluateRequestUser, ..} ) <$> f signalEvaluateRequestUser
+{-# INLINE signalEvaluateRequestUserL #-}
+
+-- | 'signalEvaluateRequestUserPresent' Lens
+signalEvaluateRequestUserPresentL :: Lens_' SignalEvaluateRequest (Maybe Bool)
+signalEvaluateRequestUserPresentL f SignalEvaluateRequest{..} = (\signalEvaluateRequestUserPresent -> SignalEvaluateRequest { signalEvaluateRequestUserPresent, ..} ) <$> f signalEvaluateRequestUserPresent
+{-# INLINE signalEvaluateRequestUserPresentL #-}
+
+
+
+-- * SignalEvaluateResponse
+
+-- | 'signalEvaluateResponseCoreAttributes' Lens
+signalEvaluateResponseCoreAttributesL :: Lens_' SignalEvaluateResponse (Maybe SignalEvaluateCoreAttributes)
+signalEvaluateResponseCoreAttributesL f SignalEvaluateResponse{..} = (\signalEvaluateResponseCoreAttributes -> SignalEvaluateResponse { signalEvaluateResponseCoreAttributes, ..} ) <$> f signalEvaluateResponseCoreAttributes
+{-# INLINE signalEvaluateResponseCoreAttributesL #-}
+
+-- | 'signalEvaluateResponseRequestId' Lens
+signalEvaluateResponseRequestIdL :: Lens_' SignalEvaluateResponse (Text)
+signalEvaluateResponseRequestIdL f SignalEvaluateResponse{..} = (\signalEvaluateResponseRequestId -> SignalEvaluateResponse { signalEvaluateResponseRequestId, ..} ) <$> f signalEvaluateResponseRequestId
+{-# INLINE signalEvaluateResponseRequestIdL #-}
+
+-- | 'signalEvaluateResponseRiskProfile' Lens
+signalEvaluateResponseRiskProfileL :: Lens_' SignalEvaluateResponse (Maybe RiskProfile)
+signalEvaluateResponseRiskProfileL f SignalEvaluateResponse{..} = (\signalEvaluateResponseRiskProfile -> SignalEvaluateResponse { signalEvaluateResponseRiskProfile, ..} ) <$> f signalEvaluateResponseRiskProfile
+{-# INLINE signalEvaluateResponseRiskProfileL #-}
+
+-- | 'signalEvaluateResponseRuleset' Lens
+signalEvaluateResponseRulesetL :: Lens_' SignalEvaluateResponse (Maybe Ruleset)
+signalEvaluateResponseRulesetL f SignalEvaluateResponse{..} = (\signalEvaluateResponseRuleset -> SignalEvaluateResponse { signalEvaluateResponseRuleset, ..} ) <$> f signalEvaluateResponseRuleset
+{-# INLINE signalEvaluateResponseRulesetL #-}
+
+-- | 'signalEvaluateResponseScores' Lens
+signalEvaluateResponseScoresL :: Lens_' SignalEvaluateResponse (SignalScores)
+signalEvaluateResponseScoresL f SignalEvaluateResponse{..} = (\signalEvaluateResponseScores -> SignalEvaluateResponse { signalEvaluateResponseScores, ..} ) <$> f signalEvaluateResponseScores
+{-# INLINE signalEvaluateResponseScoresL #-}
+
+-- | 'signalEvaluateResponseWarnings' Lens
+signalEvaluateResponseWarningsL :: Lens_' SignalEvaluateResponse ([SignalWarning])
+signalEvaluateResponseWarningsL f SignalEvaluateResponse{..} = (\signalEvaluateResponseWarnings -> SignalEvaluateResponse { signalEvaluateResponseWarnings, ..} ) <$> f signalEvaluateResponseWarnings
+{-# INLINE signalEvaluateResponseWarningsL #-}
+
+
+
+-- * SignalPaymentMethod
+
+
+
+-- * SignalPersonName
+
+-- | 'signalPersonNameFamilyName' Lens
+signalPersonNameFamilyNameL :: Lens_' SignalPersonName (Maybe Text)
+signalPersonNameFamilyNameL f SignalPersonName{..} = (\signalPersonNameFamilyName -> SignalPersonName { signalPersonNameFamilyName, ..} ) <$> f signalPersonNameFamilyName
+{-# INLINE signalPersonNameFamilyNameL #-}
+
+-- | 'signalPersonNameGivenName' Lens
+signalPersonNameGivenNameL :: Lens_' SignalPersonName (Maybe Text)
+signalPersonNameGivenNameL f SignalPersonName{..} = (\signalPersonNameGivenName -> SignalPersonName { signalPersonNameGivenName, ..} ) <$> f signalPersonNameGivenName
+{-# INLINE signalPersonNameGivenNameL #-}
+
+-- | 'signalPersonNameMiddleName' Lens
+signalPersonNameMiddleNameL :: Lens_' SignalPersonName (Maybe Text)
+signalPersonNameMiddleNameL f SignalPersonName{..} = (\signalPersonNameMiddleName -> SignalPersonName { signalPersonNameMiddleName, ..} ) <$> f signalPersonNameMiddleName
+{-# INLINE signalPersonNameMiddleNameL #-}
+
+-- | 'signalPersonNamePrefix' Lens
+signalPersonNamePrefixL :: Lens_' SignalPersonName (Maybe Text)
+signalPersonNamePrefixL f SignalPersonName{..} = (\signalPersonNamePrefix -> SignalPersonName { signalPersonNamePrefix, ..} ) <$> f signalPersonNamePrefix
+{-# INLINE signalPersonNamePrefixL #-}
+
+-- | 'signalPersonNameSuffix' Lens
+signalPersonNameSuffixL :: Lens_' SignalPersonName (Maybe Text)
+signalPersonNameSuffixL f SignalPersonName{..} = (\signalPersonNameSuffix -> SignalPersonName { signalPersonNameSuffix, ..} ) <$> f signalPersonNameSuffix
+{-# INLINE signalPersonNameSuffixL #-}
+
+
+
+-- * SignalReturnReportRequest
+
+-- | 'signalReturnReportRequestClientId' Lens
+signalReturnReportRequestClientIdL :: Lens_' SignalReturnReportRequest (Maybe Text)
+signalReturnReportRequestClientIdL f SignalReturnReportRequest{..} = (\signalReturnReportRequestClientId -> SignalReturnReportRequest { signalReturnReportRequestClientId, ..} ) <$> f signalReturnReportRequestClientId
+{-# INLINE signalReturnReportRequestClientIdL #-}
+
+-- | 'signalReturnReportRequestClientTransactionId' Lens
+signalReturnReportRequestClientTransactionIdL :: Lens_' SignalReturnReportRequest (Text)
+signalReturnReportRequestClientTransactionIdL f SignalReturnReportRequest{..} = (\signalReturnReportRequestClientTransactionId -> SignalReturnReportRequest { signalReturnReportRequestClientTransactionId, ..} ) <$> f signalReturnReportRequestClientTransactionId
+{-# INLINE signalReturnReportRequestClientTransactionIdL #-}
+
+-- | 'signalReturnReportRequestReturnCode' Lens
+signalReturnReportRequestReturnCodeL :: Lens_' SignalReturnReportRequest (Text)
+signalReturnReportRequestReturnCodeL f SignalReturnReportRequest{..} = (\signalReturnReportRequestReturnCode -> SignalReturnReportRequest { signalReturnReportRequestReturnCode, ..} ) <$> f signalReturnReportRequestReturnCode
+{-# INLINE signalReturnReportRequestReturnCodeL #-}
+
+-- | 'signalReturnReportRequestReturnedAt' Lens
+signalReturnReportRequestReturnedAtL :: Lens_' SignalReturnReportRequest (Maybe DateTime)
+signalReturnReportRequestReturnedAtL f SignalReturnReportRequest{..} = (\signalReturnReportRequestReturnedAt -> SignalReturnReportRequest { signalReturnReportRequestReturnedAt, ..} ) <$> f signalReturnReportRequestReturnedAt
+{-# INLINE signalReturnReportRequestReturnedAtL #-}
+
+-- | 'signalReturnReportRequestSecret' Lens
+signalReturnReportRequestSecretL :: Lens_' SignalReturnReportRequest (Maybe Text)
+signalReturnReportRequestSecretL f SignalReturnReportRequest{..} = (\signalReturnReportRequestSecret -> SignalReturnReportRequest { signalReturnReportRequestSecret, ..} ) <$> f signalReturnReportRequestSecret
+{-# INLINE signalReturnReportRequestSecretL #-}
+
+
+
+-- * SignalReturnReportResponse
+
+-- | 'signalReturnReportResponseRequestId' Lens
+signalReturnReportResponseRequestIdL :: Lens_' SignalReturnReportResponse (Text)
+signalReturnReportResponseRequestIdL f SignalReturnReportResponse{..} = (\signalReturnReportResponseRequestId -> SignalReturnReportResponse { signalReturnReportResponseRequestId, ..} ) <$> f signalReturnReportResponseRequestId
+{-# INLINE signalReturnReportResponseRequestIdL #-}
+
+
+
+-- * SignalScores
+
+-- | 'signalScoresBankInitiatedReturnRisk' Lens
+signalScoresBankInitiatedReturnRiskL :: Lens_' SignalScores (Maybe BankInitiatedReturnRisk)
+signalScoresBankInitiatedReturnRiskL f SignalScores{..} = (\signalScoresBankInitiatedReturnRisk -> SignalScores { signalScoresBankInitiatedReturnRisk, ..} ) <$> f signalScoresBankInitiatedReturnRisk
+{-# INLINE signalScoresBankInitiatedReturnRiskL #-}
+
+-- | 'signalScoresCustomerInitiatedReturnRisk' Lens
+signalScoresCustomerInitiatedReturnRiskL :: Lens_' SignalScores (Maybe CustomerInitiatedReturnRisk)
+signalScoresCustomerInitiatedReturnRiskL f SignalScores{..} = (\signalScoresCustomerInitiatedReturnRisk -> SignalScores { signalScoresCustomerInitiatedReturnRisk, ..} ) <$> f signalScoresCustomerInitiatedReturnRisk
+{-# INLINE signalScoresCustomerInitiatedReturnRiskL #-}
+
+
+
+-- * SignalUser
+
+-- | 'signalUserAddress' Lens
+signalUserAddressL :: Lens_' SignalUser (Maybe SignalAddressData)
+signalUserAddressL f SignalUser{..} = (\signalUserAddress -> SignalUser { signalUserAddress, ..} ) <$> f signalUserAddress
+{-# INLINE signalUserAddressL #-}
+
+-- | 'signalUserEmailAddress' Lens
+signalUserEmailAddressL :: Lens_' SignalUser (Maybe Text)
+signalUserEmailAddressL f SignalUser{..} = (\signalUserEmailAddress -> SignalUser { signalUserEmailAddress, ..} ) <$> f signalUserEmailAddress
+{-# INLINE signalUserEmailAddressL #-}
+
+-- | 'signalUserName' Lens
+signalUserNameL :: Lens_' SignalUser (Maybe SignalPersonName)
+signalUserNameL f SignalUser{..} = (\signalUserName -> SignalUser { signalUserName, ..} ) <$> f signalUserName
+{-# INLINE signalUserNameL #-}
+
+-- | 'signalUserPhoneNumber' Lens
+signalUserPhoneNumberL :: Lens_' SignalUser (Maybe Text)
+signalUserPhoneNumberL f SignalUser{..} = (\signalUserPhoneNumber -> SignalUser { signalUserPhoneNumber, ..} ) <$> f signalUserPhoneNumber
+{-# INLINE signalUserPhoneNumberL #-}
+
+
+
+-- * SignalWarning
+
+-- | 'signalWarningWarningCode' Lens
+signalWarningWarningCodeL :: Lens_' SignalWarning (Maybe Text)
+signalWarningWarningCodeL f SignalWarning{..} = (\signalWarningWarningCode -> SignalWarning { signalWarningWarningCode, ..} ) <$> f signalWarningWarningCode
+{-# INLINE signalWarningWarningCodeL #-}
+
+-- | 'signalWarningWarningMessage' Lens
+signalWarningWarningMessageL :: Lens_' SignalWarning (Maybe Text)
+signalWarningWarningMessageL f SignalWarning{..} = (\signalWarningWarningMessage -> SignalWarning { signalWarningWarningMessage, ..} ) <$> f signalWarningWarningMessage
+{-# INLINE signalWarningWarningMessageL #-}
+
+-- | 'signalWarningWarningType' Lens
+signalWarningWarningTypeL :: Lens_' SignalWarning (Maybe Text)
+signalWarningWarningTypeL f SignalWarning{..} = (\signalWarningWarningType -> SignalWarning { signalWarningWarningType, ..} ) <$> f signalWarningWarningType
+{-# INLINE signalWarningWarningTypeL #-}
+
+
+
+-- * UserCreateRequest
+
+-- | 'userCreateRequestClientId' Lens
+userCreateRequestClientIdL :: Lens_' UserCreateRequest (Maybe Text)
+userCreateRequestClientIdL f UserCreateRequest{..} = (\userCreateRequestClientId -> UserCreateRequest { userCreateRequestClientId, ..} ) <$> f userCreateRequestClientId
+{-# INLINE userCreateRequestClientIdL #-}
+
+-- | 'userCreateRequestClientUserId' Lens
+userCreateRequestClientUserIdL :: Lens_' UserCreateRequest (Text)
+userCreateRequestClientUserIdL f UserCreateRequest{..} = (\userCreateRequestClientUserId -> UserCreateRequest { userCreateRequestClientUserId, ..} ) <$> f userCreateRequestClientUserId
+{-# INLINE userCreateRequestClientUserIdL #-}
+
+-- | 'userCreateRequestConsumerReportUserIdentity' Lens
+userCreateRequestConsumerReportUserIdentityL :: Lens_' UserCreateRequest (Maybe ConsumerReportUserIdentity)
+userCreateRequestConsumerReportUserIdentityL f UserCreateRequest{..} = (\userCreateRequestConsumerReportUserIdentity -> UserCreateRequest { userCreateRequestConsumerReportUserIdentity, ..} ) <$> f userCreateRequestConsumerReportUserIdentity
+{-# INLINE userCreateRequestConsumerReportUserIdentityL #-}
+
+-- | 'userCreateRequestEndCustomer' Lens
+userCreateRequestEndCustomerL :: Lens_' UserCreateRequest (Maybe Text)
+userCreateRequestEndCustomerL f UserCreateRequest{..} = (\userCreateRequestEndCustomer -> UserCreateRequest { userCreateRequestEndCustomer, ..} ) <$> f userCreateRequestEndCustomer
+{-# INLINE userCreateRequestEndCustomerL #-}
+
+-- | 'userCreateRequestIdentity' Lens
+userCreateRequestIdentityL :: Lens_' UserCreateRequest (Maybe ClientUserIdentity)
+userCreateRequestIdentityL f UserCreateRequest{..} = (\userCreateRequestIdentity -> UserCreateRequest { userCreateRequestIdentity, ..} ) <$> f userCreateRequestIdentity
+{-# INLINE userCreateRequestIdentityL #-}
+
+-- | 'userCreateRequestSecret' Lens
+userCreateRequestSecretL :: Lens_' UserCreateRequest (Maybe Text)
+userCreateRequestSecretL f UserCreateRequest{..} = (\userCreateRequestSecret -> UserCreateRequest { userCreateRequestSecret, ..} ) <$> f userCreateRequestSecret
+{-# INLINE userCreateRequestSecretL #-}
+
+-- | 'userCreateRequestWithUpgradedUser' Lens
+userCreateRequestWithUpgradedUserL :: Lens_' UserCreateRequest (Maybe Bool)
+userCreateRequestWithUpgradedUserL f UserCreateRequest{..} = (\userCreateRequestWithUpgradedUser -> UserCreateRequest { userCreateRequestWithUpgradedUser, ..} ) <$> f userCreateRequestWithUpgradedUser
+{-# INLINE userCreateRequestWithUpgradedUserL #-}
+
+
+
+-- * UserCreateResponse
+
+-- | 'userCreateResponseRequestId' Lens
+userCreateResponseRequestIdL :: Lens_' UserCreateResponse (Text)
+userCreateResponseRequestIdL f UserCreateResponse{..} = (\userCreateResponseRequestId -> UserCreateResponse { userCreateResponseRequestId, ..} ) <$> f userCreateResponseRequestId
+{-# INLINE userCreateResponseRequestIdL #-}
+
+-- | 'userCreateResponseUserId' Lens
+userCreateResponseUserIdL :: Lens_' UserCreateResponse (Text)
+userCreateResponseUserIdL f UserCreateResponse{..} = (\userCreateResponseUserId -> UserCreateResponse { userCreateResponseUserId, ..} ) <$> f userCreateResponseUserId
+{-# INLINE userCreateResponseUserIdL #-}
+
+-- | 'userCreateResponseUserToken' Lens
+userCreateResponseUserTokenL :: Lens_' UserCreateResponse (Maybe Text)
+userCreateResponseUserTokenL f UserCreateResponse{..} = (\userCreateResponseUserToken -> UserCreateResponse { userCreateResponseUserToken, ..} ) <$> f userCreateResponseUserToken
+{-# INLINE userCreateResponseUserTokenL #-}
+
+-- * UserUpdateRequest
+
+-- | 'userUpdateRequestClientId' Lens
+userUpdateRequestClientIdL :: Lens_' UserUpdateRequest (Maybe Text)
+userUpdateRequestClientIdL f UserUpdateRequest{..} = (\userUpdateRequestClientId -> UserUpdateRequest { userUpdateRequestClientId, ..} ) <$> f userUpdateRequestClientId
+{-# INLINE userUpdateRequestClientIdL #-}
+
+-- | 'userUpdateRequestIdentity' Lens
+userUpdateRequestIdentityL :: Lens_' UserUpdateRequest (Maybe ClientUserIdentity)
+userUpdateRequestIdentityL f UserUpdateRequest{..} = (\userUpdateRequestIdentity -> UserUpdateRequest { userUpdateRequestIdentity, ..} ) <$> f userUpdateRequestIdentity
+{-# INLINE userUpdateRequestIdentityL #-}
+
+-- | 'userUpdateRequestSecret' Lens
+userUpdateRequestSecretL :: Lens_' UserUpdateRequest (Maybe Text)
+userUpdateRequestSecretL f UserUpdateRequest{..} = (\userUpdateRequestSecret -> UserUpdateRequest { userUpdateRequestSecret, ..} ) <$> f userUpdateRequestSecret
+{-# INLINE userUpdateRequestSecretL #-}
+
+-- | 'userUpdateRequestUserId' Lens
+userUpdateRequestUserIdL :: Lens_' UserUpdateRequest (Text)
+userUpdateRequestUserIdL f UserUpdateRequest{..} = (\userUpdateRequestUserId -> UserUpdateRequest { userUpdateRequestUserId, ..} ) <$> f userUpdateRequestUserId
+{-# INLINE userUpdateRequestUserIdL #-}
+
+-- * UserUpdateResponse
+
+-- | 'userUpdateResponseRequestId' Lens
+userUpdateResponseRequestIdL :: Lens_' UserUpdateResponse (Text)
+userUpdateResponseRequestIdL f UserUpdateResponse{..} = (\userUpdateResponseRequestId -> UserUpdateResponse { userUpdateResponseRequestId, ..} ) <$> f userUpdateResponseRequestId
+{-# INLINE userUpdateResponseRequestIdL #-}
+
+
+
+
+-- * UserIDNumber
+
+-- | 'userIDNumberType' Lens
+userIDNumberTypeL :: Lens_' UserIDNumber (IDNumberType)
+userIDNumberTypeL f UserIDNumber{..} = (\userIDNumberType -> UserIDNumber { userIDNumberType, ..} ) <$> f userIDNumberType
+{-# INLINE userIDNumberTypeL #-}
+
+-- | 'userIDNumberValue' Lens
+userIDNumberValueL :: Lens_' UserIDNumber (Text)
+userIDNumberValueL f UserIDNumber{..} = (\userIDNumberValue -> UserIDNumber { userIDNumberValue, ..} ) <$> f userIDNumberValue
+{-# INLINE userIDNumberValueL #-}
+
+
+
+-- * CraBaseReportProduct
+
+-- | 'craBaseReportProductProduct' Lens
+craBaseReportProductProductL :: Lens_' CraBaseReportProduct (E'Product)
+craBaseReportProductProductL f CraBaseReportProduct{..} = (\craBaseReportProductProduct -> CraBaseReportProduct { craBaseReportProductProduct, ..} ) <$> f craBaseReportProductProduct
+{-# INLINE craBaseReportProductProductL #-}
+
+-- | 'craBaseReportProductVersion' Lens
+craBaseReportProductVersionL :: Lens_' CraBaseReportProduct (Text)
+craBaseReportProductVersionL f CraBaseReportProduct{..} = (\craBaseReportProductVersion -> CraBaseReportProduct { craBaseReportProductVersion, ..} ) <$> f craBaseReportProductVersion
+{-# INLINE craBaseReportProductVersionL #-}
+
+
+
+-- * CraCashflowInsightsProduct
+
+-- | 'craCashflowInsightsProductProduct' Lens
+craCashflowInsightsProductProductL :: Lens_' CraCashflowInsightsProduct (E'Product2)
+craCashflowInsightsProductProductL f CraCashflowInsightsProduct{..} = (\craCashflowInsightsProductProduct -> CraCashflowInsightsProduct { craCashflowInsightsProductProduct, ..} ) <$> f craCashflowInsightsProductProduct
+{-# INLINE craCashflowInsightsProductProductL #-}
+
+-- | 'craCashflowInsightsProductVersion' Lens
+craCashflowInsightsProductVersionL :: Lens_' CraCashflowInsightsProduct (Text)
+craCashflowInsightsProductVersionL f CraCashflowInsightsProduct{..} = (\craCashflowInsightsProductVersion -> CraCashflowInsightsProduct { craCashflowInsightsProductVersion, ..} ) <$> f craCashflowInsightsProductVersion
+{-# INLINE craCashflowInsightsProductVersionL #-}
+
+
+
+-- * CraHomeLendingProduct
+
+-- | 'craHomeLendingProductProduct' Lens
+craHomeLendingProductProductL :: Lens_' CraHomeLendingProduct (E'Product3)
+craHomeLendingProductProductL f CraHomeLendingProduct{..} = (\craHomeLendingProductProduct -> CraHomeLendingProduct { craHomeLendingProductProduct, ..} ) <$> f craHomeLendingProductProduct
+{-# INLINE craHomeLendingProductProductL #-}
+
+-- | 'craHomeLendingProductVersion' Lens
+craHomeLendingProductVersionL :: Lens_' CraHomeLendingProduct (Text)
+craHomeLendingProductVersionL f CraHomeLendingProduct{..} = (\craHomeLendingProductVersion -> CraHomeLendingProduct { craHomeLendingProductVersion, ..} ) <$> f craHomeLendingProductVersion
+{-# INLINE craHomeLendingProductVersionL #-}
+
+
+
+-- * CraIncomeInsightsProduct
+
+-- | 'craIncomeInsightsProductProduct' Lens
+craIncomeInsightsProductProductL :: Lens_' CraIncomeInsightsProduct (E'Product4)
+craIncomeInsightsProductProductL f CraIncomeInsightsProduct{..} = (\craIncomeInsightsProductProduct -> CraIncomeInsightsProduct { craIncomeInsightsProductProduct, ..} ) <$> f craIncomeInsightsProductProduct
+{-# INLINE craIncomeInsightsProductProductL #-}
+
+-- | 'craIncomeInsightsProductVersion' Lens
+craIncomeInsightsProductVersionL :: Lens_' CraIncomeInsightsProduct (Text)
+craIncomeInsightsProductVersionL f CraIncomeInsightsProduct{..} = (\craIncomeInsightsProductVersion -> CraIncomeInsightsProduct { craIncomeInsightsProductVersion, ..} ) <$> f craIncomeInsightsProductVersion
+{-# INLINE craIncomeInsightsProductVersionL #-}
+
+
+
+-- * CraLendScoreProduct
+
+-- | 'craLendScoreProductProduct' Lens
+craLendScoreProductProductL :: Lens_' CraLendScoreProduct (E'Product5)
+craLendScoreProductProductL f CraLendScoreProduct{..} = (\craLendScoreProductProduct -> CraLendScoreProduct { craLendScoreProductProduct, ..} ) <$> f craLendScoreProductProduct
+{-# INLINE craLendScoreProductProductL #-}
+
+-- | 'craLendScoreProductVersion' Lens
+craLendScoreProductVersionL :: Lens_' CraLendScoreProduct (Text)
+craLendScoreProductVersionL f CraLendScoreProduct{..} = (\craLendScoreProductVersion -> CraLendScoreProduct { craLendScoreProductVersion, ..} ) <$> f craLendScoreProductVersion
+{-# INLINE craLendScoreProductVersionL #-}
+
+
+
+-- * CraNetworkInsightsProduct
+
+-- | 'craNetworkInsightsProductProduct' Lens
+craNetworkInsightsProductProductL :: Lens_' CraNetworkInsightsProduct (E'Product6)
+craNetworkInsightsProductProductL f CraNetworkInsightsProduct{..} = (\craNetworkInsightsProductProduct -> CraNetworkInsightsProduct { craNetworkInsightsProductProduct, ..} ) <$> f craNetworkInsightsProductProduct
+{-# INLINE craNetworkInsightsProductProductL #-}
+
+-- | 'craNetworkInsightsProductVersion' Lens
+craNetworkInsightsProductVersionL :: Lens_' CraNetworkInsightsProduct (Text)
+craNetworkInsightsProductVersionL f CraNetworkInsightsProduct{..} = (\craNetworkInsightsProductVersion -> CraNetworkInsightsProduct { craNetworkInsightsProductVersion, ..} ) <$> f craNetworkInsightsProductVersion
+{-# INLINE craNetworkInsightsProductVersionL #-}
+
+
+
+-- * CraQualifyProduct
+
+-- | 'craQualifyProductProduct' Lens
+craQualifyProductProductL :: Lens_' CraQualifyProduct (E'Product7)
+craQualifyProductProductL f CraQualifyProduct{..} = (\craQualifyProductProduct -> CraQualifyProduct { craQualifyProductProduct, ..} ) <$> f craQualifyProductProduct
+{-# INLINE craQualifyProductProductL #-}
+
+-- | 'craQualifyProductVersion' Lens
+craQualifyProductVersionL :: Lens_' CraQualifyProduct (Text)
+craQualifyProductVersionL f CraQualifyProduct{..} = (\craQualifyProductVersion -> CraQualifyProduct { craQualifyProductVersion, ..} ) <$> f craQualifyProductVersion
+{-# INLINE craQualifyProductVersionL #-}
+
+
+
+-- * CraReportCreateBaseReportOptions
+
+-- | 'craReportCreateBaseReportOptionsRequireIdentity' Lens
+craReportCreateBaseReportOptionsRequireIdentityL :: Lens_' CraReportCreateBaseReportOptions (Maybe Bool)
+craReportCreateBaseReportOptionsRequireIdentityL f CraReportCreateBaseReportOptions{..} = (\craReportCreateBaseReportOptionsRequireIdentity -> CraReportCreateBaseReportOptions { craReportCreateBaseReportOptionsRequireIdentity, ..} ) <$> f craReportCreateBaseReportOptionsRequireIdentity
+{-# INLINE craReportCreateBaseReportOptionsRequireIdentityL #-}
+
+
+
+-- * CraReportCreateBaseReportProductConfig
+
+-- | 'craReportCreateBaseReportProductConfigOptions' Lens
+craReportCreateBaseReportProductConfigOptionsL :: Lens_' CraReportCreateBaseReportProductConfig (Maybe CraReportCreateBaseReportOptions)
+craReportCreateBaseReportProductConfigOptionsL f CraReportCreateBaseReportProductConfig{..} = (\craReportCreateBaseReportProductConfigOptions -> CraReportCreateBaseReportProductConfig { craReportCreateBaseReportProductConfigOptions, ..} ) <$> f craReportCreateBaseReportProductConfigOptions
+{-# INLINE craReportCreateBaseReportProductConfigOptionsL #-}
+
+-- | 'craReportCreateBaseReportProductConfigProduct' Lens
+craReportCreateBaseReportProductConfigProductL :: Lens_' CraReportCreateBaseReportProductConfig (E'Product)
+craReportCreateBaseReportProductConfigProductL f CraReportCreateBaseReportProductConfig{..} = (\craReportCreateBaseReportProductConfigProduct -> CraReportCreateBaseReportProductConfig { craReportCreateBaseReportProductConfigProduct, ..} ) <$> f craReportCreateBaseReportProductConfigProduct
+{-# INLINE craReportCreateBaseReportProductConfigProductL #-}
+
+-- | 'craReportCreateBaseReportProductConfigVersion' Lens
+craReportCreateBaseReportProductConfigVersionL :: Lens_' CraReportCreateBaseReportProductConfig (Text)
+craReportCreateBaseReportProductConfigVersionL f CraReportCreateBaseReportProductConfig{..} = (\craReportCreateBaseReportProductConfigVersion -> CraReportCreateBaseReportProductConfig { craReportCreateBaseReportProductConfigVersion, ..} ) <$> f craReportCreateBaseReportProductConfigVersion
+{-# INLINE craReportCreateBaseReportProductConfigVersionL #-}
+
+
+
+-- * CraReportCreateCashflowInsightsProductConfig
+
+-- | 'craReportCreateCashflowInsightsProductConfigProduct' Lens
+craReportCreateCashflowInsightsProductConfigProductL :: Lens_' CraReportCreateCashflowInsightsProductConfig (E'Product2)
+craReportCreateCashflowInsightsProductConfigProductL f CraReportCreateCashflowInsightsProductConfig{..} = (\craReportCreateCashflowInsightsProductConfigProduct -> CraReportCreateCashflowInsightsProductConfig { craReportCreateCashflowInsightsProductConfigProduct, ..} ) <$> f craReportCreateCashflowInsightsProductConfigProduct
+{-# INLINE craReportCreateCashflowInsightsProductConfigProductL #-}
+
+-- | 'craReportCreateCashflowInsightsProductConfigVersion' Lens
+craReportCreateCashflowInsightsProductConfigVersionL :: Lens_' CraReportCreateCashflowInsightsProductConfig (Text)
+craReportCreateCashflowInsightsProductConfigVersionL f CraReportCreateCashflowInsightsProductConfig{..} = (\craReportCreateCashflowInsightsProductConfigVersion -> CraReportCreateCashflowInsightsProductConfig { craReportCreateCashflowInsightsProductConfigVersion, ..} ) <$> f craReportCreateCashflowInsightsProductConfigVersion
+{-# INLINE craReportCreateCashflowInsightsProductConfigVersionL #-}
+
+
+
+-- * CraReportCreateEmploymentRefreshOptions
+
+-- | 'craReportCreateEmploymentRefreshOptionsDaysRequested' Lens
+craReportCreateEmploymentRefreshOptionsDaysRequestedL :: Lens_' CraReportCreateEmploymentRefreshOptions (Int)
+craReportCreateEmploymentRefreshOptionsDaysRequestedL f CraReportCreateEmploymentRefreshOptions{..} = (\craReportCreateEmploymentRefreshOptionsDaysRequested -> CraReportCreateEmploymentRefreshOptions { craReportCreateEmploymentRefreshOptionsDaysRequested, ..} ) <$> f craReportCreateEmploymentRefreshOptionsDaysRequested
+{-# INLINE craReportCreateEmploymentRefreshOptionsDaysRequestedL #-}
+
+
+
+-- * CraReportCreateHomeLendingOptions
+
+-- | 'craReportCreateHomeLendingOptionsEmploymentRefreshOptions' Lens
+craReportCreateHomeLendingOptionsEmploymentRefreshOptionsL :: Lens_' CraReportCreateHomeLendingOptions (Maybe CraReportCreateEmploymentRefreshOptions)
+craReportCreateHomeLendingOptionsEmploymentRefreshOptionsL f CraReportCreateHomeLendingOptions{..} = (\craReportCreateHomeLendingOptionsEmploymentRefreshOptions -> CraReportCreateHomeLendingOptions { craReportCreateHomeLendingOptionsEmploymentRefreshOptions, ..} ) <$> f craReportCreateHomeLendingOptionsEmploymentRefreshOptions
+{-# INLINE craReportCreateHomeLendingOptionsEmploymentRefreshOptionsL #-}
+
+-- | 'craReportCreateHomeLendingOptionsReportsRequested' Lens
+craReportCreateHomeLendingOptionsReportsRequestedL :: Lens_' CraReportCreateHomeLendingOptions ([CraReportCreateHomeLendingReportType])
+craReportCreateHomeLendingOptionsReportsRequestedL f CraReportCreateHomeLendingOptions{..} = (\craReportCreateHomeLendingOptionsReportsRequested -> CraReportCreateHomeLendingOptions { craReportCreateHomeLendingOptionsReportsRequested, ..} ) <$> f craReportCreateHomeLendingOptionsReportsRequested
+{-# INLINE craReportCreateHomeLendingOptionsReportsRequestedL #-}
+
+
+
+-- * CraReportCreateHomeLendingProductConfig
+
+-- | 'craReportCreateHomeLendingProductConfigOptions' Lens
+craReportCreateHomeLendingProductConfigOptionsL :: Lens_' CraReportCreateHomeLendingProductConfig (Maybe CraReportCreateHomeLendingOptions)
+craReportCreateHomeLendingProductConfigOptionsL f CraReportCreateHomeLendingProductConfig{..} = (\craReportCreateHomeLendingProductConfigOptions -> CraReportCreateHomeLendingProductConfig { craReportCreateHomeLendingProductConfigOptions, ..} ) <$> f craReportCreateHomeLendingProductConfigOptions
+{-# INLINE craReportCreateHomeLendingProductConfigOptionsL #-}
+
+-- | 'craReportCreateHomeLendingProductConfigProduct' Lens
+craReportCreateHomeLendingProductConfigProductL :: Lens_' CraReportCreateHomeLendingProductConfig (E'Product3)
+craReportCreateHomeLendingProductConfigProductL f CraReportCreateHomeLendingProductConfig{..} = (\craReportCreateHomeLendingProductConfigProduct -> CraReportCreateHomeLendingProductConfig { craReportCreateHomeLendingProductConfigProduct, ..} ) <$> f craReportCreateHomeLendingProductConfigProduct
+{-# INLINE craReportCreateHomeLendingProductConfigProductL #-}
+
+-- | 'craReportCreateHomeLendingProductConfigVersion' Lens
+craReportCreateHomeLendingProductConfigVersionL :: Lens_' CraReportCreateHomeLendingProductConfig (Text)
+craReportCreateHomeLendingProductConfigVersionL f CraReportCreateHomeLendingProductConfig{..} = (\craReportCreateHomeLendingProductConfigVersion -> CraReportCreateHomeLendingProductConfig { craReportCreateHomeLendingProductConfigVersion, ..} ) <$> f craReportCreateHomeLendingProductConfigVersion
+{-# INLINE craReportCreateHomeLendingProductConfigVersionL #-}
+
+
+
+-- * CraReportCreateHomeLendingReportType
+
+
+
+-- * CraReportCreateIncomeInsightsOptions
+
+-- | 'craReportCreateIncomeInsightsOptionsIncomeInsightsFilter' Lens
+craReportCreateIncomeInsightsOptionsIncomeInsightsFilterL :: Lens_' CraReportCreateIncomeInsightsOptions (Maybe IncomeInsightsFilter)
+craReportCreateIncomeInsightsOptionsIncomeInsightsFilterL f CraReportCreateIncomeInsightsOptions{..} = (\craReportCreateIncomeInsightsOptionsIncomeInsightsFilter -> CraReportCreateIncomeInsightsOptions { craReportCreateIncomeInsightsOptionsIncomeInsightsFilter, ..} ) <$> f craReportCreateIncomeInsightsOptionsIncomeInsightsFilter
+{-# INLINE craReportCreateIncomeInsightsOptionsIncomeInsightsFilterL #-}
+
+
+
+-- * CraReportCreateIncomeInsightsProductConfig
+
+-- | 'craReportCreateIncomeInsightsProductConfigOptions' Lens
+craReportCreateIncomeInsightsProductConfigOptionsL :: Lens_' CraReportCreateIncomeInsightsProductConfig (Maybe CraReportCreateIncomeInsightsOptions)
+craReportCreateIncomeInsightsProductConfigOptionsL f CraReportCreateIncomeInsightsProductConfig{..} = (\craReportCreateIncomeInsightsProductConfigOptions -> CraReportCreateIncomeInsightsProductConfig { craReportCreateIncomeInsightsProductConfigOptions, ..} ) <$> f craReportCreateIncomeInsightsProductConfigOptions
+{-# INLINE craReportCreateIncomeInsightsProductConfigOptionsL #-}
+
+-- | 'craReportCreateIncomeInsightsProductConfigProduct' Lens
+craReportCreateIncomeInsightsProductConfigProductL :: Lens_' CraReportCreateIncomeInsightsProductConfig (E'Product4)
+craReportCreateIncomeInsightsProductConfigProductL f CraReportCreateIncomeInsightsProductConfig{..} = (\craReportCreateIncomeInsightsProductConfigProduct -> CraReportCreateIncomeInsightsProductConfig { craReportCreateIncomeInsightsProductConfigProduct, ..} ) <$> f craReportCreateIncomeInsightsProductConfigProduct
+{-# INLINE craReportCreateIncomeInsightsProductConfigProductL #-}
+
+-- | 'craReportCreateIncomeInsightsProductConfigVersion' Lens
+craReportCreateIncomeInsightsProductConfigVersionL :: Lens_' CraReportCreateIncomeInsightsProductConfig (Text)
+craReportCreateIncomeInsightsProductConfigVersionL f CraReportCreateIncomeInsightsProductConfig{..} = (\craReportCreateIncomeInsightsProductConfigVersion -> CraReportCreateIncomeInsightsProductConfig { craReportCreateIncomeInsightsProductConfigVersion, ..} ) <$> f craReportCreateIncomeInsightsProductConfigVersion
+{-# INLINE craReportCreateIncomeInsightsProductConfigVersionL #-}
+
+
+
+-- * CraReportCreateLendScoreProductConfig
+
+-- | 'craReportCreateLendScoreProductConfigProduct' Lens
+craReportCreateLendScoreProductConfigProductL :: Lens_' CraReportCreateLendScoreProductConfig (E'Product5)
+craReportCreateLendScoreProductConfigProductL f CraReportCreateLendScoreProductConfig{..} = (\craReportCreateLendScoreProductConfigProduct -> CraReportCreateLendScoreProductConfig { craReportCreateLendScoreProductConfigProduct, ..} ) <$> f craReportCreateLendScoreProductConfigProduct
+{-# INLINE craReportCreateLendScoreProductConfigProductL #-}
+
+-- | 'craReportCreateLendScoreProductConfigVersion' Lens
+craReportCreateLendScoreProductConfigVersionL :: Lens_' CraReportCreateLendScoreProductConfig (Text)
+craReportCreateLendScoreProductConfigVersionL f CraReportCreateLendScoreProductConfig{..} = (\craReportCreateLendScoreProductConfigVersion -> CraReportCreateLendScoreProductConfig { craReportCreateLendScoreProductConfigVersion, ..} ) <$> f craReportCreateLendScoreProductConfigVersion
+{-# INLINE craReportCreateLendScoreProductConfigVersionL #-}
+
+
+
+-- * CraReportCreateNetworkInsightsProductConfig
+
+-- | 'craReportCreateNetworkInsightsProductConfigProduct' Lens
+craReportCreateNetworkInsightsProductConfigProductL :: Lens_' CraReportCreateNetworkInsightsProductConfig (E'Product6)
+craReportCreateNetworkInsightsProductConfigProductL f CraReportCreateNetworkInsightsProductConfig{..} = (\craReportCreateNetworkInsightsProductConfigProduct -> CraReportCreateNetworkInsightsProductConfig { craReportCreateNetworkInsightsProductConfigProduct, ..} ) <$> f craReportCreateNetworkInsightsProductConfigProduct
+{-# INLINE craReportCreateNetworkInsightsProductConfigProductL #-}
+
+-- | 'craReportCreateNetworkInsightsProductConfigVersion' Lens
+craReportCreateNetworkInsightsProductConfigVersionL :: Lens_' CraReportCreateNetworkInsightsProductConfig (Text)
+craReportCreateNetworkInsightsProductConfigVersionL f CraReportCreateNetworkInsightsProductConfig{..} = (\craReportCreateNetworkInsightsProductConfigVersion -> CraReportCreateNetworkInsightsProductConfig { craReportCreateNetworkInsightsProductConfigVersion, ..} ) <$> f craReportCreateNetworkInsightsProductConfigVersion
+{-# INLINE craReportCreateNetworkInsightsProductConfigVersionL #-}
+
+
+
+-- * CraReportCreateQualifyProductConfig
+
+-- | 'craReportCreateQualifyProductConfigProduct' Lens
+craReportCreateQualifyProductConfigProductL :: Lens_' CraReportCreateQualifyProductConfig (E'Product7)
+craReportCreateQualifyProductConfigProductL f CraReportCreateQualifyProductConfig{..} = (\craReportCreateQualifyProductConfigProduct -> CraReportCreateQualifyProductConfig { craReportCreateQualifyProductConfigProduct, ..} ) <$> f craReportCreateQualifyProductConfigProduct
+{-# INLINE craReportCreateQualifyProductConfigProductL #-}
+
+-- | 'craReportCreateQualifyProductConfigVersion' Lens
+craReportCreateQualifyProductConfigVersionL :: Lens_' CraReportCreateQualifyProductConfig (Text)
+craReportCreateQualifyProductConfigVersionL f CraReportCreateQualifyProductConfig{..} = (\craReportCreateQualifyProductConfigVersion -> CraReportCreateQualifyProductConfig { craReportCreateQualifyProductConfigVersion, ..} ) <$> f craReportCreateQualifyProductConfigVersion
+{-# INLINE craReportCreateQualifyProductConfigVersionL #-}
+
+
+
+-- * CraReportCreateRequest
+
+-- | 'craReportCreateRequestClientId' Lens
+craReportCreateRequestClientIdL :: Lens_' CraReportCreateRequest (Maybe Text)
+craReportCreateRequestClientIdL f CraReportCreateRequest{..} = (\craReportCreateRequestClientId -> CraReportCreateRequest { craReportCreateRequestClientId, ..} ) <$> f craReportCreateRequestClientId
+{-# INLINE craReportCreateRequestClientIdL #-}
+
+-- | 'craReportCreateRequestClientReportId' Lens
+craReportCreateRequestClientReportIdL :: Lens_' CraReportCreateRequest (Maybe Text)
+craReportCreateRequestClientReportIdL f CraReportCreateRequest{..} = (\craReportCreateRequestClientReportId -> CraReportCreateRequest { craReportCreateRequestClientReportId, ..} ) <$> f craReportCreateRequestClientReportId
+{-# INLINE craReportCreateRequestClientReportIdL #-}
+
+-- | 'craReportCreateRequestConsumerReportPermissiblePurpose' Lens
+craReportCreateRequestConsumerReportPermissiblePurposeL :: Lens_' CraReportCreateRequest (ConsumerReportPermissiblePurpose)
+craReportCreateRequestConsumerReportPermissiblePurposeL f CraReportCreateRequest{..} = (\craReportCreateRequestConsumerReportPermissiblePurpose -> CraReportCreateRequest { craReportCreateRequestConsumerReportPermissiblePurpose, ..} ) <$> f craReportCreateRequestConsumerReportPermissiblePurpose
+{-# INLINE craReportCreateRequestConsumerReportPermissiblePurposeL #-}
+
+-- | 'craReportCreateRequestDaysRequested' Lens
+craReportCreateRequestDaysRequestedL :: Lens_' CraReportCreateRequest (Maybe Int)
+craReportCreateRequestDaysRequestedL f CraReportCreateRequest{..} = (\craReportCreateRequestDaysRequested -> CraReportCreateRequest { craReportCreateRequestDaysRequested, ..} ) <$> f craReportCreateRequestDaysRequested
+{-# INLINE craReportCreateRequestDaysRequestedL #-}
+
+-- | 'craReportCreateRequestDaysRequired' Lens
+craReportCreateRequestDaysRequiredL :: Lens_' CraReportCreateRequest (Maybe Int)
+craReportCreateRequestDaysRequiredL f CraReportCreateRequest{..} = (\craReportCreateRequestDaysRequired -> CraReportCreateRequest { craReportCreateRequestDaysRequired, ..} ) <$> f craReportCreateRequestDaysRequired
+{-# INLINE craReportCreateRequestDaysRequiredL #-}
+
+-- | 'craReportCreateRequestDecisionStage' Lens
+craReportCreateRequestDecisionStageL :: Lens_' CraReportCreateRequest (CraReportDecisionStage)
+craReportCreateRequestDecisionStageL f CraReportCreateRequest{..} = (\craReportCreateRequestDecisionStage -> CraReportCreateRequest { craReportCreateRequestDecisionStage, ..} ) <$> f craReportCreateRequestDecisionStage
+{-# INLINE craReportCreateRequestDecisionStageL #-}
+
+-- | 'craReportCreateRequestIncludeInvestments' Lens
+craReportCreateRequestIncludeInvestmentsL :: Lens_' CraReportCreateRequest (Maybe Bool)
+craReportCreateRequestIncludeInvestmentsL f CraReportCreateRequest{..} = (\craReportCreateRequestIncludeInvestments -> CraReportCreateRequest { craReportCreateRequestIncludeInvestments, ..} ) <$> f craReportCreateRequestIncludeInvestments
+{-# INLINE craReportCreateRequestIncludeInvestmentsL #-}
+
+-- | 'craReportCreateRequestProducts' Lens
+craReportCreateRequestProductsL :: Lens_' CraReportCreateRequest ([CraReportProduct])
+craReportCreateRequestProductsL f CraReportCreateRequest{..} = (\craReportCreateRequestProducts -> CraReportCreateRequest { craReportCreateRequestProducts, ..} ) <$> f craReportCreateRequestProducts
+{-# INLINE craReportCreateRequestProductsL #-}
+
+-- | 'craReportCreateRequestScope' Lens
+craReportCreateRequestScopeL :: Lens_' CraReportCreateRequest (Maybe CraReportScope)
+craReportCreateRequestScopeL f CraReportCreateRequest{..} = (\craReportCreateRequestScope -> CraReportCreateRequest { craReportCreateRequestScope, ..} ) <$> f craReportCreateRequestScope
+{-# INLINE craReportCreateRequestScopeL #-}
+
+-- | 'craReportCreateRequestSecret' Lens
+craReportCreateRequestSecretL :: Lens_' CraReportCreateRequest (Maybe Text)
+craReportCreateRequestSecretL f CraReportCreateRequest{..} = (\craReportCreateRequestSecret -> CraReportCreateRequest { craReportCreateRequestSecret, ..} ) <$> f craReportCreateRequestSecret
+{-# INLINE craReportCreateRequestSecretL #-}
+
+-- | 'craReportCreateRequestUserId' Lens
+craReportCreateRequestUserIdL :: Lens_' CraReportCreateRequest (Text)
+craReportCreateRequestUserIdL f CraReportCreateRequest{..} = (\craReportCreateRequestUserId -> CraReportCreateRequest { craReportCreateRequestUserId, ..} ) <$> f craReportCreateRequestUserId
+{-# INLINE craReportCreateRequestUserIdL #-}
+
+-- | 'craReportCreateRequestWebhook' Lens
+craReportCreateRequestWebhookL :: Lens_' CraReportCreateRequest (Maybe Text)
+craReportCreateRequestWebhookL f CraReportCreateRequest{..} = (\craReportCreateRequestWebhook -> CraReportCreateRequest { craReportCreateRequestWebhook, ..} ) <$> f craReportCreateRequestWebhook
+{-# INLINE craReportCreateRequestWebhookL #-}
+
+
+
+-- * CraReportCreateResponse
+
+-- | 'craReportCreateResponseReportId' Lens
+craReportCreateResponseReportIdL :: Lens_' CraReportCreateResponse (Text)
+craReportCreateResponseReportIdL f CraReportCreateResponse{..} = (\craReportCreateResponseReportId -> CraReportCreateResponse { craReportCreateResponseReportId, ..} ) <$> f craReportCreateResponseReportId
+{-# INLINE craReportCreateResponseReportIdL #-}
+
+-- | 'craReportCreateResponseRequestId' Lens
+craReportCreateResponseRequestIdL :: Lens_' CraReportCreateResponse (Text)
+craReportCreateResponseRequestIdL f CraReportCreateResponse{..} = (\craReportCreateResponseRequestId -> CraReportCreateResponse { craReportCreateResponseRequestId, ..} ) <$> f craReportCreateResponseRequestId
+{-# INLINE craReportCreateResponseRequestIdL #-}
+
+
+
+-- * CraReportDecisionStage
+
+
+
+-- * CraReportErrorCode
+
+
+
+-- * CraReportGetHomeLendingAttributes
+
+-- | 'craReportGetHomeLendingAttributesIncomeByCategories' Lens
+craReportGetHomeLendingAttributesIncomeByCategoriesL :: Lens_' CraReportGetHomeLendingAttributes ([CraReportGetHomeLendingIncomeByCategories])
+craReportGetHomeLendingAttributesIncomeByCategoriesL f CraReportGetHomeLendingAttributes{..} = (\craReportGetHomeLendingAttributesIncomeByCategories -> CraReportGetHomeLendingAttributes { craReportGetHomeLendingAttributesIncomeByCategories, ..} ) <$> f craReportGetHomeLendingAttributesIncomeByCategories
+{-# INLINE craReportGetHomeLendingAttributesIncomeByCategoriesL #-}
+
+-- | 'craReportGetHomeLendingAttributesIncomeMetrics' Lens
+craReportGetHomeLendingAttributesIncomeMetricsL :: Lens_' CraReportGetHomeLendingAttributes ([CraReportGetHomeLendingIncomeMetrics])
+craReportGetHomeLendingAttributesIncomeMetricsL f CraReportGetHomeLendingAttributes{..} = (\craReportGetHomeLendingAttributesIncomeMetrics -> CraReportGetHomeLendingAttributes { craReportGetHomeLendingAttributesIncomeMetrics, ..} ) <$> f craReportGetHomeLendingAttributesIncomeMetrics
+{-# INLINE craReportGetHomeLendingAttributesIncomeMetricsL #-}
+
+-- | 'craReportGetHomeLendingAttributesIncomeSources' Lens
+craReportGetHomeLendingAttributesIncomeSourcesL :: Lens_' CraReportGetHomeLendingAttributes (CraReportGetHomeLendingIncomeSources)
+craReportGetHomeLendingAttributesIncomeSourcesL f CraReportGetHomeLendingAttributes{..} = (\craReportGetHomeLendingAttributesIncomeSources -> CraReportGetHomeLendingAttributes { craReportGetHomeLendingAttributesIncomeSources, ..} ) <$> f craReportGetHomeLendingAttributesIncomeSources
+{-# INLINE craReportGetHomeLendingAttributesIncomeSourcesL #-}
+
+-- | 'craReportGetHomeLendingAttributesLoanPaymentsBnplCount90d' Lens
+craReportGetHomeLendingAttributesLoanPaymentsBnplCount90dL :: Lens_' CraReportGetHomeLendingAttributes (Int)
+craReportGetHomeLendingAttributesLoanPaymentsBnplCount90dL f CraReportGetHomeLendingAttributes{..} = (\craReportGetHomeLendingAttributesLoanPaymentsBnplCount90d -> CraReportGetHomeLendingAttributes { craReportGetHomeLendingAttributesLoanPaymentsBnplCount90d, ..} ) <$> f craReportGetHomeLendingAttributesLoanPaymentsBnplCount90d
+{-# INLINE craReportGetHomeLendingAttributesLoanPaymentsBnplCount90dL #-}
+
+-- | 'craReportGetHomeLendingAttributesLoanPaymentsCashAdvanceCount90d' Lens
+craReportGetHomeLendingAttributesLoanPaymentsCashAdvanceCount90dL :: Lens_' CraReportGetHomeLendingAttributes (Int)
+craReportGetHomeLendingAttributesLoanPaymentsCashAdvanceCount90dL f CraReportGetHomeLendingAttributes{..} = (\craReportGetHomeLendingAttributesLoanPaymentsCashAdvanceCount90d -> CraReportGetHomeLendingAttributes { craReportGetHomeLendingAttributesLoanPaymentsCashAdvanceCount90d, ..} ) <$> f craReportGetHomeLendingAttributesLoanPaymentsCashAdvanceCount90d
+{-# INLINE craReportGetHomeLendingAttributesLoanPaymentsCashAdvanceCount90dL #-}
+
+-- | 'craReportGetHomeLendingAttributesPaymentBehaviorNsfLateFeesFlag90d' Lens
+craReportGetHomeLendingAttributesPaymentBehaviorNsfLateFeesFlag90dL :: Lens_' CraReportGetHomeLendingAttributes (Int)
+craReportGetHomeLendingAttributesPaymentBehaviorNsfLateFeesFlag90dL f CraReportGetHomeLendingAttributes{..} = (\craReportGetHomeLendingAttributesPaymentBehaviorNsfLateFeesFlag90d -> CraReportGetHomeLendingAttributes { craReportGetHomeLendingAttributesPaymentBehaviorNsfLateFeesFlag90d, ..} ) <$> f craReportGetHomeLendingAttributesPaymentBehaviorNsfLateFeesFlag90d
+{-# INLINE craReportGetHomeLendingAttributesPaymentBehaviorNsfLateFeesFlag90dL #-}
+
+
+
+-- * CraReportGetHomeLendingCategoryIncome
+
+-- | 'craReportGetHomeLendingCategoryIncomeCurrent' Lens
+craReportGetHomeLendingCategoryIncomeCurrentL :: Lens_' CraReportGetHomeLendingCategoryIncome (CraCurrentModeledIncome)
+craReportGetHomeLendingCategoryIncomeCurrentL f CraReportGetHomeLendingCategoryIncome{..} = (\craReportGetHomeLendingCategoryIncomeCurrent -> CraReportGetHomeLendingCategoryIncome { craReportGetHomeLendingCategoryIncomeCurrent, ..} ) <$> f craReportGetHomeLendingCategoryIncomeCurrent
+{-# INLINE craReportGetHomeLendingCategoryIncomeCurrentL #-}
+
+-- | 'craReportGetHomeLendingCategoryIncomeIncomeCategory' Lens
+craReportGetHomeLendingCategoryIncomeIncomeCategoryL :: Lens_' CraReportGetHomeLendingCategoryIncome (CraIncomeCategory)
+craReportGetHomeLendingCategoryIncomeIncomeCategoryL f CraReportGetHomeLendingCategoryIncome{..} = (\craReportGetHomeLendingCategoryIncomeIncomeCategory -> CraReportGetHomeLendingCategoryIncome { craReportGetHomeLendingCategoryIncomeIncomeCategory, ..} ) <$> f craReportGetHomeLendingCategoryIncomeIncomeCategory
+{-# INLINE craReportGetHomeLendingCategoryIncomeIncomeCategoryL #-}
+
+
+
+-- * CraReportGetHomeLendingIncomeByCategories
+
+-- | 'craReportGetHomeLendingIncomeByCategoriesCategories' Lens
+craReportGetHomeLendingIncomeByCategoriesCategoriesL :: Lens_' CraReportGetHomeLendingIncomeByCategories ([CraReportGetHomeLendingCategoryIncome])
+craReportGetHomeLendingIncomeByCategoriesCategoriesL f CraReportGetHomeLendingIncomeByCategories{..} = (\craReportGetHomeLendingIncomeByCategoriesCategories -> CraReportGetHomeLendingIncomeByCategories { craReportGetHomeLendingIncomeByCategoriesCategories, ..} ) <$> f craReportGetHomeLendingIncomeByCategoriesCategories
+{-# INLINE craReportGetHomeLendingIncomeByCategoriesCategoriesL #-}
+
+-- | 'craReportGetHomeLendingIncomeByCategoriesIsoCurrencyCode' Lens
+craReportGetHomeLendingIncomeByCategoriesIsoCurrencyCodeL :: Lens_' CraReportGetHomeLendingIncomeByCategories (Text)
+craReportGetHomeLendingIncomeByCategoriesIsoCurrencyCodeL f CraReportGetHomeLendingIncomeByCategories{..} = (\craReportGetHomeLendingIncomeByCategoriesIsoCurrencyCode -> CraReportGetHomeLendingIncomeByCategories { craReportGetHomeLendingIncomeByCategoriesIsoCurrencyCode, ..} ) <$> f craReportGetHomeLendingIncomeByCategoriesIsoCurrencyCode
+{-# INLINE craReportGetHomeLendingIncomeByCategoriesIsoCurrencyCodeL #-}
+
+-- | 'craReportGetHomeLendingIncomeByCategoriesUnofficialCurrencyCode' Lens
+craReportGetHomeLendingIncomeByCategoriesUnofficialCurrencyCodeL :: Lens_' CraReportGetHomeLendingIncomeByCategories (Text)
+craReportGetHomeLendingIncomeByCategoriesUnofficialCurrencyCodeL f CraReportGetHomeLendingIncomeByCategories{..} = (\craReportGetHomeLendingIncomeByCategoriesUnofficialCurrencyCode -> CraReportGetHomeLendingIncomeByCategories { craReportGetHomeLendingIncomeByCategoriesUnofficialCurrencyCode, ..} ) <$> f craReportGetHomeLendingIncomeByCategoriesUnofficialCurrencyCode
+{-# INLINE craReportGetHomeLendingIncomeByCategoriesUnofficialCurrencyCodeL #-}
+
+
+
+-- * CraReportGetHomeLendingIncomeMetrics
+
+-- | 'craReportGetHomeLendingIncomeMetricsCurrent' Lens
+craReportGetHomeLendingIncomeMetricsCurrentL :: Lens_' CraReportGetHomeLendingIncomeMetrics (CraCurrentModeledIncome)
+craReportGetHomeLendingIncomeMetricsCurrentL f CraReportGetHomeLendingIncomeMetrics{..} = (\craReportGetHomeLendingIncomeMetricsCurrent -> CraReportGetHomeLendingIncomeMetrics { craReportGetHomeLendingIncomeMetricsCurrent, ..} ) <$> f craReportGetHomeLendingIncomeMetricsCurrent
+{-# INLINE craReportGetHomeLendingIncomeMetricsCurrentL #-}
+
+-- | 'craReportGetHomeLendingIncomeMetricsIsoCurrencyCode' Lens
+craReportGetHomeLendingIncomeMetricsIsoCurrencyCodeL :: Lens_' CraReportGetHomeLendingIncomeMetrics (Text)
+craReportGetHomeLendingIncomeMetricsIsoCurrencyCodeL f CraReportGetHomeLendingIncomeMetrics{..} = (\craReportGetHomeLendingIncomeMetricsIsoCurrencyCode -> CraReportGetHomeLendingIncomeMetrics { craReportGetHomeLendingIncomeMetricsIsoCurrencyCode, ..} ) <$> f craReportGetHomeLendingIncomeMetricsIsoCurrencyCode
+{-# INLINE craReportGetHomeLendingIncomeMetricsIsoCurrencyCodeL #-}
+
+-- | 'craReportGetHomeLendingIncomeMetricsUnofficialCurrencyCode' Lens
+craReportGetHomeLendingIncomeMetricsUnofficialCurrencyCodeL :: Lens_' CraReportGetHomeLendingIncomeMetrics (Text)
+craReportGetHomeLendingIncomeMetricsUnofficialCurrencyCodeL f CraReportGetHomeLendingIncomeMetrics{..} = (\craReportGetHomeLendingIncomeMetricsUnofficialCurrencyCode -> CraReportGetHomeLendingIncomeMetrics { craReportGetHomeLendingIncomeMetricsUnofficialCurrencyCode, ..} ) <$> f craReportGetHomeLendingIncomeMetricsUnofficialCurrencyCode
+{-# INLINE craReportGetHomeLendingIncomeMetricsUnofficialCurrencyCodeL #-}
+
+
+
+-- * CraReportGetHomeLendingIncomeSources
+
+-- | 'craReportGetHomeLendingIncomeSourcesIncomeProviders' Lens
+craReportGetHomeLendingIncomeSourcesIncomeProvidersL :: Lens_' CraReportGetHomeLendingIncomeSources ([CraBankIncomeIncomeProvider])
+craReportGetHomeLendingIncomeSourcesIncomeProvidersL f CraReportGetHomeLendingIncomeSources{..} = (\craReportGetHomeLendingIncomeSourcesIncomeProviders -> CraReportGetHomeLendingIncomeSources { craReportGetHomeLendingIncomeSourcesIncomeProviders, ..} ) <$> f craReportGetHomeLendingIncomeSourcesIncomeProviders
+{-# INLINE craReportGetHomeLendingIncomeSourcesIncomeProvidersL #-}
+
+-- | 'craReportGetHomeLendingIncomeSourcesIncomeStreamCount' Lens
+craReportGetHomeLendingIncomeSourcesIncomeStreamCountL :: Lens_' CraReportGetHomeLendingIncomeSources (Int)
+craReportGetHomeLendingIncomeSourcesIncomeStreamCountL f CraReportGetHomeLendingIncomeSources{..} = (\craReportGetHomeLendingIncomeSourcesIncomeStreamCount -> CraReportGetHomeLendingIncomeSources { craReportGetHomeLendingIncomeSourcesIncomeStreamCount, ..} ) <$> f craReportGetHomeLendingIncomeSourcesIncomeStreamCount
+{-# INLINE craReportGetHomeLendingIncomeSourcesIncomeStreamCountL #-}
+
+
+
+-- * CraReportGetHomeLendingMetadata
+
+-- | 'craReportGetHomeLendingMetadataAccountCount' Lens
+craReportGetHomeLendingMetadataAccountCountL :: Lens_' CraReportGetHomeLendingMetadata (Int)
+craReportGetHomeLendingMetadataAccountCountL f CraReportGetHomeLendingMetadata{..} = (\craReportGetHomeLendingMetadataAccountCount -> CraReportGetHomeLendingMetadata { craReportGetHomeLendingMetadataAccountCount, ..} ) <$> f craReportGetHomeLendingMetadataAccountCount
+{-# INLINE craReportGetHomeLendingMetadataAccountCountL #-}
+
+-- | 'craReportGetHomeLendingMetadataGeneratedTime' Lens
+craReportGetHomeLendingMetadataGeneratedTimeL :: Lens_' CraReportGetHomeLendingMetadata (DateTime)
+craReportGetHomeLendingMetadataGeneratedTimeL f CraReportGetHomeLendingMetadata{..} = (\craReportGetHomeLendingMetadataGeneratedTime -> CraReportGetHomeLendingMetadata { craReportGetHomeLendingMetadataGeneratedTime, ..} ) <$> f craReportGetHomeLendingMetadataGeneratedTime
+{-# INLINE craReportGetHomeLendingMetadataGeneratedTimeL #-}
+
+-- | 'craReportGetHomeLendingMetadataInstitutionIds' Lens
+craReportGetHomeLendingMetadataInstitutionIdsL :: Lens_' CraReportGetHomeLendingMetadata ([Text])
+craReportGetHomeLendingMetadataInstitutionIdsL f CraReportGetHomeLendingMetadata{..} = (\craReportGetHomeLendingMetadataInstitutionIds -> CraReportGetHomeLendingMetadata { craReportGetHomeLendingMetadataInstitutionIds, ..} ) <$> f craReportGetHomeLendingMetadataInstitutionIds
+{-# INLINE craReportGetHomeLendingMetadataInstitutionIdsL #-}
+
+-- | 'craReportGetHomeLendingMetadataItemCount' Lens
+craReportGetHomeLendingMetadataItemCountL :: Lens_' CraReportGetHomeLendingMetadata (Int)
+craReportGetHomeLendingMetadataItemCountL f CraReportGetHomeLendingMetadata{..} = (\craReportGetHomeLendingMetadataItemCount -> CraReportGetHomeLendingMetadata { craReportGetHomeLendingMetadataItemCount, ..} ) <$> f craReportGetHomeLendingMetadataItemCount
+{-# INLINE craReportGetHomeLendingMetadataItemCountL #-}
+
+
+
+-- * CraReportGetHomeLendingResponseProduct
+
+-- | 'craReportGetHomeLendingResponseProductAttributes' Lens
+craReportGetHomeLendingResponseProductAttributesL :: Lens_' CraReportGetHomeLendingResponseProduct (CraReportGetHomeLendingAttributes)
+craReportGetHomeLendingResponseProductAttributesL f CraReportGetHomeLendingResponseProduct{..} = (\craReportGetHomeLendingResponseProductAttributes -> CraReportGetHomeLendingResponseProduct { craReportGetHomeLendingResponseProductAttributes, ..} ) <$> f craReportGetHomeLendingResponseProductAttributes
+{-# INLINE craReportGetHomeLendingResponseProductAttributesL #-}
+
+-- | 'craReportGetHomeLendingResponseProductErrors' Lens
+craReportGetHomeLendingResponseProductErrorsL :: Lens_' CraReportGetHomeLendingResponseProduct ([PlaidError])
+craReportGetHomeLendingResponseProductErrorsL f CraReportGetHomeLendingResponseProduct{..} = (\craReportGetHomeLendingResponseProductErrors -> CraReportGetHomeLendingResponseProduct { craReportGetHomeLendingResponseProductErrors, ..} ) <$> f craReportGetHomeLendingResponseProductErrors
+{-# INLINE craReportGetHomeLendingResponseProductErrorsL #-}
+
+-- | 'craReportGetHomeLendingResponseProductMetadata' Lens
+craReportGetHomeLendingResponseProductMetadataL :: Lens_' CraReportGetHomeLendingResponseProduct (CraReportGetHomeLendingMetadata)
+craReportGetHomeLendingResponseProductMetadataL f CraReportGetHomeLendingResponseProduct{..} = (\craReportGetHomeLendingResponseProductMetadata -> CraReportGetHomeLendingResponseProduct { craReportGetHomeLendingResponseProductMetadata, ..} ) <$> f craReportGetHomeLendingResponseProductMetadata
+{-# INLINE craReportGetHomeLendingResponseProductMetadataL #-}
+
+-- | 'craReportGetHomeLendingResponseProductProduct' Lens
+craReportGetHomeLendingResponseProductProductL :: Lens_' CraReportGetHomeLendingResponseProduct (E'Product3)
+craReportGetHomeLendingResponseProductProductL f CraReportGetHomeLendingResponseProduct{..} = (\craReportGetHomeLendingResponseProductProduct -> CraReportGetHomeLendingResponseProduct { craReportGetHomeLendingResponseProductProduct, ..} ) <$> f craReportGetHomeLendingResponseProductProduct
+{-# INLINE craReportGetHomeLendingResponseProductProductL #-}
+
+-- | 'craReportGetHomeLendingResponseProductVersion' Lens
+craReportGetHomeLendingResponseProductVersionL :: Lens_' CraReportGetHomeLendingResponseProduct (Text)
+craReportGetHomeLendingResponseProductVersionL f CraReportGetHomeLendingResponseProduct{..} = (\craReportGetHomeLendingResponseProductVersion -> CraReportGetHomeLendingResponseProduct { craReportGetHomeLendingResponseProductVersion, ..} ) <$> f craReportGetHomeLendingResponseProductVersion
+{-# INLINE craReportGetHomeLendingResponseProductVersionL #-}
+
+
+
+-- * CraReportGetIncomeInsightsAttributes
+
+-- | 'craReportGetIncomeInsightsAttributesIncomeStreams' Lens
+craReportGetIncomeInsightsAttributesIncomeStreamsL :: Lens_' CraReportGetIncomeInsightsAttributes ([CraReportGetIncomeInsightsStream])
+craReportGetIncomeInsightsAttributesIncomeStreamsL f CraReportGetIncomeInsightsAttributes{..} = (\craReportGetIncomeInsightsAttributesIncomeStreams -> CraReportGetIncomeInsightsAttributes { craReportGetIncomeInsightsAttributesIncomeStreams, ..} ) <$> f craReportGetIncomeInsightsAttributesIncomeStreams
+{-# INLINE craReportGetIncomeInsightsAttributesIncomeStreamsL #-}
+
+-- | 'craReportGetIncomeInsightsAttributesUserSummary' Lens
+craReportGetIncomeInsightsAttributesUserSummaryL :: Lens_' CraReportGetIncomeInsightsAttributes (CraIncomeInsightsUserSummary)
+craReportGetIncomeInsightsAttributesUserSummaryL f CraReportGetIncomeInsightsAttributes{..} = (\craReportGetIncomeInsightsAttributesUserSummary -> CraReportGetIncomeInsightsAttributes { craReportGetIncomeInsightsAttributesUserSummary, ..} ) <$> f craReportGetIncomeInsightsAttributesUserSummary
+{-# INLINE craReportGetIncomeInsightsAttributesUserSummaryL #-}
+
+
+
+-- * CraReportGetIncomeInsightsMetadata
+
+-- | 'craReportGetIncomeInsightsMetadataAccountCount' Lens
+craReportGetIncomeInsightsMetadataAccountCountL :: Lens_' CraReportGetIncomeInsightsMetadata (Int)
+craReportGetIncomeInsightsMetadataAccountCountL f CraReportGetIncomeInsightsMetadata{..} = (\craReportGetIncomeInsightsMetadataAccountCount -> CraReportGetIncomeInsightsMetadata { craReportGetIncomeInsightsMetadataAccountCount, ..} ) <$> f craReportGetIncomeInsightsMetadataAccountCount
+{-# INLINE craReportGetIncomeInsightsMetadataAccountCountL #-}
+
+-- | 'craReportGetIncomeInsightsMetadataGeneratedTime' Lens
+craReportGetIncomeInsightsMetadataGeneratedTimeL :: Lens_' CraReportGetIncomeInsightsMetadata (DateTime)
+craReportGetIncomeInsightsMetadataGeneratedTimeL f CraReportGetIncomeInsightsMetadata{..} = (\craReportGetIncomeInsightsMetadataGeneratedTime -> CraReportGetIncomeInsightsMetadata { craReportGetIncomeInsightsMetadataGeneratedTime, ..} ) <$> f craReportGetIncomeInsightsMetadataGeneratedTime
+{-# INLINE craReportGetIncomeInsightsMetadataGeneratedTimeL #-}
+
+-- | 'craReportGetIncomeInsightsMetadataInstitutionIds' Lens
+craReportGetIncomeInsightsMetadataInstitutionIdsL :: Lens_' CraReportGetIncomeInsightsMetadata ([Text])
+craReportGetIncomeInsightsMetadataInstitutionIdsL f CraReportGetIncomeInsightsMetadata{..} = (\craReportGetIncomeInsightsMetadataInstitutionIds -> CraReportGetIncomeInsightsMetadata { craReportGetIncomeInsightsMetadataInstitutionIds, ..} ) <$> f craReportGetIncomeInsightsMetadataInstitutionIds
+{-# INLINE craReportGetIncomeInsightsMetadataInstitutionIdsL #-}
+
+-- | 'craReportGetIncomeInsightsMetadataItemCount' Lens
+craReportGetIncomeInsightsMetadataItemCountL :: Lens_' CraReportGetIncomeInsightsMetadata (Int)
+craReportGetIncomeInsightsMetadataItemCountL f CraReportGetIncomeInsightsMetadata{..} = (\craReportGetIncomeInsightsMetadataItemCount -> CraReportGetIncomeInsightsMetadata { craReportGetIncomeInsightsMetadataItemCount, ..} ) <$> f craReportGetIncomeInsightsMetadataItemCount
+{-# INLINE craReportGetIncomeInsightsMetadataItemCountL #-}
+
+-- | 'craReportGetIncomeInsightsMetadataCreditAccountTypeCount' Lens
+craReportGetIncomeInsightsMetadataCreditAccountTypeCountL :: Lens_' CraReportGetIncomeInsightsMetadata (Int)
+craReportGetIncomeInsightsMetadataCreditAccountTypeCountL f CraReportGetIncomeInsightsMetadata{..} = (\craReportGetIncomeInsightsMetadataCreditAccountTypeCount -> CraReportGetIncomeInsightsMetadata { craReportGetIncomeInsightsMetadataCreditAccountTypeCount, ..} ) <$> f craReportGetIncomeInsightsMetadataCreditAccountTypeCount
+{-# INLINE craReportGetIncomeInsightsMetadataCreditAccountTypeCountL #-}
+
+-- | 'craReportGetIncomeInsightsMetadataDepositoryAccountTypeCount' Lens
+craReportGetIncomeInsightsMetadataDepositoryAccountTypeCountL :: Lens_' CraReportGetIncomeInsightsMetadata (Int)
+craReportGetIncomeInsightsMetadataDepositoryAccountTypeCountL f CraReportGetIncomeInsightsMetadata{..} = (\craReportGetIncomeInsightsMetadataDepositoryAccountTypeCount -> CraReportGetIncomeInsightsMetadata { craReportGetIncomeInsightsMetadataDepositoryAccountTypeCount, ..} ) <$> f craReportGetIncomeInsightsMetadataDepositoryAccountTypeCount
+{-# INLINE craReportGetIncomeInsightsMetadataDepositoryAccountTypeCountL #-}
+
+-- | 'craReportGetIncomeInsightsMetadataMostRecentTransactionDate' Lens
+craReportGetIncomeInsightsMetadataMostRecentTransactionDateL :: Lens_' CraReportGetIncomeInsightsMetadata (Date)
+craReportGetIncomeInsightsMetadataMostRecentTransactionDateL f CraReportGetIncomeInsightsMetadata{..} = (\craReportGetIncomeInsightsMetadataMostRecentTransactionDate -> CraReportGetIncomeInsightsMetadata { craReportGetIncomeInsightsMetadataMostRecentTransactionDate, ..} ) <$> f craReportGetIncomeInsightsMetadataMostRecentTransactionDate
+{-# INLINE craReportGetIncomeInsightsMetadataMostRecentTransactionDateL #-}
+
+-- | 'craReportGetIncomeInsightsMetadataMultipleOwnerAccountCount' Lens
+craReportGetIncomeInsightsMetadataMultipleOwnerAccountCountL :: Lens_' CraReportGetIncomeInsightsMetadata (Int)
+craReportGetIncomeInsightsMetadataMultipleOwnerAccountCountL f CraReportGetIncomeInsightsMetadata{..} = (\craReportGetIncomeInsightsMetadataMultipleOwnerAccountCount -> CraReportGetIncomeInsightsMetadata { craReportGetIncomeInsightsMetadataMultipleOwnerAccountCount, ..} ) <$> f craReportGetIncomeInsightsMetadataMultipleOwnerAccountCount
+{-# INLINE craReportGetIncomeInsightsMetadataMultipleOwnerAccountCountL #-}
+
+-- | 'craReportGetIncomeInsightsMetadataOldestTransactionDate' Lens
+craReportGetIncomeInsightsMetadataOldestTransactionDateL :: Lens_' CraReportGetIncomeInsightsMetadata (Date)
+craReportGetIncomeInsightsMetadataOldestTransactionDateL f CraReportGetIncomeInsightsMetadata{..} = (\craReportGetIncomeInsightsMetadataOldestTransactionDate -> CraReportGetIncomeInsightsMetadata { craReportGetIncomeInsightsMetadataOldestTransactionDate, ..} ) <$> f craReportGetIncomeInsightsMetadataOldestTransactionDate
+{-# INLINE craReportGetIncomeInsightsMetadataOldestTransactionDateL #-}
+
+-- | 'craReportGetIncomeInsightsMetadataOtherAccountTypeCount' Lens
+craReportGetIncomeInsightsMetadataOtherAccountTypeCountL :: Lens_' CraReportGetIncomeInsightsMetadata (Int)
+craReportGetIncomeInsightsMetadataOtherAccountTypeCountL f CraReportGetIncomeInsightsMetadata{..} = (\craReportGetIncomeInsightsMetadataOtherAccountTypeCount -> CraReportGetIncomeInsightsMetadata { craReportGetIncomeInsightsMetadataOtherAccountTypeCount, ..} ) <$> f craReportGetIncomeInsightsMetadataOtherAccountTypeCount
+{-# INLINE craReportGetIncomeInsightsMetadataOtherAccountTypeCountL #-}
+
+-- | 'craReportGetIncomeInsightsMetadataPrimaryAccountCount' Lens
+craReportGetIncomeInsightsMetadataPrimaryAccountCountL :: Lens_' CraReportGetIncomeInsightsMetadata (Int)
+craReportGetIncomeInsightsMetadataPrimaryAccountCountL f CraReportGetIncomeInsightsMetadata{..} = (\craReportGetIncomeInsightsMetadataPrimaryAccountCount -> CraReportGetIncomeInsightsMetadata { craReportGetIncomeInsightsMetadataPrimaryAccountCount, ..} ) <$> f craReportGetIncomeInsightsMetadataPrimaryAccountCount
+{-# INLINE craReportGetIncomeInsightsMetadataPrimaryAccountCountL #-}
+
+
+
+-- * CraReportGetIncomeInsightsResponseProduct
+
+-- | 'craReportGetIncomeInsightsResponseProductAttributes' Lens
+craReportGetIncomeInsightsResponseProductAttributesL :: Lens_' CraReportGetIncomeInsightsResponseProduct (CraReportGetIncomeInsightsAttributes)
+craReportGetIncomeInsightsResponseProductAttributesL f CraReportGetIncomeInsightsResponseProduct{..} = (\craReportGetIncomeInsightsResponseProductAttributes -> CraReportGetIncomeInsightsResponseProduct { craReportGetIncomeInsightsResponseProductAttributes, ..} ) <$> f craReportGetIncomeInsightsResponseProductAttributes
+{-# INLINE craReportGetIncomeInsightsResponseProductAttributesL #-}
+
+-- | 'craReportGetIncomeInsightsResponseProductErrors' Lens
+craReportGetIncomeInsightsResponseProductErrorsL :: Lens_' CraReportGetIncomeInsightsResponseProduct ([PlaidError])
+craReportGetIncomeInsightsResponseProductErrorsL f CraReportGetIncomeInsightsResponseProduct{..} = (\craReportGetIncomeInsightsResponseProductErrors -> CraReportGetIncomeInsightsResponseProduct { craReportGetIncomeInsightsResponseProductErrors, ..} ) <$> f craReportGetIncomeInsightsResponseProductErrors
+{-# INLINE craReportGetIncomeInsightsResponseProductErrorsL #-}
+
+-- | 'craReportGetIncomeInsightsResponseProductMetadata' Lens
+craReportGetIncomeInsightsResponseProductMetadataL :: Lens_' CraReportGetIncomeInsightsResponseProduct (CraReportGetIncomeInsightsMetadata)
+craReportGetIncomeInsightsResponseProductMetadataL f CraReportGetIncomeInsightsResponseProduct{..} = (\craReportGetIncomeInsightsResponseProductMetadata -> CraReportGetIncomeInsightsResponseProduct { craReportGetIncomeInsightsResponseProductMetadata, ..} ) <$> f craReportGetIncomeInsightsResponseProductMetadata
+{-# INLINE craReportGetIncomeInsightsResponseProductMetadataL #-}
+
+-- | 'craReportGetIncomeInsightsResponseProductProduct' Lens
+craReportGetIncomeInsightsResponseProductProductL :: Lens_' CraReportGetIncomeInsightsResponseProduct (E'Product4)
+craReportGetIncomeInsightsResponseProductProductL f CraReportGetIncomeInsightsResponseProduct{..} = (\craReportGetIncomeInsightsResponseProductProduct -> CraReportGetIncomeInsightsResponseProduct { craReportGetIncomeInsightsResponseProductProduct, ..} ) <$> f craReportGetIncomeInsightsResponseProductProduct
+{-# INLINE craReportGetIncomeInsightsResponseProductProductL #-}
+
+-- | 'craReportGetIncomeInsightsResponseProductVersion' Lens
+craReportGetIncomeInsightsResponseProductVersionL :: Lens_' CraReportGetIncomeInsightsResponseProduct (Text)
+craReportGetIncomeInsightsResponseProductVersionL f CraReportGetIncomeInsightsResponseProduct{..} = (\craReportGetIncomeInsightsResponseProductVersion -> CraReportGetIncomeInsightsResponseProduct { craReportGetIncomeInsightsResponseProductVersion, ..} ) <$> f craReportGetIncomeInsightsResponseProductVersion
+{-# INLINE craReportGetIncomeInsightsResponseProductVersionL #-}
+
+
+
+-- * CraReportGetIncomeInsightsStream
+
+-- | 'craReportGetIncomeInsightsStreamEndDate' Lens
+craReportGetIncomeInsightsStreamEndDateL :: Lens_' CraReportGetIncomeInsightsStream (Date)
+craReportGetIncomeInsightsStreamEndDateL f CraReportGetIncomeInsightsStream{..} = (\craReportGetIncomeInsightsStreamEndDate -> CraReportGetIncomeInsightsStream { craReportGetIncomeInsightsStreamEndDate, ..} ) <$> f craReportGetIncomeInsightsStreamEndDate
+{-# INLINE craReportGetIncomeInsightsStreamEndDateL #-}
+
+-- | 'craReportGetIncomeInsightsStreamIncomeMetrics' Lens
+craReportGetIncomeInsightsStreamIncomeMetricsL :: Lens_' CraReportGetIncomeInsightsStream (CraIncomeMetrics)
+craReportGetIncomeInsightsStreamIncomeMetricsL f CraReportGetIncomeInsightsStream{..} = (\craReportGetIncomeInsightsStreamIncomeMetrics -> CraReportGetIncomeInsightsStream { craReportGetIncomeInsightsStreamIncomeMetrics, ..} ) <$> f craReportGetIncomeInsightsStreamIncomeMetrics
+{-# INLINE craReportGetIncomeInsightsStreamIncomeMetricsL #-}
+
+-- | 'craReportGetIncomeInsightsStreamIncomeStreamId' Lens
+craReportGetIncomeInsightsStreamIncomeStreamIdL :: Lens_' CraReportGetIncomeInsightsStream (Text)
+craReportGetIncomeInsightsStreamIncomeStreamIdL f CraReportGetIncomeInsightsStream{..} = (\craReportGetIncomeInsightsStreamIncomeStreamId -> CraReportGetIncomeInsightsStream { craReportGetIncomeInsightsStreamIncomeStreamId, ..} ) <$> f craReportGetIncomeInsightsStreamIncomeStreamId
+{-# INLINE craReportGetIncomeInsightsStreamIncomeStreamIdL #-}
+
+-- | 'craReportGetIncomeInsightsStreamInsights' Lens
+craReportGetIncomeInsightsStreamInsightsL :: Lens_' CraReportGetIncomeInsightsStream (CraIncomeStreamInsights)
+craReportGetIncomeInsightsStreamInsightsL f CraReportGetIncomeInsightsStream{..} = (\craReportGetIncomeInsightsStreamInsights -> CraReportGetIncomeInsightsStream { craReportGetIncomeInsightsStreamInsights, ..} ) <$> f craReportGetIncomeInsightsStreamInsights
+{-# INLINE craReportGetIncomeInsightsStreamInsightsL #-}
+
+-- | 'craReportGetIncomeInsightsStreamStartDate' Lens
+craReportGetIncomeInsightsStreamStartDateL :: Lens_' CraReportGetIncomeInsightsStream (Date)
+craReportGetIncomeInsightsStreamStartDateL f CraReportGetIncomeInsightsStream{..} = (\craReportGetIncomeInsightsStreamStartDate -> CraReportGetIncomeInsightsStream { craReportGetIncomeInsightsStreamStartDate, ..} ) <$> f craReportGetIncomeInsightsStreamStartDate
+{-# INLINE craReportGetIncomeInsightsStreamStartDateL #-}
+
+
+
+-- * CraReportGetProductBaseMetadata
+
+-- | 'craReportGetProductBaseMetadataAccountCount' Lens
+craReportGetProductBaseMetadataAccountCountL :: Lens_' CraReportGetProductBaseMetadata (Int)
+craReportGetProductBaseMetadataAccountCountL f CraReportGetProductBaseMetadata{..} = (\craReportGetProductBaseMetadataAccountCount -> CraReportGetProductBaseMetadata { craReportGetProductBaseMetadataAccountCount, ..} ) <$> f craReportGetProductBaseMetadataAccountCount
+{-# INLINE craReportGetProductBaseMetadataAccountCountL #-}
+
+-- | 'craReportGetProductBaseMetadataGeneratedTime' Lens
+craReportGetProductBaseMetadataGeneratedTimeL :: Lens_' CraReportGetProductBaseMetadata (DateTime)
+craReportGetProductBaseMetadataGeneratedTimeL f CraReportGetProductBaseMetadata{..} = (\craReportGetProductBaseMetadataGeneratedTime -> CraReportGetProductBaseMetadata { craReportGetProductBaseMetadataGeneratedTime, ..} ) <$> f craReportGetProductBaseMetadataGeneratedTime
+{-# INLINE craReportGetProductBaseMetadataGeneratedTimeL #-}
+
+-- | 'craReportGetProductBaseMetadataInstitutionIds' Lens
+craReportGetProductBaseMetadataInstitutionIdsL :: Lens_' CraReportGetProductBaseMetadata ([Text])
+craReportGetProductBaseMetadataInstitutionIdsL f CraReportGetProductBaseMetadata{..} = (\craReportGetProductBaseMetadataInstitutionIds -> CraReportGetProductBaseMetadata { craReportGetProductBaseMetadataInstitutionIds, ..} ) <$> f craReportGetProductBaseMetadataInstitutionIds
+{-# INLINE craReportGetProductBaseMetadataInstitutionIdsL #-}
+
+-- | 'craReportGetProductBaseMetadataItemCount' Lens
+craReportGetProductBaseMetadataItemCountL :: Lens_' CraReportGetProductBaseMetadata (Int)
+craReportGetProductBaseMetadataItemCountL f CraReportGetProductBaseMetadata{..} = (\craReportGetProductBaseMetadataItemCount -> CraReportGetProductBaseMetadata { craReportGetProductBaseMetadataItemCount, ..} ) <$> f craReportGetProductBaseMetadataItemCount
+{-# INLINE craReportGetProductBaseMetadataItemCountL #-}
+
+
+
+-- * CraReportGetQualifyResponseProduct
+
+-- | 'craReportGetQualifyResponseProductAttributes' Lens
+craReportGetQualifyResponseProductAttributesL :: Lens_' CraReportGetQualifyResponseProduct ((Map.Map String A.Value))
+craReportGetQualifyResponseProductAttributesL f CraReportGetQualifyResponseProduct{..} = (\craReportGetQualifyResponseProductAttributes -> CraReportGetQualifyResponseProduct { craReportGetQualifyResponseProductAttributes, ..} ) <$> f craReportGetQualifyResponseProductAttributes
+{-# INLINE craReportGetQualifyResponseProductAttributesL #-}
+
+-- | 'craReportGetQualifyResponseProductErrors' Lens
+craReportGetQualifyResponseProductErrorsL :: Lens_' CraReportGetQualifyResponseProduct ([PlaidError])
+craReportGetQualifyResponseProductErrorsL f CraReportGetQualifyResponseProduct{..} = (\craReportGetQualifyResponseProductErrors -> CraReportGetQualifyResponseProduct { craReportGetQualifyResponseProductErrors, ..} ) <$> f craReportGetQualifyResponseProductErrors
+{-# INLINE craReportGetQualifyResponseProductErrorsL #-}
+
+-- | 'craReportGetQualifyResponseProductMetadata' Lens
+craReportGetQualifyResponseProductMetadataL :: Lens_' CraReportGetQualifyResponseProduct ((Map.Map String A.Value))
+craReportGetQualifyResponseProductMetadataL f CraReportGetQualifyResponseProduct{..} = (\craReportGetQualifyResponseProductMetadata -> CraReportGetQualifyResponseProduct { craReportGetQualifyResponseProductMetadata, ..} ) <$> f craReportGetQualifyResponseProductMetadata
+{-# INLINE craReportGetQualifyResponseProductMetadataL #-}
+
+-- | 'craReportGetQualifyResponseProductProduct' Lens
+craReportGetQualifyResponseProductProductL :: Lens_' CraReportGetQualifyResponseProduct (E'Product7)
+craReportGetQualifyResponseProductProductL f CraReportGetQualifyResponseProduct{..} = (\craReportGetQualifyResponseProductProduct -> CraReportGetQualifyResponseProduct { craReportGetQualifyResponseProductProduct, ..} ) <$> f craReportGetQualifyResponseProductProduct
+{-# INLINE craReportGetQualifyResponseProductProductL #-}
+
+-- | 'craReportGetQualifyResponseProductVersion' Lens
+craReportGetQualifyResponseProductVersionL :: Lens_' CraReportGetQualifyResponseProduct (Text)
+craReportGetQualifyResponseProductVersionL f CraReportGetQualifyResponseProduct{..} = (\craReportGetQualifyResponseProductVersion -> CraReportGetQualifyResponseProduct { craReportGetQualifyResponseProductVersion, ..} ) <$> f craReportGetQualifyResponseProductVersion
+{-# INLINE craReportGetQualifyResponseProductVersionL #-}
+
+
+
+-- * CraReportGetReport
+
+-- | 'craReportGetReportConsumerReportPermissiblePurpose' Lens
+craReportGetReportConsumerReportPermissiblePurposeL :: Lens_' CraReportGetReport (ConsumerReportPermissiblePurpose)
+craReportGetReportConsumerReportPermissiblePurposeL f CraReportGetReport{..} = (\craReportGetReportConsumerReportPermissiblePurpose -> CraReportGetReport { craReportGetReportConsumerReportPermissiblePurpose, ..} ) <$> f craReportGetReportConsumerReportPermissiblePurpose
+{-# INLINE craReportGetReportConsumerReportPermissiblePurposeL #-}
+
+-- | 'craReportGetReportDecisionStage' Lens
+craReportGetReportDecisionStageL :: Lens_' CraReportGetReport (CraReportDecisionStage)
+craReportGetReportDecisionStageL f CraReportGetReport{..} = (\craReportGetReportDecisionStage -> CraReportGetReport { craReportGetReportDecisionStage, ..} ) <$> f craReportGetReportDecisionStage
+{-# INLINE craReportGetReportDecisionStageL #-}
+
+-- | 'craReportGetReportProducts' Lens
+craReportGetReportProductsL :: Lens_' CraReportGetReport ([CraReportGetResponseProduct])
+craReportGetReportProductsL f CraReportGetReport{..} = (\craReportGetReportProducts -> CraReportGetReport { craReportGetReportProducts, ..} ) <$> f craReportGetReportProducts
+{-# INLINE craReportGetReportProductsL #-}
+
+-- | 'craReportGetReportRetrievedTime' Lens
+craReportGetReportRetrievedTimeL :: Lens_' CraReportGetReport (DateTime)
+craReportGetReportRetrievedTimeL f CraReportGetReport{..} = (\craReportGetReportRetrievedTime -> CraReportGetReport { craReportGetReportRetrievedTime, ..} ) <$> f craReportGetReportRetrievedTime
+{-# INLINE craReportGetReportRetrievedTimeL #-}
+
+-- | 'craReportGetReportScope' Lens
+craReportGetReportScopeL :: Lens_' CraReportGetReport (CraReportScope)
+craReportGetReportScopeL f CraReportGetReport{..} = (\craReportGetReportScope -> CraReportGetReport { craReportGetReportScope, ..} ) <$> f craReportGetReportScope
+{-# INLINE craReportGetReportScopeL #-}
+
+
+
+-- * CraReportGetRequest
+
+-- | 'craReportGetRequestClientId' Lens
+craReportGetRequestClientIdL :: Lens_' CraReportGetRequest (Maybe Text)
+craReportGetRequestClientIdL f CraReportGetRequest{..} = (\craReportGetRequestClientId -> CraReportGetRequest { craReportGetRequestClientId, ..} ) <$> f craReportGetRequestClientId
+{-# INLINE craReportGetRequestClientIdL #-}
+
+-- | 'craReportGetRequestConsumerReportPermissiblePurpose' Lens
+craReportGetRequestConsumerReportPermissiblePurposeL :: Lens_' CraReportGetRequest (ConsumerReportPermissiblePurpose)
+craReportGetRequestConsumerReportPermissiblePurposeL f CraReportGetRequest{..} = (\craReportGetRequestConsumerReportPermissiblePurpose -> CraReportGetRequest { craReportGetRequestConsumerReportPermissiblePurpose, ..} ) <$> f craReportGetRequestConsumerReportPermissiblePurpose
+{-# INLINE craReportGetRequestConsumerReportPermissiblePurposeL #-}
+
+-- | 'craReportGetRequestDecisionStage' Lens
+craReportGetRequestDecisionStageL :: Lens_' CraReportGetRequest (CraReportDecisionStage)
+craReportGetRequestDecisionStageL f CraReportGetRequest{..} = (\craReportGetRequestDecisionStage -> CraReportGetRequest { craReportGetRequestDecisionStage, ..} ) <$> f craReportGetRequestDecisionStage
+{-# INLINE craReportGetRequestDecisionStageL #-}
+
+-- | 'craReportGetRequestProducts' Lens
+craReportGetRequestProductsL :: Lens_' CraReportGetRequest ([CraReportGetRequestProduct])
+craReportGetRequestProductsL f CraReportGetRequest{..} = (\craReportGetRequestProducts -> CraReportGetRequest { craReportGetRequestProducts, ..} ) <$> f craReportGetRequestProducts
+{-# INLINE craReportGetRequestProductsL #-}
+
+-- | 'craReportGetRequestReportId' Lens
+craReportGetRequestReportIdL :: Lens_' CraReportGetRequest (Maybe Text)
+craReportGetRequestReportIdL f CraReportGetRequest{..} = (\craReportGetRequestReportId -> CraReportGetRequest { craReportGetRequestReportId, ..} ) <$> f craReportGetRequestReportId
+{-# INLINE craReportGetRequestReportIdL #-}
+
+-- | 'craReportGetRequestScope' Lens
+craReportGetRequestScopeL :: Lens_' CraReportGetRequest (Maybe CraReportScope)
+craReportGetRequestScopeL f CraReportGetRequest{..} = (\craReportGetRequestScope -> CraReportGetRequest { craReportGetRequestScope, ..} ) <$> f craReportGetRequestScope
+{-# INLINE craReportGetRequestScopeL #-}
+
+-- | 'craReportGetRequestSecret' Lens
+craReportGetRequestSecretL :: Lens_' CraReportGetRequest (Maybe Text)
+craReportGetRequestSecretL f CraReportGetRequest{..} = (\craReportGetRequestSecret -> CraReportGetRequest { craReportGetRequestSecret, ..} ) <$> f craReportGetRequestSecret
+{-# INLINE craReportGetRequestSecretL #-}
+
+-- | 'craReportGetRequestUserId' Lens
+craReportGetRequestUserIdL :: Lens_' CraReportGetRequest (Text)
+craReportGetRequestUserIdL f CraReportGetRequest{..} = (\craReportGetRequestUserId -> CraReportGetRequest { craReportGetRequestUserId, ..} ) <$> f craReportGetRequestUserId
+{-# INLINE craReportGetRequestUserIdL #-}
+
+
+
+-- * CraReportGetRequestProduct
+
+-- | 'craReportGetRequestProductProduct' Lens
+craReportGetRequestProductProductL :: Lens_' CraReportGetRequestProduct (E'Product6)
+craReportGetRequestProductProductL f CraReportGetRequestProduct{..} = (\craReportGetRequestProductProduct -> CraReportGetRequestProduct { craReportGetRequestProductProduct, ..} ) <$> f craReportGetRequestProductProduct
+{-# INLINE craReportGetRequestProductProductL #-}
+
+-- | 'craReportGetRequestProductVersion' Lens
+craReportGetRequestProductVersionL :: Lens_' CraReportGetRequestProduct (Text)
+craReportGetRequestProductVersionL f CraReportGetRequestProduct{..} = (\craReportGetRequestProductVersion -> CraReportGetRequestProduct { craReportGetRequestProductVersion, ..} ) <$> f craReportGetRequestProductVersion
+{-# INLINE craReportGetRequestProductVersionL #-}
+
+
+
+-- * CraReportGetResponse
+
+-- | 'craReportGetResponseClientUserId' Lens
+craReportGetResponseClientUserIdL :: Lens_' CraReportGetResponse (Maybe Text)
+craReportGetResponseClientUserIdL f CraReportGetResponse{..} = (\craReportGetResponseClientUserId -> CraReportGetResponse { craReportGetResponseClientUserId, ..} ) <$> f craReportGetResponseClientUserId
+{-# INLINE craReportGetResponseClientUserIdL #-}
+
+-- | 'craReportGetResponseReport' Lens
+craReportGetResponseReportL :: Lens_' CraReportGetResponse (CraReportGetReport)
+craReportGetResponseReportL f CraReportGetResponse{..} = (\craReportGetResponseReport -> CraReportGetResponse { craReportGetResponseReport, ..} ) <$> f craReportGetResponseReport
+{-# INLINE craReportGetResponseReportL #-}
+
+-- | 'craReportGetResponseRequestId' Lens
+craReportGetResponseRequestIdL :: Lens_' CraReportGetResponse (Text)
+craReportGetResponseRequestIdL f CraReportGetResponse{..} = (\craReportGetResponseRequestId -> CraReportGetResponse { craReportGetResponseRequestId, ..} ) <$> f craReportGetResponseRequestId
+{-# INLINE craReportGetResponseRequestIdL #-}
+
+-- | 'craReportGetResponseUserId' Lens
+craReportGetResponseUserIdL :: Lens_' CraReportGetResponse (Text)
+craReportGetResponseUserIdL f CraReportGetResponse{..} = (\craReportGetResponseUserId -> CraReportGetResponse { craReportGetResponseUserId, ..} ) <$> f craReportGetResponseUserId
+{-# INLINE craReportGetResponseUserIdL #-}
+
+-- | 'craReportGetResponseWarnings' Lens
+craReportGetResponseWarningsL :: Lens_' CraReportGetResponse ([CheckReportWarning])
+craReportGetResponseWarningsL f CraReportGetResponse{..} = (\craReportGetResponseWarnings -> CraReportGetResponse { craReportGetResponseWarnings, ..} ) <$> f craReportGetResponseWarnings
+{-# INLINE craReportGetResponseWarningsL #-}
+
+
+
+-- * CraReportReadyWebhook
+
+-- | 'craReportReadyWebhookClientReportId' Lens
+craReportReadyWebhookClientReportIdL :: Lens_' CraReportReadyWebhook (Text)
+craReportReadyWebhookClientReportIdL f CraReportReadyWebhook{..} = (\craReportReadyWebhookClientReportId -> CraReportReadyWebhook { craReportReadyWebhookClientReportId, ..} ) <$> f craReportReadyWebhookClientReportId
+{-# INLINE craReportReadyWebhookClientReportIdL #-}
+
+-- | 'craReportReadyWebhookClientUserId' Lens
+craReportReadyWebhookClientUserIdL :: Lens_' CraReportReadyWebhook (Text)
+craReportReadyWebhookClientUserIdL f CraReportReadyWebhook{..} = (\craReportReadyWebhookClientUserId -> CraReportReadyWebhook { craReportReadyWebhookClientUserId, ..} ) <$> f craReportReadyWebhookClientUserId
+{-# INLINE craReportReadyWebhookClientUserIdL #-}
+
+-- | 'craReportReadyWebhookEnvironment' Lens
+craReportReadyWebhookEnvironmentL :: Lens_' CraReportReadyWebhook (WebhookEnvironmentValues)
+craReportReadyWebhookEnvironmentL f CraReportReadyWebhook{..} = (\craReportReadyWebhookEnvironment -> CraReportReadyWebhook { craReportReadyWebhookEnvironment, ..} ) <$> f craReportReadyWebhookEnvironment
+{-# INLINE craReportReadyWebhookEnvironmentL #-}
+
+-- | 'craReportReadyWebhookErrorCode' Lens
+craReportReadyWebhookErrorCodeL :: Lens_' CraReportReadyWebhook (CraReportErrorCode)
+craReportReadyWebhookErrorCodeL f CraReportReadyWebhook{..} = (\craReportReadyWebhookErrorCode -> CraReportReadyWebhook { craReportReadyWebhookErrorCode, ..} ) <$> f craReportReadyWebhookErrorCode
+{-# INLINE craReportReadyWebhookErrorCodeL #-}
+
+-- | 'craReportReadyWebhookFailedProducts' Lens
+craReportReadyWebhookFailedProductsL :: Lens_' CraReportReadyWebhook ([CreditProduct])
+craReportReadyWebhookFailedProductsL f CraReportReadyWebhook{..} = (\craReportReadyWebhookFailedProducts -> CraReportReadyWebhook { craReportReadyWebhookFailedProducts, ..} ) <$> f craReportReadyWebhookFailedProducts
+{-# INLINE craReportReadyWebhookFailedProductsL #-}
+
+-- | 'craReportReadyWebhookGeneratedTime' Lens
+craReportReadyWebhookGeneratedTimeL :: Lens_' CraReportReadyWebhook (DateTime)
+craReportReadyWebhookGeneratedTimeL f CraReportReadyWebhook{..} = (\craReportReadyWebhookGeneratedTime -> CraReportReadyWebhook { craReportReadyWebhookGeneratedTime, ..} ) <$> f craReportReadyWebhookGeneratedTime
+{-# INLINE craReportReadyWebhookGeneratedTimeL #-}
+
+-- | 'craReportReadyWebhookReportId' Lens
+craReportReadyWebhookReportIdL :: Lens_' CraReportReadyWebhook (Text)
+craReportReadyWebhookReportIdL f CraReportReadyWebhook{..} = (\craReportReadyWebhookReportId -> CraReportReadyWebhook { craReportReadyWebhookReportId, ..} ) <$> f craReportReadyWebhookReportId
+{-# INLINE craReportReadyWebhookReportIdL #-}
+
+-- | 'craReportReadyWebhookScope' Lens
+craReportReadyWebhookScopeL :: Lens_' CraReportReadyWebhook (CraReportScope)
+craReportReadyWebhookScopeL f CraReportReadyWebhook{..} = (\craReportReadyWebhookScope -> CraReportReadyWebhook { craReportReadyWebhookScope, ..} ) <$> f craReportReadyWebhookScope
+{-# INLINE craReportReadyWebhookScopeL #-}
+
+-- | 'craReportReadyWebhookSuccessfulProducts' Lens
+craReportReadyWebhookSuccessfulProductsL :: Lens_' CraReportReadyWebhook ([CreditProduct])
+craReportReadyWebhookSuccessfulProductsL f CraReportReadyWebhook{..} = (\craReportReadyWebhookSuccessfulProducts -> CraReportReadyWebhook { craReportReadyWebhookSuccessfulProducts, ..} ) <$> f craReportReadyWebhookSuccessfulProducts
+{-# INLINE craReportReadyWebhookSuccessfulProductsL #-}
+
+-- | 'craReportReadyWebhookUserId' Lens
+craReportReadyWebhookUserIdL :: Lens_' CraReportReadyWebhook (Text)
+craReportReadyWebhookUserIdL f CraReportReadyWebhook{..} = (\craReportReadyWebhookUserId -> CraReportReadyWebhook { craReportReadyWebhookUserId, ..} ) <$> f craReportReadyWebhookUserId
+{-# INLINE craReportReadyWebhookUserIdL #-}
+
+-- | 'craReportReadyWebhookWebhookCode' Lens
+craReportReadyWebhookWebhookCodeL :: Lens_' CraReportReadyWebhook (Text)
+craReportReadyWebhookWebhookCodeL f CraReportReadyWebhook{..} = (\craReportReadyWebhookWebhookCode -> CraReportReadyWebhook { craReportReadyWebhookWebhookCode, ..} ) <$> f craReportReadyWebhookWebhookCode
+{-# INLINE craReportReadyWebhookWebhookCodeL #-}
+
+-- | 'craReportReadyWebhookWebhookType' Lens
+craReportReadyWebhookWebhookTypeL :: Lens_' CraReportReadyWebhook (Text)
+craReportReadyWebhookWebhookTypeL f CraReportReadyWebhook{..} = (\craReportReadyWebhookWebhookType -> CraReportReadyWebhook { craReportReadyWebhookWebhookType, ..} ) <$> f craReportReadyWebhookWebhookType
+{-# INLINE craReportReadyWebhookWebhookTypeL #-}
+
+
+
+-- * CraReportScope
+
+
+
+-- * CraReportUpdatedWebhook
+
+-- | 'craReportUpdatedWebhookClientUserId' Lens
+craReportUpdatedWebhookClientUserIdL :: Lens_' CraReportUpdatedWebhook (Text)
+craReportUpdatedWebhookClientUserIdL f CraReportUpdatedWebhook{..} = (\craReportUpdatedWebhookClientUserId -> CraReportUpdatedWebhook { craReportUpdatedWebhookClientUserId, ..} ) <$> f craReportUpdatedWebhookClientUserId
+{-# INLINE craReportUpdatedWebhookClientUserIdL #-}
+
+-- | 'craReportUpdatedWebhookEnvironment' Lens
+craReportUpdatedWebhookEnvironmentL :: Lens_' CraReportUpdatedWebhook (WebhookEnvironmentValues)
+craReportUpdatedWebhookEnvironmentL f CraReportUpdatedWebhook{..} = (\craReportUpdatedWebhookEnvironment -> CraReportUpdatedWebhook { craReportUpdatedWebhookEnvironment, ..} ) <$> f craReportUpdatedWebhookEnvironment
+{-# INLINE craReportUpdatedWebhookEnvironmentL #-}
+
+-- | 'craReportUpdatedWebhookErrorCode' Lens
+craReportUpdatedWebhookErrorCodeL :: Lens_' CraReportUpdatedWebhook (Maybe Text)
+craReportUpdatedWebhookErrorCodeL f CraReportUpdatedWebhook{..} = (\craReportUpdatedWebhookErrorCode -> CraReportUpdatedWebhook { craReportUpdatedWebhookErrorCode, ..} ) <$> f craReportUpdatedWebhookErrorCode
+{-# INLINE craReportUpdatedWebhookErrorCodeL #-}
+
+-- | 'craReportUpdatedWebhookFailedProducts' Lens
+craReportUpdatedWebhookFailedProductsL :: Lens_' CraReportUpdatedWebhook ([CreditProduct])
+craReportUpdatedWebhookFailedProductsL f CraReportUpdatedWebhook{..} = (\craReportUpdatedWebhookFailedProducts -> CraReportUpdatedWebhook { craReportUpdatedWebhookFailedProducts, ..} ) <$> f craReportUpdatedWebhookFailedProducts
+{-# INLINE craReportUpdatedWebhookFailedProductsL #-}
+
+-- | 'craReportUpdatedWebhookGeneratedTime' Lens
+craReportUpdatedWebhookGeneratedTimeL :: Lens_' CraReportUpdatedWebhook (Maybe DateTime)
+craReportUpdatedWebhookGeneratedTimeL f CraReportUpdatedWebhook{..} = (\craReportUpdatedWebhookGeneratedTime -> CraReportUpdatedWebhook { craReportUpdatedWebhookGeneratedTime, ..} ) <$> f craReportUpdatedWebhookGeneratedTime
+{-# INLINE craReportUpdatedWebhookGeneratedTimeL #-}
+
+-- | 'craReportUpdatedWebhookReportId' Lens
+craReportUpdatedWebhookReportIdL :: Lens_' CraReportUpdatedWebhook (Maybe Text)
+craReportUpdatedWebhookReportIdL f CraReportUpdatedWebhook{..} = (\craReportUpdatedWebhookReportId -> CraReportUpdatedWebhook { craReportUpdatedWebhookReportId, ..} ) <$> f craReportUpdatedWebhookReportId
+{-# INLINE craReportUpdatedWebhookReportIdL #-}
+
+-- | 'craReportUpdatedWebhookScope' Lens
+craReportUpdatedWebhookScopeL :: Lens_' CraReportUpdatedWebhook (CraReportScope)
+craReportUpdatedWebhookScopeL f CraReportUpdatedWebhook{..} = (\craReportUpdatedWebhookScope -> CraReportUpdatedWebhook { craReportUpdatedWebhookScope, ..} ) <$> f craReportUpdatedWebhookScope
+{-# INLINE craReportUpdatedWebhookScopeL #-}
+
+-- | 'craReportUpdatedWebhookSuccessfulProducts' Lens
+craReportUpdatedWebhookSuccessfulProductsL :: Lens_' CraReportUpdatedWebhook ([CreditProduct])
+craReportUpdatedWebhookSuccessfulProductsL f CraReportUpdatedWebhook{..} = (\craReportUpdatedWebhookSuccessfulProducts -> CraReportUpdatedWebhook { craReportUpdatedWebhookSuccessfulProducts, ..} ) <$> f craReportUpdatedWebhookSuccessfulProducts
+{-# INLINE craReportUpdatedWebhookSuccessfulProductsL #-}
+
+-- | 'craReportUpdatedWebhookUserId' Lens
+craReportUpdatedWebhookUserIdL :: Lens_' CraReportUpdatedWebhook (Text)
+craReportUpdatedWebhookUserIdL f CraReportUpdatedWebhook{..} = (\craReportUpdatedWebhookUserId -> CraReportUpdatedWebhook { craReportUpdatedWebhookUserId, ..} ) <$> f craReportUpdatedWebhookUserId
+{-# INLINE craReportUpdatedWebhookUserIdL #-}
+
+-- | 'craReportUpdatedWebhookWebhookCode' Lens
+craReportUpdatedWebhookWebhookCodeL :: Lens_' CraReportUpdatedWebhook (Text)
+craReportUpdatedWebhookWebhookCodeL f CraReportUpdatedWebhook{..} = (\craReportUpdatedWebhookWebhookCode -> CraReportUpdatedWebhook { craReportUpdatedWebhookWebhookCode, ..} ) <$> f craReportUpdatedWebhookWebhookCode
+{-# INLINE craReportUpdatedWebhookWebhookCodeL #-}
+
+-- | 'craReportUpdatedWebhookWebhookType' Lens
+craReportUpdatedWebhookWebhookTypeL :: Lens_' CraReportUpdatedWebhook (Text)
+craReportUpdatedWebhookWebhookTypeL f CraReportUpdatedWebhook{..} = (\craReportUpdatedWebhookWebhookType -> CraReportUpdatedWebhook { craReportUpdatedWebhookWebhookType, ..} ) <$> f craReportUpdatedWebhookWebhookType
+{-# INLINE craReportUpdatedWebhookWebhookTypeL #-}
+
+
+
+-- * CreditProduct
+
+-- | 'creditProductProduct' Lens
+creditProductProductL :: Lens_' CreditProduct (Products)
+creditProductProductL f CreditProduct{..} = (\creditProductProduct -> CreditProduct { creditProductProduct, ..} ) <$> f creditProductProduct
+{-# INLINE creditProductProductL #-}
+
+-- | 'creditProductVersion' Lens
+creditProductVersionL :: Lens_' CreditProduct (Text)
+creditProductVersionL f CreditProduct{..} = (\creditProductVersion -> CreditProduct { creditProductVersion, ..} ) <$> f creditProductVersion
+{-# INLINE creditProductVersionL #-}
+
+
+
+-- * WebhookEnvironmentValues
+
 
 
